@@ -34,12 +34,24 @@ local function escapePattern(s)
     return (s:gsub("([%(%)%.%%%+%-%*%?%[%]%^%$])", "%%%1"))
 end
 
+-- Celé slovo bez ohledu na velikost písmen ("Paladin" i "paladin")
+local function wordPattern(word)
+    local p = escapePattern(word):gsub("%a", function(c) return "[" .. c:upper() .. c:lower() .. "]" end)
+    return "%f[%a]" .. p .. "%f[%A]"
+end
+
+-- Jméno, třídu a rasu hráče nahradí značkami, aby byl text stejný pro všechny hráče
+-- (jeden překlad pro všechny postavy a sběrna pozná stejný quest od různých hráčů)
 local function toToken(s)
     s = s or ""
     local name = UnitName("player")
     if name and name ~= "" then
         s = s:gsub(escapePattern(name), NAME_TOKEN)
     end
+    local race = UnitRace("player")
+    if race and race ~= "" then s = s:gsub(wordPattern(race), "{R}") end
+    local class = UnitClass("player")
+    if class and class ~= "" then s = s:gsub(wordPattern(class), "{C}") end
     return s
 end
 

@@ -28,6 +28,25 @@ if (-not (Test-Path $SettingsPath) -and (Test-Path $ExamplePath)) { Copy-Item $E
 $Settings = Read-JsonFile $SettingsPath
 if (-not $Settings) { $Settings = [pscustomobject]@{ prekladac = "google"; claude_api_klic = ""; claude_model = "claude-haiku-4-5" } }
 
+function Save-Settings { [IO.File]::WriteAllText($SettingsPath, ($Settings | ConvertTo-Json), $Utf8NoBom) }
+function Set-Setting($name, $value) {
+    if ($Settings.PSObject.Properties[$name]) { $Settings.$name = $value }
+    else { $Settings | Add-Member -NotePropertyName $name -NotePropertyValue $value }
+}
+
+# Společná databáze: sběrna nových questů a aktuální překlady na GitHubu
+$SbernaUrl      = "https://wowpocesku-sberna.wowpocesku-sberna.workers.dev"
+$RemoteCacheUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/preklady.json"
+$EtagPath       = Join-Path $Root ".preklady.etag"
+
+# Náhodné ID instalace (sběrna podle něj pozná, že stejný quest poslali různí hráči)
+if (-not $Settings.klient_id) {
+    $bytes = New-Object byte[] 16
+    [Security.Cryptography.RandomNumberGenerator]::Create().GetBytes($bytes)
+    Set-Setting "klient_id" (($bytes | ForEach-Object { $_.ToString("x2") }) -join "")
+    Save-Settings
+}
+
 # Cache: id questu (string) -> hashtable polí. Pole "en_*" drží anglický originál.
 # Pro velký soubor se používá JavaScriptSerializer (ConvertFrom-Json v PS 5.1 má limit ~2 MB).
 Add-Type -AssemblyName System.Web.Extensions
@@ -270,6 +289,65 @@ function Show-Quest($q, $entry) {
 
 function Get-Simple([string]$s) { ($s -replace '[\s\p{P}]', '').ToLowerInvariant() }
 
+# ----------------------------------------------------------------------------
+# Společná databáze
+# ----------------------------------------------------------------------------
+function Send-ToSberna($q) {
+    if (-not $Settings.prispivat) { return $false }
+    $body = @{ id = [int]$q.id; client = $Settings.klient_id; fields = $q.fields } | ConvertTo-Json -Depth 3
+    $bytes = [Text.Encoding]::UTF8.GetBytes($body)
+    try {
+        $req = [Net.HttpWebRequest]::Create("$SbernaUrl/submit")
+        $req.Method = "POST"
+        $req.ContentType = "application/json; charset=utf-8"
+        $req.Timeout = 5000
+        $req.ContentLength = $bytes.Length
+        $stream = $req.GetRequestStream()
+        $stream.Write($bytes, 0, $bytes.Length)
+        $stream.Close()
+        $req.GetResponse().Close()
+        return $true
+    } catch {
+        return $false
+    }
+}
+
+# Stáhne preklady.json z GitHubu a převezme nové/lepší překlady. Vrací počet změněných questů.
+function Update-FromGitHub {
+    $req = [Net.HttpWebRequest]::Create($RemoteCacheUrl)
+    $req.Timeout = 20000
+    $req.UserAgent = "WoWpoCesku-Pomocnik"
+    if (Test-Path $EtagPath) { $req.Headers.Add("If-None-Match", ([IO.File]::ReadAllText($EtagPath)).Trim()) }
+    try {
+        $resp = $req.GetResponse()
+    } catch [System.Net.WebException] {
+        if ($_.Exception.Response -and [int]$_.Exception.Response.StatusCode -eq 304) { return 0 }
+        throw
+    }
+    $reader = New-Object IO.StreamReader($resp.GetResponseStream(), [Text.Encoding]::UTF8)
+    $text = $reader.ReadToEnd()
+    $etag = $resp.Headers["ETag"]
+    $resp.Close()
+
+    $remote = $Json.DeserializeObject($text)
+    $changed = 0
+    foreach ($id in $remote.Keys) {
+        $h = @{}
+        foreach ($k in $remote[$id].Keys) { $h[$k] = [string]$remote[$id][$k] }
+        $local = $script:Cache[$id]
+        # Lokální překlad z novějšího textu ve hře (jiný anglický originál) ponech, dokud ho nezpracuje sběrna
+        $sameSource = $local -and (Get-Simple $local["en_title"]) -eq (Get-Simple $h["en_title"]) -and (Get-Simple $local["en_text"]) -eq (Get-Simple $h["en_text"])
+        $useRemote = (-not $local) -or $local["pre"] -eq "1" -or $sameSource
+        if (-not $useRemote) { continue }
+        $a = ($h.Keys | Sort-Object | ForEach-Object { "$_=$($h[$_])" }) -join "`n"
+        $b = if ($local) { ($local.Keys | Sort-Object | ForEach-Object { "$_=$($local[$_])" }) -join "`n" } else { "" }
+        if ($a -ne $b) { $script:Cache[$id] = $h; $changed++ }
+    }
+    if ($changed -gt 0) { Save-Cache; Write-DataLua }
+    if ($etag) { [IO.File]::WriteAllText($EtagPath, $etag, $Utf8NoBom) }
+    return $changed
+}
+
 function Invoke-Quest([string]$clip) {
     $q = ConvertFrom-Payload $clip
     if (-not $q) { return }
@@ -294,7 +372,8 @@ function Invoke-Quest([string]$clip) {
         }
         Save-Cache
         Write-DataLua
-        $statusLabel.Text = "Uloženo ($($script:Cache.Count) questů). Ve hře napiš /reload a bude česky i v addonu."
+        $sent = if (Send-ToSberna $q) { " Odesláno do společné sbírky." } else { "" }
+        $statusLabel.Text = "Uloženo ($($script:Cache.Count) questů). Ve hře napiš /reload.$sent"
     } else {
         $statusLabel.Text = "Z uložených překladů. (Pokud ho addon neukazuje, napiš ve hře /reload.)"
     }
@@ -335,5 +414,30 @@ try { Write-DataLua } catch { }
 Show-Welcome
 $statusLabel.Text = "Čekám na quest ze hry…"
 $timer.Start()
+
+$form.Add_Shown({
+    # První spuštění: zeptat se na přispívání do společné databáze
+    if ($null -eq $Settings.prispivat) {
+        $answer = [Windows.Forms.MessageBox]::Show($form,
+            "Chceš pomáhat s překladem pro ostatní hráče?`n`n" +
+            "Když narazíš na nepřeložený quest, Pomocník pošle jeho ANGLICKÝ text do společné sbírky. " +
+            "Nic osobního se neposílá – jméno, třída a rasa postavy jsou nahrazené značkami.`n`n" +
+            "Přeložené questy pak dostanou všichni hráči.`n`n" +
+            "Volbu můžeš kdykoli změnit v souboru nastaveni.json (prispivat).",
+            "WoWpoČesku – společná databáze", "YesNo", "Question")
+        Set-Setting "prispivat" ($answer -eq "Yes")
+        Save-Settings
+    }
+    # Stáhnout nové překlady od ostatních hráčů
+    $statusLabel.Text = "Kontroluji nové překlady na GitHubu…"
+    [Windows.Forms.Application]::DoEvents()
+    try {
+        $n = Update-FromGitHub
+        $statusLabel.Text = if ($n -gt 0) { "Staženo $n nových/lepších překladů. Ve hře napiš /reload." } else { "Překlady jsou aktuální. Čekám na quest ze hry…" }
+        if ($n -gt 0) { Show-Welcome }
+    } catch {
+        $statusLabel.Text = "Nové překlady se nepodařilo stáhnout (offline?). Čekám na quest ze hry…"
+    }
+})
 [void]$form.ShowDialog()
 $timer.Stop()

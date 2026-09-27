@@ -4,3 +4,10 @@ nastaveni.json
 # Lokální zálohy a balíčky
 zaloha/
 *.zip
+
+# Sběrna – nástroje a lokální data wrangleru
+sberna/node_modules/
+sberna/.wrangler/
+sberna/package-lock.json
+sberna/tajne.txt
+.preklady.etag

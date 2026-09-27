@@ -1,0 +1,43 @@
+name: Denní zpracování questů
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # každý den ve 4:00 UTC
+  workflow_dispatch: # ruční spuštění z GitHubu (záložka Actions)
+
+permissions:
+  contents: write
+
+concurrency:
+  group: zpracovani
+  cancel-in-progress: false
+
+jobs:
+  zpracovani:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Přeložit potvrzené questy ze sběrny
+        env:
+          SBERNA_URL: https://wowpocesku-sberna.wowpocesku-sberna.workers.dev
+          SBERNA_ADMIN_KEY: ${{ secrets.SBERNA_ADMIN_KEY }}
+          PREKLADAC: ${{ vars.PREKLADAC || 'google' }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node tools/zpracuj.js
+
+      - name: Uložit změny
+        run: |
+          if git diff --quiet; then
+            echo "Žádné nové překlady."
+            exit 0
+          fi
+          git config user.name "wowpocesku-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add preklady.json WoWpoCesku/Data.lua
+          git commit -m "Nové překlady questů ze sběrny"
+          git push

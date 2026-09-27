@@ -1,0 +1,10 @@
+{
+  "name": "wowpocesku-sberna",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

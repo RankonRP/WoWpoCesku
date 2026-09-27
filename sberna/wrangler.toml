@@ -1,0 +1,17 @@
+name = "wowpocesku-sberna"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wowpocesku"
+database_id = "cd5177bd-fc91-46d3-9f4e-2ac6ee5480a2"
+
+[vars]
+# Kolik různých hráčů musí poslat stejný text, než se quest přeloží
+MIN_REPORTERS = "2"
+
+# Tajné hodnoty (nastavují se přes `wrangler secret put`, nejsou v repozitáři):
+#   ADMIN_KEY – klíč pro GitHub Actions (čtení potvrzených questů)
+#   IP_SALT   – sůl pro otisk IP adres
+#   TRUSTED_CLIENTS – ID instalací Pomocníka, kterým se věří hned (oddělené čárkou)
