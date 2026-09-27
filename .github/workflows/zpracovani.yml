@@ -1,8 +1,8 @@
-name: Denní zpracování questů
+name: Zpracování questů
 
 on:
   schedule:
-    - cron: "0 4 * * *" # každý den ve 4:00 UTC
+    - cron: "17 * * * *" # každou hodinu (v 17. minutě – GitHub má v celou hodinu frontu)
   workflow_dispatch: # ruční spuštění z GitHubu (záložka Actions)
   issues:
     types: [edited] # zaškrtnutí oprav v issue "Opravy překladů ke schválení"
