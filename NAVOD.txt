@@ -57,18 +57,33 @@ nepřeložili něco nového.
 
 PŘÍKAZY VE HŘE
 --------------
-/czq          zapne / vypne překlad
-/czq reset    vrátí panel na výchozí místo (panel jde přetáhnout myší)
-/czq focus    zapne / vypne automatické označení textu
-/czq stav     kolik questů je přeložených
+/czq              zapne / vypne překlad
+/czq velikost 15  velikost písma (10–20, výchozí 13) – panel se úměrně rozšíří
+/czq denik        zapne / vypne překlad v deníku questů (klávesa L)
+/czq reset        vrátí panel na výchozí místo (panel jde přetáhnout myší)
+/czq focus        zapne / vypne automatické označení textu
+/czq stav         kolik questů je přeložených
 (místo /czq funguje i /wpc)
 
 
-KDYŽ PŘEKLAD NESEDÍ
--------------------
+DENÍK QUESTŮ
+------------
+Překlad se ukáže i v deníku questů (klávesa L) u vybraného questu.
+
+
+KDYŽ PŘEKLAD NESEDÍ NEBO JE ŠPATNĚ
+----------------------------------
 WoW Forever některé staré questy upravil. Když má quest ve hře jiný název
 než v databázi, addon ho sám nabídne k novému překladu. Když název sedí,
 ale text ne, klikni v panelu na "Nesedí? Přeložit znovu".
+
+Špatný nebo nesrozumitelný překlad můžeš opravit sám:
+1. V panelu klikni na "Opravit překlad" a zmáčkni Ctrl+C.
+2. V Pomocníkovi se otevře okno s anglickým originálem a českým textem.
+3. Oprav text a klikni na "Uložit opravu".
+Oprava platí u tebe hned (po /reload) a pošle se správci ke schválení –
+po schválení ji dostanou všichni hráči. Opravit jde i quest, který je
+právě v okně Pomocníka – tlačítko "Opravit" nahoře.
 
 
 ČASTÉ POTÍŽE
