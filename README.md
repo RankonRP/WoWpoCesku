@@ -15,8 +15,8 @@ Rané testování na betě WoW Forever (klient 1.60.1). Překlady jsou zatím st
 | Cesta | Co to je |
 |---|---|
 | `WoWpoCesku/` | samotný addon (patří do `Interface\AddOns`) |
-| `pomocnik.ps1`, `spustit.bat` | Pomocník – hlídá schránku, překládá nové questy |
-| `instalace.bat` | propojí addon se složkou hry |
+| `Spustit pomocnika.bat`, `pomocnik.ps1` | Pomocník – hlídá schránku, překládá nové questy |
+| `Instalace do hry.bat` | propojí addon se složkou hry |
 | `preklady.json` | databáze překladů včetně anglických originálů |
 | `slovnicek.txt` | pravidla a pojmy pro překlad přes Claude |
 

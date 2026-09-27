@@ -2,14 +2,14 @@
 
 ## Instalace (jednou)
 1. Nainstaluj WoW Forever a aspoň jednou ho spusť, aby vznikla jeho složka.
-2. Dvojklik na **`instalace.bat`** → vyber složku hry (např. `...\World of Warcraft\_classic_beta_` (beta verze Forever)).
+2. Dvojklik na **`Instalace do hry.bat`** → vyber složku hry (např. `...\World of Warcraft\_classic_beta_` (beta verze Forever)).
    Addon se do hry propojí odkazem, takže soubory zůstávají tady.
 3. Ve hře na výběru postavy → **AddOns** → zaškrtni **WoWpoCesku**.
    (Kdyby byl označený jako zastaralý, zaškrtni „Načíst zastaralé doplňky“.)
 4. Hru přepni na **Okno (bez rámečku)** / *Windowed (Fullscreen)*, aby bylo okno Pomocníka vidět nad hrou.
 
 ## Hraní
-1. Dvojklik na **`spustit.bat`** → otevře se okno Pomocníka.
+1. Dvojklik na **`Spustit pomocnika.bat`** → otevře se okno Pomocníka a stáhnou se nové překlady. Nejlépe ho spusť ještě před hrou.
 2. Ve hře otevři quest:
    - **přeložený** → český text se ukáže v panelu vedle okna questu,
    - **nepřeložený** → addon text označí → zmáčkni **Ctrl+C** → překlad se hned ukáže v Pomocníkovi.
