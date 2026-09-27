@@ -1,0 +1,123 @@
+﻿==============================================================
+  WoWpoČesku – český překlad questů pro World of Warcraft: Forever
+==============================================================
+
+Co to umí
+---------
+- Addon ukáže český překlad vedle okna questu. Víc než 4000 klasických
+  questů je přeložených hned po instalaci.
+- Nový quest, který ještě přeložený není, předáš jednou klávesou (Ctrl+C)
+  Pomocníkovi. Ten ho přeloží, uloží a pošle do společné databáze,
+  takže ho pak mají česky i ostatní hráči.
+- Nic se neinstaluje – Pomocník běží v PowerShellu, který má každý Windows.
+
+Překlady jsou zatím strojové (Google). Občas se mísí tykání a vykání
+a některé věty jsou doslovné – ale dá se tomu dobře rozumět.
+
+
+INSTALACE (stačí jednou)
+------------------------
+1. Nainstaluj WoW Forever a aspoň jednou ho spusť, aby vznikla jeho složka.
+
+2. Tuhle složku (s tímto návodem) nech natrvalo tam, kde je – třeba
+   v Dokumentech. Addon ve hře je na ni jen odkaz, takže ji NEMAŽ.
+
+3. Dvojklik na "Instalace do hry.bat"
+   -> vyber složku hry, u bety je to:
+      ...\World of Warcraft\_classic_beta_
+
+4. Ve hře na obrazovce výběru postavy klikni na "AddOns"
+   a zaškrtni "WoWpoCesku".
+   (Kdyby byl označený jako zastaralý / Out of date,
+   zaškrtni nahoře "Load out of date AddOns".)
+
+5. V nastavení hry přepni zobrazení na okno bez rámečku:
+   Options -> Graphics -> Display Mode -> Windowed (Fullscreen)
+   Jinak okno Pomocníka nad hrou neuvidíš.
+
+
+HRANÍ
+-----
+1. Dvojklik na "Spustit pomocnika.bat"
+   -> otevře se okno Pomocníka a stáhnou se nejnovější překlady.
+   Nejlepší je spustit ho JEŠTĚ PŘED HROU.
+   Poprvé se zeptá, jestli chceš pomáhat s překlady – doporučujeme Ano.
+
+2. Ve hře otevři quest:
+   - PŘELOŽENÝ   -> český text se ukáže v panelu vedle okna questu
+   - NEPŘELOŽENÝ -> addon text sám označí -> zmáčkni Ctrl+C
+                    -> překlad se hned ukáže v okně Pomocníka
+
+3. Občas napiš do chatu /reload
+   -> nově přeložené questy pak uvidíš česky přímo ve hře.
+
+Pomocník každou hodinu sám zkontroluje, jestli ostatní hráči
+nepřeložili něco nového.
+
+
+PŘÍKAZY VE HŘE
+--------------
+/czq          zapne / vypne překlad
+/czq reset    vrátí panel na výchozí místo (panel jde přetáhnout myší)
+/czq focus    zapne / vypne automatické označení textu
+/czq stav     kolik questů je přeložených
+(místo /czq funguje i /wpc)
+
+
+KDYŽ PŘEKLAD NESEDÍ
+-------------------
+WoW Forever některé staré questy upravil. Když má quest ve hře jiný název
+než v databázi, addon ho sám nabídne k novému překladu. Když název sedí,
+ale text ne, klikni v panelu na "Nesedí? Přeložit znovu".
+
+
+ČASTÉ POTÍŽE
+------------
+* Windows při spuštění .bat ukáže "Systém Windows ochránil počítač"
+  -> klikni na "Další informace" -> "Přesto spustit".
+  Je to běžné u každého skriptu staženého z internetu.
+
+* Addon není v seznamu AddOns
+  -> spusť znovu "Instalace do hry.bat" a zkontroluj, že vybíráš
+     správnou složku hry (_classic_beta_).
+
+* Po Ctrl+C se v Pomocníkovi nic nestane
+  -> zkontroluj, že Pomocník běží (okno "WoWpoČesku – Pomocník").
+  -> Když máš otevřená dvě okna Pomocníka, jedno zavři.
+
+* Po /reload je quest pořád anglicky
+  -> zavři Pomocníka a spusť ho znovu (možná běží stará verze).
+
+* Okno Pomocníka není vidět
+  -> hra musí běžet v okně bez rámečku (viz Instalace, bod 5).
+
+
+SOUBORY
+-------
+Instalace do hry.bat   propojí addon se hrou (jednou)
+Spustit pomocnika.bat  spustí Pomocníka
+WoWpoCesku\            samotný addon
+preklady.json          všechny překlady (tady jdou ručně opravit chyby,
+                       po restartu Pomocníka se propíšou do hry)
+nastaveni.json         tvoje nastavení – vznikne při prvním spuštění,
+                       NIKOMU HO NEPOSÍLEJ
+slovnicek.txt          pravidla a pojmy pro překlad přes Claude
+
+
+PŘEKLAD PŘES CLAUDE (volitelné, placené)
+----------------------------------------
+Místo Googlu může překládat Claude (AI od Anthropicu) – řádově desetiny
+centu za quest.
+1. Vytvoř API klíč na https://console.anthropic.com (je potřeba dobít kredit).
+2. V nastaveni.json nastav "prekladac": "claude" a klíč vlož do
+   "claude_api_klic": "sem",
+3. Restartuj Pomocníka.
+
+
+O PROJEKTU
+----------
+Web:      https://github.com/RankonRP/WoWpoCesku
+Licence:  MIT (kód), písmo Noto Sans – SIL Open Font License 1.1
+Anglické texty klasických questů pochází z open-source databáze CMaNGOS.
+Texty questů jsou © Blizzard Entertainment – toto je neoficiální
+fanouškovský překlad.

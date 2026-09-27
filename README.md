@@ -6,7 +6,7 @@
 - Nový quest, který ještě přeložený není, předáš jednou klávesou (Ctrl+C) malému Pomocníkovi na PC. Ten ho přeloží a uloží, takže příště už je česky přímo ve hře.
 - Nic se neinstaluje – Pomocník běží v PowerShellu, který je součástí Windows.
 
-Návod k instalaci a používání: [NAVOD.md](NAVOD.md)
+Návod k instalaci a používání: [NAVOD.txt](NAVOD.txt) (otevře se i v Poznámkovém bloku)
 
 ## Stav
 Rané testování na betě WoW Forever (klient 1.60.1). Překlady jsou zatím strojové (Google) – čekej občasné míchání tykání/vykání a doslovné obraty.
