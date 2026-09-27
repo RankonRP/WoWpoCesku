@@ -438,6 +438,26 @@ $form.Add_Shown({
     } catch {
         $statusLabel.Text = "Nové překlady se nepodařilo stáhnout (offline?). Čekám na quest ze hry…"
     }
+    $syncTimer.Start()
 })
+
+# Každou hodinu zkontrolovat nové překlady (i když Pomocník běží celý den).
+# Když nic nového není, nic se nemění – zobrazený quest ani stavový řádek se nepřepíšou.
+$syncTimer = New-Object Windows.Forms.Timer
+$syncTimer.Interval = 60 * 60 * 1000
+$syncTimer.Add_Tick({
+    if ($script:Busy) { return }
+    $script:Busy = $true
+    try {
+        $n = Update-FromGitHub
+        if ($n -gt 0) { $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – staženo $n nových překladů. Ve hře napiš /reload." }
+    } catch {
+        # offline – zkusí se to za hodinu znovu
+    } finally {
+        $script:Busy = $false
+    }
+})
+
 [void]$form.ShowDialog()
 $timer.Stop()
+$syncTimer.Stop()
