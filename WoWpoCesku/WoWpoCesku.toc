@@ -1,0 +1,10 @@
+## Interface: 16001, 11507
+## Title: WoWpoCesku - cesky preklad questu
+## Notes: Zobrazuje ceske preklady questu. Neprelozene questy preda Pomocnikovi pres Ctrl+C.
+## IconTexture: Interface\Icons\INV_Misc_Book_09
+## Author: salifox
+## Version: 0.1.1
+## SavedVariables: WoWpoCeskuSettings
+
+Data.lua
+WoWpoCesku.lua

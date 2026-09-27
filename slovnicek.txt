@@ -1,0 +1,25 @@
+Tento slovníček používá jen překladač Claude (Google ho ignoruje).
+Pravidla a pojmy můžeš libovolně doplňovat – jeden řádek = jedno pravidlo.
+
+STYL
+- NPC oslovují hráče tykáním („Pomoz mi“, ne „Pomozte mi“).
+- Jména postav (NPC) nepřekládej, jen je skloňuj, pokud to jde přirozeně.
+- Názvy zón a měst nepřekládej: Stormwind, Orgrimmar, Ironforge, Undercity, Westfall, Elwynn Forest, Durotar, Barrens, Stranglethorn Vale.
+- Názvy předmětů v úkolu nech anglicky a do závorky dej český význam, např. „Red Bandana (červený šátek)“ – hráč je tak najde v inventáři.
+
+POJMY
+Horde = Horda
+Alliance = Aliance
+Scourge = Pohroma
+Burning Legion = Plamenná legie
+Defias Brotherhood = Bratrstvo Defias
+Night Elf = noční elf
+Blood Elf = krvavý elf
+Undead / Forsaken = nemrtví / Opuštění
+Troll = trol
+Orc = ork
+Dwarf = trpaslík
+Gnome = gnóm
+Tauren = tauren
+Murloc = murlok
+Kobold = kobold

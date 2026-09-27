@@ -1,0 +1,6 @@
+# Osobní nastavení s API klíčem – nikdy nenahrávat
+nastaveni.json
+
+# Lokální zálohy a balíčky
+zaloha/
+*.zip
