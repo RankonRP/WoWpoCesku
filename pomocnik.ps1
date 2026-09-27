@@ -181,9 +181,9 @@ function Invoke-Translate($fields) {
 # ----------------------------------------------------------------------------
 function ConvertFrom-Payload([string]$s) {
     $lines = ($s -replace "`r`n", "`n" -replace "`r", "`n") -split "`n"
-    $m = [regex]::Match($lines[0].Trim(), '^CZQ#(\d+)#(\w+)$')
+    $m = [regex]::Match($lines[0].Trim(), '^CZQ#(\d+)#(\w+)(#oprava)?$')
     if (-not $m.Success -or $lines.Count -lt 2) { return $null }
-    $q = @{ id = $m.Groups[1].Value; part = $m.Groups[2].Value; fields = [ordered]@{} }
+    $q = @{ id = $m.Groups[1].Value; part = $m.Groups[2].Value; oprava = $m.Groups[3].Success; fields = [ordered]@{} }
     $cur = $null
     $buf = New-Object System.Collections.Generic.List[string]
     foreach ($line in $lines[1..($lines.Count - 1)]) {
@@ -240,6 +240,22 @@ $modeLabel.Location = New-Object Drawing.Point(140, 8)
 $modeLabel.Text = "Překladač: " + $(if ($Settings.prekladac -eq "claude") { "Claude ($($Settings.claude_model))" } else { "Google (zdarma)" })
 $topBar.Controls.Add($modeLabel)
 
+# Opravit právě zobrazený quest
+$btnFix = New-Object Windows.Forms.Button
+$btnFix.Text = "Opravit"
+$btnFix.Size = New-Object Drawing.Size(80, 24)
+$btnFix.Location = New-Object Drawing.Point(395, 4)
+$btnFix.Anchor = "Top, Right"
+$btnFix.ForeColor = [Drawing.Color]::White
+$btnFix.Enabled = $false
+$btnFix.Add_Click({
+    if ($script:CurrentQ -and -not $script:Busy) {
+        $script:Busy = $true
+        try { Show-FixDialog $script:CurrentQ $script:CurrentEntry } finally { $script:Busy = $false }
+    }
+})
+$topBar.Controls.Add($btnFix)
+
 $box = New-Object Windows.Forms.RichTextBox
 $box.Dock = "Fill"
 $box.ReadOnly = $true
@@ -274,6 +290,9 @@ function Show-Welcome {
 }
 
 function Show-Quest($q, $entry) {
+    $script:CurrentQ = $q
+    $script:CurrentEntry = $entry
+    $btnFix.Enabled = $true
     $box.Clear()
     $name = if ($entry["title"]) { $entry["title"] } else { $q.fields["title"] }
     Add-BoxText (($name -replace '\{N\}', 'hrdino' -replace '\{C\}', '(tvá třída)' -replace '\{R\}', '(tvá rasa)') + "`n") $Gold 16 $true
@@ -294,10 +313,19 @@ function Get-Simple([string]$s) { ($s -replace '[\s\p{P}]', '').ToLowerInvariant
 # ----------------------------------------------------------------------------
 function Send-ToSberna($q) {
     if (-not $Settings.prispivat) { return $false }
-    $body = @{ id = [int]$q.id; client = $Settings.klient_id; fields = $q.fields } | ConvertTo-Json -Depth 3
-    $bytes = [Text.Encoding]::UTF8.GetBytes($body)
+    return Invoke-SbernaPost "/submit" @{ id = [int]$q.id; client = $Settings.klient_id; fields = $q.fields }
+}
+
+# Oprava překladu jednoho pole -> sběrna (schvaluje správce projektu)
+function Send-Fix($id, $field, $en, $cs) {
+    if (-not $Settings.prispivat) { return $false }
+    return Invoke-SbernaPost "/fix" @{ id = [int]$id; client = $Settings.klient_id; field = $field; en = $en; cs = $cs }
+}
+
+function Invoke-SbernaPost([string]$path, $data) {
+    $bytes = [Text.Encoding]::UTF8.GetBytes(($data | ConvertTo-Json -Depth 3))
     try {
-        $req = [Net.HttpWebRequest]::Create("$SbernaUrl/submit")
+        $req = [Net.HttpWebRequest]::Create("$SbernaUrl$path")
         $req.Method = "POST"
         $req.ContentType = "application/json; charset=utf-8"
         $req.Timeout = 5000
@@ -339,6 +367,12 @@ function Update-FromGitHub {
         $sameSource = $local -and (Get-Simple $local["en_title"]) -eq (Get-Simple $h["en_title"]) -and (Get-Simple $local["en_text"]) -eq (Get-Simple $h["en_text"])
         $useRemote = (-not $local) -or $local["pre"] -eq "1" -or $sameSource
         if (-not $useRemote) { continue }
+        # Vlastní oprava čeká na schválení -> nepřepisovat, dokud GitHub nemá stejný text (= schváleno)
+        if ($local -and $local["opraveno"] -eq "1") {
+            $approved = $true
+            foreach ($f in $FieldOrder) { if ($local[$f] -and $local[$f] -ne $h[$f]) { $approved = $false } }
+            if (-not $approved) { continue }
+        }
         $a = ($h.Keys | Sort-Object | ForEach-Object { "$_=$($h[$_])" }) -join "`n"
         $b = if ($local) { ($local.Keys | Sort-Object | ForEach-Object { "$_=$($local[$_])" }) -join "`n" } else { "" }
         if ($a -ne $b) { $script:Cache[$id] = $h; $changed++ }
@@ -378,6 +412,118 @@ function Invoke-Quest([string]$clip) {
         $statusLabel.Text = "Z uložených překladů. (Pokud ho addon neukazuje, napiš ve hře /reload.)"
     }
     Show-Quest $q $entry
+    if ($q.oprava) { Show-FixDialog $q $entry }
+}
+
+# ----------------------------------------------------------------------------
+# Oprava překladu
+# ----------------------------------------------------------------------------
+function Show-FixDialog($q, $entry) {
+    $dlg = New-Object Windows.Forms.Form
+    $dlg.Text = "Opravit překlad – quest #$($q.id)"
+    $dlg.Size = New-Object Drawing.Size(720, 700)
+    $dlg.StartPosition = "CenterScreen"
+    $dlg.TopMost = $true
+    $dlg.BackColor = [Drawing.Color]::FromArgb(20, 20, 26)
+    $dlg.ForeColor = $CText
+    $dlg.Font = New-Object Drawing.Font("Segoe UI", 10)
+
+    $flow = New-Object Windows.Forms.FlowLayoutPanel
+    $flow.Dock = "Fill"
+    $flow.FlowDirection = "TopDown"
+    $flow.WrapContents = $false
+    $flow.AutoScroll = $true
+    $flow.Padding = New-Object Windows.Forms.Padding(12)
+
+    $info = New-Object Windows.Forms.Label
+    $info.AutoSize = $true
+    $info.MaximumSize = New-Object Drawing.Size(650, 0)
+    $info.ForeColor = $Grey
+    $info.Text = "Uprav český text. Značky {N}, {C} a {R} nech – hra za ně dosadí jméno, třídu a rasu postavy. " +
+        "Oprava se hned uloží u tebe a pošle se ke schválení, aby ji dostali i ostatní."
+    $flow.Controls.Add($info)
+
+    $boxes = [ordered]@{}
+    foreach ($f in $FieldOrder) {
+        if (-not $q.fields.Contains($f)) { continue }
+        $lbl = New-Object Windows.Forms.Label
+        $lbl.AutoSize = $true
+        $lbl.ForeColor = $Gold
+        $lbl.Font = New-Object Drawing.Font("Segoe UI", 11, [Drawing.FontStyle]::Bold)
+        $lbl.Margin = New-Object Windows.Forms.Padding(0, 14, 0, 4)
+        $lbl.Text = $FieldLabels[$f]
+        $flow.Controls.Add($lbl)
+
+        $lines = [Math]::Max(1, [Math]::Ceiling($q.fields[$f].Length / 85) + ($q.fields[$f] -split "`n").Count - 1)
+        $en = New-Object Windows.Forms.TextBox
+        $en.Multiline = $true
+        $en.ReadOnly = $true
+        $en.ScrollBars = "Vertical"
+        $en.Width = 650
+        $en.Height = [Math]::Min(110, 10 + 19 * $lines)
+        $en.BackColor = [Drawing.Color]::FromArgb(32, 32, 40)
+        $en.ForeColor = $Grey
+        $en.BorderStyle = "None"
+        $en.Text = $q.fields[$f] -replace "`r?`n", "`r`n"
+        $flow.Controls.Add($en)
+
+        $cs = New-Object Windows.Forms.TextBox
+        $cs.Multiline = $true
+        $cs.AcceptsReturn = $true
+        $cs.ScrollBars = "Vertical"
+        $cs.Width = 650
+        $cs.Height = [Math]::Min(170, 16 + 22 * $lines)
+        $cs.BackColor = [Drawing.Color]::FromArgb(40, 40, 50)
+        $cs.ForeColor = $CText
+        $cs.Font = New-Object Drawing.Font("Segoe UI", 11)
+        $cs.Text = ([string]$entry[$f]) -replace "`r?`n", "`r`n"
+        $flow.Controls.Add($cs)
+        $boxes[$f] = $cs
+    }
+
+    $buttons = New-Object Windows.Forms.FlowLayoutPanel
+    $buttons.Dock = "Bottom"
+    $buttons.Height = 48
+    $buttons.FlowDirection = "RightToLeft"
+    $buttons.Padding = New-Object Windows.Forms.Padding(8)
+    $save = New-Object Windows.Forms.Button
+    $save.Text = "Uložit opravu"
+    $save.AutoSize = $true
+    $save.BackColor = [Drawing.Color]::FromArgb(60, 110, 60)
+    $save.ForeColor = [Drawing.Color]::White
+    $save.DialogResult = "OK"
+    $cancel = New-Object Windows.Forms.Button
+    $cancel.Text = "Zrušit"
+    $cancel.AutoSize = $true
+    $cancel.ForeColor = [Drawing.Color]::White
+    $cancel.DialogResult = "Cancel"
+    $buttons.Controls.Add($save)
+    $buttons.Controls.Add($cancel)
+
+    $dlg.Controls.Add($flow)
+    $dlg.Controls.Add($buttons)
+    $dlg.CancelButton = $cancel
+
+    if ($dlg.ShowDialog($form) -ne "OK") { $statusLabel.Text = "Oprava zrušena."; return }
+
+    $changed = @()
+    foreach ($f in $boxes.Keys) {
+        $new = ($boxes[$f].Text -replace "`r`n", "`n").Trim()
+        if ($new -and $new -ne $entry[$f]) {
+            $entry[$f] = $new
+            $entry["en_$f"] = $q.fields[$f]
+            $changed += $f
+        }
+    }
+    if (-not $changed) { $statusLabel.Text = "Beze změny."; return }
+
+    $entry["opraveno"] = "1"
+    Save-Cache
+    Write-DataLua
+    $sent = 0
+    foreach ($f in $changed) { if (Send-Fix $q.id $f $q.fields[$f] $entry[$f]) { $sent++ } }
+    Show-Quest $q $entry
+    $statusLabel.Text = "Oprava uložena – ve hře napiš /reload." + $(if ($sent) { " Odesláno ke schválení." } else { "" })
 }
 
 # ----------------------------------------------------------------------------

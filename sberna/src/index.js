@@ -4,6 +4,9 @@
 //   POST /submit      { id, client, fields: { title, text, objectives, progress, reward } }
 //   GET  /confirmed   (Authorization: Bearer ADMIN_KEY) -> potvrzené texty, které ještě nebyly exportované
 //   POST /ack         (Authorization: Bearer ADMIN_KEY) [{ quest_id, field, en_hash }] -> označí jako exportované
+//   POST /fix         { id, client, field, en, cs } -> oprava překladu od hráče (čeká na schválení)
+//   GET  /corrections (admin) -> čekající opravy (+ příznak trusted)
+//   POST /corrections/resolve (admin) [{ id, status: "applied" | "rejected" }]
 
 const FIELDS = ["title", "text", "objectives", "progress", "reward"];
 const MAX_LEN = 5000;
@@ -17,6 +20,9 @@ export default {
       if (req.method === "POST" && url.pathname === "/submit") return await submit(req, env);
       if (req.method === "GET" && url.pathname === "/confirmed") return await confirmed(req, env);
       if (req.method === "POST" && url.pathname === "/ack") return await ack(req, env);
+      if (req.method === "POST" && url.pathname === "/fix") return await fix(req, env);
+      if (req.method === "GET" && url.pathname === "/corrections") return await corrections(req, env);
+      if (req.method === "POST" && url.pathname === "/corrections/resolve") return await resolveCorrections(req, env);
       if (req.method === "GET" && url.pathname === "/") return json({ ok: true, service: "WoWpoCesku sberna" });
       return json({ error: "not found" }, 404);
     } catch (e) {
@@ -115,6 +121,69 @@ async function confirmed(req, env) {
       LIMIT 5000`
   ).bind(trusted, minReporters).all();
   return json({ ok: true, items: results });
+}
+
+const DAY_LIMIT_FIX = 100;
+const MAX_CS_LEN = 8000;
+
+function trustedList(env) {
+  return `,${(env.TRUSTED_CLIENTS || "").replace(/\s/g, "")},`;
+}
+
+async function fix(req, env) {
+  let body;
+  try { body = await req.json(); } catch { return json({ error: "invalid json" }, 400); }
+  const { id, client, field, en, cs } = body || {};
+  if (!Number.isInteger(id) || id < 1 || id > 2_000_000) return json({ error: "invalid id" }, 400);
+  if (typeof client !== "string" || !/^[a-f0-9]{32}$/.test(client)) return json({ error: "invalid client" }, 400);
+  if (!FIELDS.includes(field)) return json({ error: "invalid field" }, 400);
+  if (typeof en !== "string" || typeof cs !== "string") return json({ error: "invalid text" }, 400);
+  const enText = normalize(en);
+  const csText = cs.replace(/\r\n?/g, "\n").trim();
+  if (!enText || !csText) return json({ error: "empty" }, 400);
+  if (enText.length > MAX_LEN || csText.length > MAX_CS_LEN) return json({ error: "too long" }, 400);
+
+  const ip = req.headers.get("cf-connecting-ip") || "";
+  const ipHash = (await sha256(`${env.IP_SALT || ""}:${ip}`)).slice(0, 32);
+  const since = Date.now() - 24 * 3600 * 1000;
+  const lim = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM corrections WHERE (client = ?1 OR ip_hash = ?2) AND created_at > ?3`
+  ).bind(client, ipHash, since).first();
+  if (lim.n >= DAY_LIMIT_FIX) return json({ error: "daily limit reached" }, 429);
+
+  // Starší čekající oprava stejného pole od stejného hráče se nahradí novou
+  await env.DB.batch([
+    env.DB.prepare(
+      `UPDATE corrections SET status = 'superseded' WHERE quest_id = ?1 AND field = ?2 AND client = ?3 AND status = 'pending'`
+    ).bind(id, field, client),
+    env.DB.prepare(
+      `INSERT INTO corrections (quest_id, field, en_hash, en_text, cs_text, client, ip_hash, created_at)
+       VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)`
+    ).bind(id, field, await sha256(enText), enText, csText, client, ipHash, Date.now()),
+  ]);
+  return json({ ok: true });
+}
+
+async function corrections(req, env) {
+  if (!isAdmin(req, env)) return json({ error: "unauthorized" }, 401);
+  const { results } = await env.DB.prepare(
+    `SELECT id, quest_id, field, en_text, cs_text, created_at,
+            CASE WHEN instr(?1, ',' || client || ',') > 0 THEN 1 ELSE 0 END AS trusted
+       FROM corrections WHERE status = 'pending' ORDER BY id LIMIT 500`
+  ).bind(trustedList(env)).all();
+  return json({ ok: true, items: results });
+}
+
+async function resolveCorrections(req, env) {
+  if (!isAdmin(req, env)) return json({ error: "unauthorized" }, 401);
+  let items;
+  try { items = await req.json(); } catch { return json({ error: "invalid json" }, 400); }
+  if (!Array.isArray(items)) return json({ error: "expected array" }, 400);
+  const stmts = items
+    .filter((i) => Number.isInteger(i?.id) && ["applied", "rejected"].includes(i?.status))
+    .map((i) => env.DB.prepare(`UPDATE corrections SET status = ?1 WHERE id = ?2 AND status = 'pending'`).bind(i.status, i.id));
+  for (let n = 0; n < stmts.length; n += 50) await env.DB.batch(stmts.slice(n, n + 50));
+  return json({ ok: true, resolved: stmts.length });
 }
 
 async function ack(req, env) {

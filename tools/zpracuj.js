@@ -1,10 +1,15 @@
-// Denní zpracování (GitHub Actions): potvrzené questy ze sběrny -> překlad -> preklady.json + Data.lua
+// Denní zpracování (GitHub Actions):
+//   1) potvrzené nové questy ze sběrny -> překlad
+//   2) opravy od hráčů -> důvěryhodné rovnou, ostatní ke schválení v issue na GitHubu
+//   -> preklady.json + Data.lua
 //
 // Prostředí:
 //   SBERNA_URL         adresa sběrny
 //   SBERNA_ADMIN_KEY   admin klíč sběrny
 //   PREKLADAC          "google" (výchozí) nebo "claude"
 //   ANTHROPIC_API_KEY  jen pro PREKLADAC=claude
+//   GH_TOKEN           token GitHub Actions (issue se schvalováním oprav)
+//   GITHUB_REPOSITORY  owner/repo (nastaví GitHub Actions)
 //   DRY_RUN=1          nic nezapisuje ani nepotvrzuje (test)
 
 const fs = require("fs");
@@ -125,15 +130,23 @@ function writeDataLua(cache) {
 }
 
 // ---------------------------------------------------------------------------
-async function main() {
-  if (!SBERNA_URL || !SBERNA_ADMIN_KEY) throw new Error("Chybí SBERNA_URL nebo SBERNA_ADMIN_KEY");
-  const auth = { Authorization: `Bearer ${SBERNA_ADMIN_KEY}` };
+// Sběrna
+// ---------------------------------------------------------------------------
+const auth = () => ({ Authorization: `Bearer ${SBERNA_ADMIN_KEY}` });
 
-  const r = await fetch(`${SBERNA_URL}/confirmed`, { headers: auth });
-  if (!r.ok) throw new Error("Sběrna HTTP " + r.status);
-  const items = (await r.json()).items || [];
+async function sberna(pathname, body) {
+  const r = await fetch(`${SBERNA_URL}${pathname}`, body === undefined
+    ? { headers: auth() }
+    : { method: "POST", headers: { ...auth(), "content-type": "application/json" }, body: JSON.stringify(body) });
+  if (!r.ok) throw new Error(`Sběrna ${pathname}: HTTP ${r.status}`);
+  return r.json();
+}
+
+// Nové questy od hráčů -> překlad. Vrací seznam k potvrzení (ack).
+async function processSubmissions(cache) {
+  const items = (await sberna("/confirmed")).items || [];
   console.log(`Potvrzených textů ze sběrny: ${items.length}`);
-  if (!items.length) return;
+  if (!items.length) return { changed: false, ack: [] };
 
   // Pro každé pole questu vezmi text s nejvíc hlášeními (nebo od důvěryhodného hráče)
   const best = {};
@@ -143,7 +156,6 @@ async function main() {
     if (!best[key] || score > best[key].score) best[key] = { ...it, score };
   }
 
-  const cache = JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
   const toTranslate = {};
   for (const it of Object.values(best)) {
     const e = cache[it.quest_id];
@@ -163,23 +175,129 @@ async function main() {
     delete e.pre;
     e.src = "komunita";
   }
+  return {
+    changed: Object.keys(translated).length > 0,
+    ack: items.map((it) => ({ quest_id: it.quest_id, field: it.field, en_hash: it.en_hash })),
+  };
+}
 
-  if (DRY_RUN) {
-    console.log("DRY_RUN – nic se nezapisuje. Ukázka:", JSON.stringify(translated).slice(0, 500));
+// ---------------------------------------------------------------------------
+// Opravy od hráčů: důvěryhodné rovnou, ostatní přes issue na GitHubu (zaškrtávátka)
+// ---------------------------------------------------------------------------
+const { GH_TOKEN, GITHUB_REPOSITORY } = process.env;
+const ISSUE_TITLE = "Opravy překladů ke schválení";
+const ISSUE_LABEL = "opravy";
+const FIELD_NAMES = { title: "Název", text: "Popis", objectives: "Úkol", progress: "Průběh", reward: "Odměna" };
+
+async function github(pathname, method = "GET", body) {
+  const r = await fetch(`https://api.github.com/repos/${GITHUB_REPOSITORY}${pathname}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${GH_TOKEN}`,
+      Accept: "application/vnd.github+json",
+      "User-Agent": "wowpocesku-bot",
+      ...(body ? { "content-type": "application/json" } : {}),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  if (!r.ok) throw new Error(`GitHub ${method} ${pathname}: HTTP ${r.status} ${await r.text()}`);
+  return r.json();
+}
+
+function applyCorrection(cache, c) {
+  const e = (cache[c.quest_id] = cache[c.quest_id] || {});
+  e[c.field] = c.cs_text;
+  e["en_" + c.field] = c.en_text;
+  delete e.pre;
+  e.src = "oprava";
+}
+
+// Text do issue: bez @zmínek (neposílat notifikace cizím lidem) a jako citace
+const quote = (s) => "> " + (s || "–").replace(/@/g, "@\u200b").replace(/\r?\n/g, "\n> ");
+
+function issueBody(pending, cache) {
+  const parts = [
+    "Hráči navrhli tyto opravy překladů. U každé zaškrtni **schválit** nebo **zamítnout** – " +
+      "zpracování se spustí samo a schválené opravy se dostanou ke všem hráčům.\n",
+  ];
+  let size = parts[0].length, shown = 0;
+  for (const c of pending) {
+    const cur = cache[c.quest_id]?.[c.field];
+    const block =
+      `---\n### Oprava ${c.id} – quest ${c.quest_id}, ${FIELD_NAMES[c.field] || c.field}\n` +
+      `<details><summary>Anglický originál</summary>\n\n${quote(c.en_text)}\n\n</details>\n\n` +
+      `**Teď:**\n${quote(cur)}\n\n**Návrh:**\n${quote(c.cs_text)}\n\n` +
+      `- [ ] schválit opravu ${c.id}\n- [ ] zamítnout opravu ${c.id}\n`;
+    if (size + block.length > 60000) break;
+    parts.push(block);
+    size += block.length;
+    shown++;
+  }
+  if (shown < pending.length) parts.push(`\n_…a dalších ${pending.length - shown} oprav se ukáže po vyřízení těchto._`);
+  return parts.join("\n");
+}
+
+async function processCorrections(cache) {
+  const items = (await sberna("/corrections")).items || [];
+  console.log(`Čekajících oprav: ${items.length}`);
+  const resolve = [];
+  let changed = false;
+
+  // Rozhodnutí z issue (zaškrtnutá políčka)
+  let issue = null;
+  const decisions = {};
+  if (GH_TOKEN && GITHUB_REPOSITORY) {
+    const open = await github(`/issues?state=open&labels=${ISSUE_LABEL}&per_page=10`);
+    issue = open.find((i) => i.title === ISSUE_TITLE) || null;
+    for (const m of (issue?.body || "").matchAll(/- \[[xX]\] (schválit|zamítnout) opravu (\d+)/g)) {
+      decisions[m[2]] = m[1] === "schválit" ? "applied" : "rejected";
+    }
+  } else {
+    console.log("Bez GH_TOKEN – schvalování přes issue se přeskakuje.");
+  }
+
+  const pending = [];
+  for (const c of items) {
+    const decision = c.trusted ? "applied" : decisions[c.id];
+    if (decision === "applied") { applyCorrection(cache, c); changed = true; }
+    if (decision) resolve.push({ id: c.id, status: decision });
+    else pending.push(c);
+  }
+  console.log(`Oprav schváleno/zamítnuto: ${resolve.length}, stále čeká: ${pending.length}`);
+  return { changed, resolve, pending, issue };
+}
+
+async function updateIssue(pending, issue, cache) {
+  if (!GH_TOKEN || !GITHUB_REPOSITORY) return;
+  if (!pending.length) {
+    if (issue) await github(`/issues/${issue.number}`, "PATCH", { state: "closed", body: "Všechny opravy jsou vyřízené. ✔" });
     return;
   }
-  writeCache(cache);
-  writeDataLua(cache);
+  const body = issueBody(pending, cache);
+  if (issue) await github(`/issues/${issue.number}`, "PATCH", { body });
+  else await github(`/issues`, "POST", { title: ISSUE_TITLE, body, labels: [ISSUE_LABEL] });
+}
 
-  // Potvrdit sběrně všechno zpracované (i to, co už přeložené bylo)
-  const ack = items.map((it) => ({ quest_id: it.quest_id, field: it.field, en_hash: it.en_hash }));
-  const a = await fetch(`${SBERNA_URL}/ack`, {
-    method: "POST",
-    headers: { ...auth, "content-type": "application/json" },
-    body: JSON.stringify(ack),
-  });
-  if (!a.ok) throw new Error("Potvrzení ve sběrně selhalo: HTTP " + a.status);
-  console.log(`Hotovo: přeloženo ${Object.keys(translated).length} questů, potvrzeno ${ack.length} textů.`);
+// ---------------------------------------------------------------------------
+async function main() {
+  if (!SBERNA_URL || !SBERNA_ADMIN_KEY) throw new Error("Chybí SBERNA_URL nebo SBERNA_ADMIN_KEY");
+  const cache = JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+
+  const subs = await processSubmissions(cache);
+  const corr = await processCorrections(cache);
+
+  if (DRY_RUN) {
+    console.log("DRY_RUN – nic se nezapisuje ani nepotvrzuje.");
+    return;
+  }
+  if (subs.changed || corr.changed) {
+    writeCache(cache);
+    writeDataLua(cache);
+  }
+  if (subs.ack.length) await sberna("/ack", subs.ack);
+  if (corr.resolve.length) await sberna("/corrections/resolve", corr.resolve);
+  await updateIssue(corr.pending, corr.issue, cache);
+  console.log("Hotovo.");
 }
 
 main().catch((e) => {

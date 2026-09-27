@@ -4,9 +4,12 @@ on:
   schedule:
     - cron: "0 4 * * *" # každý den ve 4:00 UTC
   workflow_dispatch: # ruční spuštění z GitHubu (záložka Actions)
+  issues:
+    types: [edited] # zaškrtnutí oprav v issue "Opravy překladů ke schválení"
 
 permissions:
   contents: write
+  issues: write
 
 concurrency:
   group: zpracovani
@@ -14,6 +17,9 @@ concurrency:
 
 jobs:
   zpracovani:
+    # U issue jen při schvalování oprav. Issue zakládá bot, takže jeho text (zaškrtávátka)
+    # může měnit jen správce repozitáře – cizí hráči opravy schválit nemůžou.
+    if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'opravy')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -22,22 +28,23 @@ jobs:
         with:
           node-version: 24
 
-      - name: Přeložit potvrzené questy ze sběrny
+      - name: Přeložit nové questy a zpracovat opravy
         env:
           SBERNA_URL: https://wowpocesku-sberna.wowpocesku-sberna.workers.dev
           SBERNA_ADMIN_KEY: ${{ secrets.SBERNA_ADMIN_KEY }}
           PREKLADAC: ${{ vars.PREKLADAC || 'google' }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/zpracuj.js
 
       - name: Uložit změny
         run: |
           if git diff --quiet; then
-            echo "Žádné nové překlady."
+            echo "Žádné změny v překladech."
             exit 0
           fi
           git config user.name "wowpocesku-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add preklady.json WoWpoCesku/Data.lua
-          git commit -m "Nové překlady questů ze sběrny"
+          git commit -m "Nové překlady a opravy questů"
           git push

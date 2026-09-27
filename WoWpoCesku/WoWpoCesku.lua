@@ -1,9 +1,11 @@
 -- WoWpoCesku: zobrazuje české překlady questů.
 -- Přeložené questy bere z Data.lua (generuje pomocnik.ps1).
 -- Nepřeložený quest nabídne k označení -> hráč zmáčkne Ctrl+C -> Pomocník ho přeloží.
+-- Funguje v okně questu u NPC i v deníku questů.
 
 local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
 local NAME_TOKEN = "{N}"
+local DEFAULT_FONT_SIZE = 13
 
 -- Výchozí písma WoW nemají česká písmena -> tlačítka dostanou vlastní font
 local buttonFont = CreateFont("WoWpoCeskuButtonFont")
@@ -112,52 +114,67 @@ local close = CreateFrame("Button", nil, panel, "UIPanelCloseButton")
 close:SetPoint("TOPRIGHT", -2, -2)
 
 local title = panel:CreateFontString(nil, "OVERLAY")
-title:SetFont(FONT, 16, "")
 title:SetTextColor(1, 0.82, 0)
 title:SetPoint("TOPLEFT", 12, -28)
 title:SetPoint("RIGHT", panel, "RIGHT", -30, 0)
 title:SetJustifyH("LEFT")
 
--- Režim "přeloženo": rolovací text
+-- Režim "přeloženo": rolovací text + tlačítka dole
 local scroll = CreateFrame("ScrollFrame", "WoWpoCeskuScroll", panel, "UIPanelScrollFrameTemplate")
 scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
 scroll:SetPoint("BOTTOMRIGHT", -30, 42)
 
 -- Když překlad nesedí na text ve hře (Forever quest změnil), jde ho přeložit znovu
 local retry = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
-retry:SetSize(170, 22)
+retry:SetSize(165, 22)
 retry:SetPoint("BOTTOMLEFT", 12, 12)
 czButton(retry)
 retry:SetText("Nesedí? Přeložit znovu")
+
+-- Špatný překlad jde opravit v Pomocníkovi (oprava se pošle i ostatním hráčům)
+local fix = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+fix:SetSize(150, 22)
+fix:SetPoint("BOTTOMRIGHT", -12, 12)
+czButton(fix)
+fix:SetText("Opravit překlad")
 
 local content = CreateFrame("Frame", nil, scroll)
 content:SetSize(310, 10)
 scroll:SetScrollChild(content)
 
 local body = content:CreateFontString(nil, "OVERLAY")
-body:SetFont(FONT, 13, "")
 body:SetTextColor(0.95, 0.92, 0.85)
 body:SetPoint("TOPLEFT")
 body:SetWidth(310)
 body:SetJustifyH("LEFT")
 body:SetSpacing(2)
 
--- Režim "nepřeloženo": návod + políčko s textem ke zkopírování
+-- Režim "kopírování": návod + políčko s textem pro Pomocníka
 local copyFrame = CreateFrame("Frame", nil, panel)
 copyFrame:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
 copyFrame:SetPoint("BOTTOMRIGHT", -12, 12)
 
 local hint = copyFrame:CreateFontString(nil, "OVERLAY")
-hint:SetFont(FONT, 13, "")
 hint:SetTextColor(0.95, 0.92, 0.85)
 hint:SetPoint("TOPLEFT")
 hint:SetPoint("RIGHT")
 hint:SetJustifyH("LEFT")
 hint:SetSpacing(3)
-hint:SetText("Tento quest ještě není přeložený.\n\n"
-    .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
-    .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
-    .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady")
+
+local HINTS = {
+    preklad = "Tento quest ještě není přeložený.\n\n"
+        .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
+        .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
+        .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
+    znovu = "Přeložit znovu podle aktuálního textu ve hře:\n\n"
+        .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
+        .. "|cffffd1002.|r Nový překlad se ukáže v okně Pomocníka\n"
+        .. "|cffffd1003.|r Po |cff00ff00/reload|r bude i tady",
+    oprava = "Oprava překladu:\n\n"
+        .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
+        .. "|cffffd1002.|r V Pomocníkovi se otevře okno pro opravu\n"
+        .. "|cffffd1003.|r Po uložení a |cff00ff00/reload|r bude oprava i tady",
+}
 
 local boxBg = CreateFrame("Frame", nil, copyFrame, BackdropTemplateMixin and "BackdropTemplate")
 boxBg:SetPoint("TOPLEFT", hint, "BOTTOMLEFT", 0, -12)
@@ -181,7 +198,6 @@ edit:SetWidth(310)
 edit:SetMaxLetters(0)
 
 local status = copyFrame:CreateFontString(nil, "OVERLAY")
-status:SetFont(FONT, 13, "")
 status:SetPoint("TOPLEFT", boxBg, "BOTTOMLEFT", 0, -10)
 status:SetPoint("RIGHT")
 status:SetJustifyH("LEFT")
@@ -196,7 +212,7 @@ local again = CreateFrame("Button", nil, copyFrame, "UIPanelButtonTemplate")
 again:SetSize(140, 24)
 again:SetPoint("TOPLEFT", status, "BOTTOMLEFT", 0, -10)
 czButton(again)
-again:SetText("Označit znovu")
+again:SetText("Označit text")
 again:SetScript("OnClick", selectPayload)
 boxBg:EnableMouse(true)
 boxBg:SetScript("OnMouseDown", selectPayload)
@@ -214,28 +230,30 @@ edit:SetScript("OnKeyDown", function(self, key)
     if key == "C" and IsControlKeyDown() then
         C_Timer.After(0.1, function()
             self:ClearFocus()
-            status:SetText("|cff00ff00Zkopírováno!|r  Překlad najdeš v okně Pomocníka.")
+            status:SetText("|cff00ff00Zkopírováno!|r  Pokračuj v okně Pomocníka.")
         end)
     end
 end)
 
--------------------------------------------------------------------------------
--- Logika
--------------------------------------------------------------------------------
-local function placePanel()
-    panel:ClearAllPoints()
-    local pos = WoWpoCeskuSettings.pos
-    if pos then
-        panel:SetPoint(pos[1], UIParent, pos[2], pos[3], pos[4])
-    elseif QuestFrame and QuestFrame:IsShown() then
-        panel:SetPoint("TOPLEFT", QuestFrame, "TOPRIGHT", 4, 0)
-        panel:SetHeight(QuestFrame:GetHeight())
-    else
-        panel:SetPoint("CENTER", UIParent, "CENTER", 300, 0)
-    end
+-- Velikost písma a šířka panelu (/czq velikost N)
+local function applyLayout()
+    local size = WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE
+    local width = 360 + (size - DEFAULT_FONT_SIZE) * 22
+    panel:SetWidth(width)
+    title:SetFont(FONT, size + 3, "")
+    body:SetFont(FONT, size, "")
+    hint:SetFont(FONT, size, "")
+    status:SetFont(FONT, size, "")
+    local inner = width - 50
+    content:SetWidth(inner)
+    body:SetWidth(inner)
+    edit:SetWidth(inner)
 end
 
-local function gather(event)
+-------------------------------------------------------------------------------
+-- Zdroje questu: okno u NPC ("dialog") a deník questů ("log")
+-------------------------------------------------------------------------------
+local function gatherDialog(event)
     local id = GetQuestID and GetQuestID()
     if not id or id == 0 then return nil end
     local q = { id = id, title = toToken(GetTitleText()) }
@@ -253,6 +271,63 @@ local function gather(event)
     return q
 end
 
+-- Vybraný quest v deníku – klasický deník (QuestLogFrame) i moderní (v mapě)
+local function selectedLogQuest()
+    local questID, index
+    if C_QuestLog and C_QuestLog.GetSelectedQuest then questID = C_QuestLog.GetSelectedQuest() end
+    if GetQuestLogSelection then index = GetQuestLogSelection() end
+    if (not questID or questID == 0) and index and index > 0 and GetQuestLogTitle then
+        questID = select(8, GetQuestLogTitle(index))
+    end
+    if (not index or index == 0) and questID and questID > 0 and C_QuestLog and C_QuestLog.GetLogIndexForQuestID then
+        index = C_QuestLog.GetLogIndexForQuestID(questID)
+    end
+    return questID, index
+end
+
+local function gatherLog()
+    local questID, index = selectedLogQuest()
+    if not questID or questID == 0 then return nil end
+    local titleText = C_QuestLog and C_QuestLog.GetTitleForQuestID and C_QuestLog.GetTitleForQuestID(questID)
+    if (not titleText or titleText == "") and index and GetQuestLogTitle then titleText = GetQuestLogTitle(index) end
+    local desc, objectives = GetQuestLogQuestText(index)
+    return {
+        id = questID,
+        part = "detail",
+        title = toToken(titleText),
+        text = toToken(desc),
+        objectives = toToken(objectives),
+    }
+end
+
+local function anchorFrame(source)
+    if source == "log" then
+        if QuestLogFrame and QuestLogFrame:IsShown() then return QuestLogFrame end
+        if WorldMapFrame and WorldMapFrame:IsShown() then return WorldMapFrame end
+    elseif QuestFrame and QuestFrame:IsShown() then
+        return QuestFrame
+    end
+end
+
+local function placePanel(source)
+    panel:ClearAllPoints()
+    local pos = WoWpoCeskuSettings.pos
+    local anchor = anchorFrame(source)
+    if pos then
+        panel:SetPoint(pos[1], UIParent, pos[2], pos[3], pos[4])
+    elseif anchor then
+        panel:SetPoint("TOPLEFT", anchor, "TOPRIGHT", 4, 0)
+    else
+        panel:SetPoint("CENTER", UIParent, "CENTER", 300, 0)
+    end
+    if anchor then
+        panel:SetHeight(math.max(420, math.min(anchor:GetHeight(), 600)))
+    end
+end
+
+-------------------------------------------------------------------------------
+-- Zobrazení
+-------------------------------------------------------------------------------
 local function simplify(s)
     return ((s or ""):lower():gsub("[%s%p]", ""))
 end
@@ -268,8 +343,10 @@ local function isTranslated(q)
     return true
 end
 
-local function buildPayload(q)
-    local lines = { ("CZQ#%d#%s"):format(q.id, q.part), "##title", q.title }
+local function buildPayload(q, mode)
+    local header = ("CZQ#%d#%s"):format(q.id, q.part)
+    if mode == "oprava" then header = header .. "#oprava" end
+    local lines = { header, "##title", q.title }
     for _, field in ipairs(PART_FIELDS[q.part]) do
         if q[field] ~= "" then
             lines[#lines + 1] = "##" .. field
@@ -302,29 +379,95 @@ local function showTranslated(q)
     copyFrame:Hide()
     scroll:Show()
     retry:Show()
+    fix:Show()
 end
 
-local function showUntranslated(q)
+-- mode: "preklad" (nový quest), "znovu" (nesedí), "oprava" (oprava překladu)
+local function showCopy(q, mode)
     title:SetText(q.title)
-    edit.payload = buildPayload(q)
+    hint:SetText(HINTS[mode] or HINTS.preklad)
+    edit.payload = buildPayload(q, mode)
     edit:SetText(edit.payload)
     edit:SetCursorPosition(0)
     status:SetText("")
     scroll:Hide()
     retry:Hide()
+    fix:Hide()
     copyFrame:Show()
-    if WoWpoCeskuSettings.autofocus then
+    -- V deníku se text sám neoznačuje (zabral by klávesnici při procházení deníku)
+    if WoWpoCeskuSettings.autofocus and (panel.source ~= "log" or mode ~= "preklad") then
         selectPayload()
+    elseif panel.source == "log" then
+        status:SetText("|cffaaaaaaKlikni na 'Označit text' a zmáčkni Ctrl+C|r")
     end
 end
 
 local currentQuest
+
+local function showQuest(q, source)
+    if not q then return end
+    currentQuest = q
+    panel.source = source
+    placePanel(source)
+    panel:Show()
+    if isTranslated(q) then
+        showTranslated(q)
+    else
+        showCopy(q, "preklad")
+    end
+end
+
 retry:SetScript("OnClick", function()
-    if currentQuest then showUntranslated(currentQuest) end
+    if currentQuest then showCopy(currentQuest, "znovu") end
+end)
+fix:SetScript("OnClick", function()
+    if currentQuest then showCopy(currentQuest, "oprava") end
 end)
 
+-- Deník: po výběru questu počkat jeden snímek, než hra aktualizuje výběr
+local function onLogChanged()
+    C_Timer.After(0, function()
+        if not WoWpoCeskuSettings.enabled or WoWpoCeskuSettings.log == false then return end
+        if not (anchorFrame("log")) then return end
+        showQuest(gatherLog(), "log")
+    end)
+end
+
+local function onLogHidden()
+    if panel.source == "log" then
+        edit:ClearFocus()
+        panel:Hide()
+    end
+end
+
+local hookedLog = {}
+local function hookQuestLog()
+    -- Klasický deník
+    if QuestLog_UpdateQuestDetails and not hookedLog.classic then
+        hooksecurefunc("QuestLog_UpdateQuestDetails", onLogChanged)
+        hookedLog.classic = true
+    end
+    if QuestLogFrame and not hookedLog.classicHide then
+        QuestLogFrame:HookScript("OnHide", onLogHidden)
+        hookedLog.classicHide = true
+    end
+    -- Moderní deník v mapě
+    if QuestMapFrame_ShowQuestDetails and not hookedLog.map then
+        hooksecurefunc("QuestMapFrame_ShowQuestDetails", onLogChanged)
+        hookedLog.map = true
+    end
+    if QuestMapFrame and QuestMapFrame.DetailsFrame and not hookedLog.mapHide then
+        QuestMapFrame.DetailsFrame:HookScript("OnHide", onLogHidden)
+        hookedLog.mapHide = true
+    end
+end
+
+-------------------------------------------------------------------------------
+-- Události
+-------------------------------------------------------------------------------
 local events = CreateFrame("Frame")
 events:RegisterEvent("ADDON_LOADED")
+events:RegisterEvent("PLAYER_LOGIN")
 events:RegisterEvent("QUEST_DETAIL")
 events:RegisterEvent("QUEST_PROGRESS")
 events:RegisterEvent("QUEST_COMPLETE")
@@ -335,28 +478,28 @@ events:SetScript("OnEvent", function(_, event, arg1)
             WoWpoCeskuSettings = WoWpoCeskuSettings or {}
             if WoWpoCeskuSettings.enabled == nil then WoWpoCeskuSettings.enabled = true end
             if WoWpoCeskuSettings.autofocus == nil then WoWpoCeskuSettings.autofocus = true end
+            applyLayout()
         end
+        -- Deník může patřit do addonu Blizzardu, který se načte později
+        hookQuestLog()
+        return
+    end
+
+    if event == "PLAYER_LOGIN" then
+        hookQuestLog()
         return
     end
 
     if event == "QUEST_FINISHED" then
-        edit:ClearFocus()
-        panel:Hide()
+        if panel.source == "dialog" then
+            edit:ClearFocus()
+            panel:Hide()
+        end
         return
     end
 
     if not WoWpoCeskuSettings.enabled then return end
-    local q = gather(event)
-    if not q then return end
-    currentQuest = q
-
-    placePanel()
-    panel:Show()
-    if isTranslated(q) then
-        showTranslated(q)
-    else
-        showUntranslated(q)
-    end
+    showQuest(gatherDialog(event), "dialog")
 end)
 
 -------------------------------------------------------------------------------
@@ -366,21 +509,41 @@ SLASH_CZQUESTS1 = "/czq"
 SLASH_CZQUESTS2 = "/wpc"
 SlashCmdList.CZQUESTS = function(msg)
     msg = (msg or ""):lower()
+    local cmd, arg = msg:match("^(%S*)%s*(.-)$")
     local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
-    if msg == "reset" then
+    if cmd == "reset" then
         WoWpoCeskuSettings.pos = nil
         say("pozice panelu obnovena.")
-    elseif msg == "focus" then
+    elseif cmd == "focus" then
         WoWpoCeskuSettings.autofocus = not WoWpoCeskuSettings.autofocus
         say("automaticke oznaceni textu " .. (WoWpoCeskuSettings.autofocus and "ZAPNUTO" or "VYPNUTO"))
-    elseif msg == "stav" then
+    elseif cmd == "velikost" then
+        local size = tonumber(arg)
+        if not size then
+            say(("velikost pisma: %d  (zmena: /czq velikost 10-20, vychozi %d)"):format(
+                WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE, DEFAULT_FONT_SIZE))
+            return
+        end
+        WoWpoCeskuSettings.fontSize = math.max(10, math.min(20, math.floor(size)))
+        applyLayout()
+        if panel:IsShown() and currentQuest then showQuest(currentQuest, panel.source) end
+        say(("velikost pisma nastavena na %d"):format(WoWpoCeskuSettings.fontSize))
+    elseif cmd == "denik" then
+        WoWpoCeskuSettings.log = (WoWpoCeskuSettings.log == false)
+        say("preklad v deniku questu " .. (WoWpoCeskuSettings.log and "ZAPNUT" or "VYPNUT"))
+    elseif cmd == "stav" then
         local n = 0
         for _ in pairs(WoWpoCesku_Data) do n = n + 1 end
         say(("prelozenych questu: %d"):format(n))
+    elseif cmd == "info" then
+        hookQuestLog()
+        say(("denik: klasicky=%s, v mape=%s | vybrany quest: %s"):format(
+            tostring(hookedLog.classic or false), tostring(hookedLog.map or false),
+            tostring((selectedLogQuest()))))
     else
         WoWpoCeskuSettings.enabled = not WoWpoCeskuSettings.enabled
         if not WoWpoCeskuSettings.enabled then panel:Hide() end
         say("preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT")
-            .. "   (dalsi: /czq reset, /czq focus, /czq stav)")
+            .. "   (dalsi: /czq velikost, /czq denik, /czq reset, /czq focus, /czq stav)")
     end
 end
