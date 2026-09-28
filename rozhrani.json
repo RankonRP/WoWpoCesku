@@ -1,2 +1,18 @@
 {
+  "All critical strikes against you cause {1}% of the damage taken to the attacker as well. The damage caused by Eye for an Eye will not exceed {2}% of the Paladin's total health.": {"cs":"Všechny kritické zásahy proti tobě způsobí útočníkovi také {1} % utrpěného poškození. Poškození způsobené talentem Eye for an Eye nepřesáhne {2} % celkového zdraví paladina.","en":"All critical strikes against you cause {1}% of the damage taken to the attacker as well. The damage caused by Eye for an Eye will not exceed {2}% of the Paladin's total health.","src":"claude"},
+  "Damaging melee attacks against you have a {1}% chance to increase your chance to block by {2}%. Lasts {3} sec or {4} blocks.": {"cs":"Útoky na blízko, které ti způsobí poškození, mají {1}% šanci zvýšit tvou šanci na blokování o {2} %. Trvá {3} s nebo {4} zablokování.","en":"Damaging melee attacks against you have a {1}% chance to increase your chance to block by {2}%. Lasts {3} sec or {4} blocks.","src":"claude"},
+  "Gives a chance to block enemy melee and ranged attacks.": {"cs":"Dává šanci zablokovat útoky nepřátel na blízko i na dálku.","en":"Gives a chance to block enemy melee and ranged attacks.","src":"claude"},
+  "Gives a chance to dodge enemy melee attacks.": {"cs":"Dává šanci uhnout útokům nepřátel na blízko.","en":"Gives a chance to dodge enemy melee attacks.","src":"claude"},
+  "Gives a chance to parry enemy melee attacks.": {"cs":"Dává šanci odrazit útoky nepřátel na blízko.","en":"Gives a chance to parry enemy melee attacks.","src":"claude"},
+  "Increases your Defense Skill by {1}": {"cs":"Zvyšuje tvou obrannou dovednost o {1}","en":"Increases your Defense Skill by {1}","src":"claude"},
+  "Increases your Parry chance by {1}%.": {"cs":"Zvyšuje tvou šanci na odražení o {1} %.","en":"Increases your Parry chance by {1}%.","src":"claude"},
+  "Increases your armor value from items by {1}%.": {"cs":"Zvyšuje hodnotu zbroje z předmětů o {1} %.","en":"Increases your armor value from items by {1}%.","src":"claude"},
+  "Increases your total Stamina by {1}% and reduces the cooldown of your Divine Shield, Divine Protection, and Templar's Bulwark spells by {2} sec.": {"cs":"Zvyšuje tvou celkovou Výdrž o {1} % a zkracuje dobu obnovení kouzel Divine Shield, Divine Protection a Templar's Bulwark o {2} s.","en":"Increases your total Stamina by {1}% and reduces the cooldown of your Divine Shield, Divine Protection, and Templar's Bulwark spells by {2} sec.","src":"claude"},
+  "Instantly removes all Stun effects.": {"cs":"Okamžitě odstraní všechny efekty omráčení.","en":"Instantly removes all Stun effects.","src":"claude"},
+  "Reduces the Mana cost of all instant cast spells and abilities by {1}%.": {"cs":"Snižuje cenu many všech okamžitě sesílaných kouzel a schopností o {1} %.","en":"Reduces the Mana cost of all instant cast spells and abilities by {1}%.","src":"claude"},
+  "Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by {1}%.": {"cs":"Snižuje cenu many tvých kouzel Consecration, Holy Wrath, Exorcism a Hammer of Wrath o {1} %.","en":"Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by {1}%.","src":"claude"},
+  "Spirit increased by {1}%.": {"cs":"Duch zvýšen o {1} %.","en":"Spirit increased by {1}%.","src":"claude"},
+  "Talenty (N)": {"cs":"talent (N)","en":"Talenty (N)","src":"lokalne"},
+  "You are fluent in the following languages: Common": {"cs":"Plynně ovládáš tyto jazyky: Common","en":"You are fluent in the following languages: Common","src":"claude"},
+  "talent (N)": {"cs":"talent (N)","en":"talent (N)","src":"lokalne"}
 }
