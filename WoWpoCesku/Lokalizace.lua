@@ -240,6 +240,14 @@ local function lookup(dict, text)
     local core, suffix = text:match("^(.-)(%s*|c%x%x%x%x%x%x%x%x%(.-%)|r)$")
     if not core then core, suffix = text:match("^(.-)(%s*%(.-%))$") end
     if core and dict[core] then return dict[core] .. suffix end
+    -- Cokoli jiného (barvy, víc ikonek): najít čistý text a nahradit ho na místě
+    local plain = text:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|[AT].-|[at]", "")
+    plain = plain:match("^%s*(.-)%s*$")
+    local cs2 = plain ~= "" and dict[plain]
+    if cs2 then
+        local s, e = text:find(plain, 1, true)
+        if s then return text:sub(1, s - 1) .. cs2 .. text:sub(e + 1) end
+    end
 end
 
 local function translateFrame(frame, dict, depth, patterns)
