@@ -150,5 +150,24 @@
       "hledat": "\\{\\s*([NCR])\\s*\\}",
       "nahradit": "{$1}"
     }
+  ],
+  "staty_popis": "Názvy statů, které v textech rozhraní (talenty, kouzla) zůstávají anglicky. Před překladem Googlem se schovají a pak vrátí. Rozlišuje velká a malá písmena (energy jako obyčejné slovo zůstane).",
+  "staty": [
+    "Attack Power",
+    "Spell Power",
+    "Defense Skill",
+    "Strength",
+    "Agility",
+    "Stamina",
+    "Intellect",
+    "Spirit",
+    "Armor",
+    "armor",
+    "Mana",
+    "mana",
+    "Rage",
+    "Energy",
+    "Focus",
+    "Defense"
   ]
 }

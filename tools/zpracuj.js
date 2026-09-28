@@ -17,7 +17,7 @@ const fs = require("fs");
 const path = require("path");
 
 const { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua } = require("./soubory");
-const { apply: applyRules } = require("./pravidla");
+const { apply: applyRules, protectStats, restoreStats } = require("./pravidla");
 const { translateAll, PREKLADAC } = require("./preklad");
 
 const ROOT = path.join(__dirname, "..");
@@ -59,12 +59,12 @@ async function processSubmissions(cache, gossip, ui) {
   const uiTodo = {};
   for (const it of all.filter((it) => it.field === "ui")) {
     const key = gossipKey(it.en_text);
-    if (!ui[key]?.cs && !uiTodo[key]) uiTodo[key] = { cs: key };
+    if (!ui[key]?.cs && !uiTodo[key]) uiTodo[key] = { cs: protectStats(key) };
   }
   const uiTr = await translateAll(uiTodo);
   for (const [key, t] of Object.entries(uiTr)) {
     if (hasBlockedWord(key) || hasBlockedWord(t.cs)) { delete uiTr[key]; continue; }
-    ui[key] = { cs: t.cs, en: key, src: "komunita" };
+    ui[key] = { cs: restoreStats(t.cs), en: key, src: "komunita" };
   }
   console.log(`Textů rozhraní přeloženo: ${Object.keys(uiTr).length}`);
 

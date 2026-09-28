@@ -173,11 +173,8 @@ local SPELLBOOK_PATTERNS = {
 
 -- Pevné řádky popisků kouzel (cena, sesílání, obnovení, dosah…)
 local SPELL_LINES = {
-    { "^(%d+) Mana$", "%1 many" },
-    { "^(%d+)%% of base mana$", "%1 %% základní many" },
-    { "^(%d+) Rage$", "%1 vzteku" },
-    { "^(%d+) Energy$", "%1 energie" },
-    { "^(%d+) Focus$", "%1 soustředění" },
+    -- Staty a zdroje (Mana, Rage, Energy, Strength…) zůstávají anglicky – přání hráčů
+    { "^(%d+)%% of base mana$", "%1 %% základní Mana" },
     { "^([%d%.]+) sec cast$", "Sesílání %1 s" },
     { "^([%d%.]+) min cooldown$", "Obnovení %1 min" },
     { "^([%d%.]+) sec cooldown$", "Obnovení %1 s" },

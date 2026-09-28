@@ -278,6 +278,29 @@ function Initialize-Rules {
         }
     }
     foreach ($x in $r.regexy) { $script:Rules += , @([regex]::new([string]$x.hledat), [string]$x.nahradit) }
+    $script:Stats = @($r.staty | Where-Object { $_ } | Sort-Object Length -Descending)
+    if ($script:Stats.Count) {
+        $script:StatRe = [regex]::new('(?<!\p{L})(' + (($script:Stats | ForEach-Object { [regex]::Escape($_) }) -join '|') + ')(?!\p{L})')
+    }
+}
+# Staty (Mana, Strength…) zůstávají v textech rozhraní anglicky: před překladem {101}, {102}…, po překladu zpět
+$script:Stats = @(); $script:StatRe = $null
+function Protect-Stats([string]$t) {
+    if (-not $script:StatRe -or -not $t) { return $t }
+    return $script:StatRe.Replace($t, {
+        param($m)
+        for ($i = 0; $i -lt $script:Stats.Count; $i++) { if ($script:Stats[$i] -ceq $m.Value) { return "{" + (101 + $i) + "}" } }
+        return $m.Value
+    })
+}
+function Restore-Stats([string]$t) {
+    if (-not $t) { return $t }
+    return [regex]::Replace($t, '\{(1\d\d)\}', {
+        param($m)
+        $i = [int]$m.Groups[1].Value - 101
+        if ($i -lt $script:Stats.Count) { return $script:Stats[$i] }
+        return $m.Value
+    })
 }
 function Invoke-Rules([string]$t) {
     if (-not $t) { return $t }
@@ -823,8 +846,8 @@ function Invoke-UiText($q) {
     if (-not $en) { return $false }
     $key = Get-GossipKey $en
     if ($script:Ui[$key] -and $script:Ui[$key]["cs"]) { return $false }
-    $tr = Invoke-Translate ([ordered]@{ ui = $key })
-    $script:Ui[$key] = @{ cs = $tr["ui"]; en = $key; src = "lokalne" }
+    $tr = Invoke-Translate ([ordered]@{ ui = (Protect-Stats $key) })
+    $script:Ui[$key] = @{ cs = (Restore-Stats $tr["ui"]); en = $key; src = "lokalne" }
     Save-Ui
     Write-UiLua
     if ($Settings.prispivat) { [void](Invoke-SbernaPost "/submit" @{ id = 1; client = $Settings.klient_id; fields = @{ ui = $key } }) }

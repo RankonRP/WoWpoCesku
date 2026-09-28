@@ -25,4 +25,16 @@ function apply(text) {
   return t;
 }
 
-module.exports = { apply };
+// Staty (Mana, Strength…) zůstávají v textech rozhraní anglicky: před překladem je nahradí {101}, {102}… a po překladu vrátí
+const STATS = (RULES.staty || []).slice().sort((a, b) => b.length - a.length);
+const STAT_RE = STATS.length ? new RegExp(`(?<!\\p{L})(${STATS.map(esc).join("|")})(?!\\p{L})`, "gu") : null;
+function protectStats(text) {
+  if (!STAT_RE || !text) return text;
+  return text.replace(STAT_RE, (m) => "{" + (101 + STATS.indexOf(m)) + "}");
+}
+function restoreStats(text) {
+  if (!text) return text;
+  return text.replace(/\{(1\d\d)\}/g, (m, n) => STATS[n - 101] || m);
+}
+
+module.exports = { apply, protectStats, restoreStats };
