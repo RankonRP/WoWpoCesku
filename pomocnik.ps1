@@ -553,6 +553,144 @@ function Restart-Helper {
     $form.Close()
 }
 
+# ----------------------------------------------------------------------------
+# Mezipaměť questů hry (Cache\WDB\enUS\questcache.wdb) – stejná logika jako tools/wdb.js.
+# Hra si do ní ukládá název, úkol a zadání každého questu, o kterém ví (i bez otevření),
+# takže Pomocník nové questy najde a pošle sám, bez Ctrl+C.
+# ----------------------------------------------------------------------------
+if (-not ("WdbReader" -as [type])) {
+    Add-Type -Language CSharp -TypeDefinition @'
+using System;
+using System.Collections.Generic;
+using System.Text;
+public static class WdbReader {
+    static readonly int[] Bits = { 9, 12, 12, 9, 10, 8, 10, 8, 11 };
+    public static Dictionary<string, string[]> Read(string path) {
+        var b = System.IO.File.ReadAllBytes(path);
+        var res = new Dictionary<string, string[]>();
+        if (b.Length < 24 || b[0] != 'T' || b[1] != 'S' || b[2] != 'Q' || b[3] != 'W') return res;
+        int o = 24;
+        while (o + 8 <= b.Length) {
+            int id = BitConverter.ToInt32(b, o), len = BitConverter.ToInt32(b, o + 4);
+            if (len <= 0 || o + 8 + len > b.Length) break;
+            var r = Parse(b, o + 8, len);
+            if (r != null) res[id.ToString()] = r;
+            o += 8 + len;
+        }
+        return res;
+    }
+    static string[] Parse(byte[] b, int start, int len) {
+        var utf8 = new UTF8Encoding(false, true);
+        for (int p = 0; p + 12 < len; p++) {
+            var L = new int[9]; int bit = 0;
+            for (int k = 0; k < 9; k++) {
+                int v = 0;
+                for (int i = 0; i < Bits[k]; i++, bit++) v = (v << 1) | ((b[start + p + (bit >> 3)] >> (7 - (bit & 7))) & 1);
+                L[k] = v;
+            }
+            if (L[0] < 2 || L[0] > 300) continue;
+            int s = start + p + 12, total = 0;
+            foreach (var x in L) total += x;
+            if (s + total > start + len) continue;
+            var strs = new string[9]; int oo = s; bool ok = true;
+            for (int k = 0; k < 9; k++) {
+                strs[k] = "";
+                if (L[k] > 0) {
+                    try { strs[k] = utf8.GetString(b, oo, L[k]); } catch { ok = false; break; }
+                    if (!Printable(strs[k])) { ok = false; break; }
+                }
+                oo += L[k];
+            }
+            if (!ok) continue;
+            char c0 = strs[0][0];
+            if (!(char.IsLetterOrDigit(c0) || c0 == '"' || c0 == '\'' || c0 == '(' || c0 == '[')) continue;
+            return new[] { strs[0], strs[1], strs[2] };
+        }
+        return null;
+    }
+    static bool Printable(string s) {
+        foreach (char c in s) if ((c < 32 && c != '\n' && c != '\r' && c != '\t') || c == '�') return false;
+        return true;
+    }
+}
+'@
+}
+
+# Zástupné znaky serveru -> naše značky
+function ConvertFrom-ServerText([string]$t) {
+    $t = $t -replace "`r`n?", "`n" -replace '\$[Bb]', "`n" -replace '\$[Nn]', '{N}' -replace '\$[Cc]', '{C}' -replace '\$[Rr]', '{R}'
+    $t = $t -replace '\$[Gg]\s*([^:;]*):([^;]*);', '$1/$2'
+    return $t.Trim()
+}
+
+# Složka hry (…\World of Warcraft\_classic_beta_): z nastavení, jinak ji najít podle propojeného addonu
+function Find-GameFolder {
+    if ($Settings.slozka_hry -and (Test-Path (Join-Path $Settings.slozka_hry "Cache"))) { return $Settings.slozka_hry }
+    $bases = foreach ($d in (Get-PSDrive -PSProvider FileSystem -ErrorAction SilentlyContinue)) {
+        foreach ($sub in "World of Warcraft", "Program Files (x86)\World of Warcraft", "Program Files\World of Warcraft", "Games\World of Warcraft", "Hry\World of Warcraft") {
+            Join-Path $d.Root $sub
+        }
+    }
+    foreach ($base in $bases) {
+        if (-not (Test-Path $base)) { continue }
+        foreach ($flavor in Get-ChildItem $base -Directory -Filter "_*_" -ErrorAction SilentlyContinue) {
+            $link = Join-Path $flavor.FullName "Interface\AddOns\WoWpoCesku"
+            if (Test-Path $link) {
+                Set-Setting "slozka_hry" $flavor.FullName
+                Save-Settings
+                return $flavor.FullName
+            }
+        }
+    }
+    return $null
+}
+
+# Projde mezipaměť: nové questy pošle do sběrny (max $maxSend) a pár rovnou přeloží (max $maxTranslate).
+# Vrací @{ translated; sent; left } nebo $null, když se mezipaměť od minula nezměnila.
+function Import-GameCache([int]$maxTranslate = 20, [int]$maxSend = 100) {
+    $game = Find-GameFolder
+    if (-not $game) { return $null }
+    $file = Join-Path $game "Cache\WDB\enUS\questcache.wdb"
+    if (-not (Test-Path $file)) { return $null }
+    $stamp = [string](Get-Item $file).LastWriteTimeUtc.Ticks
+    if ($Settings.cache_cas -eq $stamp) { return $null }
+
+    $sentPath = Join-Path $Root ".cache-odeslano"
+    $sent = New-Object 'System.Collections.Generic.HashSet[string]'
+    if (Test-Path $sentPath) { foreach ($l in [IO.File]::ReadAllLines($sentPath)) { [void]$sent.Add($l) } }
+
+    $quests = [WdbReader]::Read($file)
+    $translated = 0; $sentN = 0; $left = 0
+    foreach ($id in $quests.Keys) {
+        $raw = $quests[$id]
+        $fields = [ordered]@{ title = (ConvertFrom-ServerText $raw[0]); objectives = (ConvertFrom-ServerText $raw[1]); text = (ConvertFrom-ServerText $raw[2]) }
+        $entry = $script:Cache[$id]
+        $missing = [ordered]@{}
+        foreach ($k in $fields.Keys) { if ($fields[$k] -and (-not $entry -or -not $entry[$k])) { $missing[$k] = $fields[$k] } }
+        if ($missing.Count -eq 0) { continue }
+
+        if ($Settings.prispivat -and -not $sent.Contains($id) -and $sentN -lt $maxSend) {
+            $body = [ordered]@{}
+            foreach ($k in $fields.Keys) { if ($fields[$k]) { $body[$k] = $fields[$k] } }
+            if (Invoke-SbernaPost "/submit" @{ id = [int]$id; client = $Settings.klient_id; fields = $body }) { [void]$sent.Add($id); $sentN++ }
+        }
+        if ($translated -lt $maxTranslate) {
+            $tr = Invoke-Translate $missing
+            if (-not $entry) { $entry = @{}; $script:Cache[$id] = $entry }
+            foreach ($k in $missing.Keys) { $entry[$k] = $tr[$k]; $entry["en_$k"] = $missing[$k] }
+            if (-not $entry["src"]) { $entry["src"] = "cache" }
+            $translated++
+        } else {
+            $left++
+        }
+    }
+    if ($translated -gt 0) { Save-Cache; Write-DataLua }
+    [IO.File]::WriteAllLines($sentPath, [string[]]@($sent), $Utf8NoBom)
+    # Když zbylo nepřeložené, příště se mezipaměť projde znovu
+    if ($left -eq 0) { Set-Setting "cache_cas" $stamp; Save-Settings }
+    return @{ translated = $translated; sent = $sentN; left = $left }
+}
+
 function Show-Gossip($q, [string]$cs) {
     $script:CurrentQ = $null
     $btnFix.Enabled = $false
@@ -816,6 +954,22 @@ $form.Add_Shown({
     } catch {
         $statusLabel.Text = "Nové překlady se nepodařilo stáhnout (offline?). Čekám na quest ze hry…"
     }
+
+    # Nové questy z mezipaměti hry (bez Ctrl+C)
+    $prev = $statusLabel.Text
+    try {
+        $statusLabel.Text = "Hledám nové questy v mezipaměti hry…"
+        [Windows.Forms.Application]::DoEvents()
+        $c = Import-GameCache
+        if ($c -and ($c.translated -gt 0 -or $c.sent -gt 0)) {
+            $statusLabel.Text = "Z mezipaměti hry: přeloženo $($c.translated), odesláno $($c.sent) questů. Ve hře napiš /reload."
+            Show-Welcome
+        } else {
+            $statusLabel.Text = $prev
+        }
+    } catch {
+        $statusLabel.Text = $prev
+    }
     $syncTimer.Start()
 })
 
@@ -830,6 +984,12 @@ $syncTimer.Add_Tick({
         $n = Update-FromGitHub
         try { $n += Update-GossipFromGitHub } catch { }
         if ($n -gt 0) { $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – staženo $n nových překladů. Ve hře napiš /reload." }
+        try {
+            $c = Import-GameCache
+            if ($c -and ($c.translated -gt 0 -or $c.sent -gt 0)) {
+                $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – z mezipaměti hry přeloženo $($c.translated), odesláno $($c.sent) questů. Ve hře napiš /reload."
+            }
+        } catch { }
         # Nová verze programu jen oznámit (instalace proběhne při dalším spuštění Pomocníka)
         try {
             $upd = Test-AppUpdate

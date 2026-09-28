@@ -62,6 +62,16 @@ if (Test-GameFolder $candidate) {
 Write-Host ""
 Write-Host "Složka hry: $game  ($(Get-FlavorName $game))" -ForegroundColor Cyan
 
+# Zapamatovat složku hry pro Pomocníka (čte z ní mezipaměť questů)
+$settingsPath = Join-Path $PSScriptRoot "nastaveni.json"
+$examplePath = Join-Path $PSScriptRoot "nastaveni.example.json"
+if (-not (Test-Path $settingsPath) -and (Test-Path $examplePath)) { Copy-Item $examplePath $settingsPath }
+if (Test-Path $settingsPath) {
+    $s = Get-Content $settingsPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ($s.PSObject.Properties["slozka_hry"]) { $s.slozka_hry = $game } else { $s | Add-Member -NotePropertyName slozka_hry -NotePropertyValue $game }
+    [IO.File]::WriteAllText($settingsPath, ($s | ConvertTo-Json), (New-Object System.Text.UTF8Encoding $false))
+}
+
 $addons = Join-Path $game "Interface\AddOns"
 New-Item -ItemType Directory -Force $addons | Out-Null
 

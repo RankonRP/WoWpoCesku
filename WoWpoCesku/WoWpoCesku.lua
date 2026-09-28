@@ -807,6 +807,89 @@ setupFrame:SetScript("OnEvent", function()
 end)
 
 -------------------------------------------------------------------------------
+-- Sběr questů (/czq sber): postupně požádá server o informace ke všem questům.
+-- Hra je uloží do mezipaměti (Cache\WDB\enUS\questcache.wdb) a Pomocník / správce je
+-- odtud přeloží. Průběh se ukládá, takže po přerušení pokračuje, kde skončil.
+-------------------------------------------------------------------------------
+local SCAN_RANGES = { { 1, 10000 }, { 85000, 105000 } }   -- klasické questy + nové z Forever
+local SCAN_PER_TICK, SCAN_TICK = 3, 0.2                     -- = 15 dotazů za vteřinu
+local scan = { running = false, sent = 0, found = 0 }
+
+local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
+
+local function scanTotal()
+    local n = 0
+    for _, r in ipairs(SCAN_RANGES) do n = n + (r[2] - r[1] + 1) end
+    return n
+end
+
+local function scanDone()
+    local d = 0
+    local st = WoWpoCeskuSettings.scan
+    for i, r in ipairs(SCAN_RANGES) do
+        if i < st.range then d = d + (r[2] - r[1] + 1)
+        elseif i == st.range then d = d + (st.id - r[1]) end
+    end
+    return d
+end
+
+local function scanStep()
+    if not scan.running then return end
+    local st = WoWpoCeskuSettings.scan
+    for _ = 1, SCAN_PER_TICK do
+        local r = SCAN_RANGES[st.range]
+        if not r then
+            scan.running = false
+            say(("sber HOTOV – server vratil %d questu. Ted se ODHLAS nebo ukonci hru (hra pak ulozi mezipamet) a napis Claudovi."):format(scan.found))
+            return
+        end
+        C_QuestLog.RequestLoadQuestByID(st.id)
+        scan.sent = scan.sent + 1
+        st.id = st.id + 1
+        if st.id > r[2] then
+            st.range = st.range + 1
+            if SCAN_RANGES[st.range] then st.id = SCAN_RANGES[st.range][1] end
+        end
+    end
+    if scan.sent % 1500 == 0 then
+        local pct = math.floor(scanDone() / scanTotal() * 100)
+        say(("sber: %d %% (nalezeno %d questu, zastavit: /czq sber stop)"):format(pct, scan.found))
+    end
+    C_Timer.After(SCAN_TICK, scanStep)
+end
+
+local scanEvents = CreateFrame("Frame")
+scanEvents:RegisterEvent("QUEST_DATA_LOAD_RESULT")
+scanEvents:SetScript("OnEvent", function(_, _, questID, success)
+    if scan.running and success then scan.found = scan.found + 1 end
+end)
+
+local function scanCommand(arg)
+    if not (C_QuestLog and C_QuestLog.RequestLoadQuestByID) then
+        say("tahle verze hry sber questu neumi.")
+        return
+    end
+    if arg == "stop" then
+        scan.running = false
+        say("sber pozastaven. Pokracovat: /czq sber")
+        return
+    end
+    if arg == "znovu" or not WoWpoCeskuSettings.scan then
+        WoWpoCeskuSettings.scan = { range = 1, id = SCAN_RANGES[1][1] }
+    end
+    if scan.running then say("sber uz bezi.") return end
+    if not SCAN_RANGES[WoWpoCeskuSettings.scan.range] then
+        say("sber uz je hotovy. Od zacatku: /czq sber znovu")
+        return
+    end
+    scan.running, scan.sent, scan.found = true, 0, 0
+    local left = scanTotal() - scanDone()
+    say(("sber questu spusten (%d cisel, asi %d minut). Muzes normalne hrat. Zastavit: /czq sber stop"):format(
+        left, math.ceil(left / (SCAN_PER_TICK / SCAN_TICK) / 60)))
+    scanStep()
+end
+
+-------------------------------------------------------------------------------
 -- Příkazy: /czq (zprávy do chatu bez diakritiky – písmo chatu ji nemusí umět)
 -------------------------------------------------------------------------------
 SLASH_CZQUESTS1 = "/czq"
@@ -815,7 +898,9 @@ SlashCmdList.CZQUESTS = function(msg)
     msg = (msg or ""):lower()
     local cmd, arg = msg:match("^(%S*)%s*(.-)$")
     local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
-    if cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
+    if cmd == "sber" then
+        scanCommand(arg)
+    elseif cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
         openOptions()
     elseif cmd == "reset" then
         WoWpoCeskuSettings.pos = nil
