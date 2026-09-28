@@ -44,7 +44,38 @@ export default {
       return json({ error: "server error" }, 500);
     }
   },
+
+  // Každou hodinu (wrangler.toml -> triggers.crons): když je co zpracovat, spustit zpracování
+  // na GitHubu. Plánovač GitHubu je u málo aktivních repozitářů nespolehlivý.
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(dispatchIfNeeded(env));
+  },
 };
+
+async function dispatchIfNeeded(env) {
+  if (!env.GITHUB_TOKEN) return;
+  const items = (await (await confirmed(env)).json()).items || [];
+  const fixes = await env.DB.prepare(
+    `SELECT COUNT(*) AS n FROM corrections t
+      WHERE t.status = 'pending' AND instr(?1, ',' || t.client || ',') > 0`
+  ).bind(trustedList(env)).first();
+  if (!items.length && !fixes.n) return;
+  const r = await fetch(
+    "https://api.github.com/repos/RankonRP/WoWpoCesku/actions/workflows/zpracovani.yml/dispatches",
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${env.GITHUB_TOKEN.trim()}`,
+        Accept: "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "wowpocesku-sberna",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ ref: "main" }),
+    }
+  );
+  console.log(`dispatch: ${r.status} (textů ${items.length}, oprav ${fixes.n})`);
+}
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), {

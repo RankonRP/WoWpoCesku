@@ -168,21 +168,22 @@ hint:SetSpacing(3)
 
 local HINTS = {
     preklad = "Tento quest ještě není přeložený.\n\n"
-        .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
-        .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
-        .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
+        .. "|cffffd100Hned:|r text níže je označený – zmáčkni |cff00ff00Ctrl+C|r,\n"
+        .. "překlad se ukáže v okně Pomocníka.\n"
+        .. "|cffffd100Nebo nic nedělej:|r po |cff00ff00/reload|r ho Pomocník přeloží sám\n"
+        .. "a po dalším |cff00ff00/reload|r bude česky i tady.",
     znovu = "Přeložit znovu podle aktuálního textu ve hře:\n\n"
         .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
         .. "|cffffd1002.|r Nový překlad se ukáže v okně Pomocníka\n"
         .. "|cffffd1003.|r Po |cff00ff00/reload|r bude i tady",
     rozhovor = "Tenhle rozhovor ještě není přeložený.\n\n"
-        .. "|cffffd1001.|r Klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r\n"
-        .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
-        .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
+        .. "|cffffd100Hned:|r klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r.\n"
+        .. "|cffffd100Nebo nic nedělej:|r po |cff00ff00/reload|r ho Pomocník přeloží sám\n"
+        .. "a po dalším |cff00ff00/reload|r bude česky i tady.",
     kniha = "Tahle stránka ještě není přeložená.\n\n"
-        .. "|cffffd1001.|r Klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r\n"
-        .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
-        .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
+        .. "|cffffd100Hned:|r klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r.\n"
+        .. "|cffffd100Nebo nic nedělej:|r po |cff00ff00/reload|r ho Pomocník přeloží sám\n"
+        .. "a po dalším |cff00ff00/reload|r bude česky i tady.",
     oprava = "Oprava překladu:\n\n"
         .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
         .. "|cffffd1002.|r V Pomocníkovi se otevře okno pro opravu\n"
@@ -426,11 +427,53 @@ local function showTranslated(q)
     fix:Show()
 end
 
+-- Fronta pro Pomocníka: nepřeložené texty se ukládají do WoWpoCeskuQueue (SavedVariables).
+-- Hra je zapíše na disk při /reload nebo odhlášení a Pomocník je odtud sám přeloží – bez Ctrl+C.
+local QUEUE_MAX = 300
+
+local function queueKey(q)
+    if q.kind == "gossip" then return ("CZG#%d#%s"):format(q.id, gossipKey(q.gossip):sub(1, 60)) end
+    return ("CZQ#%d#%s"):format(q.id, q.part)
+end
+
+local function addToQueue(q, payload)
+    WoWpoCeskuQueue = WoWpoCeskuQueue or {}
+    local key = queueKey(q)
+    if WoWpoCeskuQueue[key] then WoWpoCeskuQueue[key] = payload return end
+    local n = 0
+    for _ in pairs(WoWpoCeskuQueue) do n = n + 1 end
+    if n < QUEUE_MAX then WoWpoCeskuQueue[key] = payload end
+end
+
+-- Po načtení vyhodit z fronty, co už je mezitím přeložené
+local function cleanQueue()
+    WoWpoCeskuQueue = WoWpoCeskuQueue or {}
+    for key, payload in pairs(WoWpoCeskuQueue) do
+        local id, part = key:match("^CZQ#(%d+)#(%a+)$")
+        local done = false
+        if id then
+            local tr = WoWpoCesku_Data[tonumber(id)]
+            local fields = PART_FIELDS[part]
+            if tr and fields then
+                done = true
+                for _, f in ipairs(fields) do
+                    if payload:find("##" .. f .. "\n", 1, true) and not tr[f] then done = false end
+                end
+            end
+        else
+            local text = payload:match("##gossip\n(.*)$")
+            done = not text or WoWpoCesku_Gossip[gossipKey(text)] ~= nil
+        end
+        if done then WoWpoCeskuQueue[key] = nil end
+    end
+end
+
 -- mode: "preklad" (nový quest), "znovu" (nesedí), "oprava" (oprava překladu)
 local function showCopy(q, mode)
     title:SetText(q.title)
     hint:SetText(HINTS[mode] or HINTS.preklad)
     edit.payload = buildPayload(q, mode)
+    if mode == "preklad" or mode == "rozhovor" or mode == "kniha" then addToQueue(q, edit.payload) end
     edit:SetText(edit.payload)
     edit:SetCursorPosition(0)
     status:SetText("")
@@ -552,6 +595,7 @@ events:SetScript("OnEvent", function(_, event, arg1)
             if WoWpoCeskuSettings.enabled == nil then WoWpoCeskuSettings.enabled = true end
             if WoWpoCeskuSettings.autofocus == nil then WoWpoCeskuSettings.autofocus = true end
             applyLayout()
+            cleanQueue()
         end
         -- Deník může patřit do addonu Blizzardu, který se načte později
         hookQuestLog()

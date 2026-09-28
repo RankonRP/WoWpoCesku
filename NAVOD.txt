@@ -47,6 +47,8 @@ HRANÍ
    - PŘELOŽENÝ   -> český text se ukáže v panelu vedle okna questu
    - NEPŘELOŽENÝ -> addon text sám označí -> zmáčkni Ctrl+C
                     -> překlad se hned ukáže v okně Pomocníka
+                    NEBO nic nedělej: po /reload ho Pomocník přeloží sám
+                    (běží-li) a po dalším /reload bude česky i ve hře.
 
 3. Občas napiš do chatu /reload
    -> nově přeložené questy pak uvidíš česky přímo ve hře.

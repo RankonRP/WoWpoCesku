@@ -7,6 +7,10 @@ binding = "DB"
 database_name = "wowpocesku"
 database_id = "cd5177bd-fc91-46d3-9f4e-2ac6ee5480a2"
 
+# Každou hodinu zkontrolovat práci a případně spustit zpracování na GitHubu
+[triggers]
+crons = ["17 * * * *"]
+
 [vars]
 # Kolik různých hráčů musí poslat stejný text, než se quest přeloží
 MIN_REPORTERS = "2"
@@ -15,3 +19,4 @@ MIN_REPORTERS = "2"
 #   ADMIN_KEY – klíč pro GitHub Actions (čtení potvrzených questů)
 #   IP_SALT   – sůl pro otisk IP adres
 #   TRUSTED_CLIENTS – ID instalací Pomocníka, kterým se věří hned (oddělené čárkou)
+#   GITHUB_TOKEN – přístupový klíč GitHubu (jen právo Actions) pro spouštění zpracování

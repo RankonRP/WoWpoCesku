@@ -702,9 +702,11 @@ function Show-Gossip($q, [string]$cs) {
     $box.ScrollToCaret()
 }
 
-function Invoke-Gossip($q) {
+# $quiet = zpracování z fronty ze hry: nic nezobrazovat, jen přeložit a uložit. Vrací $true, když něco přeložil.
+function Invoke-Gossip($q, [bool]$quiet = $false) {
     $en = $q.fields["gossip"]
-    if (-not $en) { return }
+    if (-not $en) { return $false }
+    $did = $false
     $key = Get-GossipKey $en
     $entry = $script:Gossip[$key]
     if ($entry -and $entry["cs"]) {
@@ -722,14 +724,17 @@ function Invoke-Gossip($q) {
             $sent = " Odesláno do společné sbírky."
         }
         $statusLabel.Text = "Uloženo ($($script:Gossip.Count) rozhovorů). Ve hře napiš /reload.$sent"
+        $did = $true
     }
-    Show-Gossip $q $entry["cs"]
+    if (-not $quiet) { Show-Gossip $q $entry["cs"] }
+    return $did
 }
 
-function Invoke-Quest([string]$clip) {
+function Invoke-Quest([string]$clip, [bool]$quiet = $false) {
     $q = ConvertFrom-Payload $clip
-    if (-not $q) { return }
-    if ($q.kind -eq "gossip") { Invoke-Gossip $q; return }
+    if (-not $q) { return $false }
+    if ($q.kind -eq "gossip") { return (Invoke-Gossip $q $quiet) }
+    $did = $false
 
     $entry = $script:Cache[$q.id]
     if (-not $entry) { $entry = @{}; $script:Cache[$q.id] = $entry }
@@ -753,11 +758,71 @@ function Invoke-Quest([string]$clip) {
         Write-DataLua
         $sent = if (Send-ToSberna $q) { " Odesláno do společné sbírky." } else { "" }
         $statusLabel.Text = "Uloženo ($($script:Cache.Count) questů). Ve hře napiš /reload.$sent"
-    } else {
+        $did = $true
+    } elseif (-not $quiet) {
         $statusLabel.Text = "Z uložených překladů. (Pokud ho addon neukazuje, napiš ve hře /reload.)"
     }
+    if ($quiet) { return $did }
     Show-Quest $q $entry
     if ($q.oprava) { Show-FixDialog $q $entry }
+    return $did
+}
+
+# ----------------------------------------------------------------------------
+# Fronta ze hry: addon ukládá nepřeložené texty do WoWpoCeskuQueue (SavedVariables).
+# Hra je zapíše při /reload nebo odhlášení do WTF\Account\<účet>\SavedVariables\WoWpoCesku.lua,
+# Pomocník si soubor hlídá a texty přeloží sám – bez Ctrl+C.
+# ----------------------------------------------------------------------------
+$QueueDonePath = Join-Path $Root ".fronta-zpracovano"
+$script:QueueDone = New-Object 'System.Collections.Generic.HashSet[string]'
+if (Test-Path $QueueDonePath) { foreach ($l in [IO.File]::ReadAllLines($QueueDonePath)) { [void]$script:QueueDone.Add($l) } }
+$script:QueueStamps = @{}
+
+function Get-QueueFiles {
+    $game = Find-GameFolder
+    if (-not $game) { return @() }
+    return @(Get-ChildItem (Join-Path $game "WTF\Account") -Recurse -Filter "WoWpoCesku.lua" -File -ErrorAction SilentlyContinue |
+        Where-Object { $_.DirectoryName -like "*\SavedVariables" })
+}
+
+# Vytáhne texty z tabulky WoWpoCeskuQueue v uloženém Lua souboru
+function Read-QueueFile([string]$path) {
+    $text = [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8)
+    $m = [regex]::Match($text, '(?ms)^WoWpoCeskuQueue\s*=\s*\{(.*?)^\}')
+    if (-not $m.Success) { return @() }
+    $items = foreach ($e in [regex]::Matches($m.Groups[1].Value, '\["(?:[^"\\]|\\.)*"\]\s*=\s*"((?:[^"\\]|\\.)*)"')) {
+        # Lua escape: \n, \", \\ (a případně \ddd)
+        [regex]::Replace($e.Groups[1].Value, '\\(n|"|\\|\d{1,3})', {
+            param($x)
+            switch -Regex ($x.Groups[1].Value) { '^n$' { "`n" } '^"$' { '"' } '^\\$' { '\' } default { [string][char][int]$x.Groups[1].Value } }
+        })
+    }
+    return @($items)
+}
+
+function Get-PayloadHash([string]$s) {
+    $sha = [Security.Cryptography.SHA1]::Create()
+    return ($sha.ComputeHash([Text.Encoding]::UTF8.GetBytes($s)) | ForEach-Object { $_.ToString("x2") }) -join ""
+}
+
+# Zpracuje frontu, když se některý soubor od minula změnil. Vrací počet přeložených textů.
+function Invoke-GameQueue {
+    $count = 0
+    foreach ($f in Get-QueueFiles) {
+        $stamp = $f.LastWriteTimeUtc.Ticks
+        if ($script:QueueStamps[$f.FullName] -eq $stamp) { continue }
+        $script:QueueStamps[$f.FullName] = $stamp
+        foreach ($payload in Read-QueueFile $f.FullName) {
+            $h = Get-PayloadHash $payload
+            if ($script:QueueDone.Contains($h)) { continue }
+            if (Invoke-Quest $payload $true) { $count++ }
+            [void]$script:QueueDone.Add($h)
+        }
+    }
+    if ($count -gt 0 -or $script:QueueDone.Count -gt 0) {
+        [IO.File]::WriteAllLines($QueueDonePath, [string[]]@($script:QueueDone), $Utf8NoBom)
+    }
+    return $count
 }
 
 # ----------------------------------------------------------------------------
@@ -1002,6 +1067,25 @@ $syncTimer.Add_Tick({
     }
 })
 
+# Každých 20 vteřin: nepřeložené texty ze hry (fronta addonu, uloží se při /reload nebo odhlášení)
+$queueTimer = New-Object Windows.Forms.Timer
+$queueTimer.Interval = 20 * 1000
+$queueTimer.Add_Tick({
+    if ($script:Busy) { return }
+    $script:Busy = $true
+    try {
+        $n = Invoke-GameQueue
+        if ($n -gt 0) { $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – ze hry přeloženo $n textů. Ve hře napiš /reload." }
+    } catch {
+        # offline / soubor se zrovna zapisuje – zkusí se to znovu
+        $script:QueueStamps = @{}
+    } finally {
+        $script:Busy = $false
+    }
+})
+$form.Add_Shown({ $queueTimer.Start() })
+
 [void]$form.ShowDialog()
 $timer.Stop()
 $syncTimer.Stop()
+$queueTimer.Stop()
