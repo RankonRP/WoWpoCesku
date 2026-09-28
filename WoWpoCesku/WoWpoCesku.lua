@@ -476,6 +476,9 @@ local function cleanQueue()
                     if payload:find("##" .. f .. "\n", 1, true) and not tr[f] then done = false end
                 end
             end
+        elseif key:find("^CZU#") then
+            local text = payload:match("##ui\n(.*)$")
+            done = not text or (WoWpoCesku_UI and WoWpoCesku_UI[text] ~= nil)
         else
             local text = payload:match("##gossip\n(.*)$")
             done = not text or WoWpoCesku_Gossip[gossipKey(text)] ~= nil
@@ -999,7 +1002,8 @@ SlashCmdList.CZQUESTS = function(msg)
         scanCommand(arg)
     elseif cmd == "vypis" then
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
-        say(("ulozeno %d textu rozhrani. Napis /reload (nebo se odhlas) a dej vedet Claudovi."):format(n))
+        local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
+        say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
     elseif cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
         openOptions()
     elseif cmd == "reset" then

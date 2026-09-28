@@ -141,6 +141,47 @@ function Save-Gossip {
     [IO.File]::WriteAllText($GossipPath, $sb.ToString(), $Utf8NoBom)
 }
 
+# ----------------------------------------------------------------------------
+# Texty rozhraní (talenty…): šablony s {1},{2} místo čísel, stejný formát jako rozhovory
+# rozhrani.json: { "<anglická šablona>": { cs, en, src } } -> WoWpoCesku\DataRozhrani.lua
+# ----------------------------------------------------------------------------
+$UiPath      = Join-Path $Root "rozhrani.json"
+$UiLuaPath   = Join-Path $Root "WoWpoCesku\DataRozhrani.lua"
+$RemoteUiUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/rozhrani.json"
+$UiEtagPath  = Join-Path $Root ".rozhrani.etag"
+
+$script:Ui = @{}
+if (Test-Path $UiPath) { $script:Ui = ConvertFrom-GossipJson ([IO.File]::ReadAllText($UiPath, [Text.Encoding]::UTF8)) }
+
+function Save-TextDb($db, [string]$path) {
+    $sb = New-Object System.Text.StringBuilder
+    [void]$sb.Append("{`n")
+    $keys = @($db.Keys | Sort-Object)
+    for ($i = 0; $i -lt $keys.Count; $i++) {
+        $entry = New-Object 'System.Collections.Generic.SortedDictionary[string,string]'
+        foreach ($f in $db[$keys[$i]].Keys) { $entry[$f] = $db[$keys[$i]][$f] }
+        $comma = if ($i -lt $keys.Count - 1) { "," } else { "" }
+        [void]$sb.Append("  $($Json.Serialize($keys[$i])): $($Json.Serialize($entry))$comma`n")
+    }
+    [void]$sb.Append("}`n")
+    [IO.File]::WriteAllText($path, $sb.ToString(), $Utf8NoBom)
+}
+
+function Write-TextLua($db, [string]$path, [string]$var, [string]$source) {
+    $sb = New-Object System.Text.StringBuilder
+    [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v $source.")
+    [void]$sb.AppendLine("$var = {")
+    foreach ($k in ($db.Keys | Sort-Object)) {
+        $cs = $db[$k]["cs"]
+        if ($cs) { [void]$sb.AppendLine("[$(ConvertTo-LuaString $k)]=$(ConvertTo-LuaString $cs),") }
+    }
+    [void]$sb.AppendLine("}")
+    [IO.File]::WriteAllText($path, $sb.ToString(), $Utf8NoBom)
+}
+
+function Save-Ui { Save-TextDb $script:Ui $UiPath }
+function Write-UiLua { Write-TextLua $script:Ui $UiLuaPath "WoWpoCesku_UI" "rozhrani.json" }
+
 function Write-GossipLua {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhovory.json.")
@@ -266,10 +307,10 @@ function Invoke-Translate($fields) {
 # ----------------------------------------------------------------------------
 function ConvertFrom-Payload([string]$s) {
     $lines = ($s -replace "`r`n", "`n" -replace "`r", "`n") -split "`n"
-    $m = [regex]::Match($lines[0].Trim(), '^CZ([QG])#(\d+)(?:#(\w+))?(#oprava)?$')
+    $m = [regex]::Match($lines[0].Trim(), '^CZ([QGU])#(\d+)(?:#(\w+))?(#oprava)?$')
     if (-not $m.Success -or $lines.Count -lt 2) { return $null }
     $q = @{
-        kind   = $(if ($m.Groups[1].Value -eq "G") { "gossip" } else { "quest" })
+        kind   = $(switch ($m.Groups[1].Value) { "G" { "gossip" } "U" { "ui" } default { "quest" } })
         id     = $m.Groups[2].Value
         part   = $m.Groups[3].Value
         oprava = $m.Groups[4].Success
@@ -278,7 +319,7 @@ function ConvertFrom-Payload([string]$s) {
     $cur = $null
     $buf = New-Object System.Collections.Generic.List[string]
     foreach ($line in $lines[1..($lines.Count - 1)]) {
-        if ($line -match '^##(title|text|objectives|progress|reward|gossip)\s*$') {
+        if ($line -match '^##(title|text|objectives|progress|reward|gossip|ui)\s*$') {
             if ($cur) { $q.fields[$cur] = ($buf -join "`n").Trim() }
             $cur = $Matches[1]
             $buf.Clear()
@@ -474,11 +515,12 @@ function Update-FromGitHub {
 }
 
 # Stáhne rozhovory.json z GitHubu (překlady rozhovorů od ostatních). Vrací počet změn.
-function Update-GossipFromGitHub {
-    $req = [Net.HttpWebRequest]::Create($RemoteGossipUrl)
+# Obecně pro slovníky {klíč: {cs,…}} (rozhovory, texty rozhraní): převzít z GitHubu nové a změněné.
+function Update-DictFromGitHub([string]$url, [string]$etagPath, $db, [scriptblock]$save) {
+    $req = [Net.HttpWebRequest]::Create($url)
     $req.Timeout = 20000
     $req.UserAgent = "WoWpoCesku-Pomocnik"
-    if (Test-Path $GossipEtagPath) { $req.Headers.Add("If-None-Match", ([IO.File]::ReadAllText($GossipEtagPath)).Trim()) }
+    if (Test-Path $etagPath) { $req.Headers.Add("If-None-Match", ([IO.File]::ReadAllText($etagPath)).Trim()) }
     try {
         $resp = $req.GetResponse()
     } catch [System.Net.WebException] {
@@ -492,12 +534,20 @@ function Update-GossipFromGitHub {
     $resp.Close()
     $changed = 0
     foreach ($k in $remote.Keys) {
-        $local = $script:Gossip[$k]
-        if (-not $local -or $local["cs"] -ne $remote[$k]["cs"]) { $script:Gossip[$k] = $remote[$k]; $changed++ }
+        $local = $db[$k]
+        if (-not $local -or $local["cs"] -ne $remote[$k]["cs"]) { $db[$k] = $remote[$k]; $changed++ }
     }
-    if ($changed -gt 0) { Save-Gossip; Write-GossipLua }
-    if ($etag) { [IO.File]::WriteAllText($GossipEtagPath, $etag, $Utf8NoBom) }
+    if ($changed -gt 0) { & $save }
+    if ($etag) { [IO.File]::WriteAllText($etagPath, $etag, $Utf8NoBom) }
     return $changed
+}
+
+function Update-GossipFromGitHub {
+    return (Update-DictFromGitHub $RemoteGossipUrl $GossipEtagPath $script:Gossip { Save-Gossip; Write-GossipLua })
+}
+
+function Update-UiFromGitHub {
+    return (Update-DictFromGitHub $RemoteUiUrl $UiEtagPath $script:Ui { Save-Ui; Write-UiLua })
 }
 
 # ----------------------------------------------------------------------------
@@ -767,10 +817,26 @@ function Invoke-Gossip($q, [bool]$quiet = $false) {
     return $did
 }
 
+# Text rozhraní (šablona talentu…): přeložit, uložit, poslat do sběrny
+function Invoke-UiText($q) {
+    $en = $q.fields["ui"]
+    if (-not $en) { return $false }
+    $key = Get-GossipKey $en
+    if ($script:Ui[$key] -and $script:Ui[$key]["cs"]) { return $false }
+    $tr = Invoke-Translate ([ordered]@{ ui = $key })
+    $script:Ui[$key] = @{ cs = $tr["ui"]; en = $key; src = "lokalne" }
+    Save-Ui
+    Write-UiLua
+    if ($Settings.prispivat) { [void](Invoke-SbernaPost "/submit" @{ id = 1; client = $Settings.klient_id; fields = @{ ui = $key } }) }
+    $statusLabel.Text = "Uloženo ($($script:Ui.Count) textů rozhraní). Ve hře napiš /reload."
+    return $true
+}
+
 function Invoke-Quest([string]$clip, [bool]$quiet = $false) {
     $q = ConvertFrom-Payload $clip
     if (-not $q) { return $false }
     if ($q.kind -eq "gossip") { return (Invoke-Gossip $q $quiet) }
+    if ($q.kind -eq "ui") { return (Invoke-UiText $q) }
     $did = $false
 
     $entry = $script:Cache[$q.id]
@@ -1005,6 +1071,7 @@ $timer.Add_Tick({
 # Při startu přegeneruj Data.lua (propíšou se ruční opravy v preklady.json)
 try { Write-DataLua } catch { }
 try { Write-GossipLua } catch { }
+try { Write-UiLua } catch { }
 Show-Welcome
 $statusLabel.Text = "Čekám na quest ze hry…"
 $timer.Start()
@@ -1051,6 +1118,7 @@ $form.Add_Shown({
     try {
         $n = Update-FromGitHub
         try { $n += Update-GossipFromGitHub } catch { }
+        try { $n += Update-UiFromGitHub } catch { }
         $statusLabel.Text = if ($n -gt 0) { "Staženo $n nových/lepších překladů. Ve hře napiš /reload." } else { "Překlady jsou aktuální. Čekám na quest ze hry…" }
         if ($n -gt 0) { Show-Welcome }
     } catch {
@@ -1095,6 +1163,7 @@ $syncTimer.Add_Tick({
     try {
         $n = Update-FromGitHub
         try { $n += Update-GossipFromGitHub } catch { }
+        try { $n += Update-UiFromGitHub } catch { }
         if ($n -gt 0) { $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – staženo $n nových překladů. Ve hře napiš /reload." }
         try {
             $c = Import-GameCache

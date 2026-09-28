@@ -12,8 +12,8 @@
 //   GET  /who?quest_id=N           -> kdo poslal texty / opravy k questu (pro dohledání vandala)
 //   POST /ban                      { client } -> zablokuje hráče i jeho IP a zahodí vše, co poslal
 
-// "gossip" = rozhovor s NPC (id = číslo NPC místo čísla questu)
-const FIELDS = ["title", "text", "objectives", "progress", "reward", "gossip"];
+// "gossip" = rozhovor s NPC (id = číslo NPC místo čísla questu), "ui" = text rozhraní (talenty…, id = 1)
+const FIELDS = ["title", "text", "objectives", "progress", "reward", "gossip", "ui"];
 const KINDS = ["oprava", "zmena", "filtr"];
 const MAX_LEN = 5000;
 const MAX_CS_LEN = 8000;

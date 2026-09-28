@@ -45,6 +45,6 @@ jobs:
           fi
           git config user.name "wowpocesku-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add preklady.json WoWpoCesku/Data.lua rozhovory.json WoWpoCesku/DataRozhovory.lua
+          git add preklady.json WoWpoCesku/Data.lua rozhovory.json WoWpoCesku/DataRozhovory.lua rozhrani.json WoWpoCesku/DataRozhrani.lua
           git commit -m "Nové překlady questů a rozhovorů"
           git push

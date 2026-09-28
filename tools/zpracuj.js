@@ -16,7 +16,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey } = require("./soubory");
+const { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua } = require("./soubory");
 const { apply: applyRules } = require("./pravidla");
 const { translateAll, PREKLADAC } = require("./preklad");
 
@@ -49,11 +49,24 @@ const FILTER_RE = new RegExp(
 const hasBlockedWord = (s) => FILTER_RE.test(s || "");
 
 // Nové questy od hráčů -> překlad. Vrací seznam k potvrzení (ack) a návrhy ke schválení.
-async function processSubmissions(cache, gossip) {
+async function processSubmissions(cache, gossip, ui) {
   const all = (await sberna("/confirmed")).items || [];
   console.log(`Potvrzených textů ze sběrny: ${all.length}`);
-  if (!all.length) return { changed: false, gossipChanged: false, ack: [], review: [] };
-  const items = all.filter((it) => it.field !== "gossip");
+  if (!all.length) return { changed: false, gossipChanged: false, uiChanged: false, ack: [], review: [] };
+  const items = all.filter((it) => it.field !== "gossip" && it.field !== "ui");
+
+  // Texty rozhraní (šablony talentů…): klíč = anglická šablona s {1},{2}
+  const uiTodo = {};
+  for (const it of all.filter((it) => it.field === "ui")) {
+    const key = gossipKey(it.en_text);
+    if (!ui[key]?.cs && !uiTodo[key]) uiTodo[key] = { cs: key };
+  }
+  const uiTr = await translateAll(uiTodo);
+  for (const [key, t] of Object.entries(uiTr)) {
+    if (hasBlockedWord(key) || hasBlockedWord(t.cs)) { delete uiTr[key]; continue; }
+    ui[key] = { cs: t.cs, en: key, src: "komunita" };
+  }
+  console.log(`Textů rozhraní přeloženo: ${Object.keys(uiTr).length}`);
 
   // Rozhovory s NPC: každý text zvlášť (jedno NPC jich může mít víc)
   const gossipTodo = {};
@@ -121,6 +134,7 @@ async function processSubmissions(cache, gossip) {
     review,
     changed: applied > 0,
     gossipChanged: Object.keys(gossipTr).length > 0,
+    uiChanged: Object.keys(uiTr).length > 0,
     ack: all.map((it) => ({ quest_id: it.quest_id, field: it.field, en_hash: it.en_hash })),
   };
 }
@@ -239,8 +253,9 @@ async function main() {
   if (!SBERNA_URL || !SBERNA_ADMIN_KEY) throw new Error("Chybí SBERNA_URL nebo SBERNA_ADMIN_KEY");
   const cache = readCache();
   const gossip = readGossip();
+  const ui = readUi();
 
-  const subs = await processSubmissions(cache, gossip);
+  const subs = await processSubmissions(cache, gossip, ui);
   // Podezřelé změny a zakázaná slova -> do sběrny jako návrhy ke schválení (objeví se v issue)
   if (subs.review.length && !DRY_RUN) await sberna("/corrections/add", subs.review);
   const corr = await processCorrections(cache);
@@ -257,6 +272,10 @@ async function main() {
   if (subs.gossipChanged) {
     writeGossip(gossip);
     writeGossipLua(gossip);
+  }
+  if (subs.uiChanged) {
+    writeUi(ui);
+    writeUiLua(ui);
   }
   if (subs.ack.length) await sberna("/ack", subs.ack);
   if (corr.resolve.length) await sberna("/corrections/resolve", corr.resolve);

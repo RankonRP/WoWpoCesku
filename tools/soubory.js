@@ -7,6 +7,8 @@ const CACHE_PATH = path.join(ROOT, "preklady.json");
 const DATA_LUA_PATH = path.join(ROOT, "WoWpoCesku", "Data.lua");
 const GOSSIP_PATH = path.join(ROOT, "rozhovory.json");
 const GOSSIP_LUA_PATH = path.join(ROOT, "WoWpoCesku", "DataRozhovory.lua");
+const UI_PATH = path.join(ROOT, "rozhrani.json");
+const UI_LUA_PATH = path.join(ROOT, "WoWpoCesku", "DataRozhrani.lua");
 const FIELD_ORDER = ["title", "text", "objectives", "progress", "reward"];
 
 const readJson = (p, fallback) =>
@@ -70,4 +72,17 @@ function writeGossipLua(gossip) {
   fs.writeFileSync(GOSSIP_LUA_PATH, out.join("\r\n") + "\r\n");
 }
 
-module.exports = { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey };
+// --- Texty rozhraní (šablony talentů…): stejný formát jako rozhovory ---
+const readUi = () => readJson(UI_PATH, {});
+function writeUi(ui) { writeJsonLines(UI_PATH, ui, Object.keys(ui).sort()); }
+function writeUiLua(ui) {
+  const out = [
+    "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhrani.json.",
+    "WoWpoCesku_UI = {",
+  ];
+  for (const k of Object.keys(ui).sort()) if (ui[k].cs) out.push(`[${luaString(k)}]=${luaString(ui[k].cs)},`);
+  out.push("}");
+  fs.writeFileSync(UI_LUA_PATH, out.join("\r\n") + "\r\n");
+}
+
+module.exports = { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua };
