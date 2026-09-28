@@ -147,6 +147,45 @@ local TALENT = {
 }
 for en, cs in pairs(TREES) do TALENT[en] = cs end
 
+-- Kniha kouzel: okno (názvy kouzel zůstávají anglicky – kvůli makrům, návodům a domluvě)
+local SPELLBOOK = {
+    ["Spellbook"] = "Kniha kouzel",
+    ["Spellbook & Abilities"] = "Kniha kouzel a schopnosti",
+    ["Spells"] = "Kouzla",
+    ["Abilities"] = "Schopnosti",
+    ["General"] = "Obecné",
+    ["Pet"] = "Mazlíček",
+    ["Professions"] = "Profese",
+    ["Passive"] = "Pasivní",
+    ["Search abilities, keywords"] = "Hledat schopnosti, klíčová slova",
+    ["Search abilities, keywords…"] = "Hledat schopnosti, klíčová slova…",
+    ["Search abilities, keywords..."] = "Hledat schopnosti, klíčová slova…",
+    ["Show All Spell Ranks"] = "Zobrazit všechny úrovně kouzel",
+}
+for en, cs in pairs(TREES) do SPELLBOOK[en] = cs end
+local SPELLBOOK_PATTERNS = {
+    { "^Page (%d+)/(%d+)$", function(a, b) return ("Strana %s/%s"):format(a, b) end },
+    { "^Page (%d+)$", function(a) return "Strana " .. a end },
+    { "^Rank (%d+)$", function(a) return "Úroveň " .. a end },
+}
+
+-- Pevné řádky popisků kouzel (cena, sesílání, obnovení, dosah…)
+local SPELL_LINES = {
+    { "^(%d+) Mana$", "%1 many" },
+    { "^(%d+)%% of base mana$", "%1 %% základní many" },
+    { "^(%d+) Rage$", "%1 vzteku" },
+    { "^(%d+) Energy$", "%1 energie" },
+    { "^(%d+) Focus$", "%1 soustředění" },
+    { "^([%d%.]+) sec cast$", "Sesílání %1 s" },
+    { "^([%d%.]+) min cooldown$", "Obnovení %1 min" },
+    { "^([%d%.]+) sec cooldown$", "Obnovení %1 s" },
+    { "^([%d%.]+) yd range$", "Dosah %1 yd" },
+    { "^([%d%.]+)%-([%d%.]+) yd range$", "Dosah %1–%2 yd" },
+    { "^Requires level (%d+)$", "Vyžaduje úroveň %1" },
+    { "^Rank (%d+)$", "Úroveň %1" },
+    { "^Next Rank:?$", "Další úroveň:" },
+}
+
 -- Pevné řádky popisků talentů se šablonou (čísla a názvy větví se dosadí)
 local TALENT_PATTERNS = {
     { "^Rank (%d+)/(%d+)$", function(a, b) return ("Úroveň %s/%s"):format(a, b) end },
@@ -165,6 +204,11 @@ local PARTS = {
     talenty = {
         dict = TALENT,
         frames = { "PlayerTalentFrame", "TalentFrame", "ClassTalentFrame", "PlayerSpellsFrame" },
+    },
+    kouzla = {
+        dict = SPELLBOOK,
+        patterns = SPELLBOOK_PATTERNS,
+        frames = { "SpellBookFrame", "SpellbookFrame" },
     },
 }
 
@@ -196,24 +240,30 @@ local function lookup(dict, text)
     if core and dict[core] then return dict[core] .. suffix end
 end
 
-local function translateFrame(frame, dict, depth)
+local function translateFrame(frame, dict, depth, patterns)
     if not frame or depth > 12 or not frame:IsVisible() then return end
     for _, region in ipairs({ frame:GetRegions() }) do
         if region:GetObjectType() == "FontString" then
             local text = region:GetText()
             if text and text ~= "" then
                 local cs = lookup(dict, text)
+                if not cs and patterns then
+                    for _, p in ipairs(patterns) do
+                        local a, b = text:match(p[1])
+                        if a then cs = p[2](a, b) break end
+                    end
+                end
                 if cs then setCzech(region, cs) end
             end
         end
     end
-    for _, child in ipairs({ frame:GetChildren() }) do translateFrame(child, dict, depth + 1) end
+    for _, child in ipairs({ frame:GetChildren() }) do translateFrame(child, dict, depth + 1, patterns) end
 end
 
 local function translatePart(name, frame)
     if not enabled(name) then return end
     -- Hra často nastavuje texty až při zobrazení -> přeložit v příštím snímku
-    C_Timer.After(0, function() translateFrame(frame, PARTS[name].dict, 0) end)
+    C_Timer.After(0, function() translateFrame(frame, PARTS[name].dict, 0, PARTS[name].patterns) end)
 end
 
 local hookedFrames = {}
@@ -357,6 +407,81 @@ local function translateTalentTooltip(tip, force)
     tip:Show()   -- přepočítat velikost po změně textu
 end
 
+-------------------------------------------------------------------------------
+-- Kniha kouzel: popisky kouzel (název = 1. řádek zůstává anglicky)
+-------------------------------------------------------------------------------
+local spellbookRef
+
+local function isSpellbookOwner(owner)
+    local f = owner
+    for _ = 1, 15 do
+        if not f then return false end
+        if spellbookRef and f == spellbookRef then return true end
+        local name = f.GetName and f:GetName()
+        if name and (name:find("SpellBook") or name:find("Spellbook")) then return true end
+        f = f.GetParent and f:GetParent()
+    end
+    return false
+end
+
+-- Jeden řádek popisku kouzla: pevné řádky (cena, obnovení…) ručně, zbytek přes šablony
+local function translateSpellLine(text, queueMissing)
+    local plain = plainText(text)
+    for _, p in ipairs(SPELL_LINES) do
+        if plain:find(p[1]) then return (plain:gsub(p[1], p[2])) end
+    end
+    return translateTalentLine(text, queueMissing)
+end
+
+local function translateSpellTooltip(tip)
+    if not enabled("kouzla") then return end
+    local owner = tip:GetOwner()
+    if not owner or not isSpellbookOwner(owner) or isTalentOwner(owner) then return end
+    for i = 1, tip:NumLines() or 0 do
+        for _, side in ipairs({ "TextLeft", "TextRight" }) do
+            if not (i == 1 and side == "TextLeft") then   -- název kouzla nechat anglicky
+                local fs = _G[tip:GetName() .. side .. i]
+                local text = fs and fs:IsShown() and fs:GetText()
+                if text and text ~= "" then
+                    local cs = translateSpellLine(text, true)
+                    if cs then setCzech(fs, cs) end
+                end
+            end
+        end
+    end
+    tip:Show()
+end
+
+-- Okno knihy kouzel: najít, přeložit a při listování stránkami překládat znovu
+local function findFrameByName(pattern)
+    for _, top in ipairs({ UIParent:GetChildren() }) do
+        local ok, found = pcall(function() return top:IsVisible() and (top:GetName() or ""):find(pattern) ~= nil end)
+        if ok and found then return top end
+    end
+end
+
+local function translateSpellbookFrame()
+    if not enabled("kouzla") then return end
+    C_Timer.After(0.05, function()
+        local fr
+        for _, frameName in ipairs(PARTS.kouzla.frames) do
+            if _G[frameName] and _G[frameName]:IsVisible() then fr = _G[frameName] break end
+        end
+        fr = fr or findFrameByName("Spell")
+        if fr then
+            spellbookRef = fr
+            translateFrame(fr, SPELLBOOK, 0, SPELLBOOK_PATTERNS)
+        end
+    end)
+end
+
+-- Stránky knihy se přepisují při listování -> dokud je kniha otevřená, překládat průběžně
+C_Timer.NewTicker(0.5, function()
+    if spellbookRef and spellbookRef:IsVisible() and enabled("kouzla") then
+        translateFrame(spellbookRef, SPELLBOOK, 0, SPELLBOOK_PATTERNS)
+    end
+end)
+
 -- Okno talentů se může jmenovat různě -> po otevření ho najít podle textu "Unspent Talents"
 local function findTalentFrame()
     for _, top in ipairs({ UIParent:GetChildren() }) do
@@ -403,6 +528,12 @@ f:SetScript("OnEvent", function(_, event)
         hooksecurefunc("ToggleTalentFrame", translateTalentFrame)
         hookedFrames.toggleTalent = true
     end
+    for _, fn in ipairs({ "ToggleSpellBook", "ToggleSpellbook" }) do
+        if type(_G[fn]) == "function" and not hookedFrames[fn] then
+            hooksecurefunc(fn, translateSpellbookFrame)
+            hookedFrames[fn] = true
+        end
+    end
     if event == "PLAYER_LOGIN" then
         WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}
         GameTooltip:HookScript("OnShow", translateTooltip)
@@ -414,9 +545,13 @@ f:SetScript("OnEvent", function(_, event)
         end
         for _, method in ipairs({ "SetSpellByID", "SetSpell", "SetSpellBookItem" }) do
             if GameTooltip[method] then
-                hooksecurefunc(GameTooltip, method, function(tip) translateTalentTooltip(tip) end)
+                hooksecurefunc(GameTooltip, method, function(tip)
+                    translateTalentTooltip(tip)
+                    translateSpellTooltip(tip)
+                end)
             end
         end
+        GameTooltip:HookScript("OnShow", function(tip) translateSpellTooltip(tip) end)
     end
 end)
 
@@ -424,6 +559,7 @@ end)
 WoWpoCesku_LokParts = {
     { key = "menu", label = "Menu, tlačítka a popisky na liště", note = "Herní menu (Esc), Accept/Decline, Yes/No… (projeví se po /reload)" },
     { key = "talenty", label = "Talenty", note = "Okno talentů, větve a popisky talentů (nové se přeloží přes Pomocníka)" },
+    { key = "kouzla", label = "Kniha kouzel", note = "Okno a popisky kouzel – názvy kouzel zůstávají anglicky" },
 }
 
 -- /czq vypis: všechny talenty vlastního povolání do fronty k překladu (skrytý popisek)
@@ -446,6 +582,30 @@ function WoWpoCesku_QueueAllTalents()
                 end
             end
             tip:Hide()
+        end
+    end
+    -- Kniha kouzel: popisy kouzel (bez názvu – ten zůstává anglicky)
+    if GetNumSpellTabs and GetSpellTabInfo and tip.SetSpellBookItem then
+        for t = 1, GetNumSpellTabs() do
+            local _, _, offset, numSpells = GetSpellTabInfo(t)
+            for s = (offset or 0) + 1, (offset or 0) + (numSpells or 0) do
+                tip:SetOwner(WorldFrame, "ANCHOR_NONE")
+                if pcall(tip.SetSpellBookItem, tip, s, BOOKTYPE_SPELL or "spell") then
+                    for l = 2, tip:NumLines() or 0 do
+                        for _, side in ipairs({ "TextLeft", "TextRight" }) do
+                            local fs = _G["WoWpoCeskuScanTip" .. side .. l]
+                            local text = fs and fs:GetText()
+                            if text and text ~= "" and not translateSpellLine(text, false) then
+                                local plain = plainText(text)
+                                if plain:find("%a") and not plain:find("^Press F%d+") then
+                                    queueUi((toTemplate(plain))); count = count + 1
+                                end
+                            end
+                        end
+                    end
+                end
+                tip:Hide()
+            end
         end
     end
     return count
