@@ -67,6 +67,16 @@ PŘÍKAZY VE HŘE
 (místo /czq funguje i /wpc)
 
 
+ČEŠTINA V ROZHRANÍ
+------------------
+- Názvy questů česky v přehledu úkolů, v deníku i v nabídce questů u NPC.
+- Úkoly v přehledu: 'Zabito – Kobold Vermin: 3/10', '(splněno)'.
+  Názvy nestvůr a předmětů zůstávají anglicky, aby šly ve hře najít.
+- Běžné volby v rozhovoru (obchod, let, hostinec, výcvik…) česky.
+- Knihy, dopisy a cedule: překlad v panelu, nové přeložíš přes Ctrl+C.
+Vše jde vypnout v nastavení (ikona knihy u minimapy).
+
+
 ROZHOVORY S NPC
 ---------------
 Když oslovíš NPC, které jen mluví (bez questu), ukáže se jeho řeč česky.

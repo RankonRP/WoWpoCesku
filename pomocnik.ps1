@@ -556,7 +556,7 @@ function Show-Gossip($q, [string]$cs) {
     $btnFix.Enabled = $false
     $box.Clear()
     Add-BoxText ($q.fields["title"] + "`n") $Gold 16 $true
-    Add-BoxText "Rozhovor s NPC #$($q.id)`n`n" $Grey 9
+    Add-BoxText $(if ([int]$q.id -eq 1) { "Kniha / dopis`n`n" } else { "Rozhovor s NPC #$($q.id)`n`n" }) $Grey 9
     Add-BoxText (($cs -replace '\{N\}', 'hrdino' -replace '\{C\}', '(tvá třída)' -replace '\{R\}', '(tvá rasa)') + "`n") $CText 12
     $box.SelectionStart = 0
     $box.ScrollToCaret()

@@ -79,6 +79,7 @@ local function fromToken(s)
     s = s:gsub("{R}", (race:gsub("%%", "%%%%")))
     return s
 end
+WoWpoCesku_FromToken = fromToken   -- používá i Rozhrani.lua
 
 -------------------------------------------------------------------------------
 -- Panel
@@ -172,6 +173,10 @@ local HINTS = {
         .. "|cffffd1002.|r Nový překlad se ukáže v okně Pomocníka\n"
         .. "|cffffd1003.|r Po |cff00ff00/reload|r bude i tady",
     rozhovor = "Tenhle rozhovor ještě není přeložený.\n\n"
+        .. "|cffffd1001.|r Klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r\n"
+        .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
+        .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
+    kniha = "Tahle stránka ještě není přeložená.\n\n"
         .. "|cffffd1001.|r Klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r\n"
         .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
         .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
@@ -319,8 +324,20 @@ local function gatherGossip()
     return { kind = "gossip", id = npcId, title = UnitName("npc") or "", gossip = toToken(text) }
 end
 
+-- Kniha, dopis, cedule (okno ItemText). Ukládá se jako rozhovor (klíč = anglický text).
+local function gatherBook()
+    local text = ItemTextGetText and ItemTextGetText()
+    if not text or text == "" then return nil end
+    -- Některé knihy mají HTML – ve hře i v Pomocníkovi pracujeme jen s čistým textem
+    text = text:gsub("<[Bb][Rr]%s*/?>", "\n"):gsub("</[Pp]>", "\n\n"):gsub("<[^>]+>", "")
+    text = text:gsub("\n\n\n+", "\n\n"):gsub("^%s+", ""):gsub("%s+$", "")
+    return { kind = "gossip", book = true, id = 1, title = (ItemTextGetItem and ItemTextGetItem()) or "", gossip = toToken(text) }
+end
+
 local function anchorFrame(source)
-    if source == "gossip" then
+    if source == "book" then
+        if ItemTextFrame and ItemTextFrame:IsShown() then return ItemTextFrame end
+    elseif source == "gossip" then
         if GossipFrame and GossipFrame:IsShown() then return GossipFrame end
     elseif source == "log" then
         if QuestLogFrame and QuestLogFrame:IsShown() then return QuestLogFrame end
@@ -419,7 +436,8 @@ local function showCopy(q, mode)
     fix:Hide()
     copyFrame:Show()
     -- V deníku a u rozhovorů se text sám neoznačuje (zabral by klávesnici)
-    local passive = (panel.source == "log" or panel.source == "gossip") and (mode == "preklad" or mode == "rozhovor")
+    local passive = (panel.source == "log" or panel.source == "gossip" or panel.source == "book")
+        and (mode == "preklad" or mode == "rozhovor" or mode == "kniha")
     if WoWpoCeskuSettings.autofocus and not passive then
         selectPayload()
     elseif passive then
@@ -446,7 +464,7 @@ local function showGossip(q)
         retry:Hide()
         fix:Hide()
     else
-        showCopy(q, "rozhovor")
+        showCopy(q, q.book and "kniha" or "rozhovor")
     end
 end
 
@@ -522,6 +540,8 @@ events:RegisterEvent("QUEST_COMPLETE")
 events:RegisterEvent("QUEST_FINISHED")
 events:RegisterEvent("GOSSIP_SHOW")
 events:RegisterEvent("GOSSIP_CLOSED")
+events:RegisterEvent("ITEM_TEXT_READY")
+events:RegisterEvent("ITEM_TEXT_CLOSED")
 events:SetScript("OnEvent", function(_, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1 == "WoWpoCesku" then
@@ -548,6 +568,14 @@ events:SetScript("OnEvent", function(_, event, arg1)
         return
     end
 
+    if event == "ITEM_TEXT_CLOSED" then
+        if panel.source == "book" then
+            edit:ClearFocus()
+            panel:Hide()
+        end
+        return
+    end
+
     if event == "GOSSIP_CLOSED" then
         if panel.source == "gossip" then
             edit:ClearFocus()
@@ -559,6 +587,10 @@ events:SetScript("OnEvent", function(_, event, arg1)
     if not WoWpoCeskuSettings.enabled then return end
     if event == "GOSSIP_SHOW" then
         if WoWpoCeskuSettings.gossip ~= false then showQuest(gatherGossip(), "gossip") end
+        return
+    end
+    if event == "ITEM_TEXT_READY" then
+        if WoWpoCeskuSettings.books ~= false then showQuest(gatherBook(), "book") end
         return
     end
     showQuest(gatherDialog(event), "dialog")
@@ -633,14 +665,21 @@ local function buildOptions()
     addCheck(-165, "Automaticky označit text pro Ctrl+C", "U nového questu je text hned připravený ke zkopírování",
         function() return WoWpoCeskuSettings.autofocus end,
         function(on) WoWpoCeskuSettings.autofocus = on end)
-    addCheck(-210, "Ikona u minimapy", nil,
+    addCheck(-210, "Čeština v přehledu úkolů, názvech questů a volbách u NPC",
+        "Názvy questů, 'Zabito – …: 3/10', 'Ukaž mi, kam můžu letět' … (projeví se po /reload)",
+        function() return WoWpoCeskuSettings.ui ~= false end,
+        function(on) WoWpoCeskuSettings.ui = on end)
+    addCheck(-255, "Překlad knih, dopisů a cedulí", nil,
+        function() return WoWpoCeskuSettings.books ~= false end,
+        function(on) WoWpoCeskuSettings.books = on; if not on and panel.source == "book" then panel:Hide() end end)
+    addCheck(-290, "Ikona u minimapy", nil,
         function() return WoWpoCeskuSettings.minimap ~= false end,
         function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
 
     -- Velikost písma: − číslo +
     local sizeLabel = options:CreateFontString(nil, "ARTWORK")
     sizeLabel:SetFontObject(labelFont)
-    sizeLabel:SetPoint("TOPLEFT", 20, -260)
+    sizeLabel:SetPoint("TOPLEFT", 20, -340)
     sizeLabel:SetText("Velikost písma v panelu:")
     local minus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     minus:SetSize(26, 22)
@@ -661,14 +700,14 @@ local function buildOptions()
 
     local reset = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     reset:SetSize(230, 24)
-    reset:SetPoint("TOPLEFT", 20, -300)
+    reset:SetPoint("TOPLEFT", 20, -380)
     czButton(reset)
     reset:SetText("Vrátit panel na výchozí místo")
     reset:SetScript("OnClick", function() WoWpoCeskuSettings.pos = nil; if panel:IsShown() then placePanel(panel.source) end end)
 
     local help = options:CreateFontString(nil, "ARTWORK")
     help:SetFontObject(noteFont)
-    help:SetPoint("TOPLEFT", 20, -345)
+    help:SetPoint("TOPLEFT", 20, -425)
     help:SetWidth(520)
     help:SetJustifyH("LEFT")
     help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat).\n"
