@@ -565,6 +565,206 @@ events:SetScript("OnEvent", function(_, event, arg1)
 end)
 
 -------------------------------------------------------------------------------
+-- Nastavení ve hře (Options -> AddOns -> WoWpoCesku) a ikona u minimapy
+-------------------------------------------------------------------------------
+local labelFont = CreateFont("WoWpoCeskuLabelFont")
+labelFont:SetFont(FONT, 13, "")
+labelFont:SetTextColor(1, 1, 1)
+local headFont = CreateFont("WoWpoCeskuHeadFont")
+headFont:SetFont(FONT, 18, "")
+headFont:SetTextColor(1, 0.82, 0)
+local noteFont = CreateFont("WoWpoCeskuNoteFont")
+noteFont:SetFont(FONT, 11, "")
+noteFont:SetTextColor(0.7, 0.7, 0.7)
+
+local minimapButton
+local function setEnabled(on)
+    WoWpoCeskuSettings.enabled = on
+    if not on then panel:Hide() end
+end
+
+local function setFontSize(size)
+    WoWpoCeskuSettings.fontSize = math.max(10, math.min(20, math.floor(size)))
+    applyLayout()
+    if panel:IsShown() and currentQuest then showQuest(currentQuest, panel.source) end
+end
+
+local options = CreateFrame("Frame", "WoWpoCeskuOptions")
+options.name = "WoWpoCesku"
+options:Hide()
+
+local optionWidgets = {}
+local function refreshOptions()
+    for _, w in ipairs(optionWidgets) do w:Refresh() end
+end
+
+local function addCheck(y, label, note, get, set)
+    local cb = CreateFrame("CheckButton", nil, options, "UICheckButtonTemplate")
+    cb:SetPoint("TOPLEFT", 16, y)
+    local text = options:CreateFontString(nil, "ARTWORK")
+    text:SetFontObject(labelFont)
+    text:SetPoint("LEFT", cb, "RIGHT", 4, 1)
+    text:SetText(label)
+    if note then
+        local n = options:CreateFontString(nil, "ARTWORK")
+        n:SetFontObject(noteFont)
+        n:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 0, -2)
+        n:SetText(note)
+    end
+    cb:SetScript("OnClick", function(self) set(self:GetChecked() and true or false) end)
+    cb.Refresh = function(self) self:SetChecked(get()) end
+    optionWidgets[#optionWidgets + 1] = cb
+end
+
+local function buildOptions()
+    local head = options:CreateFontString(nil, "ARTWORK")
+    head:SetFontObject(headFont)
+    head:SetPoint("TOPLEFT", 16, -16)
+    head:SetText("WoWpoČesku – nastavení")
+
+    addCheck(-50, "Překlad zapnutý", nil,
+        function() return WoWpoCeskuSettings.enabled end, setEnabled)
+    addCheck(-85, "Překlad v deníku questů (klávesa L)", nil,
+        function() return WoWpoCeskuSettings.log ~= false end,
+        function(on) WoWpoCeskuSettings.log = on end)
+    addCheck(-120, "Překlad rozhovorů s NPC", "Když NPC jen mluví (obchodníci, strážní…)",
+        function() return WoWpoCeskuSettings.gossip ~= false end,
+        function(on) WoWpoCeskuSettings.gossip = on; if not on and panel.source == "gossip" then panel:Hide() end end)
+    addCheck(-165, "Automaticky označit text pro Ctrl+C", "U nového questu je text hned připravený ke zkopírování",
+        function() return WoWpoCeskuSettings.autofocus end,
+        function(on) WoWpoCeskuSettings.autofocus = on end)
+    addCheck(-210, "Ikona u minimapy", nil,
+        function() return WoWpoCeskuSettings.minimap ~= false end,
+        function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
+
+    -- Velikost písma: − číslo +
+    local sizeLabel = options:CreateFontString(nil, "ARTWORK")
+    sizeLabel:SetFontObject(labelFont)
+    sizeLabel:SetPoint("TOPLEFT", 20, -260)
+    sizeLabel:SetText("Velikost písma v panelu:")
+    local minus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+    minus:SetSize(26, 22)
+    minus:SetPoint("LEFT", sizeLabel, "RIGHT", 10, 0)
+    minus:SetText("-")
+    local value = options:CreateFontString(nil, "ARTWORK")
+    value:SetFontObject(labelFont)
+    value:SetPoint("LEFT", minus, "RIGHT", 10, 0)
+    value:SetWidth(24)
+    local plus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+    plus:SetSize(26, 22)
+    plus:SetPoint("LEFT", value, "RIGHT", 10, 0)
+    plus:SetText("+")
+    value.Refresh = function(self) self:SetText(WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) end
+    optionWidgets[#optionWidgets + 1] = value
+    minus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) - 1); value:Refresh() end)
+    plus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) + 1); value:Refresh() end)
+
+    local reset = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+    reset:SetSize(230, 24)
+    reset:SetPoint("TOPLEFT", 20, -300)
+    czButton(reset)
+    reset:SetText("Vrátit panel na výchozí místo")
+    reset:SetScript("OnClick", function() WoWpoCeskuSettings.pos = nil; if panel:IsShown() then placePanel(panel.source) end end)
+
+    local help = options:CreateFontString(nil, "ARTWORK")
+    help:SetFontObject(noteFont)
+    help:SetPoint("TOPLEFT", 20, -345)
+    help:SetWidth(520)
+    help:SetJustifyH("LEFT")
+    help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat).\n"
+        .. "Panel s překladem jde přetáhnout myší. Příkazy do chatu: /czq nastaveni, /czq stav")
+end
+
+options:SetScript("OnShow", function(self)
+    if not self.built then buildOptions(); self.built = true end
+    refreshOptions()
+end)
+
+local optionsCategory
+local function registerOptions()
+    if Settings and Settings.RegisterCanvasLayoutCategory then
+        optionsCategory = Settings.RegisterCanvasLayoutCategory(options, "WoWpoCesku")
+        Settings.RegisterAddOnCategory(optionsCategory)
+    elseif InterfaceOptions_AddCategory then
+        InterfaceOptions_AddCategory(options)
+    end
+end
+
+local function openOptions()
+    if Settings and Settings.OpenToCategory and optionsCategory then
+        Settings.OpenToCategory(optionsCategory:GetID())
+    elseif InterfaceOptionsFrame_OpenToCategory then
+        -- klasické rozhraní napoprvé otevře jen seznam, proto dvakrát
+        InterfaceOptionsFrame_OpenToCategory(options)
+        InterfaceOptionsFrame_OpenToCategory(options)
+    end
+end
+
+-- Ikona u minimapy: levé kliknutí = nastavení, pravé = zapnout/vypnout, tažení = posun
+local function placeMinimapButton()
+    local angle = math.rad(WoWpoCeskuSettings.minimapAngle or 200)
+    local r = (Minimap:GetWidth() / 2) + 10
+    minimapButton:ClearAllPoints()
+    minimapButton:SetPoint("CENTER", Minimap, "CENTER", math.cos(angle) * r, math.sin(angle) * r)
+end
+
+local function createMinimapButton()
+    if minimapButton or not Minimap then return end
+    minimapButton = CreateFrame("Button", "WoWpoCeskuMinimapButton", Minimap)
+    minimapButton:SetSize(31, 31)
+    minimapButton:SetFrameStrata("MEDIUM")
+    minimapButton:SetFrameLevel(8)
+    local icon = minimapButton:CreateTexture(nil, "BACKGROUND")
+    icon:SetTexture("Interface\\Icons\\INV_Misc_Book_09")
+    icon:SetSize(20, 20)
+    icon:SetPoint("CENTER", 0, 1)
+    local border = minimapButton:CreateTexture(nil, "OVERLAY")
+    border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
+    border:SetSize(53, 53)
+    border:SetPoint("TOPLEFT")
+    minimapButton:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+    minimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+    minimapButton:RegisterForDrag("LeftButton")
+    minimapButton:SetScript("OnClick", function(_, button)
+        if button == "RightButton" then
+            setEnabled(not WoWpoCeskuSettings.enabled)
+            print("|cffffd100WoWpoCesku:|r preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT"))
+        else
+            openOptions()
+        end
+    end)
+    minimapButton:SetScript("OnDragStart", function(self)
+        self:SetScript("OnUpdate", function()
+            local mx, my = Minimap:GetCenter()
+            local cx, cy = GetCursorPosition()
+            local scale = Minimap:GetEffectiveScale()
+            WoWpoCeskuSettings.minimapAngle = math.deg(math.atan2(cy / scale - my, cx / scale - mx))
+            placeMinimapButton()
+        end)
+    end)
+    minimapButton:SetScript("OnDragStop", function(self) self:SetScript("OnUpdate", nil) end)
+    -- Tooltip bez diakritiky (písmo tooltipu ji neumí)
+    minimapButton:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+        GameTooltip:AddLine("WoWpoCesku")
+        GameTooltip:AddLine("Levy klik: nastaveni", 1, 1, 1)
+        GameTooltip:AddLine("Pravy klik: preklad zapnout / vypnout", 1, 1, 1)
+        GameTooltip:AddLine("Tazenim posunes ikonu", 0.7, 0.7, 0.7)
+        GameTooltip:Show()
+    end)
+    minimapButton:SetScript("OnLeave", GameTooltip_Hide)
+    placeMinimapButton()
+    minimapButton:SetShown(WoWpoCeskuSettings.minimap ~= false)
+end
+
+local setupFrame = CreateFrame("Frame")
+setupFrame:RegisterEvent("PLAYER_LOGIN")
+setupFrame:SetScript("OnEvent", function()
+    registerOptions()
+    createMinimapButton()
+end)
+
+-------------------------------------------------------------------------------
 -- Příkazy: /czq (zprávy do chatu bez diakritiky – písmo chatu ji nemusí umět)
 -------------------------------------------------------------------------------
 SLASH_CZQUESTS1 = "/czq"
@@ -573,7 +773,9 @@ SlashCmdList.CZQUESTS = function(msg)
     msg = (msg or ""):lower()
     local cmd, arg = msg:match("^(%S*)%s*(.-)$")
     local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
-    if cmd == "reset" then
+    if cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
+        openOptions()
+    elseif cmd == "reset" then
         WoWpoCeskuSettings.pos = nil
         say("pozice panelu obnovena.")
     elseif cmd == "focus" then
@@ -611,6 +813,6 @@ SlashCmdList.CZQUESTS = function(msg)
         WoWpoCeskuSettings.enabled = not WoWpoCeskuSettings.enabled
         if not WoWpoCeskuSettings.enabled then panel:Hide() end
         say("preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT")
-            .. "   (dalsi: /czq velikost, /czq denik, /czq rozhovory, /czq reset, /czq focus, /czq stav)")
+            .. "   (nastaveni: /czq nastaveni nebo ikona u minimapy)")
     end
 end
