@@ -739,10 +739,25 @@ local function buildOptions()
         function() return WoWpoCeskuSettings.minimap ~= false end,
         function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
 
+    -- Rozhraní hry česky – části (Lokalizace.lua), každou jde zapnout zvlášť
+    local lokHead = options:CreateFontString(nil, "ARTWORK")
+    lokHead:SetFontObject(labelFont)
+    lokHead:SetTextColor(1, 0.82, 0)
+    lokHead:SetPoint("TOPLEFT", 20, -335)
+    lokHead:SetText("Rozhraní hry česky (projeví se po /reload):")
+    local y = -355
+    for _, part in ipairs(WoWpoCesku_LokParts or {}) do
+        addCheck(y, part.label, part.note,
+            function() return not (WoWpoCeskuSettings.lok and WoWpoCeskuSettings.lok[part.key] == false) end,
+            function(on) WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}; WoWpoCeskuSettings.lok[part.key] = on end)
+        y = y - 45
+    end
+    local shift = y + 340   -- o kolik posunout prvky pod částmi (záporné číslo)
+
     -- Velikost písma: − číslo +
     local sizeLabel = options:CreateFontString(nil, "ARTWORK")
     sizeLabel:SetFontObject(labelFont)
-    sizeLabel:SetPoint("TOPLEFT", 20, -340)
+    sizeLabel:SetPoint("TOPLEFT", 20, -350 + shift)
     sizeLabel:SetText("Velikost písma v panelu:")
     local minus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     minus:SetSize(26, 22)
@@ -763,14 +778,14 @@ local function buildOptions()
 
     local reset = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     reset:SetSize(230, 24)
-    reset:SetPoint("TOPLEFT", 20, -380)
+    reset:SetPoint("TOPLEFT", 20, -390 + shift)
     czButton(reset)
     reset:SetText("Vrátit panel na výchozí místo")
     reset:SetScript("OnClick", function() WoWpoCeskuSettings.pos = nil; if panel:IsShown() then placePanel(panel.source) end end)
 
     local help = options:CreateFontString(nil, "ARTWORK")
     help:SetFontObject(noteFont)
-    help:SetPoint("TOPLEFT", 20, -425)
+    help:SetPoint("TOPLEFT", 20, -435 + shift)
     help:SetWidth(520)
     help:SetJustifyH("LEFT")
     help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat).\n"
@@ -982,6 +997,9 @@ SlashCmdList.CZQUESTS = function(msg)
     local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
     if cmd == "sber" then
         scanCommand(arg)
+    elseif cmd == "vypis" then
+        local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
+        say(("ulozeno %d textu rozhrani. Napis /reload (nebo se odhlas) a dej vedet Claudovi."):format(n))
     elseif cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
         openOptions()
     elseif cmd == "reset" then

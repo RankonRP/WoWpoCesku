@@ -3,10 +3,11 @@
 ## Notes: Zobrazuje ceske preklady questu. Neprelozene questy preda Pomocnikovi pres Ctrl+C.
 ## IconTexture: Interface\Icons\INV_Misc_Book_09
 ## Author: salifox
-## Version: 0.8.3
-## SavedVariables: WoWpoCeskuSettings, WoWpoCeskuQueue
+## Version: 0.9.0
+## SavedVariables: WoWpoCeskuSettings, WoWpoCeskuQueue, WoWpoCeskuDump
 
 Data.lua
 DataRozhovory.lua
 WoWpoCesku.lua
 Rozhrani.lua
+Lokalizace.lua
