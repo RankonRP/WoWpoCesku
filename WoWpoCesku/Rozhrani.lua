@@ -80,13 +80,15 @@ local function simplify(s)
 end
 
 local fromToken = function(s) return WoWpoCesku_FromToken and WoWpoCesku_FromToken(s) or s end
+local toToken = function(s) return WoWpoCesku_ToToken and WoWpoCesku_ToToken(s) or s end
 
--- Anglický název questu -> český (sestaví se jednou z Data.lua)
+-- Anglický název / text úkolu -> český (sestaví se jednou z Data.lua; eo = anglický text úkolu)
 local titleMap
 local function buildTitleMap()
     titleMap = {}
     for _, tr in pairs(WoWpoCesku_Data or {}) do
         if tr.en and tr.title then titleMap[simplify(tr.en)] = tr.title end
+        if tr.eo and tr.objectives then titleMap[simplify(tr.eo)] = tr.objectives end
     end
 end
 
@@ -110,7 +112,7 @@ local function translateLine(text)
     if not core then prefix, core = trimmed:match("^([%-%s]*)(.+)$") end
     if core then
         core = core:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
-        local cs = titleMap[simplify(core)]
+        local cs = titleMap[simplify(core)] or titleMap[simplify(toToken(core))]
         if cs then return prefix .. fromToken(cs) end
     end
 
@@ -190,15 +192,59 @@ local function hookAll()
     hook("QuestLogQuests_Update", "QuestMapFrame")
 end
 
--- Moderní přehled úkolů (ObjectiveTracker) přepisuje texty ve vlastním cyklu, který se nedá
--- spolehlivě zachytit háčkem -> dokud je vidět, zkontrolovat ho dvakrát za vteřinu.
--- Mění se jen anglické texty, takže je to levné.
+-- Přehled úkolů se v různých verzích hry jmenuje různě -> najít ho podle nadpisu.
+-- Projdou se okna přímo pod UIParent a hledá se text "All Objectives" / "Objectives" / "Quests".
+local discovered = {}
+local HEADERS = { ["All Objectives"] = true, ["Objectives"] = true, ["Quests"] = true }
+
+local function containsHeader(frame, depth)
+    if depth > 8 then return false end
+    for _, region in ipairs({ frame:GetRegions() }) do
+        if region:GetObjectType() == "FontString" then
+            local t = region:GetText()
+            if t and HEADERS[(t:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""))] then return true end
+        end
+    end
+    for _, child in ipairs({ frame:GetChildren() }) do
+        if child:IsVisible() and containsHeader(child, depth + 1) then return true end
+    end
+    return false
+end
+
+local lastDiscovery = 0
+local function discoverTrackers()
+    if GetTime() - lastDiscovery < 5 then return end
+    lastDiscovery = GetTime()
+    for _, top in ipairs({ UIParent:GetChildren() }) do
+        local ok, found = pcall(function()
+            return not discovered[top] and top:IsVisible() and top ~= WoWpoCeskuPanel
+                and top ~= WorldMapFrame and top ~= QuestLogFrame and containsHeader(top, 0)
+        end)
+        if ok and found then discovered[top] = true end
+    end
+end
+
+-- Pro /czq info: co addon našel
+function WoWpoCesku_TrackerInfo()
+    local names = {}
+    for _, name in ipairs(TRACKERS) do if _G[name] then names[#names + 1] = name .. (_G[name]:IsVisible() and "(videt)" or "") end end
+    for frame in pairs(discovered) do names[#names + 1] = "nalezeno:" .. (frame:GetName() or "bez-jmena") end
+    return "prehled ukolu: " .. (#names > 0 and table.concat(names, ", ") or "nic")
+end
+
+-- Moderní přehled úkolů přepisuje texty ve vlastním cyklu, který se nedá spolehlivě zachytit
+-- háčkem -> dokud je vidět, zkontrolovat ho dvakrát za vteřinu. Mění se jen anglické texty.
 C_Timer.NewTicker(0.5, function()
     if not enabled() then return end
+    local any = false
     for _, name in ipairs(TRACKERS) do
         local frame = _G[name]
-        if frame and frame:IsVisible() then translateFrame(frame, 0) end
+        if frame and frame:IsVisible() then translateFrame(frame, 0); any = true end
     end
+    for frame in pairs(discovered) do
+        if frame:IsVisible() then translateFrame(frame, 0); any = true end
+    end
+    if not any then discoverTrackers() end
 end)
 
 local f = CreateFrame("Frame")

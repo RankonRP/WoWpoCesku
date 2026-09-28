@@ -92,6 +92,8 @@ function Write-DataLua {
             if ($v) { "$f=$(ConvertTo-LuaString $v)" }
         }
         if ($script:Cache[$id]["en_title"]) { $parts = @($parts) + "en=$(ConvertTo-LuaString $script:Cache[$id]["en_title"])" }
+        # eo = anglický text úkolu (addon podle něj překládá úkoly v přehledu a deníku)
+        if ($script:Cache[$id]["en_objectives"] -and $script:Cache[$id]["objectives"]) { $parts = @($parts) + "eo=$(ConvertTo-LuaString $script:Cache[$id]["en_objectives"])" }
         if ($parts) { [void]$sb.AppendLine("[$id]={" + ($parts -join ",") + "},") }
     }
     [void]$sb.AppendLine("}")

@@ -43,6 +43,8 @@ function writeDataLua(cache) {
     const e = cache[id];
     const parts = FIELD_ORDER.filter((f) => e[f]).map((f) => `${f}=${luaString(e[f])}`);
     if (e.en_title) parts.push(`en=${luaString(e.en_title)}`);
+    // eo = anglický text úkolu (addon podle něj překládá úkoly v přehledu a deníku)
+    if (e.en_objectives && e.objectives) parts.push(`eo=${luaString(e.en_objectives)}`);
     if (parts.length) out.push(`[${id}]={${parts.join(",")}},`);
   }
   out.push("}");

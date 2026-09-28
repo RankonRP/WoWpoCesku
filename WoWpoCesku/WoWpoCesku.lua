@@ -82,6 +82,7 @@ local function fromToken(s)
     return s
 end
 WoWpoCesku_FromToken = fromToken   -- používá i Rozhrani.lua
+WoWpoCesku_ToToken = toToken
 
 -------------------------------------------------------------------------------
 -- Panel
@@ -850,6 +851,7 @@ SlashCmdList.CZQUESTS = function(msg)
         say(("denik: klasicky=%s, v mape=%s | vybrany quest: %s"):format(
             tostring(hookedLog.classic or false), tostring(hookedLog.map or false),
             tostring((selectedLogQuest()))))
+        if WoWpoCesku_TrackerInfo then say(WoWpoCesku_TrackerInfo()) end
     else
         WoWpoCeskuSettings.enabled = not WoWpoCeskuSettings.enabled
         if not WoWpoCeskuSettings.enabled then panel:Hide() end
