@@ -136,6 +136,16 @@
       "nahradit": "$1$2$3l"
     },
     {
+      "popis": "vykání v přítomném čase: -íte -> -íš (myslíte, vidíte, umíte)",
+      "hledat": "(?<!\\p{L})(\\p{L}+)íte(?!\\p{L})",
+      "nahradit": "$1íš"
+    },
+    {
+      "popis": "vykání v přítomném čase: -áte -> -áš (děláte, znáte, hledáte)",
+      "hledat": "(?<!\\p{L})(\\p{L}+)áte(?!\\p{L})",
+      "nahradit": "$1áš"
+    },
+    {
       "popis": "mezery uvnitř značek",
       "hledat": "\\{\\s*([NCR])\\s*\\}",
       "nahradit": "{$1}"
