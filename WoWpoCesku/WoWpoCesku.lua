@@ -870,6 +870,14 @@ setupFrame:RegisterEvent("PLAYER_LOGIN")
 setupFrame:SetScript("OnEvent", function()
     registerOptions()
     createMinimapButton()
+    -- Nová verze hry (patch) -> questy se mohly změnit, doporučit nový sken
+    local _, build = GetBuildInfo()
+    if WoWpoCeskuSettings.gameBuild and WoWpoCeskuSettings.gameBuild ~= build then
+        C_Timer.After(6, function()
+            print(("|cffffd100WoWpoCesku:|r hra se aktualizovala (sestaveni %s). Questy se mohly zmenit – doporucujeme /czq sber znovu."):format(tostring(build)))
+        end)
+    end
+    WoWpoCeskuSettings.gameBuild = build
     -- Připomenout, když ve frontě zůstaly nepřeložené texty
     local n = 0
     for _ in pairs(WoWpoCeskuQueue or {}) do n = n + 1 end

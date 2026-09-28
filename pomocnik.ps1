@@ -647,6 +647,41 @@ function Find-GameFolder {
     return $null
 }
 
+# Verze hry (…\World of Warcraft\.build.info) -> číslo rozhraní pro addon (1.60.1 -> 16001).
+# Po patchi hry ho doplní do WoWpoCesku.toc, jinak by hra addon označila jako zastaralý.
+# Vrací @{ version; interface; changed } nebo $null.
+function Update-AddonInterface {
+    $game = Find-GameFolder
+    if (-not $game) { return $null }
+    $buildInfo = Join-Path (Split-Path $game -Parent) ".build.info"
+    $flavorInfo = Join-Path $game ".flavor.info"
+    if (-not (Test-Path $buildInfo) -or -not (Test-Path $flavorInfo)) { return $null }
+    $flavor = ([IO.File]::ReadAllLines($flavorInfo) | Select-Object -Last 1).Trim()
+    $lines = [IO.File]::ReadAllLines($buildInfo)
+    $cols = $lines[0].Split('|') | ForEach-Object { $_.Split('!')[0] }
+    $iVer = [array]::IndexOf($cols, "Version"); $iProd = [array]::IndexOf($cols, "Product")
+    if ($iVer -lt 0 -or $iProd -lt 0) { return $null }
+    $row = $lines | Select-Object -Skip 1 | ForEach-Object { , $_.Split('|') } | Where-Object { $_[$iProd] -eq $flavor } | Select-Object -First 1
+    if (-not $row) { return $null }
+    $version = $row[$iVer]
+    $p = $version.Split('.')
+    if ($p.Count -lt 3) { return $null }
+    $interface = [int]$p[0] * 10000 + [int]$p[1] * 100 + [int]$p[2]
+
+    $toc = Join-Path $Root "WoWpoCesku\WoWpoCesku.toc"
+    $text = [IO.File]::ReadAllText($toc, [Text.Encoding]::UTF8)
+    $m = [regex]::Match($text, '(?m)^## Interface:\s*(.+?)\s*$')
+    if (-not $m.Success) { return $null }
+    $known = $m.Groups[1].Value.Split(',') | ForEach-Object { $_.Trim() }
+    $changed = $false
+    if ($known -notcontains [string]$interface) {
+        $text = $text.Replace($m.Value, "## Interface: $interface, " + ($known -join ", "))
+        [IO.File]::WriteAllText($toc, $text, $Utf8NoBom)
+        $changed = $true
+    }
+    return @{ version = $version; interface = $interface; changed = $changed }
+}
+
 # Projde mezipaměť: nové questy pošle do sběrny (max $maxSend) a pár rovnou přeloží (max $maxTranslate).
 # Vrací @{ translated; sent; left } nebo $null, když se mezipaměť od minula nezměnila.
 function Import-GameCache([int]$maxTranslate = 20, [int]$maxSend = 100) {
@@ -1021,6 +1056,16 @@ $form.Add_Shown({
     } catch {
         $statusLabel.Text = "Nové překlady se nepodařilo stáhnout (offline?). Čekám na quest ze hry…"
     }
+
+    # Patch hry -> doplnit nové číslo rozhraní do addonu
+    try {
+        $gi = Update-AddonInterface
+        if ($gi -and $gi.changed) {
+            [void][Windows.Forms.MessageBox]::Show($form,
+                "Hra se aktualizovala na verzi $($gi.version).`n`nAddon WoWpoČesku jsem pro ni upravil – pokud máš spuštěnou hru, RESTARTUJ ji, jinak by addon mohl být označený jako zastaralý.`n`nPo patchi doporučujeme ve hře spustit /czq sber (questy se mohly změnit).",
+                "WoWpoČesku – nová verze hry", "OK", "Information")
+        }
+    } catch { }
 
     # Nové questy z mezipaměti hry (bez Ctrl+C)
     $prev = $statusLabel.Text
