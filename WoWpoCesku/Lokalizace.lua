@@ -339,6 +339,16 @@ local function queueUi(key)
     if n < QUEUE_MAX then WoWpoCeskuQueue[qkey] = "CZU#1\n##ui\n" .. key end
 end
 
+-- Je šablona už náš český překlad? (např. „Spojenec: dosah {1} yd“ nemá diakritiku)
+local czechValues
+local function isKnownCzech(key)
+    if not czechValues then
+        czechValues = {}
+        for _, cs in pairs(WoWpoCesku_UI or {}) do czechValues[cs] = true end
+    end
+    return czechValues[key] or false
+end
+
 -- Přeloží jeden řádek popisku talentu; nil = nechat (a případně zařadit do fronty)
 local function translateTalentLine(text, queueMissing)
     local plain = plainText(text)
@@ -360,8 +370,8 @@ local function translateTalentLine(text, queueMissing)
     local key, nums = toTemplate(plain)
     cs = WoWpoCesku_UI[key]
     if cs then return fromTemplate(cs, nums) end
-    -- Český text (už přeložený) nebo text jen z čísel nezařazovat
-    if queueMissing and not plain:find("[\128-\255]") then queueUi(key) end
+    -- Český text (už přeložený, i bez diakritiky) nebo text jen z čísel nezařazovat
+    if queueMissing and not plain:find("[\128-\255]") and not isKnownCzech(key) then queueUi(key) end
 end
 
 -- Okno talentů, jakmile ho najdeme (pro poznání, že popisek patří k talentu)
@@ -406,7 +416,8 @@ local function translateTalentTooltip(tip, force)
             local fs = _G[tip:GetName() .. side .. i]
             local text = fs and fs:IsShown() and fs:GetText()
             if text and text ~= "" then
-                local cs = translateTalentLine(text, true)
+                -- 1. řádek = název talentu: zůstává anglicky, do fronty nepatří
+                local cs = translateTalentLine(text, not (i == 1 and side == "TextLeft"))
                 if cs then setCzech(fs, cs) end
             end
         end
