@@ -620,6 +620,8 @@ public static class WdbReader {
 function ConvertFrom-ServerText([string]$t) {
     $t = $t -replace "`r`n?", "`n" -replace '\$[Bb]', "`n" -replace '\$[Nn]', '{N}' -replace '\$[Cc]', '{C}' -replace '\$[Rr]', '{R}'
     $t = $t -replace '\$[Gg]\s*([^:;]*):([^;]*);', '$1/$2'
+    # $1oa = počet z úkolu (hra ho dosadí sama, z mezipaměti ho nezjistíme) -> vynechat
+    $t = $t -replace '\$\d+o[a-z]*\s?', ''
     return $t.Trim()
 }
 

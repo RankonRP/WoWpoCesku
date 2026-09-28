@@ -56,6 +56,8 @@ function normalize(t) {
     .replace(/\$[Cc]/g, "{C}")
     .replace(/\$[Rr]/g, "{R}")
     .replace(/\$[Gg]\s*([^:;]*):([^;]*);/g, "$1/$2")
+    // $1oa = počet z úkolu (hra ho dosadí sama, z mezipaměti ho nezjistíme) -> vynechat
+    .replace(/\$\d+o[a-z]*\s?/g, "")
     .trim();
 }
 

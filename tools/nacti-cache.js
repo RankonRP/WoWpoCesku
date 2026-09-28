@@ -17,6 +17,8 @@ const write = args.includes("--zapsat");
 const file = args.find((a) => !a.startsWith("--")) || "D:/World of Warcraft/_classic_beta_/Cache/WDB/enUS/questcache.wdb";
 const simple = (s) => (s || "").toLowerCase().replace(/[\s\p{P}]/gu, "");
 const FIELDS = ["title", "objectives", "text"];
+// Nepoužívané / testovací questy Blizzardu (UNUSED, zzOLD, <TXT>, "(123)aa"…) – nepřekládat
+const JUNK = /<|>|\[(?:DNT|PH|UNUSED|DEP|TEST)\]|UNUSED|DEPRECATED|^zz|\(\d+\)\w*$|\bTEST\b/;
 
 (async () => {
   const cacheQuests = readQuestCache(file);
@@ -24,6 +26,7 @@ const FIELDS = ["title", "objectives", "text"];
   const todo = {};
   let nove = 0, doplnene = 0, zmenene = 0;
   for (const [id, q] of Object.entries(cacheQuests)) {
+    if (JUNK.test(q.title)) continue;
     const e = db[id];
     const fields = {};
     for (const f of FIELDS) {
