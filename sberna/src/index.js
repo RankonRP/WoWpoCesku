@@ -36,6 +36,22 @@ export default {
         case "POST /corrections/resolve": return admin(req, env, () => resolveCorrections(req, env));
         case "GET /who": return admin(req, env, () => who(url, env));
         case "POST /ban": return admin(req, env, () => ban(req, env));
+        case "POST /dispatch": return admin(req, env, async () => json(await dispatchIfNeeded(env, true)));
+        case "GET /dispatch-check": return admin(req, env, async () => {
+          // Diagnostika klíče (bez jeho vypsání): typ, délka, zda s ním jde číst repozitář a workflow
+          const t = (env.GITHUB_TOKEN || "").trim();
+          const h = { Authorization: `Bearer ${t}`, Accept: "application/vnd.github+json", "User-Agent": "wowpocesku-sberna" };
+          const repo = await fetch("https://api.github.com/repos/RankonRP/WoWpoCesku", { headers: h });
+          const wf = await fetch("https://api.github.com/repos/RankonRP/WoWpoCesku/actions/workflows/zpracovani.yml", { headers: h });
+          return json({
+            typ: t.startsWith("github_pat_") ? "fine-grained" : t.startsWith("ghp_") ? "classic" : "neznámý",
+            delka: t.length,
+            podezrele_znaky: /[^A-Za-z0-9_]/.test(t),
+            repo: repo.status,
+            workflow: wf.status,
+            workflow_detail: wf.status === 200 ? (await wf.json()).state : (await wf.text()).slice(0, 200),
+          });
+        });
         case "GET /": return json({ ok: true, service: "WoWpoCesku sberna" });
         default: return json({ error: "not found" }, 404);
       }
@@ -52,14 +68,15 @@ export default {
   },
 };
 
-async function dispatchIfNeeded(env) {
-  if (!env.GITHUB_TOKEN) return;
+// force = spustit i bez čekající práce (POST /dispatch, test správce)
+async function dispatchIfNeeded(env, force = false) {
+  if (!env.GITHUB_TOKEN) return { ok: false, error: "chybí GITHUB_TOKEN" };
   const items = (await (await confirmed(env)).json()).items || [];
   const fixes = await env.DB.prepare(
     `SELECT COUNT(*) AS n FROM corrections t
       WHERE t.status = 'pending' AND instr(?1, ',' || t.client || ',') > 0`
   ).bind(trustedList(env)).first();
-  if (!items.length && !fixes.n) return;
+  if (!force && !items.length && !fixes.n) return { ok: true, dispatched: false };
   const r = await fetch(
     "https://api.github.com/repos/RankonRP/WoWpoCesku/actions/workflows/zpracovani.yml/dispatches",
     {
@@ -75,6 +92,7 @@ async function dispatchIfNeeded(env) {
     }
   );
   console.log(`dispatch: ${r.status} (textů ${items.length}, oprav ${fixes.n})`);
+  return { ok: r.status === 204, dispatched: true, github_status: r.status, detail: r.status === 204 ? "" : await r.text(), texts: items.length, fixes: fixes.n };
 }
 
 function json(data, status = 200) {
