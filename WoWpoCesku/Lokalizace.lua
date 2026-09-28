@@ -475,12 +475,62 @@ local function translateSpellbookFrame()
     end)
 end
 
--- Stránky knihy se přepisují při listování -> dokud je kniha otevřená, překládat průběžně
+-- Okna talentů a knihy kouzel se ve Forever můžou jmenovat a otevírat jinak -> hledat průběžně.
+-- Stránky knihy se při listování přepisují -> dokud je kniha otevřená, překládat průběžně.
+local lastSearch = 0
 C_Timer.NewTicker(0.5, function()
+    if (not spellbookRef or not talentFrameRef) and GetTime() - lastSearch > 1 then
+        lastSearch = GetTime()
+        for _, top in ipairs({ UIParent:GetChildren() }) do
+            local ok, name = pcall(function() return top:IsVisible() and top:GetName() or nil end)
+            if ok and name then
+                if not talentFrameRef and name:find("Talent") then talentFrameRef = top end
+                if not spellbookRef and (name:find("SpellBook") or name:find("Spellbook") or name == "PlayerSpellsFrame") then spellbookRef = top end
+            end
+        end
+    end
     if spellbookRef and spellbookRef:IsVisible() and enabled("kouzla") then
         translateFrame(spellbookRef, SPELLBOOK, 0, SPELLBOOK_PATTERNS)
     end
+    if talentFrameRef and talentFrameRef:IsVisible() and enabled("talenty") then
+        translateFrame(talentFrameRef, TALENT, 0)
+    end
 end)
+
+-- Ke kterému oknu popisek patří: podle vlastníka, jinak podle toho, nad kterým oknem je myš
+local function tooltipContext(tip)
+    local owner = tip.GetOwner and tip:GetOwner()
+    if owner and isTalentOwner(owner) then return "talent" end
+    if owner and isSpellbookOwner(owner) then return "spell" end
+    if talentFrameRef and talentFrameRef:IsVisible() and MouseIsOver(talentFrameRef) then return "talent" end
+    if spellbookRef and spellbookRef:IsVisible() and MouseIsOver(spellbookRef) then return "spell" end
+end
+
+-- Přeloží řádky libovolného popisku (GameTooltip i jiné) podle kontextu
+local function translateAnyTooltip(tip)
+    local ctx = tooltipContext(tip)
+    if not ctx then return end
+    if ctx == "talent" and not enabled("talenty") then return end
+    if ctx == "spell" and not enabled("kouzla") then return end
+    local name = tip:GetName()
+    if not name then return end
+    lastOwnerChain = ctx .. " / " .. name
+    local changed = false
+    for i = 1, tip:NumLines() or 0 do
+        for _, side in ipairs({ "TextLeft", "TextRight" }) do
+            -- Název kouzla (1. řádek) v knize kouzel nechat anglicky
+            if not (ctx == "spell" and i == 1 and side == "TextLeft") then
+                local fs = _G[name .. side .. i]
+                local text = fs and fs:IsShown() and fs:GetText()
+                if text and text ~= "" then
+                    local cs = (ctx == "spell") and translateSpellLine(text, true) or translateTalentLine(text, true)
+                    if cs and cs ~= text then setCzech(fs, cs); changed = true end
+                end
+            end
+        end
+    end
+    if changed then tip:Show() end
+end
 
 -- Okno talentů se může jmenovat různě -> po otevření ho najít podle textu "Unspent Talents"
 local function findTalentFrame()
@@ -552,6 +602,15 @@ f:SetScript("OnEvent", function(_, event)
             end
         end
         GameTooltip:HookScript("OnShow", function(tip) translateSpellTooltip(tip) end)
+        -- Moderní systém popisků: zachytí každý popisek kouzla/talentu, ať ho hra vytvoří jakkoli
+        if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and Enum and Enum.TooltipDataType then
+            for _, t in ipairs({ "Spell", "Talent", "Macro" }) do
+                if Enum.TooltipDataType[t] then
+                    TooltipDataProcessor.AddTooltipPostCall(Enum.TooltipDataType[t], function(tip) translateAnyTooltip(tip) end)
+                end
+            end
+        end
+        GameTooltip:HookScript("OnShow", function(tip) translateAnyTooltip(tip) end)
     end
 end)
 
