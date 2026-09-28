@@ -157,6 +157,8 @@ local SPELLBOOK = {
     ["Pet"] = "Mazlíček",
     ["Professions"] = "Profese",
     ["Passive"] = "Pasivní",
+    ["Racial"] = "Rasové",
+    ["Racial Passive"] = "Rasové pasivní",
     ["Search abilities, keywords"] = "Hledat schopnosti, klíčová slova",
     ["Search abilities, keywords…"] = "Hledat schopnosti, klíčová slova…",
     ["Search abilities, keywords..."] = "Hledat schopnosti, klíčová slova…",
@@ -498,16 +500,21 @@ C_Timer.NewTicker(0.5, function()
 end)
 
 -- Ke kterému oknu popisek patří: podle vlastníka, jinak podle toho, nad kterým oknem je myš
+local function mouseOver(frame)
+    return frame and frame:IsVisible() and frame.IsMouseOver and frame:IsMouseOver()
+end
+
 local function tooltipContext(tip)
     local owner = tip.GetOwner and tip:GetOwner()
     if owner and isTalentOwner(owner) then return "talent" end
     if owner and isSpellbookOwner(owner) then return "spell" end
-    if talentFrameRef and talentFrameRef:IsVisible() and MouseIsOver(talentFrameRef) then return "talent" end
-    if spellbookRef and spellbookRef:IsVisible() and MouseIsOver(spellbookRef) then return "spell" end
+    if mouseOver(talentFrameRef) then return "talent" end
+    if mouseOver(spellbookRef) then return "spell" end
 end
 
--- Přeloží řádky libovolného popisku (GameTooltip i jiné) podle kontextu
-local function translateAnyTooltip(tip)
+-- Přeloží řádky libovolného popisku (GameTooltip i jiné) podle kontextu.
+-- Obaleno pcall: chyba v překladu nesmí nikdy rozbít popisek hry.
+local function translateAnyTooltipUnsafe(tip)
     local ctx = tooltipContext(tip)
     if not ctx then return end
     if ctx == "talent" and not enabled("talenty") then return end
@@ -530,6 +537,11 @@ local function translateAnyTooltip(tip)
         end
     end
     if changed then tip:Show() end
+end
+
+local function translateAnyTooltip(tip)
+    local ok, err = pcall(translateAnyTooltipUnsafe, tip)
+    if not ok then lastOwnerChain = "CHYBA: " .. tostring(err) end
 end
 
 -- Okno talentů se může jmenovat různě -> po otevření ho najít podle textu "Unspent Talents"
@@ -563,6 +575,14 @@ local function translateTalentFrame()
     end)
 end
 
+-- Obal pro háčky na popisky: chyba v překladu nesmí nikdy rozbít popisek hry
+local function safe(fn)
+    return function(...)
+        local ok, err = pcall(fn, ...)
+        if not ok then lastOwnerChain = "CHYBA: " .. tostring(err) end
+    end
+end
+
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
 f:RegisterEvent("ADDON_LOADED")
@@ -586,22 +606,22 @@ f:SetScript("OnEvent", function(_, event)
     end
     if event == "PLAYER_LOGIN" then
         WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}
-        GameTooltip:HookScript("OnShow", translateTooltip)
-        GameTooltip:HookScript("OnShow", function(tip) translateTalentTooltip(tip) end)
+        GameTooltip:HookScript("OnShow", safe(translateTooltip))
+        GameTooltip:HookScript("OnShow", safe(function(tip) translateTalentTooltip(tip) end))
         -- Popisek talentu: klasicky přes SetTalent, ve Forever jako kouzlo (SetSpellByID / SetSpell…)
         -- -> přeložit hned po naplnění, SetTalent vždy, kouzla jen nad oknem talentů
         if GameTooltip.SetTalent then
-            hooksecurefunc(GameTooltip, "SetTalent", function(tip) translateTalentTooltip(tip, true) end)
+            hooksecurefunc(GameTooltip, "SetTalent", safe(function(tip) translateTalentTooltip(tip, true) end))
         end
         for _, method in ipairs({ "SetSpellByID", "SetSpell", "SetSpellBookItem" }) do
             if GameTooltip[method] then
-                hooksecurefunc(GameTooltip, method, function(tip)
+                hooksecurefunc(GameTooltip, method, safe(function(tip)
                     translateTalentTooltip(tip)
                     translateSpellTooltip(tip)
-                end)
+                end))
             end
         end
-        GameTooltip:HookScript("OnShow", function(tip) translateSpellTooltip(tip) end)
+        GameTooltip:HookScript("OnShow", safe(function(tip) translateSpellTooltip(tip) end))
         -- Moderní systém popisků: zachytí každý popisek kouzla/talentu, ať ho hra vytvoří jakkoli
         if TooltipDataProcessor and TooltipDataProcessor.AddTooltipPostCall and Enum and Enum.TooltipDataType then
             for _, t in ipairs({ "Spell", "Talent", "Macro" }) do
