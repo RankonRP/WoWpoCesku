@@ -1,0 +1,5 @@
+{
+  "popis": "Zakázané výrazy. Když automatický překlad (nebo anglický originál) obsahuje některý z nich, nezveřejní se sám, ale čeká na schválení správcem v issue na GitHubu. Porovnává se se začátkem slova bez ohledu na velikost písmen (např. 'kurv' zachytí kurva, kurvy…).",
+  "cesky": ["kurv", "píč", "pič", "čurák", "čůrák", "hovn", "sračk", "zmrd", "kokot", "mrdat", "mrdk", "šuk", "buzn", "prdel", "debil", "kretén", "negr", "cigoš"],
+  "anglicky": ["fuck", "shit", "cunt", "nigg", "fagg", "retard", "bitch", "whore", "asshole", "dickhead"]
+}

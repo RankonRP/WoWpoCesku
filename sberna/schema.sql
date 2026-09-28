@@ -24,7 +24,17 @@ CREATE TABLE IF NOT EXISTS corrections (
   client     TEXT    NOT NULL,
   ip_hash    TEXT    NOT NULL,
   created_at INTEGER NOT NULL,
-  status     TEXT    NOT NULL DEFAULT 'pending'
+  status     TEXT    NOT NULL DEFAULT 'pending',
+  -- oprava = od hráče, zmena = změnil se anglický originál, filtr = zakázané slovo
+  kind       TEXT    NOT NULL DEFAULT 'oprava'
+);
+
+-- Zablokovaní hráči (kind = 'client' | 'ip')
+CREATE TABLE IF NOT EXISTS banned (
+  kind       TEXT    NOT NULL,
+  value      TEXT    NOT NULL,
+  created_at INTEGER NOT NULL,
+  PRIMARY KEY (kind, value)
 );
 CREATE INDEX IF NOT EXISTS idx_corr_status ON corrections (status, id);
 CREATE INDEX IF NOT EXISTS idx_corr_client ON corrections (client, created_at);

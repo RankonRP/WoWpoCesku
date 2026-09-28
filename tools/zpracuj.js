@@ -117,11 +117,19 @@ async function sberna(pathname, body) {
   return r.json();
 }
 
-// Nové questy od hráčů -> překlad. Vrací seznam k potvrzení (ack).
+// Filtr zakázaných slov (filtr.json): začátek slova, bez ohledu na velikost písmen
+const FILTER = JSON.parse(fs.readFileSync(path.join(ROOT, "filtr.json"), "utf8").replace(/^﻿/, ""));
+const FILTER_RE = new RegExp(
+  `(?<!\\p{L})(?:${[...FILTER.cesky, ...FILTER.anglicky].map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
+  "iu"
+);
+const hasBlockedWord = (s) => FILTER_RE.test(s || "");
+
+// Nové questy od hráčů -> překlad. Vrací seznam k potvrzení (ack) a návrhy ke schválení.
 async function processSubmissions(cache, gossip) {
   const all = (await sberna("/confirmed")).items || [];
   console.log(`Potvrzených textů ze sběrny: ${all.length}`);
-  if (!all.length) return { changed: false, gossipChanged: false, ack: [] };
+  if (!all.length) return { changed: false, gossipChanged: false, ack: [], review: [] };
   const items = all.filter((it) => it.field !== "gossip");
 
   // Rozhovory s NPC: každý text zvlášť (jedno NPC jich může mít víc)
@@ -132,6 +140,9 @@ async function processSubmissions(cache, gossip) {
   }
   const gossipTr = await translateAll(Object.fromEntries(Object.entries(gossipTodo).map(([k, v]) => [k, { cs: v.cs }])));
   for (const [key, t] of Object.entries(gossipTr)) {
+    // Rozhovor se zakázaným slovem se nezveřejní (klíč je anglický text, takže vymyšlený
+    // rozhovor by se ve hře stejně nikdy neukázal – ale ani ho nechceme v databázi)
+    if (hasBlockedWord(key) || hasBlockedWord(t.cs)) { console.log(`Rozhovor se zakázaným slovem zahozen: ${key.slice(0, 60)}`); delete gossipTr[key]; continue; }
     gossip[key] = { cs: t.cs, en: gossipTodo[key].cs, npc: String(gossipTodo[key].npc), src: "komunita" };
   }
   console.log(`Rozhovorů přeloženo: ${Object.keys(gossipTr).length}`);
@@ -153,18 +164,39 @@ async function processSubmissions(cache, gossip) {
   }
   console.log(`Questů k překladu: ${Object.keys(toTranslate).length} (${PREKLADAC})`);
 
+  // Ochrana proti vandalům:
+  //  - změna už přeloženého questu (jiný anglický originál) -> ke schválení ("zmena")
+  //  - zakázané slovo v originálu nebo překladu -> ke schválení ("filtr")
+  //  Důvěryhodný hráč (správce) jde rovnou.
   const translated = await translateAll(toTranslate);
+  const review = [];
+  let applied = 0;
   for (const [id, fields] of Object.entries(translated)) {
-    const e = (cache[id] = cache[id] || {});
     for (const [k, v] of Object.entries(fields)) {
-      e[k] = v;
-      e["en_" + k] = toTranslate[id][k];
+      const it = best[`${id}|${k}`];
+      const e = cache[id];
+      const en = toTranslate[id][k];
+      let kind = null;
+      if (!it.trusted) {
+        if (e && e[k]) kind = "zmena";
+        else if (hasBlockedWord(en) || hasBlockedWord(v)) kind = "filtr";
+      }
+      if (kind) {
+        review.push({ quest_id: Number(id), field: k, en, cs: v, kind });
+        continue;
+      }
+      const entry = (cache[id] = cache[id] || {});
+      entry[k] = v;
+      entry["en_" + k] = en;
+      delete entry.pre;
+      entry.src = "komunita";
+      applied++;
     }
-    delete e.pre;
-    e.src = "komunita";
   }
+  console.log(`Použito rovnou: ${applied}, ke schválení: ${review.length}`);
   return {
-    changed: Object.keys(translated).length > 0,
+    review,
+    changed: applied > 0,
     gossipChanged: Object.keys(gossipTr).length > 0,
     ack: all.map((it) => ({ quest_id: it.quest_id, field: it.field, en_hash: it.en_hash })),
   };
@@ -204,18 +236,30 @@ function applyCorrection(cache, c) {
 // Text do issue: bez @zmínek (neposílat notifikace cizím lidem) a jako citace
 const quote = (s) => "> " + (s || "–").replace(/@/g, "@\u200b").replace(/\r?\n/g, "\n> ");
 
+const KIND_TITLES = {
+  oprava: "hráč navrhl opravu překladu",
+  zmena: "⚠️ změnil se anglický originál už přeloženého questu (změna ve hře, nebo vandal?)",
+  filtr: "⚠️ obsahuje zakázané slovo",
+};
+
 function issueBody(pending, cache) {
   const parts = [
-    "Hráči navrhli tyto opravy překladů. U každé zaškrtni **schválit** nebo **zamítnout** – " +
-      "zpracování se spustí samo a schválené opravy se dostanou ke všem hráčům.\n",
+    "Tyto změny překladů čekají na tvoje rozhodnutí. U každé zaškrtni **schválit** nebo **zamítnout** – " +
+      "zpracování se spustí samo a schválené změny se dostanou ke všem hráčům.\n\n" +
+      "_Tip: u ⚠️ změn originálu porovnej starý a nový anglický text. Když nový nedává smysl, je to vandal – " +
+      "zamítni ho a napiš Claudovi číslo questu, dohledá a zablokuje autora._\n",
   ];
   let size = parts[0].length, shown = 0;
   for (const c of pending) {
     const cur = cache[c.quest_id]?.[c.field];
+    const oldEn = cache[c.quest_id]?.["en_" + c.field];
+    const enBlock = c.kind === "zmena"
+      ? `**Anglicky dřív:**\n${quote(oldEn)}\n\n**Anglicky teď:**\n${quote(c.en_text)}\n\n`
+      : `<details><summary>Anglický originál</summary>\n\n${quote(c.en_text)}\n\n</details>\n\n`;
     const block =
-      `---\n### Oprava ${c.id} – quest ${c.quest_id}, ${FIELD_NAMES[c.field] || c.field}\n` +
-      `<details><summary>Anglický originál</summary>\n\n${quote(c.en_text)}\n\n</details>\n\n` +
-      `**Teď:**\n${quote(cur)}\n\n**Návrh:**\n${quote(c.cs_text)}\n\n` +
+      `---\n### ${c.id} – quest ${c.quest_id}, ${FIELD_NAMES[c.field] || c.field}: ${KIND_TITLES[c.kind] || KIND_TITLES.oprava}\n` +
+      enBlock +
+      `**Česky teď:**\n${quote(cur)}\n\n**Návrh:**\n${quote(c.cs_text)}\n\n` +
       `- [ ] schválit opravu ${c.id}\n- [ ] zamítnout opravu ${c.id}\n`;
     if (size + block.length > 60000) break;
     parts.push(block);
@@ -274,9 +318,12 @@ async function main() {
   const gossip = readGossip();
 
   const subs = await processSubmissions(cache, gossip);
+  // Podezřelé změny a zakázaná slova -> do sběrny jako návrhy ke schválení (objeví se v issue)
+  if (subs.review.length && !DRY_RUN) await sberna("/corrections/add", subs.review);
   const corr = await processCorrections(cache);
 
   if (DRY_RUN) {
+    if (subs.review.length) console.log("Ke schválení by šlo:", JSON.stringify(subs.review).slice(0, 500));
     console.log("DRY_RUN – nic se nezapisuje ani nepotvrzuje.");
     return;
   }
