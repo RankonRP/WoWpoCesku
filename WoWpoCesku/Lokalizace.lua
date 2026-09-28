@@ -275,6 +275,13 @@ end
 local function translateTalentLine(text, queueMissing)
     local plain = plainText(text)
     if plain == "" or not plain:find("%a") then return nil end
+    -- Zapamatovat si, co hráč viděl (šablona), pro ruční kvalitní překlad
+    if queueMissing and not plain:find("[\128-\255]") then
+        WoWpoCeskuSeen = WoWpoCeskuSeen or {}
+        WoWpoCeskuSeen.u = WoWpoCeskuSeen.u or {}
+        local key = (toTemplate(plain))
+        if not WoWpoCeskuSeen.u[key] then WoWpoCeskuSeen.u[key] = time() end
+    end
     local cs = lookup(TALENT, plain)
     if cs then return cs end
     for _, p in ipairs(TALENT_PATTERNS) do

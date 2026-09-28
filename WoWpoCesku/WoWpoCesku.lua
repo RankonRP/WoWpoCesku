@@ -533,8 +533,23 @@ local function showGossip(q)
     end
 end
 
+-- Co hráč viděl (pro ruční kvalitní překlad správcem/Claudem): WoWpoCeskuSeen (SavedVariables)
+local SEEN_MAX = 2000
+local function markSeen(q)
+    WoWpoCeskuSeen = WoWpoCeskuSeen or { q = {}, g = {} }
+    WoWpoCeskuSeen.q = WoWpoCeskuSeen.q or {}
+    WoWpoCeskuSeen.g = WoWpoCeskuSeen.g or {}
+    local list, key = WoWpoCeskuSeen.q, q.id
+    if q.kind == "gossip" then list, key = WoWpoCeskuSeen.g, gossipKey(q.gossip) end
+    if list[key] then return end
+    local n = 0
+    for _ in pairs(list) do n = n + 1 end
+    if n < SEEN_MAX then list[key] = time() end
+end
+
 local function showQuest(q, source)
     if not q then return end
+    markSeen(q)
     currentQuest = q
     panel.source = source
     placePanel(source)
