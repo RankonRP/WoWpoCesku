@@ -77,6 +77,8 @@ local function fromToken(s)
     s = (s or ""):gsub("{N}", (name:gsub("%%", "%%%%")))
     s = s:gsub("{C}", (cls:gsub("%%", "%%%%")))
     s = s:gsub("{R}", (race:gsub("%%", "%%%%")))
+    -- Pojistka: neviditelné znaky nulové šířky (U+200B–U+200D) písmo neumí a ukáže je jako ��
+    s = s:gsub("\226\128[\139-\141]", "")
     return s
 end
 WoWpoCesku_FromToken = fromToken   -- používá i Rozhrani.lua

@@ -62,6 +62,9 @@ local GOSSIP_PATTERNS = {
 local OBJECTIVE_PATTERNS = {
     { "^(.-) slain: (%d+)/(%d+)(.*)$", "Zabito – %1: %2/%3%4" },
     { "^(.-) killed: (%d+)/(%d+)(.*)$", "Zabito – %1: %2/%3%4" },
+    -- moderní přehled píše počet na začátek: "0/10 Kobold Vermin slain"
+    { "^(%d+)/(%d+) (.-) slain(.*)$", "%1/%2 zabito – %3%4" },
+    { "^(%d+)/(%d+) (.-) killed(.*)$", "%1/%2 zabito – %3%4" },
 }
 local OBJECTIVE_REPLACE = {
     { "%(Complete%)", "(splněno)" },
@@ -186,6 +189,17 @@ local function hookAll()
     hook("QuestLog_Update", "QuestLogFrame")
     hook("QuestLogQuests_Update", "QuestMapFrame")
 end
+
+-- Moderní přehled úkolů (ObjectiveTracker) přepisuje texty ve vlastním cyklu, který se nedá
+-- spolehlivě zachytit háčkem -> dokud je vidět, zkontrolovat ho dvakrát za vteřinu.
+-- Mění se jen anglické texty, takže je to levné.
+C_Timer.NewTicker(0.5, function()
+    if not enabled() then return end
+    for _, name in ipairs(TRACKERS) do
+        local frame = _G[name]
+        if frame and frame:IsVisible() then translateFrame(frame, 0) end
+    end
+end)
 
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
