@@ -1056,6 +1056,7 @@ SlashCmdList.CZQUESTS = function(msg)
             tostring(hookedLog.classic or false), tostring(hookedLog.map or false),
             tostring((selectedLogQuest()))))
         if WoWpoCesku_TrackerInfo then say(WoWpoCesku_TrackerInfo()) end
+        if WoWpoCesku_TalentDebug then say(WoWpoCesku_TalentDebug()) end
     else
         WoWpoCeskuSettings.enabled = not WoWpoCeskuSettings.enabled
         if not WoWpoCeskuSettings.enabled then panel:Hide() end

@@ -137,6 +137,13 @@ local TALENT = {
     ["Next rank:"] = "Další úroveň:",
     ["Click to learn"] = "Klikni pro naučení",
     ["Click to learn this talent"] = "Klikni pro naučení talentu",
+    ["Passive"] = "Pasivní",
+    ["Instant"] = "Okamžité",
+    ["Instant cast"] = "Sesláno okamžitě",
+    ["Channeled"] = "Vedené",
+    ["Melee Range"] = "Na blízko",
+    ["Requires Melee Weapon"] = "Vyžaduje zbraň na blízko",
+    ["Requires Shield"] = "Vyžaduje štít",
 }
 for en, cs in pairs(TREES) do TALENT[en] = cs end
 
@@ -180,6 +187,10 @@ end
 local function lookup(dict, text)
     local cs = dict[text]
     if cs then return cs end
+    -- Ikonka v textu (|A…|a atlas, |T…|t textura) – přeložit text a ikonku zachovat
+    local pre, word, post = text:match("^(%s*[|][AT][^|]*[|][at]%s*)(.-)(%s*)$")
+    if not pre then word, post = text:match("^(.-)(%s*[|][AT][^|]*[|][at]%s*)$"); pre = "" end
+    if word and dict[word] then return pre .. dict[word] .. post end
     local core, suffix = text:match("^(.-)(%s*|c%x%x%x%x%x%x%x%x%(.-%)|r)$")
     if not core then core, suffix = text:match("^(.-)(%s*%(.-%))$") end
     if core and dict[core] then return dict[core] .. suffix end
@@ -275,6 +286,7 @@ end
 local function translateTalentLine(text, queueMissing)
     local plain = plainText(text)
     if plain == "" or not plain:find("%a") then return nil end
+    if plain:find("^Press F%d+ to submit") then return nil end   -- řádek jen v betě
     -- Zapamatovat si, co hráč viděl (šablona), pro ruční kvalitní překlad
     if queueMissing and not plain:find("[\128-\255]") then
         WoWpoCeskuSeen = WoWpoCeskuSeen or {}
@@ -295,11 +307,15 @@ local function translateTalentLine(text, queueMissing)
     if queueMissing and not plain:find("[\128-\255]") then queueUi(key) end
 end
 
+-- Okno talentů, jakmile ho najdeme (pro poznání, že popisek patří k talentu)
+local talentFrameRef
+
 -- Patří vlastník popisku k oknu talentů? (tlačítka talentů nemusí mít vlastní jméno)
 local function isTalentOwner(owner)
     local f = owner
-    for _ = 1, 10 do
+    for _ = 1, 15 do
         if not f then return false end
+        if talentFrameRef and f == talentFrameRef then return true end
         local name = f.GetName and f:GetName()
         if name and name:find("Talent") then return true end
         f = f.GetParent and f:GetParent()
@@ -307,10 +323,27 @@ local function isTalentOwner(owner)
     return false
 end
 
-local function translateTalentTooltip(tip)
+-- Pro /czq info: od jakého prvku přišel poslední popisek (ladění, když popisky talentů nechytáme)
+local lastOwnerChain = "zatim zadny"
+function WoWpoCesku_TalentDebug()
+    return "posledni popisek: " .. lastOwnerChain .. " | okno talentu: " .. tostring(talentFrameRef and (talentFrameRef:GetName() or "bez-jmena") or "nenalezeno")
+end
+
+local function ownerChain(owner)
+    local names, f = {}, owner
+    for _ = 1, 6 do
+        if not f then break end
+        names[#names + 1] = (f.GetName and f:GetName()) or "?"
+        f = f.GetParent and f:GetParent()
+    end
+    return table.concat(names, " < ")
+end
+
+local function translateTalentTooltip(tip, force)
     if not enabled("talenty") then return end
     local owner = tip:GetOwner()
-    if not owner or not isTalentOwner(owner) then return end
+    lastOwnerChain = owner and ownerChain(owner) or "bez vlastnika"
+    if not force and (not owner or not isTalentOwner(owner)) then return end
     for i = 1, tip:NumLines() or 0 do
         for _, side in ipairs({ "TextLeft", "TextRight" }) do
             local fs = _G[tip:GetName() .. side .. i]
@@ -341,10 +374,11 @@ local function translateTalentFrame()
     C_Timer.After(0.05, function()
         for _, frameName in ipairs(PARTS.talenty.frames) do
             local fr = _G[frameName]
-            if fr and fr:IsVisible() then translateFrame(fr, TALENT, 0) return end
+            if fr and fr:IsVisible() then talentFrameRef = fr; translateFrame(fr, TALENT, 0) return end
         end
         local fr = findTalentFrame()
         if fr then
+            talentFrameRef = fr
             translateFrame(fr, TALENT, 0)
             if not hookedFrames[fr] then
                 fr:HookScript("OnShow", function(self) translatePart("talenty", self) end)
@@ -372,7 +406,17 @@ f:SetScript("OnEvent", function(_, event)
     if event == "PLAYER_LOGIN" then
         WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}
         GameTooltip:HookScript("OnShow", translateTooltip)
-        GameTooltip:HookScript("OnShow", translateTalentTooltip)
+        GameTooltip:HookScript("OnShow", function(tip) translateTalentTooltip(tip) end)
+        -- Popisek talentu: klasicky přes SetTalent, ve Forever jako kouzlo (SetSpellByID / SetSpell…)
+        -- -> přeložit hned po naplnění, SetTalent vždy, kouzla jen nad oknem talentů
+        if GameTooltip.SetTalent then
+            hooksecurefunc(GameTooltip, "SetTalent", function(tip) translateTalentTooltip(tip, true) end)
+        end
+        for _, method in ipairs({ "SetSpellByID", "SetSpell", "SetSpellBookItem" }) do
+            if GameTooltip[method] then
+                hooksecurefunc(GameTooltip, method, function(tip) translateTalentTooltip(tip) end)
+            end
+        end
     end
 end)
 
