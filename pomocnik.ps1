@@ -99,6 +99,59 @@ function Write-DataLua {
 }
 
 # ----------------------------------------------------------------------------
+# Rozhovory s NPC: klíč = anglický text se sjednocenými mezerami (addon ho počítá stejně)
+# rozhovory.json: { "<anglický text>": { cs, en, npc, src } } -> WoWpoCesku\DataRozhovory.lua
+# ----------------------------------------------------------------------------
+$GossipPath      = Join-Path $Root "rozhovory.json"
+$GossipLuaPath   = Join-Path $Root "WoWpoCesku\DataRozhovory.lua"
+$RemoteGossipUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/rozhovory.json"
+$GossipEtagPath  = Join-Path $Root ".rozhovory.etag"
+
+function Get-GossipKey([string]$s) { ($s -replace '\s+', ' ').Trim() }
+
+function ConvertFrom-GossipJson([string]$text) {
+    $result = @{}
+    $raw = $Json.DeserializeObject($text)
+    if ($raw) {
+        foreach ($k in $raw.Keys) {
+            $h = @{}
+            foreach ($f in $raw[$k].Keys) { $h[$f] = [string]$raw[$k][$f] }
+            $result[$k] = $h
+        }
+    }
+    return $result
+}
+
+$script:Gossip = @{}
+if (Test-Path $GossipPath) { $script:Gossip = ConvertFrom-GossipJson ([IO.File]::ReadAllText($GossipPath, [Text.Encoding]::UTF8)) }
+
+function Save-Gossip {
+    $sb = New-Object System.Text.StringBuilder
+    [void]$sb.Append("{`n")
+    $keys = @($script:Gossip.Keys | Sort-Object)
+    for ($i = 0; $i -lt $keys.Count; $i++) {
+        $entry = New-Object 'System.Collections.Generic.SortedDictionary[string,string]'
+        foreach ($f in $script:Gossip[$keys[$i]].Keys) { $entry[$f] = $script:Gossip[$keys[$i]][$f] }
+        $comma = if ($i -lt $keys.Count - 1) { "," } else { "" }
+        [void]$sb.Append("  $($Json.Serialize($keys[$i])): $($Json.Serialize($entry))$comma`n")
+    }
+    [void]$sb.Append("}`n")
+    [IO.File]::WriteAllText($GossipPath, $sb.ToString(), $Utf8NoBom)
+}
+
+function Write-GossipLua {
+    $sb = New-Object System.Text.StringBuilder
+    [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhovory.json.")
+    [void]$sb.AppendLine("WoWpoCesku_Gossip = {")
+    foreach ($k in ($script:Gossip.Keys | Sort-Object)) {
+        $cs = $script:Gossip[$k]["cs"]
+        if ($cs) { [void]$sb.AppendLine("[$(ConvertTo-LuaString $k)]=$(ConvertTo-LuaString $cs),") }
+    }
+    [void]$sb.AppendLine("}")
+    [IO.File]::WriteAllText($GossipLuaPath, $sb.ToString(), $Utf8NoBom)
+}
+
+# ----------------------------------------------------------------------------
 # Překladače
 # ----------------------------------------------------------------------------
 function New-WebClient {
@@ -164,30 +217,66 @@ $glossary
     return $out
 }
 
+# Automatické úpravy strojového překladu (pravidla.json – stejná logika jako tools/pravidla.js)
+$RulesPath = Join-Path $Root "pravidla.json"
+$script:Rules = @()
+function Initialize-Rules {
+    $script:Rules = @()
+    if (-not (Test-Path $RulesPath)) { return }
+    $r = Get-Content $RulesPath -Raw -Encoding UTF8 | ConvertFrom-Json
+    foreach ($p in $r.slova.PSObject.Properties) {
+        $from = [string]$p.Name; $to = [string]$p.Value
+        $variants = @(
+            @(($from.Substring(0, 1).ToUpper() + $from.Substring(1)), ($to.Substring(0, 1).ToUpper() + $to.Substring(1))),
+            @(($from.Substring(0, 1).ToLower() + $from.Substring(1)), ($to.Substring(0, 1).ToLower() + $to.Substring(1)))
+        )
+        foreach ($v in $variants) {
+            $script:Rules += , @([regex]::new('(?<!\p{L})' + [regex]::Escape($v[0]) + '(?!\p{L})'), $v[1].Replace('$', '$$'))
+        }
+    }
+    foreach ($x in $r.regexy) { $script:Rules += , @([regex]::new([string]$x.hledat), [string]$x.nahradit) }
+}
+function Invoke-Rules([string]$t) {
+    if (-not $t) { return $t }
+    foreach ($rule in $script:Rules) { $t = $rule[0].Replace($t, $rule[1]) }
+    return $t
+}
+try { Initialize-Rules } catch { $script:Rules = @() }
+
 function Invoke-Translate($fields) {
-    if ($Settings.prekladac -eq "claude") { return Invoke-ClaudeTranslate $fields }
-    $out = [ordered]@{}
-    foreach ($k in $fields.Keys) { $out[$k] = Invoke-GoogleTranslate $fields[$k] }
+    if ($Settings.prekladac -eq "claude") { $out = Invoke-ClaudeTranslate $fields }
+    else {
+        $out = [ordered]@{}
+        foreach ($k in $fields.Keys) { $out[$k] = Invoke-GoogleTranslate $fields[$k] }
+    }
+    foreach ($k in @($out.Keys)) { $out[$k] = Invoke-Rules $out[$k] }
     return $out
 }
 
 # ----------------------------------------------------------------------------
 # Zpráva z addonu
-#   CZQ#<id>#<detail|progress|reward>
+#   CZQ#<id>#<detail|progress|reward>[#oprava]    quest
+#   CZG#<id NPC>                                   rozhovor s NPC
 #   ##title
 #   ...
-#   ##text
+#   ##text   (u rozhovoru ##gossip)
 #   ...
 # ----------------------------------------------------------------------------
 function ConvertFrom-Payload([string]$s) {
     $lines = ($s -replace "`r`n", "`n" -replace "`r", "`n") -split "`n"
-    $m = [regex]::Match($lines[0].Trim(), '^CZQ#(\d+)#(\w+)(#oprava)?$')
+    $m = [regex]::Match($lines[0].Trim(), '^CZ([QG])#(\d+)(?:#(\w+))?(#oprava)?$')
     if (-not $m.Success -or $lines.Count -lt 2) { return $null }
-    $q = @{ id = $m.Groups[1].Value; part = $m.Groups[2].Value; oprava = $m.Groups[3].Success; fields = [ordered]@{} }
+    $q = @{
+        kind   = $(if ($m.Groups[1].Value -eq "G") { "gossip" } else { "quest" })
+        id     = $m.Groups[2].Value
+        part   = $m.Groups[3].Value
+        oprava = $m.Groups[4].Success
+        fields = [ordered]@{}
+    }
     $cur = $null
     $buf = New-Object System.Collections.Generic.List[string]
     foreach ($line in $lines[1..($lines.Count - 1)]) {
-        if ($line -match '^##(title|text|objectives|progress|reward)\s*$') {
+        if ($line -match '^##(title|text|objectives|progress|reward|gossip)\s*$') {
             if ($cur) { $q.fields[$cur] = ($buf -join "`n").Trim() }
             $cur = $Matches[1]
             $buf.Clear()
@@ -382,9 +471,125 @@ function Update-FromGitHub {
     return $changed
 }
 
+# Stáhne rozhovory.json z GitHubu (překlady rozhovorů od ostatních). Vrací počet změn.
+function Update-GossipFromGitHub {
+    $req = [Net.HttpWebRequest]::Create($RemoteGossipUrl)
+    $req.Timeout = 20000
+    $req.UserAgent = "WoWpoCesku-Pomocnik"
+    if (Test-Path $GossipEtagPath) { $req.Headers.Add("If-None-Match", ([IO.File]::ReadAllText($GossipEtagPath)).Trim()) }
+    try {
+        $resp = $req.GetResponse()
+    } catch [System.Net.WebException] {
+        $code = if ($_.Exception.Response) { [int]$_.Exception.Response.StatusCode } else { 0 }
+        if ($code -eq 304 -or $code -eq 404) { return 0 }   # beze změny / na GitHubu ještě není
+        throw
+    }
+    $reader = New-Object IO.StreamReader($resp.GetResponseStream(), [Text.Encoding]::UTF8)
+    $remote = ConvertFrom-GossipJson $reader.ReadToEnd()
+    $etag = $resp.Headers["ETag"]
+    $resp.Close()
+    $changed = 0
+    foreach ($k in $remote.Keys) {
+        $local = $script:Gossip[$k]
+        if (-not $local -or $local["cs"] -ne $remote[$k]["cs"]) { $script:Gossip[$k] = $remote[$k]; $changed++ }
+    }
+    if ($changed -gt 0) { Save-Gossip; Write-GossipLua }
+    if ($etag) { [IO.File]::WriteAllText($GossipEtagPath, $etag, $Utf8NoBom) }
+    return $changed
+}
+
+# ----------------------------------------------------------------------------
+# Automatické aktualizace addonu a Pomocníka z GitHubu
+# (ve vývojové kopii s .git se nepoužívají – tam se aktualizuje přes git)
+# ----------------------------------------------------------------------------
+$VersionPath      = Join-Path $Root "verze.txt"
+$RemoteVersionUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/verze.txt"
+$UpdateZipUrl     = "https://codeload.github.com/RankonRP/WoWpoCesku/zip/refs/heads/main"
+
+function Get-LocalVersion {
+    if (Test-Path $VersionPath) { return ([IO.File]::ReadAllLines($VersionPath)[0]).Trim() }
+    return "0.0.0"
+}
+
+# Vrací @{ version; restartGame } když je na GitHubu novější verze, jinak $null
+function Test-AppUpdate {
+    if (Test-Path (Join-Path $Root ".git")) { return $null }
+    $wc = New-WebClient
+    $lines = $wc.DownloadString("$RemoteVersionUrl`?t=$([DateTime]::UtcNow.Ticks)") -split "`r?`n"
+    $remote = $lines[0].Trim()
+    if ([version]$remote -gt [version](Get-LocalVersion)) {
+        return @{ version = $remote; restartGame = ($lines -contains "restartovat-hru") }
+    }
+    return $null
+}
+
+function Install-AppUpdate {
+    $tmp = Join-Path $env:TEMP ("wowpocesku-" + [guid]::NewGuid().ToString("N"))
+    New-Item -ItemType Directory $tmp | Out-Null
+    $zip = Join-Path $tmp "update.zip"
+    (New-WebClient).DownloadFile($UpdateZipUrl, $zip)
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    [IO.Compression.ZipFile]::ExtractToDirectory($zip, $tmp)
+    $src = (Get-ChildItem $tmp -Directory | Select-Object -First 1).FullName
+
+    # Data a nastavení hráče nepřepisovat (překlady se stahují zvlášť), jen doplnit, když chybí
+    $dataFiles = @("preklady.json", "rozhovory.json", "nastaveni.json", "WoWpoCesku\Data.lua", "WoWpoCesku\DataRozhovory.lua")
+    $skipDirs = @("sberna", "tools", ".github")
+    foreach ($f in Get-ChildItem $src -Recurse -File) {
+        $rel = $f.FullName.Substring($src.Length + 1)
+        if ($skipDirs -contains $rel.Split('\')[0]) { continue }
+        $dest = Join-Path $Root $rel
+        if (($dataFiles -contains $rel) -and (Test-Path $dest)) { continue }
+        New-Item -ItemType Directory -Force (Split-Path $dest) | Out-Null
+        Copy-Item $f.FullName $dest -Force
+    }
+    Remove-Item $tmp -Recurse -Force -ErrorAction SilentlyContinue
+}
+
+function Restart-Helper {
+    Start-Process powershell.exe -ArgumentList '-NoProfile', '-STA', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', "`"$(Join-Path $Root 'pomocnik.ps1')`""
+    $form.Close()
+}
+
+function Show-Gossip($q, [string]$cs) {
+    $script:CurrentQ = $null
+    $btnFix.Enabled = $false
+    $box.Clear()
+    Add-BoxText ($q.fields["title"] + "`n") $Gold 16 $true
+    Add-BoxText "Rozhovor s NPC #$($q.id)`n`n" $Grey 9
+    Add-BoxText (($cs -replace '\{N\}', 'hrdino' -replace '\{C\}', '(tvá třída)' -replace '\{R\}', '(tvá rasa)') + "`n") $CText 12
+    $box.SelectionStart = 0
+    $box.ScrollToCaret()
+}
+
+function Invoke-Gossip($q) {
+    $en = $q.fields["gossip"]
+    if (-not $en) { return }
+    $key = Get-GossipKey $en
+    $entry = $script:Gossip[$key]
+    if ($entry -and $entry["cs"]) {
+        $statusLabel.Text = "Z uložených překladů. (Pokud ho addon neukazuje, napiš ve hře /reload.)"
+    } else {
+        $statusLabel.Text = "Překládám rozhovor…"
+        [Windows.Forms.Application]::DoEvents()
+        $tr = Invoke-Translate ([ordered]@{ gossip = $en })
+        $entry = @{ cs = $tr["gossip"]; en = $en; npc = [string]$q.id; src = "lokalne" }
+        $script:Gossip[$key] = $entry
+        Save-Gossip
+        Write-GossipLua
+        $sent = ""
+        if ([int]$q.id -gt 0 -and $Settings.prispivat -and (Invoke-SbernaPost "/submit" @{ id = [int]$q.id; client = $Settings.klient_id; fields = @{ gossip = $en } })) {
+            $sent = " Odesláno do společné sbírky."
+        }
+        $statusLabel.Text = "Uloženo ($($script:Gossip.Count) rozhovorů). Ve hře napiš /reload.$sent"
+    }
+    Show-Gossip $q $entry["cs"]
+}
+
 function Invoke-Quest([string]$clip) {
     $q = ConvertFrom-Payload $clip
     if (-not $q) { return }
+    if ($q.kind -eq "gossip") { Invoke-Gossip $q; return }
 
     $entry = $script:Cache[$q.id]
     if (-not $entry) { $entry = @{}; $script:Cache[$q.id] = $entry }
@@ -539,7 +744,7 @@ $timer.Add_Tick({
     try { $clip = [Windows.Forms.Clipboard]::GetText() } catch { return }
     if (-not $clip -or $clip -eq $script:LastClip) { return }
     $script:LastClip = $clip
-    if (-not $clip.StartsWith("CZQ#")) { return }
+    if (-not ($clip.StartsWith("CZQ#") -or $clip.StartsWith("CZG#"))) { return }
     $script:Busy = $true
     try {
         Invoke-Quest $clip
@@ -557,6 +762,7 @@ $timer.Add_Tick({
 
 # Při startu přegeneruj Data.lua (propíšou se ruční opravy v preklady.json)
 try { Write-DataLua } catch { }
+try { Write-GossipLua } catch { }
 Show-Welcome
 $statusLabel.Text = "Čekám na quest ze hry…"
 $timer.Start()
@@ -574,11 +780,35 @@ $form.Add_Shown({
         Set-Setting "prispivat" ($answer -eq "Yes")
         Save-Settings
     }
+    # Nová verze addonu / Pomocníka?
+    $statusLabel.Text = "Kontroluji novou verzi…"
+    [Windows.Forms.Application]::DoEvents()
+    try {
+        $upd = Test-AppUpdate
+        if ($upd) {
+            $answer = [Windows.Forms.MessageBox]::Show($form,
+                "Je k dispozici nová verze WoWpoČesku $($upd.version) (máš $(Get-LocalVersion)).`n`nAktualizovat teď? Trvá to pár vteřin, tvoje překlady a nastavení zůstanou.",
+                "WoWpoČesku – aktualizace", "YesNo", "Question")
+            if ($answer -eq "Yes") {
+                $statusLabel.Text = "Stahuji novou verzi…"
+                [Windows.Forms.Application]::DoEvents()
+                Install-AppUpdate
+                $inGame = if ($upd.restartGame) { "Pokud máš spuštěnou hru, RESTARTUJ ji (/reload tentokrát nestačí)." } else { "Pokud máš spuštěnou hru, napiš ve hře /reload." }
+                [void][Windows.Forms.MessageBox]::Show($form, "Aktualizováno na verzi $($upd.version).`n`n$inGame`n`nPomocník se teď sám restartuje.", "WoWpoČesku – hotovo", "OK", "Information")
+                Restart-Helper
+                return
+            }
+        }
+    } catch {
+        # offline nebo GitHub nedostupný – aktualizace se zkusí příště
+    }
+
     # Stáhnout nové překlady od ostatních hráčů
     $statusLabel.Text = "Kontroluji nové překlady na GitHubu…"
     [Windows.Forms.Application]::DoEvents()
     try {
         $n = Update-FromGitHub
+        try { $n += Update-GossipFromGitHub } catch { }
         $statusLabel.Text = if ($n -gt 0) { "Staženo $n nových/lepších překladů. Ve hře napiš /reload." } else { "Překlady jsou aktuální. Čekám na quest ze hry…" }
         if ($n -gt 0) { Show-Welcome }
     } catch {
@@ -596,7 +826,13 @@ $syncTimer.Add_Tick({
     $script:Busy = $true
     try {
         $n = Update-FromGitHub
+        try { $n += Update-GossipFromGitHub } catch { }
         if ($n -gt 0) { $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – staženo $n nových překladů. Ve hře napiš /reload." }
+        # Nová verze programu jen oznámit (instalace proběhne při dalším spuštění Pomocníka)
+        try {
+            $upd = Test-AppUpdate
+            if ($upd) { $statusLabel.Text = "Je nová verze $($upd.version) – zavři a znovu spusť Pomocníka." }
+        } catch { }
     } catch {
         # offline – zkusí se to za hodinu znovu
     } finally {

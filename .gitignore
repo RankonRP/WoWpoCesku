@@ -11,3 +11,4 @@ sberna/.wrangler/
 sberna/package-lock.json
 sberna/tajne.txt
 .preklady.etag
+.rozhovory.etag

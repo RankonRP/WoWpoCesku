@@ -60,10 +60,23 @@ PŘÍKAZY VE HŘE
 /czq              zapne / vypne překlad
 /czq velikost 15  velikost písma (10–20, výchozí 13) – panel se úměrně rozšíří
 /czq denik        zapne / vypne překlad v deníku questů (klávesa L)
+/czq rozhovory    zapne / vypne překlad rozhovorů s NPC
 /czq reset        vrátí panel na výchozí místo (panel jde přetáhnout myší)
 /czq focus        zapne / vypne automatické označení textu
 /czq stav         kolik questů je přeložených
 (místo /czq funguje i /wpc)
+
+
+ROZHOVORY S NPC
+---------------
+Když oslovíš NPC, které jen mluví (bez questu), ukáže se jeho řeč česky.
+Nepřeložený rozhovor: v panelu klikni na "Označit text" a zmáčkni Ctrl+C.
+
+
+AKTUALIZACE
+-----------
+Pomocník při spuštění sám zjistí, jestli je nová verze addonu, a nabídne
+aktualizaci – stačí kliknout na Ano. Nové překlady se stahují samy.
 
 
 DENÍK QUESTŮ

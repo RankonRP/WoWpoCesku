@@ -1,0 +1,139 @@
+{
+  "popis": "Automatické úpravy strojového překladu (Google). Používá je Pomocník i zpracování na GitHubu. 'slova' = celá slova/fráze (pořadí je důležité – delší fráze první), nahrazují se i s velkým počátečním písmenem; 'regexy' = obecné náhrady (regulární výrazy) až po slovech. Ručně opravené questy se neupravují.",
+  "slova": {
+    "jste připraveni": "jsi připraven",
+    "jste připravení": "jsi připraven",
+    "Děkuji vám": "Děkuji ti",
+    "Děkujeme vám": "Děkujeme ti",
+    "Zdravím vás": "Zdravím tě",
+    "Dobrý den": "Zdravím",
+    "od vás": "od tebe",
+    "pro vás": "pro tebe",
+    "u vás": "u tebe",
+    "bez vás": "bez tebe",
+    "na vás": "na tebe",
+    "za vás": "za tebe",
+    "o vás": "o tobě",
+    "k vám": "k tobě",
+    "ke vám": "k tobě",
+    "s vámi": "s tebou",
+    "se vámi": "s tebou",
+    "vámi": "tebou",
+    "vás": "tě",
+    "vám": "ti",
+    "Vy": "Ty",
+    "váš": "tvůj",
+    "vaše": "tvoje",
+    "vašeho": "tvého",
+    "vašemu": "tvému",
+    "vaší": "tvé",
+    "vaším": "tvým",
+    "vaši": "tvoji",
+    "vašich": "tvých",
+    "vašim": "tvým",
+    "vašimi": "tvými",
+    "jste": "jsi",
+    "abyste": "abys",
+    "byste": "bys",
+    "máte": "máš",
+    "budete": "budeš",
+    "můžete": "můžeš",
+    "musíte": "musíš",
+    "chcete": "chceš",
+    "víte": "víš",
+    "potřebujete": "potřebuješ",
+    "uvidíte": "uvidíš",
+    "najdete": "najdeš",
+    "dostanete": "dostaneš",
+    "získáte": "získáš",
+    "půjdete": "půjdeš",
+    "přinesete": "přineseš",
+    "pomůžete": "pomůžeš",
+    "zvládnete": "zvládneš",
+    "Promluvte": "Promluv",
+    "Přineste": "Přines",
+    "Doneste": "Dones",
+    "Odneste": "Odnes",
+    "Zaneste": "Zanes",
+    "Poneste": "Ponesi",
+    "Vezměte": "Vezmi",
+    "Zabijte": "Zabij",
+    "Pobijte": "Pobij",
+    "Najděte": "Najdi",
+    "Jděte": "Jdi",
+    "Pojďte": "Pojď",
+    "Přijďte": "Přijď",
+    "Seberte": "Seber",
+    "Poražte": "Poraz",
+    "Porazte": "Poraz",
+    "Řekněte": "Řekni",
+    "Pošlete": "Pošli",
+    "Buďte": "Buď",
+    "Vítejte": "Vítej",
+    "Zničte": "Znič",
+    "Doručte": "Doruč",
+    "Označte": "Označ",
+    "Začněte": "Začni",
+    "dřevěný vlk": "lesní vlk",
+    "dřevění vlci": "lesní vlci",
+    "dřevěné vlky": "lesní vlky",
+    "dřevěných vlků": "lesních vlků",
+    "dřevěného vlka": "lesního vlka",
+    "dřevěnému vlkovi": "lesnímu vlkovi",
+    "dřevěným vlkům": "lesním vlkům",
+    "dřevěnými vlky": "lesními vlky",
+    "dřevěných vlcích": "lesních vlcích"
+  },
+  "regexy": [
+    {
+      "popis": "rozkaz -ujte -> -uj (bojujte, pracujte)",
+      "hledat": "(?<!\\p{L})(\\p{L}+)ujte(?!\\p{L})",
+      "nahradit": "$1uj"
+    },
+    {
+      "popis": "rozkaz -ejte/-ějte -> -ej/-ěj (hledejte, podívejte, mějte)",
+      "hledat": "(?<!\\p{L})(\\p{L}+)(e|ě)jte(?!\\p{L})",
+      "nahradit": "$1$2j"
+    },
+    {
+      "popis": "rozkaz -ijte -> -ij (použijte, pijte)",
+      "hledat": "(?<!\\p{L})(\\p{L}+)ijte(?!\\p{L})",
+      "nahradit": "$1ij"
+    },
+    {
+      "popis": "rozkaz -ěte -> -i (zjistěte, sedněte, vyčistěte)",
+      "hledat": "(?<!\\p{L})(\\p{L}+)ěte(?!\\p{L})",
+      "nahradit": "$1i"
+    },
+    {
+      "popis": "rozkaz -ťte/-ďte/-ňte/-žte -> bez -te (vraťte, posaďte, chraňte, ukažte); -čte jen ze seznamu (jinak by z 'přečte' vzniklo 'přeč')",
+      "hledat": "(?<!\\p{L})(\\p{L}+[ťďňž])te(?!\\p{L})",
+      "nahradit": "$1"
+    },
+    {
+      "popis": "minulý čas u tykání: 'našli jsi' -> 'našel jsi' (-šli -> -šel)",
+      "hledat": "(?<!\\p{L})(\\p{L}*)šli(\\s+(?:jsi|bys))(?!\\p{L})",
+      "nahradit": "$1šel$2"
+    },
+    {
+      "popis": "minulý čas u tykání: 'udělali jsi' -> 'udělal jsi'",
+      "hledat": "(?<!\\p{L})(?!(?:[Jj]estli|[Zz]dali|[Kk]dyžli|[Aa]ni)(?!\\p{L}))(\\p{L}+)li(\\s+(?:jsi|bys))(?!\\p{L})",
+      "nahradit": "$1l$2"
+    },
+    {
+      "popis": "minulý čas u tykání: 'jsi přišli' / 'abys mi přišli' -> '…přišel'",
+      "hledat": "(?<!\\p{L})((?:a)?bys|jsi)(\\s+(?:\\p{L}+\\s+){0,2}?)(\\p{L}*)šli(?!\\p{L})",
+      "nahradit": "$1$2$3šel"
+    },
+    {
+      "popis": "minulý čas u tykání: 'jsi byli' / 'bys mi mohli' -> '…byl/mohl'",
+      "hledat": "(?<!\\p{L})((?:a)?bys|jsi)(\\s+(?:\\p{L}+\\s+){0,2}?)(?!(?:[Jj]estli|[Zz]dali|[Kk]dyžli|[Aa]ni)(?!\\p{L}))(\\p{L}+)li(?!\\p{L})",
+      "nahradit": "$1$2$3l"
+    },
+    {
+      "popis": "mezery uvnitř značek",
+      "hledat": "\\{\\s*([NCR])\\s*\\}",
+      "nahradit": "{$1}"
+    }
+  ]
+}

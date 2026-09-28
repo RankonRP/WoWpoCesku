@@ -8,7 +8,8 @@
 //   GET  /corrections (admin) -> čekající opravy (+ příznak trusted)
 //   POST /corrections/resolve (admin) [{ id, status: "applied" | "rejected" }]
 
-const FIELDS = ["title", "text", "objectives", "progress", "reward"];
+// "gossip" = rozhovor s NPC (id = číslo NPC místo čísla questu)
+const FIELDS = ["title", "text", "objectives", "progress", "reward", "gossip"];
 const MAX_LEN = 5000;
 const DAY_LIMIT_CLIENT = 300;
 const DAY_LIMIT_IP = 500;

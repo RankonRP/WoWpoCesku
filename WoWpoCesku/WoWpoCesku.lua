@@ -28,6 +28,7 @@ local PART_FIELDS = {
 }
 
 WoWpoCesku_Data = WoWpoCesku_Data or {}
+WoWpoCesku_Gossip = WoWpoCesku_Gossip or {}
 
 -------------------------------------------------------------------------------
 -- Jméno postavy <-> {N}, aby šel jeden překlad použít pro všechny postavy
@@ -170,6 +171,10 @@ local HINTS = {
         .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
         .. "|cffffd1002.|r Nový překlad se ukáže v okně Pomocníka\n"
         .. "|cffffd1003.|r Po |cff00ff00/reload|r bude i tady",
+    rozhovor = "Tenhle rozhovor ještě není přeložený.\n\n"
+        .. "|cffffd1001.|r Klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r\n"
+        .. "|cffffd1002.|r Překlad se hned ukáže v okně Pomocníka\n"
+        .. "|cffffd1003.|r Po |cff00ff00/reload|r už bude česky i tady",
     oprava = "Oprava překladu:\n\n"
         .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
         .. "|cffffd1002.|r V Pomocníkovi se otevře okno pro opravu\n"
@@ -300,8 +305,24 @@ local function gatherLog()
     }
 end
 
+-- Rozhovor s NPC (okno "gossip"): co NPC říká, když ho oslovíš
+local function gossipKey(s)
+    return ((s or ""):gsub("%s+", " "):gsub("^ ", ""):gsub(" $", ""))
+end
+
+local function gatherGossip()
+    local text = (C_GossipInfo and C_GossipInfo.GetText and C_GossipInfo.GetText()) or (GetGossipText and GetGossipText())
+    if not text or text == "" then return nil end
+    local npcId = 0
+    local guid = UnitGUID("npc")
+    if guid then npcId = tonumber((select(6, strsplit("-", guid)))) or 0 end
+    return { kind = "gossip", id = npcId, title = UnitName("npc") or "", gossip = toToken(text) }
+end
+
 local function anchorFrame(source)
-    if source == "log" then
+    if source == "gossip" then
+        if GossipFrame and GossipFrame:IsShown() then return GossipFrame end
+    elseif source == "log" then
         if QuestLogFrame and QuestLogFrame:IsShown() then return QuestLogFrame end
         if WorldMapFrame and WorldMapFrame:IsShown() then return WorldMapFrame end
     elseif QuestFrame and QuestFrame:IsShown() then
@@ -344,6 +365,9 @@ local function isTranslated(q)
 end
 
 local function buildPayload(q, mode)
+    if q.kind == "gossip" then
+        return table.concat({ ("CZG#%d"):format(q.id), "##title", q.title, "##gossip", q.gossip }, "\n")
+    end
     local header = ("CZQ#%d#%s"):format(q.id, q.part)
     if mode == "oprava" then header = header .. "#oprava" end
     local lines = { header, "##title", q.title }
@@ -394,15 +418,37 @@ local function showCopy(q, mode)
     retry:Hide()
     fix:Hide()
     copyFrame:Show()
-    -- V deníku se text sám neoznačuje (zabral by klávesnici při procházení deníku)
-    if WoWpoCeskuSettings.autofocus and (panel.source ~= "log" or mode ~= "preklad") then
+    -- V deníku a u rozhovorů se text sám neoznačuje (zabral by klávesnici)
+    local passive = (panel.source == "log" or panel.source == "gossip") and (mode == "preklad" or mode == "rozhovor")
+    if WoWpoCeskuSettings.autofocus and not passive then
         selectPayload()
-    elseif panel.source == "log" then
+    elseif passive then
         status:SetText("|cffaaaaaaKlikni na 'Označit text' a zmáčkni Ctrl+C|r")
     end
 end
 
 local currentQuest
+
+local function showGossip(q)
+    local cs = WoWpoCesku_Gossip[gossipKey(q.gossip)]
+    if cs then
+        title:SetText(q.title)
+        body:SetText(fromToken(cs))
+        content:SetHeight(body:GetStringHeight() + 10)
+        scroll:SetVerticalScroll(0)
+        C_Timer.After(0, function()
+            local bar = scroll.ScrollBar or _G["WoWpoCeskuScrollScrollBar"]
+            if bar then bar:SetShown(scroll:GetVerticalScrollRange() > 0) end
+        end)
+        copyFrame:Hide()
+        scroll:Show()
+        -- Opravy rozhovorů zatím Pomocník neumí
+        retry:Hide()
+        fix:Hide()
+    else
+        showCopy(q, "rozhovor")
+    end
+end
 
 local function showQuest(q, source)
     if not q then return end
@@ -410,7 +456,9 @@ local function showQuest(q, source)
     panel.source = source
     placePanel(source)
     panel:Show()
-    if isTranslated(q) then
+    if q.kind == "gossip" then
+        showGossip(q)
+    elseif isTranslated(q) then
         showTranslated(q)
     else
         showCopy(q, "preklad")
@@ -472,6 +520,8 @@ events:RegisterEvent("QUEST_DETAIL")
 events:RegisterEvent("QUEST_PROGRESS")
 events:RegisterEvent("QUEST_COMPLETE")
 events:RegisterEvent("QUEST_FINISHED")
+events:RegisterEvent("GOSSIP_SHOW")
+events:RegisterEvent("GOSSIP_CLOSED")
 events:SetScript("OnEvent", function(_, event, arg1)
     if event == "ADDON_LOADED" then
         if arg1 == "WoWpoCesku" then
@@ -498,7 +548,19 @@ events:SetScript("OnEvent", function(_, event, arg1)
         return
     end
 
+    if event == "GOSSIP_CLOSED" then
+        if panel.source == "gossip" then
+            edit:ClearFocus()
+            panel:Hide()
+        end
+        return
+    end
+
     if not WoWpoCeskuSettings.enabled then return end
+    if event == "GOSSIP_SHOW" then
+        if WoWpoCeskuSettings.gossip ~= false then showQuest(gatherGossip(), "gossip") end
+        return
+    end
     showQuest(gatherDialog(event), "dialog")
 end)
 
@@ -531,10 +593,15 @@ SlashCmdList.CZQUESTS = function(msg)
     elseif cmd == "denik" then
         WoWpoCeskuSettings.log = (WoWpoCeskuSettings.log == false)
         say("preklad v deniku questu " .. (WoWpoCeskuSettings.log and "ZAPNUT" or "VYPNUT"))
+    elseif cmd == "rozhovory" then
+        WoWpoCeskuSettings.gossip = (WoWpoCeskuSettings.gossip == false)
+        if not WoWpoCeskuSettings.gossip and panel.source == "gossip" then panel:Hide() end
+        say("preklad rozhovoru s NPC " .. (WoWpoCeskuSettings.gossip and "ZAPNUT" or "VYPNUT"))
     elseif cmd == "stav" then
-        local n = 0
+        local n, g = 0, 0
         for _ in pairs(WoWpoCesku_Data) do n = n + 1 end
-        say(("prelozenych questu: %d"):format(n))
+        for _ in pairs(WoWpoCesku_Gossip) do g = g + 1 end
+        say(("prelozenych questu: %d, rozhovoru: %d"):format(n, g))
     elseif cmd == "info" then
         hookQuestLog()
         say(("denik: klasicky=%s, v mape=%s | vybrany quest: %s"):format(
@@ -544,6 +611,6 @@ SlashCmdList.CZQUESTS = function(msg)
         WoWpoCeskuSettings.enabled = not WoWpoCeskuSettings.enabled
         if not WoWpoCeskuSettings.enabled then panel:Hide() end
         say("preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT")
-            .. "   (dalsi: /czq velikost, /czq denik, /czq reset, /czq focus, /czq stav)")
+            .. "   (dalsi: /czq velikost, /czq denik, /czq rozhovory, /czq reset, /czq focus, /czq stav)")
     end
 end

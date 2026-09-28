@@ -1,6 +1,7 @@
 // Denní zpracování (GitHub Actions):
 //   1) potvrzené nové questy ze sběrny -> překlad
 //   2) opravy od hráčů -> důvěryhodné rovnou, ostatní ke schválení v issue na GitHubu
+//   3) rozhovory s NPC -> rozhovory.json + DataRozhovory.lua
 //   -> preklady.json + Data.lua
 //
 // Prostředí:
@@ -15,11 +16,11 @@
 const fs = require("fs");
 const path = require("path");
 
+const { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey } = require("./soubory");
+const { apply: applyRules } = require("./pravidla");
+
 const ROOT = path.join(__dirname, "..");
-const CACHE_PATH = path.join(ROOT, "preklady.json");
-const DATA_LUA_PATH = path.join(ROOT, "WoWpoCesku", "Data.lua");
 const GLOSSARY_PATH = path.join(ROOT, "slovnicek.txt");
-const FIELD_ORDER = ["title", "text", "objectives", "progress", "reward"];
 
 const { SBERNA_URL, SBERNA_ADMIN_KEY, ANTHROPIC_API_KEY } = process.env;
 const PREKLADAC = process.env.PREKLADAC || "google";
@@ -79,7 +80,11 @@ async function claudeQuest(fields) {
 async function translateAll(quests) {
   const result = {};
   if (PREKLADAC === "claude") {
-    for (const [id, fields] of Object.entries(quests)) result[id] = await claudeQuest(fields);
+    for (const [id, fields] of Object.entries(quests)) {
+      const out = await claudeQuest(fields);
+      for (const k of Object.keys(out)) out[k] = applyRules(out[k]);
+      result[id] = out;
+    }
     return result;
   }
   const todo = [];
@@ -93,40 +98,10 @@ async function translateAll(quests) {
     }
     const out = await googleBatch(batch.map((b) => b.v));
     if (out.length !== batch.length) throw new Error("Google vrátil jiný počet textů");
-    batch.forEach((b, n) => ((result[b.id] = result[b.id] || {})[b.k] = out[n]));
+    batch.forEach((b, n) => ((result[b.id] = result[b.id] || {})[b.k] = applyRules(out[n])));
     await sleep(1200);
   }
   return result;
-}
-
-// ---------------------------------------------------------------------------
-// Zápis souborů (stejný formát jako pomocnik.ps1)
-// ---------------------------------------------------------------------------
-function writeCache(cache) {
-  const ids = Object.keys(cache).sort((a, b) => a - b);
-  const lines = ids.map((id, i) => {
-    const entry = {};
-    for (const k of Object.keys(cache[id]).sort()) entry[k] = cache[id][k];
-    return `  "${id}": ${JSON.stringify(entry)}${i < ids.length - 1 ? "," : ""}`;
-  });
-  fs.writeFileSync(CACHE_PATH, "{\n" + lines.join("\n") + "\n}\n");
-}
-
-const luaString = (s) => '"' + s.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\r/g, "").replace(/\n/g, "\\n") + '"';
-
-function writeDataLua(cache) {
-  const out = [
-    "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v preklady.json.",
-    "WoWpoCesku_Data = {",
-  ];
-  for (const id of Object.keys(cache).sort((a, b) => a - b)) {
-    const e = cache[id];
-    const parts = FIELD_ORDER.filter((f) => e[f]).map((f) => `${f}=${luaString(e[f])}`);
-    if (e.en_title) parts.push(`en=${luaString(e.en_title)}`);
-    if (parts.length) out.push(`[${id}]={${parts.join(",")}},`);
-  }
-  out.push("}");
-  fs.writeFileSync(DATA_LUA_PATH, out.join("\r\n") + "\r\n");
 }
 
 // ---------------------------------------------------------------------------
@@ -143,10 +118,23 @@ async function sberna(pathname, body) {
 }
 
 // Nové questy od hráčů -> překlad. Vrací seznam k potvrzení (ack).
-async function processSubmissions(cache) {
-  const items = (await sberna("/confirmed")).items || [];
-  console.log(`Potvrzených textů ze sběrny: ${items.length}`);
-  if (!items.length) return { changed: false, ack: [] };
+async function processSubmissions(cache, gossip) {
+  const all = (await sberna("/confirmed")).items || [];
+  console.log(`Potvrzených textů ze sběrny: ${all.length}`);
+  if (!all.length) return { changed: false, gossipChanged: false, ack: [] };
+  const items = all.filter((it) => it.field !== "gossip");
+
+  // Rozhovory s NPC: každý text zvlášť (jedno NPC jich může mít víc)
+  const gossipTodo = {};
+  for (const it of all.filter((it) => it.field === "gossip")) {
+    const key = gossipKey(it.en_text);
+    if (!gossip[key]?.cs && !gossipTodo[key]) gossipTodo[key] = { cs: it.en_text, npc: it.quest_id };
+  }
+  const gossipTr = await translateAll(Object.fromEntries(Object.entries(gossipTodo).map(([k, v]) => [k, { cs: v.cs }])));
+  for (const [key, t] of Object.entries(gossipTr)) {
+    gossip[key] = { cs: t.cs, en: gossipTodo[key].cs, npc: String(gossipTodo[key].npc), src: "komunita" };
+  }
+  console.log(`Rozhovorů přeloženo: ${Object.keys(gossipTr).length}`);
 
   // Pro každé pole questu vezmi text s nejvíc hlášeními (nebo od důvěryhodného hráče)
   const best = {};
@@ -177,7 +165,8 @@ async function processSubmissions(cache) {
   }
   return {
     changed: Object.keys(translated).length > 0,
-    ack: items.map((it) => ({ quest_id: it.quest_id, field: it.field, en_hash: it.en_hash })),
+    gossipChanged: Object.keys(gossipTr).length > 0,
+    ack: all.map((it) => ({ quest_id: it.quest_id, field: it.field, en_hash: it.en_hash })),
   };
 }
 
@@ -281,9 +270,10 @@ async function updateIssue(pending, issue, cache) {
 // ---------------------------------------------------------------------------
 async function main() {
   if (!SBERNA_URL || !SBERNA_ADMIN_KEY) throw new Error("Chybí SBERNA_URL nebo SBERNA_ADMIN_KEY");
-  const cache = JSON.parse(fs.readFileSync(CACHE_PATH, "utf8"));
+  const cache = readCache();
+  const gossip = readGossip();
 
-  const subs = await processSubmissions(cache);
+  const subs = await processSubmissions(cache, gossip);
   const corr = await processCorrections(cache);
 
   if (DRY_RUN) {
@@ -293,6 +283,10 @@ async function main() {
   if (subs.changed || corr.changed) {
     writeCache(cache);
     writeDataLua(cache);
+  }
+  if (subs.gossipChanged) {
+    writeGossip(gossip);
+    writeGossipLua(gossip);
   }
   if (subs.ack.length) await sberna("/ack", subs.ack);
   if (corr.resolve.length) await sberna("/corrections/resolve", corr.resolve);
