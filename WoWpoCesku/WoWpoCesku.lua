@@ -228,6 +228,22 @@ again:SetPoint("TOPLEFT", status, "BOTTOMLEFT", 0, -10)
 czButton(again)
 again:SetText("Označit text")
 again:SetScript("OnClick", selectPayload)
+
+-- Načíst překlady = /reload: hra uloží frontu, Pomocník ji přeloží, další načtení ukáže češtinu
+local reloadButton = CreateFrame("Button", nil, copyFrame, "UIPanelButtonTemplate")
+reloadButton:SetSize(165, 24)
+reloadButton:SetPoint("LEFT", again, "RIGHT", 8, 0)
+czButton(reloadButton)
+reloadButton:SetText("Načíst překlady")
+reloadButton:SetScript("OnClick", function() ReloadUI() end)
+reloadButton:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:AddLine("Nacist preklady (/reload)")
+    GameTooltip:AddLine("Pomocnik texty prelozi asi za 20 s,", 1, 1, 1)
+    GameTooltip:AddLine("pak klikni znovu a budou cesky.", 1, 1, 1)
+    GameTooltip:Show()
+end)
+reloadButton:SetScript("OnLeave", GameTooltip_Hide)
 boxBg:EnableMouse(true)
 boxBg:SetScript("OnMouseDown", selectPayload)
 
@@ -812,7 +828,9 @@ local function createMinimapButton()
     minimapButton:RegisterForClicks("LeftButtonUp", "RightButtonUp")
     minimapButton:RegisterForDrag("LeftButton")
     minimapButton:SetScript("OnClick", function(_, button)
-        if button == "RightButton" then
+        if IsShiftKeyDown() then
+            ReloadUI()   -- načíst nové překlady
+        elseif button == "RightButton" then
             setEnabled(not WoWpoCeskuSettings.enabled)
             print("|cffffd100WoWpoCesku:|r preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT"))
         else
@@ -835,6 +853,10 @@ local function createMinimapButton()
         GameTooltip:AddLine("WoWpoCesku")
         GameTooltip:AddLine("Levy klik: nastaveni", 1, 1, 1)
         GameTooltip:AddLine("Pravy klik: preklad zapnout / vypnout", 1, 1, 1)
+        GameTooltip:AddLine("Shift+klik: nacist nove preklady (/reload)", 1, 1, 1)
+        local n = 0
+        for _ in pairs(WoWpoCeskuQueue or {}) do n = n + 1 end
+        if n > 0 then GameTooltip:AddLine(("Ceka na preklad: %d textu"):format(n), 1, 0.82, 0) end
         GameTooltip:AddLine("Tazenim posunes ikonu", 0.7, 0.7, 0.7)
         GameTooltip:Show()
     end)
@@ -848,6 +870,14 @@ setupFrame:RegisterEvent("PLAYER_LOGIN")
 setupFrame:SetScript("OnEvent", function()
     registerOptions()
     createMinimapButton()
+    -- Připomenout, když ve frontě zůstaly nepřeložené texty
+    local n = 0
+    for _ in pairs(WoWpoCeskuQueue or {}) do n = n + 1 end
+    if n > 0 then
+        C_Timer.After(5, function()
+            print(("|cffffd100WoWpoCesku:|r %d textu ceka na preklad. Pomocnik je prelozi – pak Shift+klik na ikonu knihy (nebo /reload)."):format(n))
+        end)
+    end
 end)
 
 -------------------------------------------------------------------------------
