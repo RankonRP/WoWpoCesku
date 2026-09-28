@@ -215,7 +215,16 @@ end
 local hooked = {}
 local function hook(funcName, target)
     if hooked[funcName] or type(_G[funcName]) ~= "function" then return end
-    hooksecurefunc(funcName, function() refresh(target) end)
+    -- Přeložit hned (ještě před vykreslením – jinak seznam na mapě na okamžik blikne anglicky)
+    -- a pro jistotu ještě jednou chvilku potom
+    hooksecurefunc(funcName, function()
+        if enabled() then
+            local frame = _G[target]
+            if target == "QuestMapFrame" then frame = QuestScrollFrame end
+            pcall(translateFrame, frame, 0)
+        end
+        refresh(target)
+    end)
     hooked[funcName] = true
 end
 
@@ -225,6 +234,7 @@ local function hookAll()
     hook("ObjectiveTracker_Update", "ObjectiveTrackerFrame")
     hook("QuestLog_Update", "QuestLogFrame")
     hook("QuestLogQuests_Update", "QuestMapFrame")
+    hook("QuestMapFrame_UpdateAll", "QuestMapFrame")
 end
 
 -- Přehled úkolů se v různých verzích hry jmenuje různě -> najít ho podle nadpisu.
