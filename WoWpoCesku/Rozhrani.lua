@@ -76,7 +76,8 @@ local OBJECTIVE_REPLACE = {
 
 -------------------------------------------------------------------------------
 local function simplify(s)
-    return ((s or ""):lower():gsub("[%s%p]", ""))
+    -- \194\160 = nezlomitelná mezera (Lua ji nebere jako %s)
+    return ((s or ""):gsub("\194\160", " "):lower():gsub("[%s%p]", ""))
 end
 
 local fromToken = function(s) return WoWpoCesku_FromToken and WoWpoCesku_FromToken(s) or s end
@@ -107,11 +108,12 @@ local function translateLine(text)
         if trimmed:find(p[1]) then return (trimmed:gsub(p[1], p[2])) end
     end
 
-    -- Název questu (případně s předponou "[12] ", "- " nebo barvou)
-    local prefix, core = trimmed:match("^(%[[^%]]*%]%s*)(.+)$")
-    if not core then prefix, core = trimmed:match("^([%-%s]*)(.+)$") end
+    -- Název questu (případně s předponou "[12] ", "- " nebo barvou). Barvy odstranit dřív,
+    -- než se hledá předpona – přehled úkolů obarvuje i samotnou úroveň "[12]".
+    local plain = trimmed:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("\194\160", " ")
+    local prefix, core = plain:match("^(%[[^%]]*%]%s*)(.+)$")
+    if not core then prefix, core = plain:match("^([%-%s]*)(.+)$") end
     if core then
-        core = core:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")
         local cs = titleMap[simplify(core)] or titleMap[simplify(toToken(core))]
         if cs then return prefix .. fromToken(cs) end
     end
@@ -229,7 +231,24 @@ function WoWpoCesku_TrackerInfo()
     local names = {}
     for _, name in ipairs(TRACKERS) do if _G[name] then names[#names + 1] = name .. (_G[name]:IsVisible() and "(videt)" or "") end end
     for frame in pairs(discovered) do names[#names + 1] = "nalezeno:" .. (frame:GetName() or "bez-jmena") end
+    -- Ukázka prvních textů z přehledu (neviditelné a zvláštní znaky jako <kód>), pro ladění
+    local samples = {}
+    local function collect(frame, depth)
+        if #samples >= 4 or depth > 10 or not frame:IsVisible() then return end
+        for _, r in ipairs({ frame:GetRegions() }) do
+            if r:GetObjectType() == "FontString" and #samples < 4 then
+                local t = r:GetText()
+                if t and t:find("%[") then
+                    samples[#samples + 1] = (t:gsub("|", "!"):gsub("[^%w%s%[%]%p]", function(c) return "<" .. c:byte() .. ">" end)):sub(1, 60)
+                end
+            end
+        end
+        for _, c in ipairs({ frame:GetChildren() }) do collect(c, depth + 1) end
+    end
+    for frame in pairs(discovered) do collect(frame, 0) end
+    for _, name in ipairs(TRACKERS) do if _G[name] then collect(_G[name], 0) end end
     return "prehled ukolu: " .. (#names > 0 and table.concat(names, ", ") or "nic")
+        .. (#samples > 0 and ("\n  texty: " .. table.concat(samples, "  ||  ")) or "")
 end
 
 -- Moderní přehled úkolů přepisuje texty ve vlastním cyklu, který se nedá spolehlivě zachytit
