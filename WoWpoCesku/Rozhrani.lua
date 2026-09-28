@@ -135,11 +135,14 @@ end
 -- Výměna písma: výchozí písma WoW nemají č/ř/ů. Velikost a styl zachovat.
 -- Hra rozmístila řádky podle výšky anglického textu – když se český zalomí na víc řádků,
 -- zkusit ho o 1–2 body zmenšit, aby nepřekrýval řádek pod sebou.
+local origSize = setmetatable({}, { __mode = "k" })   -- původní velikost písma (zmenšuje se vždy od ní)
 local function setCzech(fs, text)
     local _, size, flags = fs:GetFont()
     if not size then return end
-    local oldHeight = fs:GetStringHeight() or 0
+    origSize[fs] = origSize[fs] or size
+    size = origSize[fs]
     fs:SetFont(FONT, size, flags or "")
+    local oldHeight = fs:GetStringHeight() or 0   -- výška anglického textu v plné velikosti
     fs:SetText(text)
     if oldHeight > 0 then
         for _ = 1, 2 do
@@ -150,6 +153,30 @@ local function setCzech(fs, text)
     end
 end
 
+local function enabled()
+    return WoWpoCeskuSettings and WoWpoCeskuSettings.enabled and WoWpoCeskuSettings.ui ~= false
+end
+
+-- Hra některé texty přepisuje pořád dokola (např. seznam questů na mapě) – čeština pak blikala
+-- s angličtinou. Přeložený řádek si proto hlídáme: jakmile do něj hra zapíše, hned ho přeložíme znovu.
+local watched = setmetatable({}, { __mode = "k" })
+local busy = false
+local function retranslate(fs, text)
+    if busy or not enabled() or type(text) ~= "string" or text == "" or text:find("|T") then return end
+    local cs = translateLine(text)
+    if cs and cs ~= text then
+        busy = true
+        pcall(setCzech, fs, cs)
+        busy = false
+    end
+end
+local function watch(fs)
+    if watched[fs] then return end
+    watched[fs] = true
+    pcall(hooksecurefunc, fs, "SetText", function(self, text) retranslate(self, text) end)
+    pcall(hooksecurefunc, fs, "SetFormattedText", function(self) retranslate(self, self:GetText()) end)
+end
+
 local function translateFrame(frame, depth)
     if not frame or depth > 14 or not frame:IsVisible() then return end
     for _, region in ipairs({ frame:GetRegions() }) do
@@ -157,15 +184,11 @@ local function translateFrame(frame, depth)
             local text = region:GetText()
             if text and text ~= "" and not text:find("|T") then
                 local cs = translateLine(text)
-                if cs and cs ~= text then setCzech(region, cs) end
+                if cs and cs ~= text then setCzech(region, cs); watch(region) end
             end
         end
     end
     for _, child in ipairs({ frame:GetChildren() }) do translateFrame(child, depth + 1) end
-end
-
-local function enabled()
-    return WoWpoCeskuSettings and WoWpoCeskuSettings.enabled and WoWpoCeskuSettings.ui ~= false
 end
 
 -- Obnovení se spojuje (hra aktualizuje přehled i několikrát za snímek)
