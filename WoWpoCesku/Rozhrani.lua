@@ -133,11 +133,21 @@ local function translateLine(text)
 end
 
 -- Výměna písma: výchozí písma WoW nemají č/ř/ů. Velikost a styl zachovat.
+-- Hra rozmístila řádky podle výšky anglického textu – když se český zalomí na víc řádků,
+-- zkusit ho o 1–2 body zmenšit, aby nepřekrýval řádek pod sebou.
 local function setCzech(fs, text)
     local _, size, flags = fs:GetFont()
     if not size then return end
+    local oldHeight = fs:GetStringHeight() or 0
     fs:SetFont(FONT, size, flags or "")
     fs:SetText(text)
+    if oldHeight > 0 then
+        for _ = 1, 2 do
+            if fs:GetStringHeight() <= oldHeight + 1 then break end
+            size = size - 1
+            fs:SetFont(FONT, size, flags or "")
+        end
+    end
 end
 
 local function translateFrame(frame, depth)
