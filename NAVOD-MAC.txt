@@ -1,0 +1,43 @@
+WoWpoČesku – návod pro Mac
+==========================
+
+Mac verze Pomocníka (pomocnik-mac.js). Nic se neinstaluje – běží přes osascript,
+který je součástí macOS. Addon ve hře je stejný jako na Windows.
+
+INSTALACE
+  1. Na stránce projektu na GitHubu klikni na Code -> Download ZIP.
+  2. Zip rozbal (dvojklik) a rozbalenou složku přesuň natrvalo do složky
+     /Applications/World of Warcraft (Finder: Cmd+Shift+G a vlož tu cestu).
+     Plocha, Dokumenty a Stahování nejsou vhodné – macOS k nim Terminálu omezuje přístup
+     a s iCloudem se mohou přesouvat.
+  3. Ve složce dvojklikni na „Spustit pomocnika.command“.
+     Poprvé macOS napíše, že aplikaci nemůže ověřit (je stažená z internetu):
+       - klikni na Hotovo, otevři Nastavení systému -> Soukromí a zabezpečení,
+         dole u „Spustit pomocnika.command“ klikni na Přesto otevřít a potvrď,
+       - nebo v Terminálu jednou spusť (cestu uprav podle sebe):
+           xattr -dr com.apple.quarantine "/Applications/World of Warcraft/WoWpoCesku-main"
+  4. Pomocník při prvním spuštění sám zkopíruje addon do hry
+     (…/World of Warcraft/_classic_beta_/Interface/AddOns/WoWpoCesku).
+  5. Spusť hru a na obrazovce výběru postavy v AddOns zaškrtni WoWpoCesku.
+
+HRANÍ
+  - Spusť „Spustit pomocnika.command“ – nejlépe ještě před hrou. Okno Terminálu nech otevřené.
+  - Přeložený quest -> český text se ukáže v panelu vedle okna questu.
+  - Nepřeložený quest -> v panelu klikni na „Načíst překlady (/reload)“, počkej asi 20 s
+    a klikni znovu. (Hra texty uloží při /reload, Pomocník je přeloží.)
+    Text jde předat i přes schránku: addon ho označí, zmáčkni Cmd+C.
+  - Ukončení Pomocníka: Ctrl+C v okně Terminálu, nebo okno zavři.
+
+AKTUALIZACE
+  Automatické: Pomocník při spuštění nainstaluje novou verzi addonu (i sebe)
+  a každou hodinu stahuje nové překlady od ostatních hráčů.
+  Když napíše, že se aktualizoval i Pomocník, zavři okno a spusť ho znovu.
+
+NASTAVENÍ (nastaveni.json)
+  prispivat        true/false – posílat ANGLICKÝ text nových questů do společné sbírky
+                   (nic osobního – jméno, třída a rasa postavy jsou nahrazené značkami)
+  prekladac        "google" (výchozí) nebo "claude"
+  claude_api_klic  API klíč pro překladač "claude"
+
+CO V MAC VERZI NENÍ
+  Okno „Opravit překlad“ – to je zatím jen ve Windows verzi.

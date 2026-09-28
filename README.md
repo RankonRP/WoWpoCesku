@@ -20,6 +20,17 @@
 
 **Aktualizace jsou automatické:** Pomocník při spuštění sám nabídne novou verzi a nové překlady od ostatních hráčů se stahují samy.
 
+## Mac
+
+Na Macu funguje stejný addon, Pomocník má vlastní verzi (`pomocnik-mac.js`). Nic se neinstaluje – běží přes `osascript`, který je součástí macOS.
+
+1. **Code** → **Download ZIP**, zip rozbal a složku přesuň natrvalo do `/Applications/World of Warcraft`.
+2. Dvojklikni na **`Spustit pomocnika.command`**. Poprvé macOS soubor zablokuje (je stažený z internetu) – v *Nastavení systému → Soukromí a zabezpečení* klikni na **Přesto otevřít**.
+3. Pomocník při prvním spuštění sám zkopíruje addon do hry a zeptá se, jestli chceš pomáhat s překlady.
+4. Nepřeložený quest: v panelu klikni na **Načíst překlady (/reload)**, počkej asi 20 s a klikni znovu (nebo text zkopíruj přes **Cmd+C**).
+
+Mac verze umí vše kromě okna *Opravit překlad*. Podrobnosti: [NAVOD-MAC.txt](NAVOD-MAC.txt).
+
 ## Hraní
 
 - Spusť **`Spustit pomocnika.bat`** – nejlépe ještě před hrou.
@@ -40,6 +51,7 @@ Testování na betě WoW Forever (klient 1.60.1). Překlady jsou strojové (Goog
 |---|---|
 | `WoWpoCesku/` | samotný addon (patří do `Interface\AddOns`) |
 | `Spustit pomocnika.bat`, `pomocnik.ps1` | Pomocník – hlídá schránku, překládá nové questy, stahuje aktualizace |
+| `Spustit pomocnika.command`, `pomocnik-mac.js` | Pomocník pro Mac (totéž bez okna „Opravit překlad“) |
 | `Instalace do hry.bat` | propojí addon se složkou hry |
 | `preklady.json`, `rozhovory.json` | databáze překladů včetně anglických originálů |
 | `pravidla.json` | automatické úpravy strojového překladu |
