@@ -2,25 +2,51 @@
 
 Český překlad questů pro **World of Warcraft: Forever**.
 
-- Addon ukáže český překlad vedle okna questu – u více než 4000 klasických questů hned po instalaci.
-- Nový quest, který ještě přeložený není, předáš jednou klávesou (Ctrl+C) malému Pomocníkovi na PC. Ten ho přeloží a uloží, takže příště už je česky přímo ve hře.
-- Nic se neinstaluje – Pomocník běží v PowerShellu, který je součástí Windows.
+- Česky se ukáže zadání questu, texty při odevzdání, úkoly v přehledu, názvy questů, rozhovory s NPC i knihy a dopisy – u víc než 4000 questů hned po instalaci.
+- Nový quest, který ještě přeložený není, předáš jednou klávesou (**Ctrl+C**) malému Pomocníkovi na PC. Ten ho přeloží a pošle do společné databáze, takže ho pak mají česky všichni hráči.
+- Nic dalšího se neinstaluje – Pomocník běží v PowerShellu, který je součástí Windows.
 
-Návod k instalaci a používání: [NAVOD.txt](NAVOD.txt) (otevře se i v Poznámkovém bloku)
+## Instalace
+
+1. Nahoře na této stránce klikni na zelené tlačítko **Code** → **Download ZIP**.
+2. Zip **rozbal** (pravým tlačítkem → *Extrahovat vše*) někam natrvalo, třeba do Dokumentů.
+   Složku pak **nemaž** – addon ve hře je na ni jen odkaz.
+3. Spusť **`Instalace do hry.bat`** a vyber složku **World of Warcraft** (správnou verzi hry najde sama).
+4. Spusť **`Spustit pomocnika.bat`**. Poprvé se zeptá, jestli chceš pomáhat s překlady – doporučujeme **Ano**.
+5. Spusť hru a na obrazovce výběru postavy v **AddOns** zkontroluj, že je **WoWpoCesku** zaškrtnutý.
+6. V nastavení hry přepni *Options → Graphics → Display Mode* na **Windowed (Fullscreen)**, aby bylo okno Pomocníka vidět nad hrou.
+
+> Když Windows ukáže modré okno **„Systém Windows ochránil počítač“**, klikni na **Další informace** → **Přesto spustit**. Je to běžné u každého skriptu staženého z internetu.
+
+**Aktualizace jsou automatické:** Pomocník při spuštění sám nabídne novou verzi a nové překlady od ostatních hráčů se stahují samy.
+
+## Hraní
+
+- Spusť **`Spustit pomocnika.bat`** – nejlépe ještě před hrou.
+- **Přeložený quest** → český text se ukáže v panelu vedle okna questu.
+- **Nepřeložený quest** → addon text označí → zmáčkni **Ctrl+C** → překlad se hned ukáže v Pomocníkovi. Po `/reload` ho uvidíš česky i ve hře.
+- **Špatný překlad** → v panelu klikni na **Opravit překlad**, oprav text v Pomocníkovi a ulož.
+- **Nastavení** → ikona knihy u minimapy (nebo `/czq nastaveni`).
+
+Podrobný návod včetně řešení častých potíží: [NAVOD.txt](NAVOD.txt) (je i v zipu, otevře se v Poznámkovém bloku).
 
 ## Stav
-Rané testování na betě WoW Forever (klient 1.60.1). Překlady jsou zatím strojové (Google) – čekej občasné míchání tykání/vykání a doslovné obraty.
+
+Testování na betě WoW Forever (klient 1.60.1). Překlady jsou strojové (Google) s automatickými úpravami (tykání, časté chyby) a postupně se ručně opravují. Když narazíš na špatný překlad, oprav ho tlačítkem **Opravit překlad** – oprava se po schválení dostane ke všem.
 
 ## Obsah repozitáře
+
 | Cesta | Co to je |
 |---|---|
 | `WoWpoCesku/` | samotný addon (patří do `Interface\AddOns`) |
-| `Spustit pomocnika.bat`, `pomocnik.ps1` | Pomocník – hlídá schránku, překládá nové questy |
+| `Spustit pomocnika.bat`, `pomocnik.ps1` | Pomocník – hlídá schránku, překládá nové questy, stahuje aktualizace |
 | `Instalace do hry.bat` | propojí addon se složkou hry |
-| `preklady.json` | databáze překladů včetně anglických originálů |
-| `slovnicek.txt` | pravidla a pojmy pro překlad přes Claude |
+| `preklady.json`, `rozhovory.json` | databáze překladů včetně anglických originálů |
+| `pravidla.json` | automatické úpravy strojového překladu |
+| `sberna/`, `tools/`, `.github/` | společná databáze a její zpracování (pro správce) |
 
 ## Licence a zdroje
+
 - Kód: [MIT](LICENSE)
 - Písmo Noto Sans: SIL Open Font License 1.1 (`WoWpoCesku/Fonts/OFL.txt`)
 - Anglické texty klasických questů pochází z open-source databáze [CMaNGOS classic-db](https://github.com/cmangos/classic-db). Texty questů jsou © Blizzard Entertainment; toto je neoficiální fanouškovský překlad.
