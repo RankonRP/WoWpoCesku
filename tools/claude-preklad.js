@@ -33,10 +33,10 @@ function readSeen() {
   const unescape = (s) => s.replace(/\\(n|"|\\)/g, (_, c) => (c === "n" ? "\n" : c));
   for (const file of savedVariablesFiles()) {
     const text = fs.readFileSync(file, "utf8");
-    const block = text.match(/^WoWpoCeskuSeen\s*=\s*\{([\s\S]*?)^\}/m);
+    const block = text.match(/^WoWpoCeskuSeen\s*=\s*\{([\s\S]*?)^\}\s*$/m);
     if (!block) continue;
     // WoW zapisuje vnořené tabulky odsazené tabulátorem: \t["q"] = { … \n\t},
-    for (const m of block[1].matchAll(/\["(q|g|u)"\]\s*=\s*\{([\s\S]*?)\n\t\}/g)) {
+    for (const m of block[1].matchAll(/\["(q|g|u)"\]\s*=\s*\{([\s\S]*?)\n\s*\},?/g)) {
       const [, kind, body] = m;
       if (kind === "q") for (const k of body.matchAll(/\[(\d+)\]\s*=/g)) seen.q.add(k[1]);
       else for (const k of body.matchAll(/\["((?:[^"\\]|\\.)*)"\]\s*=/g)) seen[kind].add(unescape(k[1]));
