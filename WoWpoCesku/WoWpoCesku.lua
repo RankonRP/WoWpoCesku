@@ -1015,6 +1015,8 @@ SlashCmdList.CZQUESTS = function(msg)
     local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
     if cmd == "sber" then
         scanCommand(arg)
+    elseif cmd == "lore" or cmd == "pribeh" then
+        WoWpoCesku_LoreCommand(arg)
     elseif cmd == "vypis" then
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
