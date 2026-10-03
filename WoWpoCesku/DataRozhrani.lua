@@ -77,6 +77,7 @@ WoWpoCesku_UI = {
 ["Increases your total Intellect by {1}%."]="Zvyšuje celkovou hodnotu Intellect o {1} %.",
 ["Increases your total Stamina by {1}% and reduces the cooldown of your Divine Shield, Divine Protection, and Templar's Bulwark spells by {2} sec."]="Zvyšuje celkovou hodnotu Stamina o {1} % a zkracuje dobu obnovení kouzel Divine Shield, Divine Protection a Templar's Bulwark o {2} s.",
 ["Instantly removes all Stun effects."]="Okamžitě odstraní všechny efekty omráčení.",
+["Instantly removes and grants immunity to all Curses and Banes, and reduces all Magical damage taken by {1}% for {2} sec."]="Okamžitě odstraňuje a uděluje imunitu všem kletbám a zkázám a snižuje veškeré magické poškození o {1} % po dobu {2} sekund.",
 ["Next melee"]="Příští útok na blízko",
 ["Places a Blessing on the friendly target, increasing melee attack power by {1} for {2} hour. Players may only have one Blessing on them per Paladin at any one time."]="Udělí spojenci požehnání (Blessing), které mu na {2} h zvýší Attack Power na blízko o {1}. Každý hráč může mít od jednoho paladina najednou jen jedno požehnání.",
 ["Purifies the friendly target, removing {1} disease effect and {2} poison effect."]="Očistí spojence: odstraní {1} efekt nemoci a {2} efekt jedu.",
