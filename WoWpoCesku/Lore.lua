@@ -66,7 +66,9 @@ local function fillBook(key)
     -- kapitoly + na konec „Tajemství a kam se podívat“
     local chapters = {}
     for _, ch in ipairs(L.ch) do chapters[#chapters + 1] = ch end
-    local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
+    local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
+    if books then chapters[#chapters + 1] = { "Z knih a legend (spoilery)", books } end
+    local secrets =WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
     if secrets then chapters[#chapters + 1] = { "Tajemství a kam se podívat", secrets } end
     L = { ch = chapters }
     for i, ch in ipairs(L.ch) do

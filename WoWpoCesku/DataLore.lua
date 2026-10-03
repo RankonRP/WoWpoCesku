@@ -180,6 +180,87 @@ Ostrov se zdá klidný, ale všechno ukazuje na to, že se blíží něco velké
 
 }
 
+-- Z knih a legend – příběhy z románů a starších her (se spoilery), kniha je přidá před Tajemství
+WoWpoCesku_LoreKnihy = {
+
+["Mulgore"] = [[• Jak se potkali Cairne a Thrall (Warcraft III) – když orkové dorazili na Kalimdor, narazil Thrall na taureny, které štvali kentauři. Pomohl jim v boji a Cairne mu na oplátku poradil, kde hledat Orákulum. Tauren pak Thralla poslali dál a Cairne se svým lidem odešel do Mulgore. Od té chvíle platí, že kdo pomohl taurenům, má v nich přátele navždy.
+
+• Hamuul Runetotem – první tauren, který se stal druidem. Učil se přímo u Malfuriona Stormrage, nočního elfa, a jeho přátelství s druidy Kalimdoru je jedním z mostů mezi Hordou a nočními elfy.
+
+• Magatha Grimtotem – stará šamanka kmene Grimtotem v Thunder Bluff. Cairne ji toleruje, ale ona touží po moci. SPOILER: v budoucnu (Cataclysm) otráví zbraň, kterou ork Garrosh Hellscream zabije Cairna v souboji. Synovi Bainovi pak zůstane těžký úkol sjednotit taureny.
+
+• Legenda o Matce Zemi – taureni vyprávějí, že Earth Mother stvořila svět a její oči, An'she (Slunce) a Mu'sha (Měsíc), se na něj dívají ve dne i v noci. Kdo bloudí, má se podívat na oblohu – Matka Země ho vidí.]],
+
+["Durotar"] = [[• Rise of the Horde – na rodném Draenoru byl Durotan náčelníkem klanu Frostwolf. Čaroděj Gul'dan prodal orky démonům: náčelníci vypili krev démona Mannorotha a Horda propadla krvežíznivosti. Durotan krev odmítl. Když chtěl varovat ostatní, poslal na něj Gul'dan vrahy – Durotan i jeho žena Draka zemřeli a jejich malý syn zůstal v lese u těl rodičů.
+
+• Lord of the Clans – dítě našel lidský šlechtic Aedelas Blackmoore, pojmenoval ho Thrall („otrok“) a vychoval v pevnosti Durnholde jako gladiátora. Jediný laskavý člověk v jeho životě byla dívka Taretha Foxton. Thrall utekl, našel Groma Hellscreama, klan Frostwolf a starého náčelníka Orgrima Doomhammera, který mu předal svou černou zbroj a kladivo. Osvobodil tábory, ale Blackmoore Tarethu zabil – a Thrall ho při dobytí Durnholde porazil.
+
+• Orgrimmar – město nese jméno Orgrima Doomhammera, který padl v boji za osvobození orků. Thrall nosí jeho zbroj dodnes.
+
+• Smrt Groma Hellscreama (Warcraft III) – na Kalimdoru Grom znovu vypil Mannorothovu krev a zabil poloboha Cenaria. Thrall s pomocí Jainy Proudmoore jeho ducha osvobodil a Grom pak Mannorotha zabil sekerou Gorehowl – a sám při tom zemřel. Horda tím byla konečně volná.
+
+• Tiragarde Keep – pevnost na pobřeží je pozůstatek flotily admirála Daelina Proudmoora z Kul Tiras, otce Jainy. Admirál napadl Durotar, aby orky vyhladil. Jaina se postavila na stranu míru a admirál padl – Kul Tiras to Hordě nikdy neodpustil.]],
+
+["Elwynn Forest"] = [[• The Last Guardian – Medivh, Strážce Tirisfalu a přítel krále Llana, byl od narození posedlý démonem Sargerasem, kterého kdysi porazila jeho matka Aegwynn. Z věže Karazhan (nedaleko, v Deadwind Pass) pomohl orkům otevřít Temný portál. Jeho učeň Khadgar a velitel Anduin Lothar ho nakonec ve věži zabili.
+
+• Pád Stormwindu – král Llane zemřel rukou Garony, napůl orky a napůl draenei, která byla vyslankyní mezi lidmi a orky a jednala pod cizí magickou vládou. Orkové pak Stormwind vypálili. Lothar vyvedl uprchlíky lodí na sever do Lordaeronu, kde vznikla Aliance. Malý princ Varian přežil.
+
+• Anduin Lothar – Lev z Azerothu, poslední potomek starých arathorských králů. Padl později v bitvě pod Blackrock Spire rukou Orgrima Doomhammera. Varian po něm pojmenoval svého syna Anduina.
+
+• Tower of Azora – mág Theocritus ve věži slouží Stormwindu, ale v příbězích klasického WoW se říká, že má s lidmi i jiné plány. Kdo projde questy v okolí, sám posoudí.]],
+
+["Westfall"] = [[• Edwin VanCleef – mistr cechu kameníků, který vedl obnovu Stormwindu po První válce. Když šlechta – na radu lady Prestor – odmítla dělníkům zaplatit, vypukla vzpoura. Při nepokojích zemřela královna Tiffin, Varianova žena. Kameníci byli vyhnáni z města a VanCleef z nich udělal Bratrstvo Defias.
+
+• Deadmines – Defiasové v dolech pod Moonbrookem postavili válečnou loď, se kterou chtěli na Stormwind zaútočit. VanCleef na ní čeká na konci dungeonu – a u sebe má dopis, který prozradí, kdo za vším stojí.
+
+• SPOILER do budoucna (Cataclysm) – VanCleefova dcera Vanessa, která byla svědkem otcovy smrti, se po letech vrátí do Westfallu a Bratrstvo obnoví. Westfall je tak po celou historii WoW krajem, kde se pomsta dědí z otce na dceru.
+
+• Gryan Stoutmantle – dnešní velitel Lidové domobrany prý kdysi sloužil v armádě Stormwindu. Ví, že král je daleko a šlechta nepomůže – proto chrání kraj sám.]],
+
+["Dun Morogh"] = [[• Válka tří kladiv – po smrti velekrále Modima Anvilmara se trpaslíci rozdělili na tři klany. Bronzebeardové ovládli Ironforge, Wildhammeři Grim Batol a Dark Ironové pod čarodějem Thaurissanem zaútočili na oba. Při bitvě Thaurissan vyvolal Ragnarose, pána ohně – výbuch zničil kraj a z něj vznikly Searing Gorge, Burning Steppes a hora Blackrock.
+
+• Tři bratři – král Magni Bronzebeard vládne Ironforge. Brann Bronzebeard je slavný badatel a zakladatel Explorers' League. Muradin Bronzebeard odešel s princem Arthasem do Northrendu a zmizel ve chvíli, kdy Arthas vzal do ruky prokletý meč Frostmourne – všichni ho mají za mrtvého. SPOILER: Muradin přežil, jen ztratil paměť.
+
+• Původ trpaslíků – v Uldamanu jsou ukryty disky titánů, které prozrazují, že trpaslíci pocházejí z earthen, kamenných služebníků titánů, kteří postupně „zkameněli v maso“. Proto mají trpaslíci kámen tak rádi.
+
+• Princezna Moira – Magniho dcera zmizela. SPOILER: unesl ji Dagran Thaurissan, císař Dark Ironů, a vzal si ji za ženu. Magni posílá hrdiny do Blackrock Depths, aby ji „zachránili“ – jenže Moira nosí Dagranovo dítě a vůbec nechce být zachráněna.
+
+• Gnomeregan – zrádce Sicco Thermaplugg byl poradcem krále gnómů Gelbina Mekkatorqua. Radil vypustit do města jedovaté záření a pak se prohlásil králem toho, co zbylo.
+
+• SPOILER do budoucna (Cataclysm) – Magni při rituálu v Ironforge promění sám sebe v diamant a splyne s horou. Vládu převezme Rada tří kladiv.]],
+
+["Teldrassil"] = [[• War of the Ancients – před deseti tisíci lety vládla nočním elfům královna Azshara. Se svými Highborne čerpala moc ze Studny věčnosti tak bezohledně, že tím přilákala Plamennou legii démona Sargerase. Proti ní stál Malfurion Stormrage, žák poloboha Cenaria, jeho bratr Illidan a kněžka Tyrande Whisperwind.
+
+• Velké rozpoltění – Studna věčnosti explodovala a roztrhla jediný pravěký kontinent na části. Azshara se svými věrnými zmizela v moři a stali se z nich nagové. Illidan potají zachránil lahvičky vody ze Studny a založil na hoře Hyjal Studnu novou – za to byl na deset tisíc let uvězněn.
+
+• Odchod Highborne – přeživší Highborne, kteří nedokázali žít bez magie, byli z Kalimdoru vyhnáni. Odpluli na východ a založili Quel'Thalas – stali se z nich vznešení elfové. (Shen'dorei z Forever tvrdí, že část Highborne odnesli duchové větru do nebe.)
+
+• Nordrassil a ztráta nesmrtelnosti – draci požehnali stromu Nordrassil na Hyjalu a ten dal nočním elfům nesmrtelnost. Ve Třetí válce strom obětovali, aby zničili Archimonda.
+
+• Teldrassil bez požehnání – Fandral Staghelm zasadil nový strom bez souhlasu draků, a proto je strom nemocný – odtud zkáza v lese. SPOILER (román Stormrage): Fandral je ve spojení s Emerald Nightmare, zlou silou ve Smaragdovém snu, a strom tím tráví úmyslně.
+
+• SPOILER do daleké budoucnosti (Battle for Azeroth) – Teldrassil jednoho dne vypálí královna nemrtvých Sylvanas Windrunner. Tisíce elfů v něm zahynou.]],
+
+["Stormwind City"] = [[• Lady Katrana Prestor – SPOILER: je to černá dračice Onyxia, dcera Deathwinga, v lidské podobě. Ovládla dvůr kouzly, zařídila, aby kameníci nedostali zaplaceno, a zinscenovala únos krále Variana. Její bratr Nefarian sídlí v Blackrock Spire jako „lord Victor Nefarius“.
+
+• Day of the Dragon – Onyxia jen opakuje otcův trik. Deathwing kdysi žil na dvoře Lordaeronu jako lord Daval Prestor a málem se stal králem Alteraku. Prestorové jsou rodina, která existuje jen na papíře.
+
+• Odhalení – v klasickém WoW vede quest od marshala Windsora (Burning Steppes, Blackrock Depths) až k „Velké maškarádě“ ve Stormwindu, kde se Prestor před Bolvarem promění v draka. Pak čeká Onyxia's Lair v Dustwallow Marsh.
+
+• Kde je král Varian – SPOILER: Variana unesli Defiasové na objednávku Onyxie cestou do Theramore. Přežil, ztratil paměť a bojoval jako gladiátor Lo'Gosh. Vrátí se do Stormwindu až později.
+
+• Bolvar Fordragon – SPOILER do budoucna (Wrath of the Lich King): Bolvar „zemře“ u Wrathgate v ohni červených draků a nakonec usedne na Frozen Throne jako nový Lich King, aby nemrtví nezůstali bez pána.]],
+
+["Zephras Isle"] = [[• Skywall – nebeská říše živlů vzduchu, kde vládne Al'Akir Windlord, pán větrů. Je jedním ze čtyř živelních pánů (s Ragnarosem, Neptulonem a Therazane), které kdysi titáni uvěznili v Elementální rovině, protože sloužili Starým bohům.
+
+• SPOILER do budoucna (Cataclysm) – Al'Akir se spojí s Deathwingem a hrdinové s ním budou bojovat v Throne of the Four Winds. Pokud shen'dorei žijí pod ochranou Skywallu, jejich příběh se s tímhle může jednou protnout.
+
+• Highborne – shen'dorei se odvolávají na Highborne, elfy královny Azshary. Kanonicky skončila Azshara v moři jako vládkyně nagů a vyhnaní Highborne založili Quel'Thalas. Shen'dorei jsou třetí cesta, kterou přidal až WoW Forever.
+
+• Al'Aketh – jméno kultu, který na Zephrasu dráždí větrné duchy, nápadně připomíná Al'Akira. Je to náhoda, nebo uctívají přímo Windlorda? To se zatím neví.]],
+
+}
+
 -- Tajemství, easter eggy a kam se podívat – kniha je přidá jako poslední kapitolu
 -- (podle klasického WoW; ve Forever může být něco jinak)
 WoWpoCesku_LoreTajemstvi = {
