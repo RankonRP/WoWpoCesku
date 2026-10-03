@@ -180,6 +180,108 @@ Ostrov se zdá klidný, ale všechno ukazuje na to, že se blíží něco velké
 
 }
 
+-- Tajemství, easter eggy a kam se podívat – kniha je přidá jako poslední kapitolu
+-- (podle klasického WoW; ve Forever může být něco jinak)
+WoWpoCesku_LoreTajemstvi = {
+
+["Mulgore"] = [[• Ghost Howl – po pláních Mulgore se prý toulá přízračný vlk. Je to vzácná bytost, kterou potkáš jen občas; tauren o něm vyprávějí smutný příběh o věrném společníkovi, který se nedokázal rozloučit.
+
+• Mazzranache – obrovská puma, kterou jen tak nenajdeš. Lovci v Bloodhoof Village by za důkaz jejího skolení dali hodně.
+
+• Bael'dun Digsite – na severozápadě kopou trpaslíci z Bael'dunu. Co tak hluboko v zemi taurenů hledají, a kdo jim to dovolil?
+
+• Venture Co. Mine – v dole goblinů z Venture Company je vidět, jak bezohledně drancují posvátnou zemi. Kdo se odváží dovnitř, pozná jejich vedoucí.
+
+• Thunder Bluff – výtahy na stolové hory jsou pro nováčky zkouškou odvahy. A stará vtipná pravda: kdo z okraje plošiny spadne, padá hodně dlouho.
+
+• Red Rocks – posvátné pohřebiště na severovýchodě. Projdi se tu potichu – je to jedno z nejkrásnějších a nejtišších míst Kalimdoru.]],
+
+["Durotar"] = [[• Ragefire Chasm – pod samotným Orgrimmarem, v Cleft of Shadow, se otevírá lávová jeskyně plná kultistů a troggů. Je to první dungeon Hordy a důkaz, že nepřítel číhá i pod nohama válečného náčelníka.
+
+• Cleft of Shadow – temná rokle v Orgrimmaru, kde sídlí čarodějové a lotři. Kdo ji navštíví poprvé, pozná, že ne všichni orkové se zcela rozloučili s temnými silami.
+
+• Vzácní nepřátelé – v klasickém Durotaru se objevují například Warlord Kolkanis (náčelník Razormane), Watch Commander Zalaphil v Tiragarde Keep a štír Death Flayer. Kdo je potká, ať si dá pozor.
+
+• Tiragarde Keep – v kamenné pevnosti lidí z Kul Tiras se dá najít víc, než se zdá: jejich důstojníci nosí věci, o které má Horda zájem.
+
+• Echo Isles – ostrovy u pobřeží, které trollové Darkspear opustili. Čaroděj Zalazane tu svými kouzly drží v zajetí část jejich lidu – připomínka, že ne každá válka je velká.
+
+• Zeppelíny – u Orgrimmaru stojí věž, odkud odlétají goblinské vzducholodě do Undercity a Stranglethorn Vale. Cesta vzduchem je zážitek sám o sobě.]],
+
+["Elwynn Forest"] = [[• Hogger – nejslavnější gnoll celého Warcraftu. Vede gnolly v jihozápadních lesích (Forest's Edge) a stráže na něj vypsaly odměnu. Mnoho hrdinů na něj při prvním setkání nestačilo – a hráči si z toho dělají legraci dodnes.
+
+• Princezna – na dýňovém poli Brackwell se vykrmuje obrovská prasnice jménem Princess, kterou si přivlastnili Defiasové. Quest „Princezna musí zemřít!“ patří k nejvtipnějším v kraji.
+
+• Romeo a Julie po elwynnsku – rodiny Stonefieldových a Maclureových se spolu nesnášejí, zatímco jejich děti Tommy Joe a Maybell se do sebe zamilovaly. Pomůžeš mladým milencům?
+
+• Vzácní nepřátelé – v klasickém Elwynnu se objevuje pavoučice Mother Fang v dole Jasperlode, gnoll Gruff Swiftbite a lstivá Morgaine the Sly.
+
+• Tower of Azora – věž mága Theocrita v jihovýchodní části kraje. Uvnitř se dějí věci, o kterých se v Goldshire šeptá.
+
+• Northshire – vinice kolem kláštera obsadili Defiasové. Už první kroky hrdiny tak vedou k tomu, co bude Bratrstvo provádět po celém království.]],
+
+["Westfall"] = [[• Deadmines – pod ruinami Moonbrooku leží jeden z nejslavnějších dungeonů celého WoW. Na konci čeká Edwin VanCleef a jeho válečná loď ukrytá v obrovské jeskyni. Kdo tam byl, nezapomene.
+
+• Kapitán Grayson – v majáku na jihozápadním pobřeží straší duch starého kapitána. Je přátelský a má pro dobrodruhy úkol.
+
+• Old Murk-Eye – vzácný starý murlok, který se potuluje po pobřeží. Murloci ho prý poslouchají jako náčelníka.
+
+• Defiasský posel – po cestách Westfallu občas běží posel Bratrstva Defias. Kdo ho zastaví, dozví se, co Bratrstvo chystá.
+
+• Vzácní nepřátelé – v klasickém Westfallu se objevuje například gnoll Sergeant Brashclaw.
+
+• Moonbrook – zpustlé město, kdysi srdce Westfallu. Projdi se jeho ulicemi a uvidíš, jak rychle může kraj zaniknout, když se o něj nikdo nestará.
+
+• Westfallský guláš – recept od Verny Furlbrowové se z ruky do ruky dostane až k Salmě Saldeanové. Drobný příběh o tom, že i v těžkých časech lidé drží při sobě.]],
+
+["Dun Morogh"] = [[• Deeprun Tram – z Tinker Town v Ironforge jezdí gnómská podzemní dráha až do Stormwindu. Vede pod mořem, takže cestou vidíš skleněnými stěnami ryby a vodu.
+
+• Hall of Explorers – sál v Ironforge plný kostí pravěkých tvorů, map a starožitností. Sídlí tu Explorers' League, trpasličí badatelé, kteří hledají původ svého národa.
+
+• Legendární letiště – hráči kdysi našli vysoko na horách nad Ironforge nedokončené, prázdné „letiště“, kam se normálně nedá dostat. Stalo se jedním z nejslavnějších tajemství klasického WoW.
+
+• Vzácní nepřátelé – v klasickém Dun Morogh se objevují vlk Timber, medvědi Old Icebeard a Bjarn, Edan the Howler a troll Great Father Arctikus.
+
+• Gnomeregan – vchod do ztraceného gnómského města leží na západě kraje. Uvnitř je dungeon plný troggů, robotů a radiace – a zrádce Thermaplugg.
+
+• Brewnall Village – vesnička u jezera, kde trpaslíci zkoušejí nové druhy piva. Kdo by čekal něco jiného?]],
+
+["Teldrassil"] = [[• Rut'theran Village – u kořenů stromu, kde přistávají lodě. Odtud vede magický portál nahoru do Darnassu a hipogryfové létají přes moře do Darkshore.
+
+• Vzácní nepřátelé – v klasickém Teldrassilu se objevují medvěd Uruson, Grimmaw, Duskstalker a zkažený Blackmoss the Fetid, který je přímo spojený se zkázou lesa.
+
+• Ban'ethil Barrow Den – podzemní doupě, kde se skrývají ti, kdo šíří zkázu mezi furbolgy. Na jeho konci se dozvíš, odkud Fel Moss pochází.
+
+• Oracle Glade – tichá mýtina na severozápadě s měsíční studnou. Jedno z nejkrásnějších a nejklidnějších míst ostrova.
+
+• Temple of the Moon – chrám Elune v Darnassu. Uvnitř je fontána se sochou Haidene, první velekněžky – zastav se a poslouchej.
+
+• Lake Al'Ameth – velké jezero uprostřed Teldrassilu. Rybáři tu tráví celé noci pod měsícem.]],
+
+["Stormwind City"] = [[• The Slaughtered Lamb – hostinec v Mage Quarter, který vypadá nevinně. Ve sklepě ale sídlí čarodějové a jejich démoni – tajemství, o kterém poctiví občané raději nevědí.
+
+• Deeprun Tram – ze Dwarven District jezdí podzemní dráha pod mořem až do Ironforge. Uprostřed cesty uvidíš skleněnými stěnami mořské dno.
+
+• The Stockade – vězení ve městě, kde se vzbouřili vězni pod vedením Defiasů. Dungeon přímo pod nosem stráží.
+
+• Lady Katrana Prestor – vlivná šlechtična u královského dvora. Sleduj, co říká a komu – s ní je něco v nepořádku a kdo dává pozor, časem pochopí co.
+
+• SI:7 – tajná služba Stormwindu v Old Town. Pokud hraješ za lotra, zde začíná mnoho tvých tajných úkolů.
+
+• Památník První války – u vstupu do města stojí památník padlým. Přečti si jeho nápis a pochopíš, proč lidé tak tvrdě bojují za každý kousek svého království.]],
+
+["Zephras Isle"] = [[• Živelní soutok – u stojících kamenů na severovýchodě je místo, kde je nebeský zrak (skysight) mnohem silnější. Duchové, které taková místa přitahují, ti prý občas prozradí i střípek jiné moudrosti – zkus to tam použít víckrát.
+
+• Padání se stylem – z vrcholu strážní věže v Thendal Grove se dá skočit a díky chůzi po vzduchu doplachtit daleko. Kdo přistane přímo před Rorianem the Dayseeker a vyleká ho, dostane od Myriaal „bonusové body“.
+
+• Kotevní pylony – hraničář Halaan Hawk-Eye ti půjčí svůj dar a ukáže obrovský pylon v dálce. Na celém ostrově jich je víc – kde všude stojí?
+
+• Větrné kameny – surová energie větru roztroušená po háji. Jsou čím dál vzácnější, tak se dívej kolem sebe.
+
+• Ostrov je nový – Zephras je ve Forever úplně nová oblast a jeho tajemství se teprve objevují. Když najdeš něco zvláštního, napiš mi to a doplním to sem.]],
+
+}
+
 -- Podoblasti, města a starší názvy -> oblast s příběhem
 WoWpoCesku_LoreAlias = {
     ["Thunder Bluff"] = "Mulgore", ["Red Cloud Mesa"] = "Mulgore", ["Camp Narache"] = "Mulgore", ["Bloodhoof Village"] = "Mulgore",

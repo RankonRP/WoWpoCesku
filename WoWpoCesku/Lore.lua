@@ -63,6 +63,12 @@ local function fillBook(key)
     book.tag:SetText(L.tag)
     local y = 0
     local w = book.content:GetWidth()
+    -- kapitoly + na konec „Tajemství a kam se podívat“
+    local chapters = {}
+    for _, ch in ipairs(L.ch) do chapters[#chapters + 1] = ch end
+    local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
+    if secrets then chapters[#chapters + 1] = { "Tajemství a kam se podívat", secrets } end
+    L = { ch = chapters }
     for i, ch in ipairs(L.ch) do
         local h = book.heads[i]
         if not h then
