@@ -259,7 +259,7 @@ local function fillBook(key, mapID)
     local hasArt = drawIllustration(mapID)
     book.sf:ClearAllPoints()
     book.sf:SetPoint("TOPLEFT", hasArt and book.ill or book.tag, "BOTTOMLEFT", 0, hasArt and -14 or -16)
-    book.sf:SetPoint("BOTTOMRIGHT", -34, 46)
+    book.sf:SetPoint("BOTTOMRIGHT", -34, 56)
 
     -- Letopis: kapitoly příběhu + „Z knih a legend“
     local letopis = {}
@@ -390,12 +390,12 @@ local function createBook()
     book.heads, book.paras, book.orns, book.rowBtns = {}, {}, {}, {}
 
     local foot = ornament(book, 120)
-    foot:SetPoint("BOTTOM", 0, 30)
+    foot:SetPoint("BOTTOM", 0, 40)
     local hint = fontString(book, 10, SEPIA[1], SEPIA[2], SEPIA[3])
     hint:SetPoint("TOP", foot, "BOTTOM", 0, -2)
     hint:SetWidth(W)
     hint:SetJustifyH("CENTER")
-    hint:SetText("sepsáno pro WoWpoČesku podle klasického WoW a Warcraft Wiki – ve WoW Forever se může něco lišit")
+    hint:SetText("podle klasického WoW a Warcraft Wiki · ve WoW Forever se může něco lišit")
 end
 
 -- kniha ukazuje vždy jen oblast, kde hráč právě je
