@@ -818,7 +818,7 @@ local function buildOptions()
 
     -- pravý sloupec: Kronika Azerothu
     addSection(right, "Kronika Azerothu")
-    addCheck(right, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: Ctrl+klik na ikonu nebo /czq lore",
+    addCheck(right, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: klik na ikonu u minimapy nebo /czq lore",
         function() return WoWpoCeskuSettings.loreToast ~= false end,
         function(on) WoWpoCeskuSettings.loreToast = on end)
     addCheck(right, "Upozornění na vzácné moby", "Zvuk, nápis a cedulka; zapíše se kde a kdy (/czq vzacni)",
@@ -862,7 +862,7 @@ local function buildOptions()
 
     -- pravý sloupec: ostatní
     addSection(right, "Ostatní")
-    addCheck(right, "Ikona u minimapy", "Klik = nastavení, pravý klik = překlad zap/vyp, Ctrl+klik = Kronika",
+    addCheck(right, "Ikona u minimapy", "Klik = Kronika, Ctrl+klik = nastavení, pravý klik = překlad zap/vyp",
         function() return WoWpoCeskuSettings.minimap ~= false end,
         function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
 
@@ -929,11 +929,15 @@ local function createMinimapButton()
     minimapButton:SetScript("OnClick", function(_, button)
         if IsShiftKeyDown() then
             ReloadUI()   -- načíst nové překlady
-        elseif IsControlKeyDown() and WoWpoCesku_ShowLore then
-            WoWpoCesku_ShowLore()   -- kniha příběhů pro aktuální oblast
+        elseif IsControlKeyDown() then
+            openOptions()
         elseif button == "RightButton" then
             setEnabled(not WoWpoCeskuSettings.enabled)
             print("|cffffd100WoWpoCesku:|r preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT"))
+        elseif WoWpoCeskuLore and WoWpoCeskuLore:IsShown() then
+            WoWpoCeskuLore:Hide()   -- druhý klik knihu zavře
+        elseif WoWpoCesku_ShowLore then
+            WoWpoCesku_ShowLore()   -- Kronika Azerothu pro aktuální oblast
         else
             openOptions()
         end
@@ -952,10 +956,10 @@ local function createMinimapButton()
     minimapButton:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_LEFT")
         GameTooltip:AddLine("WoWpoCesku")
-        GameTooltip:AddLine("Levy klik: nastaveni", 1, 1, 1)
+        GameTooltip:AddLine("Levy klik: Kronika Azerothu", 1, 1, 1)
         GameTooltip:AddLine("Pravy klik: preklad zapnout / vypnout", 1, 1, 1)
         GameTooltip:AddLine("Shift+klik: nacist nove preklady (/reload)", 1, 1, 1)
-        GameTooltip:AddLine("Ctrl+klik: pribeh oblasti (kniha)", 1, 1, 1)
+        GameTooltip:AddLine("Ctrl+klik: nastaveni", 1, 1, 1)
         local n = 0
         for _ in pairs(WoWpoCeskuQueue or {}) do n = n + 1 end
         if n > 0 then GameTooltip:AddLine(("Ceka na preklad: %d textu"):format(n), 1, 0.82, 0) end

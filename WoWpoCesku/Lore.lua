@@ -489,7 +489,7 @@ local function onZone()
     toast.anim:Stop()
     toast.anim:Play()
     -- kdo titulky nestihne, najde připomínku v chatu
-    say("pribeh oblasti " .. key .. " je v Kronice Azerothu - otevres ji Ctrl+klikem na ikonu u minimapy nebo /czq lore")
+    say("pribeh oblasti " .. key .. " je v Kronice Azerothu - otevres ji klikem na ikonu u minimapy nebo /czq lore")
 end
 
 -- příkaz /czq lore …
