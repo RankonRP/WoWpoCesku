@@ -185,7 +185,7 @@ WoWpoCesku_Postavy = {
     ["Rexxar"] = "Napůl ork a napůl ogr, šampion Hordy z Warcraft III. Toulá se po Desolace se svou medvědicí Mishou.",
     ["Mankrik"] = "Ork, který hledá svou ženu Olgru. Hráči ji hledali tak dlouho, že se z toho stal slavný meme.",
     ["Gazlowe"] = "Goblinský šéf Ratchetu. Postavil Thrallovi Orgrimmar – a za pořádnou cenu.",
-    ["Neeru Fireblade"] = "Orkský čaroděj v Cleft of Shadow. Hraje roli v questech kolem kultu Burning Blade a Ragefire Chasm.",
+    ["Neeru Fireblade"] = "Orkský čaroděj v Cleft of Shadow. SPOILER: ve skutečnosti skrytý vůdce klanu Burning Blade, který posílal Thrallovy věrné do Ragefire Chasm na smrt.",
     ["Zalazane"] = "Šílený čaroděj, který vyhnal trolly Darkspear z Echo Isles a ovládá část jejich lidu.",
     ["Drek'Thar"] = "Slepý šaman klanu Frostwolf, který Thralla naučil šamanismu.",
 

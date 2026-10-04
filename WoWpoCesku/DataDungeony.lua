@@ -7,7 +7,14 @@ local A = WoWpoCesku_LoreAlias
 D["Ragefire Chasm"] = {
     title = "Ragefire Chasm", tag = "Lávové jeskyně přímo pod Orgrimmarem – první dungeon Hordy (levely 13–18).",
     ch = {
-        { "Příběh", [[Pod Orgrimmarem se táhnou sopečné jeskyně, ve kterých se usadili troggové a kultisté Searing Blade – odnož Burning Blade, která uctívá démony. Thrall chce vědět, kdo je vede a co chystají přímo pod jeho trůnem. Vchod je v Cleft of Shadow.]] },
+        { "Sopečné jeskyně", [[Ragefire Chasm je sopečná jeskyně přímo pod Orgrimmarem. Vchod je v temné rokli Cleft of Shadow a uvnitř teče láva, z puklin stoupá dým a v hlubinách žijí tvorové, kteří se Hordě nikdy nepodřídili.]] },
+        { "Troggové", [[Z hlubin jeskyně vylezli troggové z Ragefire. Šamani Hordy se s nimi pokoušeli uzavřít mír, ale narazili jen na nepřátelství. Kdyby je Horda nechala být, mohli by se stát hrozbou pro celý Orgrimmar.]] },
+        { "Kult Searing Blade", [[V jeskyni si zřídila základnu sekta Searing Blade – odnož Shadow Council, tajné rady čarodějů, kteří slouží démonům. Jejich cílem je svrhnout a zničit všechno, co Horda v Durotaru vybudovala.
+
+Vedou je tři postavy: Taragaman the Hungerer, mocný démon felguard, Jergosh the Invoker, čaroděj, a Bazzalan, satyr. Troggy vede Oggleflint.]] },
+        { "Zrádce v Orgrimmaru", [[Nejhorší na tom je, že kult má spojence přímo ve městě. Neeru Fireblade z Cleft of Shadow je ve skutečnosti skrytým vůdcem klanu Burning Blade. Do jeskyně posílal Thrallovy věrné, aby se jich zbavil – a zároveň vyzkoušel, jak silní kultisté Searing Blade jsou.
+
+Válečný náčelník nakonec vyslal dobrodruhy, aby vůdce kultu zlikvidovali. Ragefire Chasm je tak první místo, kde mladí hrdinové Hordy zjistí, že nepřítel může číhat i pod jejich vlastním městem.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Ragefire Chasm"] = [[• Krátký dungeon, ideální na první pokus o skupinu.
@@ -17,7 +24,16 @@ WoWpoCesku_LoreTajemstvi["Ragefire Chasm"] = [[• Krátký dungeon, ideální n
 D["Wailing Caverns"] = {
     title = "Wailing Caverns", tag = "Jeskyně nářků v Barrens, kde se sen druidů proměnil v noční můru (levely 15–25).",
     ch = {
-        { "Příběh", [[Druid Naralex chtěl silou Smaragdového snu zazelenat Barrens. Ve snu ho ale zachvátila Noční můra a jeho žáci, Druidové Fangu, se zkazili. Z jeskyní se šíří zmutovaná „deviate“ zvířata. Jeden věrný žák, Disciple of Naralex, čeká u vchodu na pomoc.]] },
+        { "Jeskyně nářků", [[Wailing Caverns jsou rozlehlé jeskyně jihozápadně od Crossroads v Barrens. Jméno dostaly podle podivného kvílení, které z nich vychází – vítr v puklinách zní jako nářek. Z jeskyní vyvěrají prameny, které napájejí oázy kolem.]] },
+        { "Naralexův sen", [[Druid Naralex z rodu nočních elfů jeskyně objevil a rozhodl se, že skrze ně propojí podzemní vody přímo se Smaragdovým snem. Doufal, že tak vyprahlé Barrens znovu zazelená.
+
+Ve snu ho ale zachvátila Smaragdová noční můra. Naralex se nedokázal probudit a jeho spící mysl začala do jeskyní šířit zkaženou energii Noční můry.]] },
+        { "Druidové Fangu", [[Naralexovi žáci se pod vlivem Noční můry změnili v Druidy Fangu – zkažené druidy, kteří Noční můře slouží. Vedou je čtyři Fanglordi: Lady Anacondra v Screaming Gully, Lord Cobrahn a Lord Pythas v Pit of Fangs a Lord Serpentis v Crag of the Everliving.
+
+Zkaženou energií zmutovala i zvířata. Jeskyně jsou plné „deviate“ tvorů – raptorů, hadů i krokodýlů, kteří vypadají, jako by vylezli z noční můry.]] },
+        { "Probuzení Naralexe", [[Jeden Naralexův žák zůstal věrný a čeká u vchodu do jeskyně. Když hrdinové porazí všechny čtyři Fanglordy, doprovodí ho k Naralexovi a chrání ho, zatímco se ho pokouší probudit. Přitom se z hlubin vynoří zrůdy Noční můry – a nakonec i obří murlok Mutanus the Devourer.
+
+V jeskyních žijí i další bytosti: rostlinný obr Verdan the Everliving, mírumilovná želva Kresh a zmutovaný ještěr Skum.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Wailing Caverns"] = [[• Po zabití všech čtyř Druidů Fangu promluv s Disciple of Naralex u vchodu – doprovodíš ho k Naralexovi a probudíš ho.
@@ -27,7 +43,16 @@ WoWpoCesku_LoreTajemstvi["Wailing Caverns"] = [[• Po zabití všech čtyř Dru
 D["The Deadmines"] = {
     title = "The Deadmines", tag = "Skrýš Bratrstva Defias pod Moonbrookem (levely 17–26).",
     ch = {
-        { "Příběh", [[Edwin VanCleef, kdysi mistr kameníků, kterým šlechta nezaplatila za obnovu Stormwindu, ukryl Bratrstvo Defias v dolech pod Moonbrookem. V obří jeskyni na konci staví válečnou loď, se kterou chce na Stormwind zaútočit.]] },
+        { "Zlatý důl Stormwindu", [[Před První válkou byly Deadmines největším zlatým dolem lidských zemí. Jejich zlato tvořilo třetinu pokladu království Stormwind a v okolí se těžilo i vzácné dřevo Whitestone oak, které se používalo při stavbách. Za První války byly doly opuštěny.]] },
+        { "Skrýš Bratrstva", [[Po válce si doly vzalo Bratrstvo Defias – kdysi dělníci a kameníci, dnes lupiči. Jejich vůdce Edwin VanCleef tu s pomocí goblinů staví v hlubinách obrovskou válečnou loď Juggernaut, se kterou chce zaútočit na Stormwind.
+
+Ještě nedávno tu pracoval spolek Miners' League pod vedením předáka Thistlenettla. Když Defiasové zaútočili, část tunelu se zřítila a horníci, kteří v něm zahynuli, se proměnili v neklidné mrtvé.]] },
+        { "Důstojníci VanCleefa", [[VanCleefovi slouží ogr Rhahk'Zor, který hlídá první dveře, goblinský dřevař Sneed se svým obřím strojem Shredder, goblinský tavič Gilnid, tauren Mr. Smite, který v boji mění zbraně, a kapitán lodi Greenskin. V kuchyni lodi vaří murlok Cookie.
+
+Na konci obří jeskyně u moře stojí loď Juggernaut – a na ní čeká sám Edwin VanCleef.]] },
+        { "Piráti a konec", [[Podle jednoho příběhu vtrhl do dolů pirát Jerias Bloodvein, aby se VanCleefovi pomstil za podvod. Při útoku padli Rhahk'Zor, Sneed i Gilnid a mladík James Blackridge, kterého piráti kdysi unesli od westfallského majáku, Jeriase nakonec zabil.
+
+V klasickém WoW posílá Gryan Stoutmantle dobrodruhy, aby VanCleefa zabili a přinesli jeho hlavu jako důkaz. Z VanCleefa padá i dopis, který nikdy neodeslal – a ten vede až ke Stormwindu.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["The Deadmines"] = [[• Dveře do jeskyně s lodí vyhodí do vzduchu dělo Defias – stačí ho použít.
@@ -38,7 +63,16 @@ A["Deadmines"] = "The Deadmines"
 D["Shadowfang Keep"] = {
     title = "Shadowfang Keep", tag = "Hrad arcimága Arugala nad Silverpine Forest (levely 22–30).",
     ch = {
-        { "Příběh", [[Arcimág Arugal z Dalaranu vyvolal worgeny, aby bojovali proti Pohromě, a ztratil nad nimi kontrolu. Usadil se s nimi v hradě barona Silverlaina, kterého zabil, a worgenům říká „své děti“.]] },
+        { "Silverlaine Keep", [[Shadowfang Keep se kdysi jmenoval Silverlaine Keep a byl domovem barona Silverlaina a jeho rodiny v království Gilneas. Páni hradu podléhali rodu Crowleyů a spravovali i vesnici Pyrewood pod hradem.]] },
+        { "Arugalův omyl", [[Za Třetí války zkoumal královský arcimág Arugal výzkum mága jménem Ur a s požehnáním krále Genna Greymana vyvolal worgeny, aby bojovali proti Pohromě.
+
+Worgeni se ale vymkli kontrole. Napadli gilnejské vojsko, zaplavili hrad a zabili barona Silverlaina i celou jeho domácnost. Arugal, zdrcený vinou, přijal worgeny jako „své děti“, stáhl se do hradu a pojmenoval ho Shadowfang Keep.]] },
+        { "Vlčí kult", [[Arugal proměnil obyvatele Silverpine Forest ve worgeny – hlavně smečky Moonrage a Shadowfang. Obyvatelé Pyrewood Village podlehli kletbě také: ve dne jsou lidmi a v noci šelmami. Všichni slouží Arugalovu vlčímu kultu.
+
+V hradu žije i duch barona Silverlaina, padlý paladin Commander Springvale ze Stříbrné ruky a Arugalovi služebníci – Wolf Master Nandos, Razorclaw the Butcher, Odo the Blindwatcher a Rethilgore.]] },
+        { "Vězni a konec", [[V kobkách hradu drží vězně – pro Alianci čaroděje Ashcrombeho, pro Hordu Deathstalkera Adamanta. Když je hrdinové osvobodí, otevřou jim cestu na nádvoří.
+
+Na vrcholu hradu čeká Arugal. Forsaken i mágové z Dalaranu chtějí, aby kletba skončila – a cesta k tomu vede přes šíleného arcimága.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Shadowfang Keep"] = [[• V kobkách jsou vězni (Sorcerer Ashcrombe pro Alianci, Deathstalker Adamant pro Hordu) – otevřou ti dveře na nádvoří.
@@ -47,7 +81,18 @@ WoWpoCesku_LoreTajemstvi["Shadowfang Keep"] = [[• V kobkách jsou vězni (Sorc
 D["Blackfathom Deeps"] = {
     title = "Blackfathom Deeps", tag = "Zatopený chrám na pobřeží Ashenvale (levely 20–30).",
     ch = {
-        { "Příběh", [[Starý chrám nočních elfů, zasvěcený Elune, se po Velkém rozpoltění potopil. Dnes se v něm usadili nagové a kult Twilight's Hammer, který tu uctívá Staré bohy a jejich obří hydru Aku'mai.]] },
+        { "Lathar'Lazal", [[Blackfathom Deeps byly kdysi chrámem nočních elfů zasvěceným Elune. Jmenoval se Lathar'Lazal – „Sídlo nebe“. Byl to rozlehlý komplex mostů posázených drahokamy a jiskřivých jezer s měsíční studnou a na jeho stavbu dohlížela sama královna Azshara.
+
+Při Velkém rozpoltění se chrám zřítil a potopil pod hladinu moře u pobřeží Zoram Strand v Ashenvale.]] },
+        { "Kult Twilight's Hammer", [[Asi před pár lety přilákaly do ruin členy kultu Twilight's Hammer šepoty a zlé sny. Kult se spojil s nagami a pustil se do zlověstného díla.
+
+V hlubinách chrámu žije Aku'mai the Devourer, obří tříhlavá hydra, služebnice Starých bohů. Je obávaná pro svou bezduchou krutost a nenasytný hlad – ale kult ji uctívá jako božské znamení.]] },
+        { "Kdo tu vládne", [[Kult vede Twilight Lord Kelris, který osobně dohlíží na růst Aku'mai a krmí ji obětovanými kultisty. Naga Lady Sarevess má vlastní zátoku, kde provádí rituály na kouzelnou ochranu. Obří želvu Ghamoo-ra kult uvěznil a dohnal k šílenství, aby chrám střežila.
+
+Murlok Gelihast vyslyšel volání Starých bohů a postavil si vlastní oltář k obětem. Ve vodách měsíční svatyně plave nepolapitelný žralok Old Serra'kis a v hlubinách sídlí i vodní elementál Baron Aquanis.]] },
+        { "Cesta k Aku'mai", [[Kdo se chce dostat k Aku'mai, musí zapálit čtyři ohně u sochy v srdci chrámu – a každý z nich přivolá vlnu nepřátel. Chrám je plný vody, takže se hodí lektvary na dýchání pod vodou.
+
+Blackfathom Deeps jsou smutným místem: posvátný chrám Elune se stal doupětem kultu, který chce zničení světa.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Blackfathom Deeps"] = [[• Hodně plavání – lektvary na dýchání pod vodou se hodí.
@@ -56,7 +101,14 @@ WoWpoCesku_LoreTajemstvi["Blackfathom Deeps"] = [[• Hodně plavání – lektv
 D["The Stockade"] = {
     title = "The Stockade", tag = "Vězení Stormwindu, kde se vzbouřili vězni (levely 22–30).",
     ch = {
-        { "Příběh", [[Ve vězení uprostřed Stormwindu se vzbouřili vězni pod vedením Defiasů. Stráže drží jen vchod a hledají dobrodruhy, kteří vzpouru potlačí.]] },
+        { "Vězení Stormwindu", [[Stormwind Stockade je přísně střežené vězení pod čtvrtí kanálů ve Stormwindu. Drží v něm drobné zloděje, politické vzbouřence, vrahy a několik nejnebezpečnějších zločinců království.]] },
+        { "Vzpoura", [[Nedávno v něm vypukla vzpoura, kterou zosnovalo Bratrstvo Defias. Vězni přemohli stráže a volně se pohybují po chodbách. Stráže drží jen vchod a hledají dobrodruhy, kteří odstraní strůjce vzpoury – Bazila Thredda, VanCleefova poručíka. O celé věci se před obyvateli města mlčí.]] },
+        { "Vězni", [[Mezi vězni jsou i zvláštní případy. Kam Deepfury z klanu Dark Iron je politický vězeň – agenti z Ironforge ho chtějí odstranit, aby nemuseli čekat na stormwindské úřady. Dextren Ward je vykradač hrobů, který prodával mrtvoly nekromantovi Morbentu Felovi, a rada Duskwoodu chce jeho popravu. Targorr the Dread je ork z klanu Blackrock, jehož poprava se zdržuje kvůli zkorumpovaným úředníkům.
+
+Mezi vězni jsou i Hamhock a vzácně Bruegal Ironknuckle.]] },
+        { "Úkoly", [[Questy vedoucí do Stockade přicházejí z mnoha míst – z Redridge (Targorr), z Duskwoodu (Dextren Ward), z Ironforge (Kam Deepfury) i ze samotného Stormwindu (Bazil Thredd). A quest The Color of Blood se týká strážného Maca, kterého vězni zavraždili.
+
+Stockade je krátký dungeon, ale propojuje příběhy celého kraje – a Bazil Thredd navazuje na příběh VanCleefova dopisu.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["The Stockade"] = [[• Krátký dungeon s hodně nepřáteli ve stísněných chodbách.
@@ -66,7 +118,14 @@ A["Stormwind Stockade"] = "The Stockade"
 D["Gnomeregan"] = {
     title = "Gnomeregan", tag = "Ztracené město gnómů, plné troggů, robotů a radiace (levely 24–34).",
     ch = {
-        { "Příběh", [[Gnomeregan byl technickým zázrakem, dokud ho nezaplavili troggové z hlubin. Na radu Sicca Thermaplugga vypustili gnómové do města jedovaté záření – a zabili tím i velkou část vlastního lidu. Thermaplugg se pak prohlásil králem toho, co zbylo.]] },
+        { "Město vynálezců", [[Gnomeregan je ztracené podzemní město gnómů v Dun Morogh. Podle pozdějších objevů pocházejí gnómové z mechagnómů, kteří uprchli z Uldamanu pod kletbou masa. Trpaslíci je objevili v jeskyních Dun Morogh a pomohli jim postavit město, které je důkazem gnómské geniality, ctižádosti a vynalézavosti – plné obřích strojů a důmyslných ventilačních systémů.]] },
+        { "Troggové", [[Za Třetí války probudily trpasličí vykopávky v Uldamanu troggy, kteří pak prorazili do spodních pater Gnomereganu. Gnómská armáda se jim bránila pět let, ale proti jejich hrabání tunelů neměla dost sil.]] },
+        { "Záření a zrada", [[Vrchní mechanik Gelbin Mekkatorque nakonec schválil zoufalý plán svého poradce Sicca Thermaplugga: vypustit do spodních pater jedovaté záření, které útočníky otráví. Plán se katastrofálně obrátil – během několika dní zemřelo téměř osmdesát procent gnómů. Přeživší uprchli do Ironforge a další se proměnili v šílené, zlé „leper gnomes“.
+
+Thermaplugg, sžíraný závistí, počítal jen s třiceti procenty mrtvých gnómů. Chtěl zbylé troggy porazit sám a převzít vládu. Při evakuaci ale uvízl ve městě, záření ho změnilo a prohlásil se „králem Gnomereganu“. Dnes vede troggy i leper gnomes z otráveného města.]] },
+        { "Výprava do Gnomereganu", [[Do města vede hlavní vchod i zadní výtah, kterým se dostane i Horda. Cestou potkáš trogga Grubbise s krokodýlem, radioaktivní sliz Viscous Fallout, roboty Electrocutioner 6000 a Crowd Pummeler 9-60, vzácně i Dark Iron Ambassadora – a na konci Mekgineera Thermaplugga.
+
+Gnómové sbírají ve městě děrné štítky (punchcards) pro sérii questů a hledají lék na následky záření.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Gnomeregan"] = [[• Do Gnomereganu vede i zadní vchod výtahem, kterým se dostane i Horda.
@@ -76,7 +135,12 @@ WoWpoCesku_LoreTajemstvi["Gnomeregan"] = [[• Do Gnomereganu vede i zadní vcho
 D["Razorfen Kraul"] = {
     title = "Razorfen Kraul", tag = "Trnité bludiště kančích lidí na jihu Barrens (levely 25–35).",
     ch = {
-        { "Příběh", [[Kančí lidé (quilboar) žijí v obrovských trnitých kořenech, které vyrostly z těla poloboha Agamaggana. Vede je Charlga Razorflank, mocná kněžka, která chce kančí lidi sjednotit.]] },
+        { "Trny poloboha", [[Před deseti tisíci lety, za Války starověku, vystoupil proti Plamenné legii mocný polobůh Agamaggan – obří kanec. V boji padl, ale z jeho krve vyrostly trnité šlahouny, ze kterých vzniklo Razorfen. Kančí lidé (quilboar) jsou smrtelnými potomky poloboha a Razorfen je pro ně posvátnou říší.]] },
+        { "Charlga Razorflank", [[Razorfen Kraul na jihu Barrens dobyla stará kněžka Charlga Razorflank a vládne kančím lidem, kteří tu žijí. Pod její vládou kmen útočí na soupeřící klany i na osady Hordy.
+
+Podle některých zpráv Charlga dokonce vyjednává s agenty Pohromy – a to by znamenalo spojenectví s mnohem temnějšími silami.]] },
+        { "Bludiště trnů", [[Kraul je bludiště chodeb mezi obřími trny. Žijí v něm šamani, lovci a válečníci kančích lidí a jejich bojová zvířata. Cestou potkáš Roogug, Aggem Thorncurse, Death Speaker Jargba, Overlord Ramtusk a obřího kance Agathelos the Raging, než se dostaneš ke Charlze. Vzácně se tu objevuje Blind Hunter a Earthcaller Halmgar.]] },
+        { "Willix", [[Uvnitř je uvězněný Willix the Importer, který potřebuje doprovod ven. Duch poloboha Agamaggana je v trnitých koloniích stále přítomen – proto je Razorfen pro kančí lidi náboženským místem a proto ho tak zuřivě brání.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Razorfen Kraul"] = [[• Uvnitř je uvězněný Willix the Importer – doprovoď ho ven.
