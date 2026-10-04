@@ -180,7 +180,7 @@ local function showTab(id)
     for _, t in ipairs(book.tabs) do
         local active = (t.id == id)
         t:SetShown(book.pages[t.id] ~= nil)
-        t:SetWidth(active and 136 or 124)
+        t:SetWidth(active and 166 or 154)
         t.bg:SetVertexColor(active and 1 or 0.72, active and 1 or 0.66, active and 1 or 0.58)
         t.text:SetTextColor(active and RED[1] or SEPIA[1], active and RED[2] or SEPIA[2], active and RED[3] or SEPIA[3])
     end
@@ -226,7 +226,7 @@ local function createTabs()
     for i, def in ipairs(TABS) do
         local t = CreateFrame("Button", nil, holder, "BackdropTemplate")
         t.id = def.id
-        t:SetSize(124, 36)
+        t:SetSize(154, 36)
         t:SetPoint("TOPLEFT", book, "TOPRIGHT", -14, -70 - (i - 1) * 44)
         t:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12,
             insets = { left = 3, right = 3, top = 3, bottom = 3 } })
