@@ -418,6 +418,8 @@ local function fillBook(key, mapID)
     local letopis = {}
     for _, ch in ipairs(L.ch) do letopis[#letopis + 1] = ch end
     local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
+    local dq = WoWpoCesku_DungeonQuestsChapter and WoWpoCesku_DungeonQuestsChapter(key)
+    if dq then letopis[#letopis + 1] = dq end
     if books then letopis[#letopis + 1] = { "Z knih a legend (spoilery)", books } end
     local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
     book.pages = {

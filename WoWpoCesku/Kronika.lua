@@ -781,12 +781,40 @@ local function sealList()
         end
     end
     -- Legendy Azerothu: slavné questové příběhy (frakční jen pro svou frakci)
+    local fac = myFaction()
     for _, L in ipairs(WoWpoCesku_SealLegends or {}) do
         local done = false
         for _, q in ipairs(L.q) do if questDone(q) then done = true break end end
-        out[#out + 1] = { id = "legenda:" .. L.id, name = L.name, desc = L.desc, icon = IC .. "INV_Misc_Book_11",
+        -- řada questů: pro mou frakci; u variant (Atiesh) ta, ve které už mám postup
+        local chain
+        for _, q in ipairs(L.q) do
+            local c = WoWpoCesku_SealChains and WoWpoCesku_SealChains[q]
+            if c and (not c.f or not fac or FACTION[c.f].key == fac) then
+                local any = false
+                for _, st in ipairs(c) do if questDone(st[1]) then any = true break end end
+                if not chain or any then chain = c end
+                if any then break end
+            end
+        end
+        local s = { id = "legenda:" .. L.id, name = L.name, desc = L.desc, icon = IC .. "INV_Misc_Book_11",
             image = PIC .. "legenda", gold = L.gold, points = L.pts or 10, have = done and 1 or 0, need = 1,
             group = "legenda", faction = L.f }
+        if chain then
+            local n, lines, nextStep = 0, {}, nil
+            for _, st in ipairs(chain) do
+                local ok = done or questDone(st[1])
+                if ok then n = n + 1 elseif not nextStep then nextStep = st end
+                local cz = WoWpoCesku_Data and WoWpoCesku_Data[st[1]] and WoWpoCesku_Data[st[1]].title
+                lines[#lines + 1] = ok and ("|cff1d6b1d• " .. (cz or st[2]) .. "  (hotovo)|r") or ("• " .. (cz or st[2]))
+            end
+            s.have, s.need, s.what = done and #chain or math.min(n, #chain - 1), #chain, "questů"
+            if not done then
+                local t = nextStep and (nextStep[3] ~= "" and ("Další krok: %s – dává %s"):format(nextStep[2], nextStep[3])
+                    or ("Další krok: %s (začíná předmětem)"):format(nextStep[2]))
+                s.detail = (t and (t .. "\n\n") or "") .. table.concat(lines, "\n")
+            end
+        end
+        out[#out + 1] = s
     end
     -- skryté pečetě: potkat postavu nebo navštívit místo
     local met = S.met or {}
@@ -944,7 +972,7 @@ function WoWpoCesku_PecetePage(key)
             s.desc = F.label .. " – " .. s.desc
             if not s.got and fac and F.key ~= fac then s.statusText, s.dim = F.only, true end
         end
-        if s.group == "legenda" and not s.got and not s.statusText then s.statusText = "zatím nesplněno" end
+        if s.group == "legenda" and not s.got and not s.statusText and not s.what then s.statusText = "zatím nesplněno" end
         if s.hidden and not s.got then
             s.name, s.desc, s.statusText = "? ? ?", s.hint, "skrytá pečeť"
         end
@@ -998,6 +1026,35 @@ function WoWpoCesku_PecetePage(key)
           after = GRAY .. "Pečetě se zapisují samy. Zlatý vosk = vzácná pečeť, černý = skrytá.|r" },
     }
     return page
+end
+
+-------------------------------------------------------------------------------
+-- Questy k dungeonu (kapitola v Letopisu dungeonu): jen pro tvou frakci, splněné odškrtnuté
+-------------------------------------------------------------------------------
+function WoWpoCesku_DungeonQuestsChapter(key)
+    local list = WoWpoCesku_DungeonQuests and WoWpoCesku_DungeonQuests[key]
+    if not list then return nil end
+    local fac = myFaction()
+    local rows, n, total = {}, 0, 0
+    for _, e in ipairs(list) do
+        local id, title, lvl, minLvl, f, from, rew = e[1], e[2], e[3], e[4], e[5], e[6], e[7]
+        if not f or not fac or FACTION[f].key == fac then
+            total = total + 1
+            local done = questDone(id)
+            if done then n = n + 1 end
+            local cz = WoWpoCesku_Data and WoWpoCesku_Data[id] and WoWpoCesku_Data[id].title
+            local text = (cz and cz ~= title) and (cz .. GRAY .. "  (" .. title .. ")|r") or title
+            text = text .. GRAY .. ("  – level %d, od %d"):format(lvl, minLvl) .. "|r"
+            if f then text = text .. "  " .. FACTION[f].label end
+            if from and from ~= "" then text = text .. "\n" .. GRAY .. "Dává: |r" .. from end
+            if rew and rew ~= "" then text = text .. "\n" .. GRAY .. "Odměna: |r" .. rew end
+            rows[#rows + 1] = { mark = done, text = text }
+        end
+    end
+    if total == 0 then return nil end
+    return { "Questy k dungeonu", ("Splněno %d z %d questů. Vezmi si je dřív, než do dungeonu vyrazíš – ušetříš si cestu navíc."):format(n, total),
+        rows = rows,
+        after = GRAY .. "Podle classic databáze (questy zařazené k dungeonu). Ve WoW Forever se může něco lišit.|r" }
 end
 
 -------------------------------------------------------------------------------
