@@ -668,3 +668,68 @@ WoWpoCesku_SealHidden = {
     { id = "arena", misto = "Gurubashi Arena", name = "Gladiátor", pts = 5,
       hint = "Uprostřed džungle je aréna, kde se každé tři hodiny bojuje o truhlu…", desc = "Vstoupil(a) jsi do Gurubashi Arena." },
 }
+
+-- Pečetě kronikáře – postava, řemesla, reputace, kontinenty a města
+WoWpoCesku_SealContinents = {
+    { id = "kalimdor", name = "Poutník Kalimdoru", zones = { "Durotar", "Mulgore", "The Barrens", "Teldrassil", "Darkshore",
+        "Ashenvale", "Stonetalon Mountains", "Thousand Needles", "Desolace", "Dustwallow Marsh", "Feralas", "Azshara",
+        "Tanaris", "Un'Goro Crater", "Silithus", "Felwood", "Winterspring", "Moonglade" } },
+    { id = "ek", name = "Poutník Východních království", zones = { "Elwynn Forest", "Westfall", "Dun Morogh", "Tirisfal Glades",
+        "Silverpine Forest", "Hillsbrad Foothills", "Alterac Mountains", "Arathi Highlands", "Wetlands", "Loch Modan",
+        "Redridge Mountains", "Duskwood", "Stranglethorn Vale", "The Hinterlands", "Western Plaguelands",
+        "Eastern Plaguelands", "Badlands", "Searing Gorge", "Burning Steppes", "Swamp of Sorrows", "Blasted Lands",
+        "Deadwind Pass" } },
+}
+
+WoWpoCesku_SealCapitals = {
+    Alliance = { "Stormwind City", "Ironforge", "Darnassus" },
+    Horde = { "Orgrimmar", "Undercity", "Thunder Bluff" },
+}
+
+-- profese (anglický název ve hře -> mistr česky)
+WoWpoCesku_SealProfese = {
+    { "Alchemy", "Mistr alchymista", "alchymie" }, { "Blacksmithing", "Mistr kovář", "kovářství" },
+    { "Enchanting", "Mistr očarovatel", "očarování" }, { "Engineering", "Mistr inženýr", "inženýrství" },
+    { "Herbalism", "Mistr bylinkář", "bylinkářství" }, { "Leatherworking", "Mistr koželuh", "koželužství" },
+    { "Mining", "Mistr horník", "hornictví" }, { "Skinning", "Mistr stahovač", "stahování kůží" },
+    { "Tailoring", "Mistr krejčí", "krejčovství" }, { "Fishing", "Mistr rybář", "rybaření" },
+    { "Cooking", "Mistr kuchař", "vaření" }, { "First Aid", "Mistr ranhojič", "první pomoc" },
+}
+
+-- reputace Exalted: { anglický název frakce ve hře, frakce hráče (A/H/nil), vzácná }
+WoWpoCesku_SealRep = {
+    { "Argent Dawn", nil, true }, { "Timbermaw Hold", nil, true }, { "Thorium Brotherhood", nil, true },
+    { "Cenarion Circle", nil, true }, { "Hydraxian Waterlords", nil, false }, { "Brood of Nozdormu", nil, true },
+    { "Zandalar Tribe", nil, false }, { "Bloodsail Buccaneers", nil, false }, { "Booty Bay", nil, false },
+    { "Gadgetzan", nil, false }, { "Ratchet", nil, false }, { "Everlook", nil, false },
+    { "Stormwind", "A", false }, { "Ironforge", "A", false }, { "Darnassus", "A", false }, { "Gnomeregan Exiles", "A", false },
+    { "Wintersaber Trainers", "A", true }, { "Stormpike Guard", "A", false }, { "Silverwing Sentinels", "A", false },
+    { "League of Arathor", "A", false },
+    { "Orgrimmar", "H", false }, { "Thunder Bluff", "H", false }, { "Undercity", "H", false }, { "Darkspear Trolls", "H", false },
+    { "Frostwolf Clan", "H", false }, { "Warsong Outriders", "H", false }, { "The Defilers", "H", false },
+}
+
+-- další skryté pečetě (doplňují WoWpoCesku_SealHidden)
+do
+    local H = WoWpoCesku_SealHidden
+    H[#H + 1] = { id = "noncni", npcs = { "Ysondre", "Emeriss", "Lethon", "Taerar" }, name = "Strážci snu", pts = 25,
+        hint = "Čtyři zelení draci, které pohltila Noční můra, se zjevují u velkých stromů snu…",
+        desc = "Spatřil(a) jsi všechny čtyři draky Noční můry: Ysondre, Emeriss, Lethon a Taerar." }
+    H[#H + 1] = { id = "olgra", npc = "Beaten Corpse", name = "Konečně nalezena", pts = 5,
+        hint = "Celý Barrens se ptá, kde je Mankrikova žena. Možná ji najdeš ty…",
+        desc = "Našel(a) jsi tělo Mankrikovy ženy Olgry." }
+    H[#H + 1] = { id = "hoggermet", npc = "Hogger", name = "Postrach Elwynnu", pts = 5,
+        hint = "Nejslavnější gnoll Warcraftu prý číhá v lesích na jihozápadě Elwynnu…", desc = "Potkal(a) jsi Hoggera." }
+    H[#H + 1] = { id = "princessmet", npc = "Princess", name = "Královna dýňového pole", pts = 5,
+        hint = "Na jednom dýňovém poli v Elwynnu se vykrmuje obrovská prasnice…", desc = "Potkal(a) jsi prasnici Princess." }
+    H[#H + 1] = { id = "natpagle", npc = "Nat Pagle", name = "Rybářská legenda", pts = 5,
+        hint = "Nejslavnější rybář Azerothu chytá ryby na ostrůvku v bažinách Dustwallow…", desc = "Potkal(a) jsi Nata Pagleho." }
+    H[#H + 1] = { id = "linkenmet", npc = "Linken", name = "Chlapec v zeleném", pts = 5,
+        hint = "V pravěkém kráteru žije podivný chlapec s mečem a štítem…", desc = "Potkal(a) jsi Linkena." }
+    H[#H + 1] = { id = "spy", spy = true, name = "Špeh", pts = 10,
+        hint = "Někteří odvážlivci se vplíží až do hlavního města nepřítele…",
+        desc = "Vstoupil(a) jsi do hlavního města nepřátelské frakce." }
+    H[#H + 1] = { id = "tamer", tameRare = true, name = "Krotitel vzácností", pts = 10,
+        hint = "Jen lovci vědí, jaké to je mít po boku zvíře, které jiní jen loví…",
+        desc = "Ochočil(a) sis vzácné zvíře." }
+end

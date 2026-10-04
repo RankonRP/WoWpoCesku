@@ -276,6 +276,20 @@ local function recordPlace()
     if sub and sub ~= "" and not secret(sub) and not S.sub[key][sub] then S.sub[key][sub] = time(); new = true end
     local real = GetRealZoneText and GetRealZoneText()
     if real and real ~= "" and not secret(real) and not S.z[real] then S.z[real] = time(); new = true end
+    -- hlavní města: zvlášť za každou frakci (pečeť Velvyslanec, skrytá pečeť Špeh)
+    local okF, fk = pcall(UnitFactionGroup, "player")
+    local caps = WoWpoCesku_SealCapitals
+    if okF and caps and real and caps[fk] then
+        S.cap = S.cap or {}
+        for f2, cities in pairs(caps) do
+            for _, c in ipairs(cities) do
+                if c == real then
+                    if f2 == fk and not S.cap[c .. ":" .. fk] then S.cap[c .. ":" .. fk] = time(); new = true end
+                    if f2 ~= fk and not S.spy then S.spy = time(); new = true end
+                end
+            end
+        end
+    end
     if new and onNewPlace then onNewPlace() end
 end
 
@@ -709,7 +723,56 @@ local SERIES = {
     { id = "read", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "kapitol kroniky",
       desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
+    -- postava (group = "postava")
+    { id = "level", group = "postava", icon = IC .. "Spell_Holy_SealOfMight", image = PIC .. "hrdina", what = "úrovní",
+      desc = function(n) return ("Dosáhni s některou postavou úrovně %d."):format(n) end,
+      steps = { { 10, "Na cestě", 5 }, { 20, "Zkušený dobrodruh", 5 }, { 40, "Veterán", 10 }, { 60, "Na vrcholu", 25 } } },
+    { id = "gold", group = "postava", icon = IC .. "INV_Misc_Coin_01", image = PIC .. "objevitel", what = "zlatých",
+      desc = function(n) return ("Měj u jedné postavy najednou %d zlatých."):format(n) end,
+      steps = { { 100, "Zámožný", 10 }, { 1000, "Boháč", 25 } } },
+    { id = "riding", group = "postava", icon = IC .. "Ability_Mount_RidingHorse", image = PIC .. "cestovatel", what = "bodů jízdy",
+      desc = function(n) return n <= 75 and "Nauč se jezdit na mountovi." or "Nauč se jezdit na epickém mountovi." end,
+      steps = { { 75, "Na koni", 10 }, { 150, "Epický jezdec", 25 } } },
+    { id = "death", group = "postava", icon = IC .. "Spell_Shadow_DeathScream", image = PIC .. "dobyvatel", what = "smrtí",
+      desc = function(n) return ("Zemři %d×. Smrt je jen začátek."):format(n) end,
+      steps = { { 10, "Ještě dýchám?", 5 }, { 50, "Duch Azerothu", 10 }, { 100, "Nesmrtelný", 10 } } },
 }
+
+-- statistiky postavy pro pečetě (úroveň, peníze, profese, jízda, reputace) – čte se ze hry
+local PROF_SET, REP_SET = {}, {}
+for _, p in ipairs(WoWpoCesku_SealProfese or {}) do PROF_SET[p[1]] = true end
+for _, r in ipairs(WoWpoCesku_SealRep or {}) do REP_SET[r[1]] = true end
+local function updateStats()
+    local S = seen()
+    local ok, lvl = pcall(UnitLevel, "player")
+    if ok and type(lvl) == "number" and not secret(lvl) then S.maxLvl = math.max(S.maxLvl or 0, lvl) end
+    local okM, money = pcall(GetMoney)
+    if okM and type(money) == "number" and not secret(money) then S.maxGold = math.max(S.maxGold or 0, money) end
+    if GetNumSkillLines and GetSkillLineInfo then
+        S.prof = S.prof or {}
+        for i = 1, GetNumSkillLines() do
+            local okS, name, header, _, rank = pcall(GetSkillLineInfo, i)
+            if okS and type(name) == "string" and not header and type(rank) == "number" then
+                if PROF_SET[name] then S.prof[name] = math.max(S.prof[name] or 0, rank) end
+                if name:find("Riding") or name:find("Horsemanship") or name:find("Piloting") then
+                    S.riding = math.max(S.riding or 0, rank)
+                end
+            end
+        end
+    end
+    S.rep = S.rep or {}
+    if GetNumFactions and GetFactionInfo then
+        for i = 1, GetNumFactions() do
+            local okF, name, _, standing = pcall(GetFactionInfo, i)
+            if okF and REP_SET[name] and standing == 8 and not S.rep[name] then S.rep[name] = time() end
+        end
+    elseif C_Reputation and C_Reputation.GetNumFactions and C_Reputation.GetFactionDataByIndex then
+        for i = 1, C_Reputation.GetNumFactions() do
+            local okF, d = pcall(C_Reputation.GetFactionDataByIndex, i)
+            if okF and d and REP_SET[d.name] and d.reaction == 8 and not S.rep[d.name] then S.rep[d.name] = time() end
+        end
+    end
+end
 
 -- splněný quest (classic API i novější C_QuestLog)
 local function questDone(id)
@@ -744,7 +807,8 @@ end
 --                   gold, hidden, faction, detail (co chybí) }
 local function sealList()
     local S = seen()
-    local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0 }
+    local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0,
+        level = S.maxLvl or 0, gold = math.floor((S.maxGold or 0) / 10000), riding = S.riding or 0, death = S.deaths or 0 }
     for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then counts.zone = counts.zone + 1 end end
     for zone, places in pairs(WoWpoCesku_Objevy or {}) do
         local n, missing = 0, {}
@@ -776,7 +840,7 @@ local function sealList()
         local c = counts[ser.id] or 0
         for i, st in ipairs(ser.steps) do
             out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = ser.image, points = st[3],
-                have = math.min(c, st[1]), need = st[1], what = ser.what, group = "obecne", series = ser.id,
+                have = math.min(c, st[1]), need = st[1], what = ser.what, group = ser.group or "obecne", series = ser.id,
                 gold = (i == #ser.steps) }
         end
     end
@@ -816,10 +880,48 @@ local function sealList()
         end
         out[#out + 1] = s
     end
-    -- skryté pečetě: potkat postavu nebo navštívit místo
+    -- kontinenty: všechny oblasti
+    for _, C in ipairs(WoWpoCesku_SealContinents or {}) do
+        local n, missing = 0, {}
+        for _, z in ipairs(C.zones) do if S.z[z] then n = n + 1 else missing[#missing + 1] = "• " .. z end end
+        out[#out + 1] = { id = "kontinent:" .. C.id, name = C.name, icon = IC .. "INV_Misc_Map_01", image = PIC .. "cestovatel",
+            desc = "Navštiv všechny oblasti kontinentu.", points = 25, gold = true, have = n, need = #C.zones, what = "oblastí",
+            group = "svet", detail = #missing > 0 and ("Ještě nenavštíveno:\n" .. table.concat(missing, "\n")) or nil }
+    end
+    -- hlavní města své frakce (návštěvy se zapisují zvlášť za každou frakci)
+    for fk, cities in pairs(WoWpoCesku_SealCapitals or {}) do
+        local n, missing = 0, {}
+        for _, c in ipairs(cities) do
+            if S.cap and S.cap[c .. ":" .. fk] then n = n + 1 else missing[#missing + 1] = "• " .. c end
+        end
+        out[#out + 1] = { id = "mesta:" .. fk, name = fk == "Alliance" and "Velvyslanec Aliance" or "Velvyslanec Hordy",
+            icon = IC .. "INV_Misc_Book_11", image = PIC .. "legenda", points = 10, have = n, need = #cities, what = "měst",
+            desc = "Navštiv všechna hlavní města své frakce.", faction = fk == "Alliance" and "A" or "H", group = "svet",
+            detail = #missing > 0 and ("Ještě nenavštíveno:\n" .. table.concat(missing, "\n")) or nil }
+    end
+    -- profese na 300
+    for _, p in ipairs(WoWpoCesku_SealProfese or {}) do
+        local rank = (S.prof and S.prof[p[1]]) or 0
+        out[#out + 1] = { id = "prof:" .. p[1], name = p[2], icon = IC .. "Trade_BlackSmithing", image = PIC .. "hrdina",
+            desc = ("Dosáhni úrovně 300 v profesi %s (%s)."):format(p[1], p[3]), points = 10,
+            have = math.min(rank, 300), need = 300, what = "bodů", group = "remeslo" }
+    end
+    -- reputace Exalted
+    for _, R in ipairs(WoWpoCesku_SealRep or {}) do
+        local got = S.rep and S.rep[R[1]]
+        out[#out + 1] = { id = "rep:" .. R[1], name = "Exalted – " .. R[1], icon = IC .. "INV_Misc_Book_11", image = PIC .. "legenda",
+            desc = ("Dosáhni u frakce %s nejvyšší reputace Exalted."):format(R[1]), points = R[3] and 25 or 10, gold = R[3],
+            have = got and 1 or 0, need = 1, group = "reputace", faction = R[2], statusText = (not got) and "zatím ne" or nil }
+    end
+    -- skryté pečetě: potkat postavu (nebo všechny ze seznamu), navštívit místo, špeh, ochočený rare
     local met = S.met or {}
     for _, H in ipairs(WoWpoCesku_SealHidden or {}) do
-        local done = (H.npc and met[H.npc] ~= nil) or (H.misto and placeVisited(H.misto)) or false
+        local done = (H.npc and met[H.npc] ~= nil) or (H.misto and placeVisited(H.misto))
+            or (H.spy and S.spy ~= nil) or (H.tameRare and S.tamed ~= nil) or false
+        if H.npcs then
+            done = true
+            for _, nm in ipairs(H.npcs) do if not met[nm] then done = false end end
+        end
         out[#out + 1] = { id = "skryta:" .. H.id, name = H.name, desc = H.desc, hint = H.hint,
             icon = IC .. "INV_Misc_QuestionMark", image = PIC .. "skryta", points = H.pts or 10,
             have = done and 1 or 0, need = 1, group = "skryta", hidden = true }
@@ -893,7 +995,7 @@ local function charName()
     if ok and type(name) == "string" and name ~= "" and not secret(name) then return name end
 end
 
-local SEAL_VERSION = 2   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
+local SEAL_VERSION = 3   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
 
 checkSeals = function()
     local S = seen()
@@ -942,7 +1044,10 @@ WoWpoCesku_CheckSeals = function() pcall(checkSeals) end
 
 -- skryté pečetě: potkané postavy (zaměření, najetí myší, jmenovka)
 local HIDDEN_NPC = {}
-for _, H in ipairs(WoWpoCesku_SealHidden or {}) do if H.npc then HIDDEN_NPC[H.npc] = true end end
+for _, H in ipairs(WoWpoCesku_SealHidden or {}) do
+    if H.npc then HIDDEN_NPC[H.npc] = true end
+    for _, nm in ipairs(H.npcs or {}) do HIDDEN_NPC[nm] = true end
+end
 local function metUnit(unit)
     local ok, name = pcall(UnitName, unit)
     if not ok or type(name) ~= "string" or secret(name) or not HIDDEN_NPC[name] then return end
@@ -978,21 +1083,29 @@ function WoWpoCesku_PecetePage(key)
         end
     end
     local here, general, zones, dungs, legends, hidden = {}, {}, {}, {}, {}, {}
+    local postava, svet, remeslo, reputace = {}, {}, {}, {}
     local nextShown = {}
     local byName = function(a, b) return a.name < b.name end
     for _, s in ipairs(all) do
         if s.key and s.key == key then
             here[#here + 1] = s
-        elseif s.group == "obecne" then
+        elseif s.group == "obecne" or s.group == "postava" then
             -- u série jen získané + nejbližší další stupeň
             if s.got or not nextShown[s.series] then
-                general[#general + 1] = s
+                local list = s.group == "postava" and postava or general
+                list[#list + 1] = s
                 if not s.got then nextShown[s.series] = true end
             end
         elseif s.group == "legenda" then
             legends[#legends + 1] = s
         elseif s.group == "skryta" then
             hidden[#hidden + 1] = s
+        elseif s.group == "svet" then
+            if not s.dim or s.got then svet[#svet + 1] = s end
+        elseif s.group == "remeslo" then
+            if s.got or s.have > 0 then remeslo[#remeslo + 1] = s end
+        elseif s.group == "reputace" then
+            if not s.dim or s.got then reputace[#reputace + 1] = s end
         elseif s.got or s.have > 0 then
             local list = s.group == "oblast" and zones or dungs
             list[#list + 1] = s
@@ -1019,6 +1132,11 @@ function WoWpoCesku_PecetePage(key)
         { "Legendy Azerothu", "Slavné příběhy klasického WoW. Některé zvládne jen Aliance, jiné jen Horda.", seals = legends },
         { "Skryté pečetě", "Tajemství, která se odhalí, až na ně narazíš.", seals = hidden },
         { "Hrdinské pečetě", "Za lov vzácných mobů, cestování, objevování, dungeony a čtení kroniky.", seals = general },
+        { "Postava", "Úroveň, bohatství, jízda – a kolikrát už tě Azeroth porazil.", seals = postava },
+        { "Svět", "Celé kontinenty a hlavní města.", seals = svet },
+        { "Řemesla", #remeslo > 0 and "Profese, které se učíš – pečeť za mistrovství na úrovni 300."
+            or "Zatím žádná profese. Nauč se řemeslo a pečeť se začne plnit.", seals = remeslo },
+        { "Reputace", "Nejvyšší reputace Exalted u frakcí Azerothu.", seals = reputace },
         { "Oblasti", #zones > 0 and "Rozpracované a dokončené oblasti."
             or "Zatím žádná – projdi místa Poutníkova deníku a pečeť oblasti se začne plnit.", seals = zones },
         { "Dungeony a raidy", #dungs > 0 and "Rozpracované a dokončené dungeony."
@@ -1151,13 +1269,23 @@ pcall(ev.RegisterEvent, ev, "VIGNETTE_MINIMAP_UPDATED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
 pcall(ev.RegisterEvent, ev, "ENCOUNTER_END")
 pcall(ev.RegisterEvent, ev, "QUEST_TURNED_IN")
+for _, e in ipairs({ "PLAYER_LEVEL_UP", "PLAYER_MONEY", "SKILL_LINES_CHANGED", "UPDATE_FACTION", "PLAYER_DEAD", "UNIT_PET" }) do
+    pcall(ev.RegisterEvent, ev, e)
+end
+-- statistiky postavy a kontrola pečetí nejvýš jednou za 3 s (PLAYER_MONEY chodí často)
+local statsPending
+local function scheduleStats()
+    if statsPending then return end
+    statsPending = true
+    C_Timer.After(3, function() statsPending = nil; pcall(updateStats); pcall(checkSeals) end)
+end
 -- POZOR: COMBAT_LOG_EVENT_UNFILTERED ve WoW Forever addony registrovat nesmí (hra hlásí zakázanou akci)
 ev:SetScript("OnEvent", function(_, event, unit, ...)
     if event == "PLAYER_LOGIN" then
         pcall(hookTooltip)
         pcall(hookMap)
         if not mapHooked then ev:RegisterEvent("ADDON_LOADED") end
-        C_Timer.After(5, function() pcall(checkSeals) end)
+        C_Timer.After(5, function() pcall(updateStats); pcall(checkSeals) end)
     elseif event == "ADDON_LOADED" then
         if unit == "Blizzard_WorldMap" then pcall(hookMap) end
     elseif event == "NAME_PLATE_UNIT_ADDED" then
@@ -1171,6 +1299,19 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
         pcall(metUnit, "mouseover")
     elseif event == "VIGNETTES_UPDATED" or event == "VIGNETTE_MINIMAP_UPDATED" then
         pcall(checkVignettes)
+    elseif event == "PLAYER_DEAD" then
+        local S = seen()
+        S.deaths = (S.deaths or 0) + 1
+        scheduleStats()
+    elseif event == "UNIT_PET" then
+        -- ochočené zvíře má zpočátku jméno tvora: vzácný = skrytá pečeť Krotitel
+        local okP, pet = pcall(UnitName, "pet")
+        if unit == "player" and okP and type(pet) == "string" and not secret(pet) and RARE[pet] then
+            local S = seen()
+            if not S.tamed then S.tamed = time(); scheduleStats() end
+        end
+    elseif event == "PLAYER_LEVEL_UP" or event == "PLAYER_MONEY" or event == "SKILL_LINES_CHANGED" or event == "UPDATE_FACTION" then
+        scheduleStats()
     elseif event == "QUEST_TURNED_IN" then
         C_Timer.After(2, function() pcall(checkSeals) end)
     elseif event == "ENCOUNTER_END" then
