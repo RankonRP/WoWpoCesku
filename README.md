@@ -4,6 +4,7 @@
 
 - Česky se ukáže zadání questu, texty při odevzdání, úkoly v přehledu, názvy questů, rozhovory s NPC i knihy a dopisy – u víc než 4000 questů hned po instalaci.
 - Nový quest, který ještě přeložený není, předáš jednou klávesou (**Ctrl+C**) malému Pomocníkovi na PC. Ten ho přeloží a pošle do společné databáze, takže ho pak mají česky všichni hráči.
+- **Kronika Azerothu** – kniha na pergamenu s příběhem oblasti, kde právě jsi, česky (viz níže).
 - Nic dalšího se neinstaluje – Pomocník běží v PowerShellu, který je součástí Windows.
 
 ## Instalace
@@ -26,7 +27,23 @@
 - **Přeložený quest** → český text se ukáže v panelu vedle okna questu.
 - **Nepřeložený quest** → addon text označí → zmáčkni **Ctrl+C** → překlad se hned ukáže v Pomocníkovi. Po `/reload` ho uvidíš česky i ve hře.
 - **Špatný překlad** → v panelu klikni na **Opravit překlad**, oprav text v Pomocníkovi a ulož.
-- **Nastavení** → ikona knihy u minimapy (nebo `/czq nastaveni`).
+- **Ikona knihy u minimapy** → klik = Kronika Azerothu, **Ctrl+klik** = nastavení (nebo `/czq nastaveni`), pravý klik = zapnout/vypnout překlad, **Shift+klik** = načíst nové překlady.
+
+## Kronika Azerothu
+
+Kniha, která vždy ukazuje **jen oblast nebo dungeon, kde právě jsi** – pro všech 41 klasických oblastí, 24 dungeonů a raidů i nový Zephras Isle z WoW Forever. Otevře se klikem na ikonu u minimapy nebo `/czq lore`; při vstupu do nové oblasti se ukáže krátký titulek. Vpravo má čtyři záložky:
+
+- **Letopis** – příběh oblasti v kapitolách a kapitola **Z knih a legend** (lore z románů a Warcraftu I–III, i se spoilery). V dungeonu příběh dungeonu a přehled bossů, poražení se sami odškrtnou.
+- **Tajemství** – easter eggy, skrytá místa, slavné questové příběhy a zajímavosti, které se vyplatí najít.
+- **Poutníkův deník** – zajímavá místa oblasti; navštívená se sama odškrtávají.
+- **Bestiář** – vzácní (rare) mobové oblasti. Klik na moba vyznačí lebkou na mapě (**M**), kde se může objevit.
+
+K tomu:
+
+- **Upozornění na vzácné moby** – když se poblíž objeví rare, ukáže se hláška se zvukem a tlačítko pro zaměření. Seznam viděných: `/czq vzacni`, vypnutí `/czq vzacni vyp`.
+- **Poznámky k postavám** – u přes 250 důležitých postav světa (Thrall, Hogger, Tirion, VanCleef…) se v popisku ukáže, kdo to je.
+
+Texty jsou psané vlastními slovy podle klasického WoW a [Warcraft Wiki](https://warcraft.wiki.gg/) a ověřené. Ve WoW Forever se může něco lišit – když narazíš na chybu, napiš.
 
 Podrobný návod včetně řešení častých potíží: [NAVOD.txt](NAVOD.txt) (je i v zipu, otevře se v Poznámkovém bloku).
 

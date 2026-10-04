@@ -66,7 +66,33 @@ PŘÍKAZY VE HŘE
 /czq reset        vrátí panel na výchozí místo (panel jde přetáhnout myší)
 /czq focus        zapne / vypne automatické označení textu
 /czq stav         kolik questů je přeložených
+/czq lore         otevře Kroniku Azerothu
+/czq lore vyp     vypne titulky při vstupu do oblasti (zap = zapne)
+/czq vzacni       seznam viděných vzácných mobů (vyp / zap = upozornění)
+/czq nastaveni    otevře nastavení
 (místo /czq funguje i /wpc)
+
+IKONA KNIHY U MINIMAPY
+----------------------
+klik          Kronika Azerothu
+Ctrl+klik     nastavení
+pravý klik    zapne / vypne překlad
+Shift+klik    načte nové překlady (/reload)
+
+
+KRONIKA AZEROTHU
+----------------
+Kniha s příběhem oblasti nebo dungeonu, kde právě jsi (jen té jedné).
+Záložky vpravo:
+- Letopis – příběh v kapitolách + „Z knih a legend“ (i spoilery),
+  v dungeonu bossové, kteří se po zabití sami odškrtnou.
+- Tajemství – easter eggy, skrytá místa a zajímavosti.
+- Poutníkův deník – zajímavá místa, navštívená se odškrtávají.
+- Bestiář – vzácní mobové; klik na moba = lebky na mapě (otevři M).
+Když se poblíž objeví vzácný mob, addon zahlásí upozornění se zvukem.
+U důležitých postav světa ukáže v popisku krátkou poznámku, kdo to je.
+Texty jsou podle klasického WoW a Warcraft Wiki – ve WoW Forever se
+může něco lišit.
 
 
 ČEŠTINA V ROZHRANÍ
