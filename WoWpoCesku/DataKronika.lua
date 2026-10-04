@@ -18,7 +18,7 @@ WoWpoCesku_RareList = {
         "Lady Moongazer|17", "Firecaller Radison|19", "Strider Clutchmother|20|t", "Lady Vespira|22", "Baron Marinous|11-19" },
     ["Ashenvale"] = { "Apothecary Falthis|22", "Lady Vespia|22", "Mist Howler|22|t", "Mugglefin|23", "Branch Snapper|25",
         "Rorgish Jowl|25", "Akkrilus|26", "Eck'alom|27", "Oakpaw|27", "Terrowulf Packlord|31", "Ursol'lok|31|t",
-        "Prince Raze|32", "Varo'then's Ghost|48" },
+        "Prince Raze|32" },
     ["Stonetalon Mountains"] = { "Sister Rathtalon|19", "Taskmaster Whipfang|22", "Foreman Rigger|24", "Pridewing Patriarch|25",
         "Sentinel Amarassan|27", "Sorrow Wing|27", "Sister Riven|28", "Brother Ravenoak|29", "Vengeful Ancient|29", "Nal'taszar|30" },
     ["Thousand Needles"] = { "Gibblesnik|28", "Achellios the Banished|31", "Heartrazor|32", "Vile Sting|35|t",
@@ -28,7 +28,7 @@ WoWpoCesku_RareList = {
         "Oozeworm|42", "The Rot|43", "Lord Angler|44", "Brimgore|45" },
     ["Feralas"] = { "Snarler|42|t", "Old Grizzlegut|43|t", "Gnarl Leafbrother|44", "Diamond Head|45", "Lady Szallah|46",
         "Qirot|47", "Antilus the Soarer|48", "Bloodroar the Stalker|48", "Arash-ethis|49|t" },
-    ["Azshara"] = { "The Evalcharr|48", "Gatekeeper Rageroar|49", "Antilos|50", "General Fangferror|50", "Lady Sesspira|51",
+    ["Azshara"] = { "Varo'then's Ghost|48", "The Evalcharr|48", "Gatekeeper Rageroar|49", "Antilos|50", "General Fangferror|50", "Lady Sesspira|51",
         "Magister Hawkhelm|51", "Master Feardred|51", "Scalebeard|52", "Monnos the Elder|53" },
     ["Tanaris"] = { "Murderous Blisterpaw|43|t", "Warleader Krazzilak|45", "Greater Firebird|46|t", "Kregg Keelhaul|47",
         "Haarka the Ravenous|50" },
@@ -93,7 +93,7 @@ WoWpoCesku_Objevy = {
     ["Mulgore"] = { "Camp Narache", "Bloodhoof Village", "Thunder Bluff", "Red Rocks", "Bael'dun Digsite", "The Venture Co. Mine",
         "Windfury Ridge", "Palemane Rock", "Stonebull Lake" },
     ["The Barrens"] = { "The Crossroads", "Ratchet", "Camp Taurajo", "Lushwater Oasis", "The Forgotten Pools", "Northwatch Hold",
-        "Bael Modan", "Field of Giants", "The Merchant Coast", "Wailing Caverns" },
+        "Bael Modan", "Field of Giants", "The Merchant Coast", "Wailing Caverns", "Razorfen Kraul", "Razorfen Downs" },
     ["Teldrassil"] = { "Shadowglen", "Dolanaar", "Darnassus", "Rut'theran Village", "Ban'ethil Barrow Den", "Oracle Glade",
         "Lake Al'Ameth", "Starbreeze Village", "Fel Rock" },
     ["Zephras Isle"] = { "Thendal Grove" },
@@ -178,8 +178,8 @@ WoWpoCesku_Postavy = {
     ["Varimathras"] = "Démon, poradce Sylvanas. Slouží jí, protože musí – ale věrnost démona je vždy podezřelá.",
     ["Master Apothecary Faranell"] = "Vede lékárníky Royal Apothecary Society v Undercity. Jejich „lék“ proti Pohromě je ve skutečnosti nový mor.",
     ["Magatha Grimtotem"] = "Stará šamanka kmene Grimtotem. Cairne ji toleruje, ale ona touží po moci nad taureny.",
-    ["Hamuul Runetotem"] = "První tauren druid. Učil se u Malfuriona Stormrage a spojuje taureny s nočními elfy.",
-    ["Arch Druid Hamuul Runetotem"] = "První tauren druid. Učil se u Malfuriona Stormrage a spojuje taureny s nočními elfy.",
+    ["Hamuul Runetotem"] = "První tauren druid po deseti tisících letech. Učil se u Malfuriona Stormrage a spojuje taureny s nočními elfy.",
+    ["Arch Druid Hamuul Runetotem"] = "První tauren druid po deseti tisících letech. Učil se u Malfuriona Stormrage a spojuje taureny s nočními elfy.",
     ["Nazgrel"] = "Orkský generál, šéf Thrallovy bezpečnosti v Orgrimmaru.",
     ["Eitrigg"] = "Starý ork, kterého kdysi zachránil paladin Tirion Fordring – a za to byl Tirion vyhnán z řádu.",
     ["Rexxar"] = "Napůl ork a napůl ogr, šampion Hordy z Warcraft III. Toulá se po Desolace se svou medvědicí Mishou.",
@@ -193,7 +193,6 @@ WoWpoCesku_Postavy = {
     ["Highlord Bolvar Fordragon"] = "Regent Stormwindu, který vládne za malého krále Anduina. Statečný paladin, který nese tíhu celého království.",
     ["Lady Katrana Prestor"] = "Vlivná šlechtična u dvora. SPOILER: je to černá dračice Onyxia, dcera Deathwinga.",
     ["Anduin Wrynn"] = "Malý král Stormwindu. Jeho otec Varian zmizel na cestě do Theramore.",
-    ["King Anduin Wrynn"] = "Malý král Stormwindu. Jeho otec Varian zmizel na cestě do Theramore.",
     ["King Magni Bronzebeard"] = "Král trpaslíků v Ironforge. Jeho bratr Muradin zmizel v Northrendu a Brann putuje po světě.",
     ["High Tinker Mekkatorque"] = "Král gnómů. Gnomeregan ztratil kvůli troggům a zradě svého poradce Thermaplugga.",
     ["Tyrande Whisperwind"] = "Velekněžka Elune a vůdkyně nočních elfů. Bojovala už ve Válce starověku před deseti tisíci lety.",
@@ -208,10 +207,10 @@ WoWpoCesku_Postavy = {
     -- Padouši a legendy
     ["Hogger"] = "Nejslavnější gnoll Warcraftu, vůdce gnollů Riverpaw v Elwynn Forest. Mnoho hrdinů na něj nestačilo.",
     ["Edwin VanCleef"] = "Vůdce Bratrstva Defias. Kdysi mistr kameníků, kterým šlechta nezaplatila za obnovu Stormwindu.",
-    ["Captain Grayson"] = "Duch pirátského kapitána v majáku Westfallu. Jeho loď ztroskotala, když maják nesvítil.",
-    ["Old Murk-Eye"] = "Starý vůdce murloků na pobřeží Westfallu, který útočí na maják.",
+    ["Captain Grayson"] = "Duch kapitána, který straší v majáku na pobřeží Westfallu.",
+    ["Old Murk-Eye"] = "Obávaný starý murlok z pobřeží Westfallu.",
     ["Stitches"] = "Obří zrůda sešitá z mrtvol nekromantem Abercrombiem v Duskwoodu.",
-    ["Morbent Fel"] = "Nekromant, který vládne hřbitovu Raven Hill v Duskwoodu.",
+    ["Morbent Fel"] = "Nekromant, který žije v domě na vršku Forlorn Rowe nad hřbitovem Raven Hill v Duskwoodu.",
     ["Tirion Fordring"] = "Paladin vyhnaný z řádu za to, že zachránil orka Eitrigga. Dnes žije jako poustevník – jeho příběh ještě neskončil.",
     ["Lord Victor Nefarius"] = "Tajemný lord v Blackrock Spire. SPOILER: je to černý drak Nefarian, syn Deathwinga.",
     ["Ragnaros"] = "Pán ohně, vyvolaný Dark Ironským čarodějem Thaurissanem. Vládne v Molten Core.",
@@ -224,13 +223,14 @@ WoWpoCesku_Postavy = {
     ["Lord Kazzak"] = "Obří démon v Blasted Lands, který zůstal na Azerothu po zničení Temného portálu.",
     ["Azuregos"] = "Modrý drak v Azshara, ochránce magických artefaktů.",
     ["Hemet Nesingwary Jr."] = "Slavný lovec ve Stranglethorn. Jméno je odkaz na Ernesta Hemingwaye.",
+    ["Hemet Nesingwary"] = "Slavný lovec ve Stranglethorn. Jméno je odkaz na Ernesta Hemingwaye.",
     ["Linken"] = "Podivný „chlapec“ v Un'Goro s mečem a štítem – odkaz na Linka ze Zeldy.",
     ["Keeper Remulos"] = "Syn poloboha Cenaria, strážce Moonglade.",
     ["Highlord Demitrian"] = "Strážce v Silithu, který zná tajemství legendárního meče Thunderfury.",
     ["Anachronos"] = "Bronzový drak v Tanaris, strážce Žezla pohyblivých písků.",
     ["Mr. Smite"] = "Tauren, první důstojník Defias v Deadmines. V boji mění zbraně.",
     ["Cookie"] = "Murlok kuchař lodi Defias v Deadmines.",
-    ["Princess"] = "Obrovská prasnice z Brackwell Pumpkin Patch, kterou si přivlastnili Defiasové.",
+    ["Princess"] = "Obrovská prasnice z Brackwell Pumpkin Patch, kterou chce Ma Stonefield mrtvou.",
     ["Maybell Maclure"] = "Dívka z Elwynnu, zamilovaná do Tommyho Joea Stonefielda ze znepřátelené rodiny.",
 
     -- Zephras Isle (WoW Forever)
@@ -269,10 +269,10 @@ WoWpoCesku_RareNotes = {
     ["Geolord Mottle"] = [[Kančí geomancer kmene Razormane.]],
     ["Death Flayer"] = [[Štír u Southfury Watershed.]],
     ["Felweaver Scornn"] = [[Kultista Burning Blade.]],
-    ["Takk the Leaper"] = [[Padá z něj kus sady Blessing of Kalimdor (+5 % rychlosti v Barrens a Stonetalonu).]],
+    ["Takk the Leaper"] = [[Novinka WoW Forever: padá z něj kus sady Blessing of Kalimdor (2 ze 3 kusů = +5 % rychlosti v Barrens a Stonetalonu).]],
     ["Mother Fang"] = [[Pavoučice v Jasperlode Mine.]],
-    ["Mazzranache"] = [[Obrovská puma, na kterou ti v Bloodhoof Village dá quest Maur Raincaller. Je to vzácný mob (24–48 h) a lovec si ji může ochočit.]],
-    ["Ghost Howl"] = [[Přízračný vlk, který se toulá po pláních. Taureni o něm vyprávějí příběh o věrném společníkovi, který se nedokázal rozloučit.]],
+    ["Mazzranache"] = [[Obrovská puma, na kterou ti v Bloodhoof Village dá quest Maur Raincaller. Je to vzácný mob a lovec si ji může ochočit.]],
+    ["Ghost Howl"] = [[Přízračný bílý vlk, vzácný mob, který se toulá po pláních Mulgore.]],
     ["Elmpaw"] = [[Novinka WoW Forever: nový elitní vzácný mob (level 12) na východě kraje (zhruba 81, 85 a 75, 38). Padá z něj Elmpaw's Head, který spustí quest za zkušenosti a reputaci se Stormwindem.]],
     ["Ghostfang"] = [[Novinka WoW Forever: nový vzácný kocour, kterého si lovec může ochočit (zhruba 74, 63). Zatím z něj nic vlastního nepadá.]],
     ["Sewer Beast"] = [[V kanálech pod městem žije vzácné zvíře (level 50), kterého si lovec může ochočit. Mezi lovci je to legenda – hledat ho v kanálech plných nízkých hráčů je zážitek.]],
@@ -280,12 +280,12 @@ WoWpoCesku_RareNotes = {
     ["Broken Tooth"] = [[Vzácný kočkovitý mob, kterého si lovci v klasice ochočovali kvůli nejrychlejšímu útoku.]],
     ["7:XT"] = [[Vzácný mechanický robot. Jedno z nejzvláštnějších jmen ve hře.]],
     ["Scarshield Quartermaster"] = [[Vzácný mob, který se objevuje každých 10–15 minut. Hledej ho v okolí Blackrock Spire.]],
-    ["Humar the Pridelord"] = [[Černý lev, který odpočívá pod velkým stromem severně od Ratchetu. Kdysi měl jedinečný vzhled a lovci po něm toužili jako po vzácném mazlíčkovi.]],
-    ["Swiftmane"] = [[Neuvěřitelně rychlá zebra (zhevra) severně od Ratchetu. Neběhá náhodně – kdo zjistí jeho trasu, chytí ho.]],
-    ["Ishamuhale"] = [[Na kopci nad Ratchetem stojí mrtvý strom. Zabij zhevru a použij u stromu její tělo – přivoláš tak vzácného raptora Ishamuhale.]],
+    ["Humar the Pridelord"] = [[Vzácný lev v Barrens, oblíbený cíl lovců. Novinka WoW Forever: padá z něj kus sady Blessing of Kalimdor.]],
+    ["Swiftmane"] = [[Vzácná zhevra v Barrens, která obchází kraj po své trase. Novinka WoW Forever: padá z ní kus sady Blessing of Kalimdor.]],
+    ["Ishamuhale"] = [[Raptor z questu Jorna Skyseera v Crossroads: u starého stromu použiješ čerstvé tělo zhevry a Ishamuhale se objeví.]],
     ["Lakota'mani"] = [[Obří šedý kodo u chatrčí jižně od rokle, která protíná Barrens od západu na východ. Z něj padá Hoof of Lakota'mani.]],
     ["Baron Marinous"] = [[Novinka WoW Forever: nový elitní vzácný mob, kterého se dá vyvolat (zhruba 59, 22). Padají z něj úlomky, ze kterých se skládá Mathystral Amulet na jeho vyvolání.]],
-    ["Varo'then's Ghost"] = [[Vzácný duch (level 48) kapitána Varo'thena, velitele stráží královny Azshary z doby Války starověku. Jeho přítomnost v Ashenvale je přímým odkazem na knihy War of the Ancients.]],
+    ["Varo'then's Ghost"] = [[Vzácný duch (level 48) kapitána Varo'thena, velitele stráží královny Azshary z doby Války starověku. Straší u jezera Lake Mennar v Azsharu – odkaz na knihy War of the Ancients.]],
     ["King Mosh"] = [[Obrovský devilsaurus (level 60), vzácný a velmi nebezpečný.]],
     ["Twilight Lord Everun"] = [[Vzácný kultista, který se objevuje často (15–45 min).]],
 }
@@ -307,17 +307,14 @@ P["Thork"] = "Ork v Crossroads, jeden z hlavních zadavatelů questů v Barrens.
 P["Sergra Darkthorn"] = "Orkská lovkyně v Crossroads. Posílá tě lovit zvěř a kančí lidi z Razorfen."
 P["Tonga Runetotem"] = "Tauren druid v Crossroads, sleduje, jak se příroda Barrens mění."
 P["Mebok Mizzyrix"] = "Goblin v Ratchetu, který chce zkoumat zvířata Barrens – za peníze, samozřejmě."
-P["Helbrim"] = "Ork v Crossroads, který chce zjistit, co se děje ve Wailing Caverns."
 P["Disciple of Naralex"] = "Poslední věrný žák druida Naralexe. Čeká u Wailing Caverns na hrdiny, kteří mu pomohou."
 P["Naralex"] = "Druid, který chtěl Barrens zazelenat silou Smaragdového snu – a uvízl v Noční můře."
-P["Mangletooth"] = "Zajatý kančí člověk, který Hordě prozradí víc, než by jeho kmen chtěl."
+P["Mangletooth"] = "Zajatý kančí člověk v Camp Taurajo. Za Blood Shards ti dá posilující požehnání."
 
 -- Mulgore a Thunder Bluff
 P["Chief Hawkwind"] = "Náčelník Camp Narache, kde mladí taureni začínají svou cestu."
-P["Grull Hawkwind"] = "Lovec z Camp Narache, syn náčelníka Hawkwinda."
-P["Ahab Wheathoof"] = "Tauren v Mulgore, kterému utekl pes Kyle. Quest Kyle's Gone Missing! je jeden z nejroztomilejších v Mulgore."
-P["Kyle the Frenzied"] = "Pes Ahaba Wheathoofa. Utekl a neposlouchá – dokud nedostane pamlsek."
-P["Mull Thunderhorn"] = "Tauren v Bloodhoof Village, který bojuje s kentaury z Palemane."
+P["Grull Hawkwind"] = "Tauren z Camp Narache z rodu Hawkwindů."
+P["Mull Thunderhorn"] = "Tauren v Bloodhoof Village, zadavatel questů pro mladé taureny."
 
 -- Undercity a Tirisfal
 P["Executor Zygand"] = "Velitel Forsaken v Brillu, posílá hrdiny proti Šarlatovým."
@@ -334,7 +331,7 @@ P["Nathanos Blightcaller"] = "Jediný člověk, kterého Sylvanas učinila hrani
 P["Marshal McBride"] = "Velitel stráží v Northshire, první, kdo pošle mladé lidi do boje."
 P["Deputy Willem"] = "Strážný u kláštera v Northshire, který ti dá úplně první quest."
 P["Remy \"Two Times\""] = "Obchodník v Goldshire, který všechno říká dvakrát. Všechno říká dvakrát."
-P["William Pestle"] = "Alchymista v Goldshire, který posílá dopisy mladé Maybell Maclure."
+P["William Pestle"] = "Alchymista v Goldshire, který namíchá Maybell Maclure lektvar neviditelnosti, aby mohla utéct za Tommym Joem."
 P["Ma Stonefield"] = "Hlava rodiny Stonefieldových. Chce, aby někdo konečně skoncoval s prasnicí Princess."
 P["Tommy Joe Stonefield"] = "Mladík ze Stonefieldovy farmy, zamilovaný do Maybell z nepřátelské rodiny Maclureových."
 P["Baros Alexston"] = "Městský architekt Stormwindu. Jemu byl adresován dopis, který VanCleef nikdy neposlal."
@@ -352,21 +349,20 @@ P["Captain Danuvin"] = "Kapitán Lidové domobrany na Sentinel Hill."
 P["Scout Galiaan"] = "Zvědka Lidové domobrany, sleduje Defiasy po celém Westfallu."
 P["Magistrate Solomon"] = "Starosta Lakeshire. Píše do Stormwindu o pomoc, ale odpověď nepřichází."
 P["Marshal Marris"] = "Velitel stráží v Redridge, bojuje s gnolly a orky Blackrock."
-P["Wiley the Black"] = "Informátor v hostinci v Lakeshire, který ví víc o Bratrstvu Defias."
+P["Wiley the Black"] = "Zloděj v hostinci v Lakeshire. Splácí dluh Gryanu Stoutmantlovi, a tak ti prozradí, co ví o Bratrstvu Defias."
 P["Commander Althea Ebonlocke"] = "Velitelka hlídky Night Watch v Darkshire. Drží město pohromadě."
 P["Madame Eva"] = "Věštkyně v Darkshire, která ví o temných silách v Duskwood víc, než prozradí."
 P["Abercrombie"] = "Milý stařík v chatrči v Duskwood. SPOILER: je to nekromant, který sešil Stitches."
 P["Sven Yorgen"] = "Muž, kterému v Duskwood zničili rodinu. Hledá pomstu na nekromantu Morbentu Felovi."
-P["Tobias Mistmantle"] = "Muž z Darkshire, jehož rodina skrývá temné tajemství Stalvana Mistmantla."
 
 -- Ironforge a Dun Morogh
 P["Royal Historian Archesonus"] = "Královský historik v Ironforge. Rád ti vypráví příběh Války tří kladiv."
 P["Prospector Stormpike"] = "Badatel Explorers' League v Hall of Explorers."
 P["Historian Karnik"] = "Historik Explorers' League, který sbírá artefakty z celého Azerothu."
 P["Ragnar Thunderbrew"] = "Pivovarník z Kharanosu, z rodu slavných Thunderbrewů."
-P["Senir Whitebeard"] = "Starý trpaslík v Coldridge Valley, který varuje před troggy."
+P["Senir Whitebeard"] = "Starý trpaslík v Dun Morogh."
 P["Prospector Ironband"] = "Trpasličí badatel, jehož výkop v Loch Modan zaplavili troggové."
-P["Captain Rugelfuss"] = "Velitel trpasličí stráže v Loch Modan."
+P["Captain Rugelfuss"] = "Trpasličí kapitán v Loch Modan."
 P["Falstad Wildhammer"] = "Náčelník trpaslíků Wildhammer v Aerie Peak, legendární gryfí jezdec."
 
 -- Teldrassil, Darkshore, Darnassus
@@ -377,22 +373,22 @@ P["Corithras Moonrage"] = "Strážce Dolanaar, vesnice na cestě do Darnassu."
 P["Mathrengyl Bearwalker"] = "Druid v Darnassu, učitel druidů Aliance."
 P["Thundris Windweaver"] = "Starý druid v Auberdine, který zkoumá, proč je Darkshore nemocný."
 P["Cerellean Whiteclaw"] = "Druid v Auberdine, který truchlí pro svou lásku Anayu Dawnrunner. Zemřela před deseti tisíci lety."
-P["Prospector Remtravel"] = "Gnómský badatel v Darkshore, který tvrdí, že našel něco úžasného. Jeho výkopy končí překvapením."
-P["Gershala Nightwhisper"] = "Noční elfka v Auberdine, strážkyně tajemství Darkshore."
-P["Terenthis"] = "Noční elf v Auberdine, který posílá hrdiny proti zkaženým medvědům."
+P["Prospector Remtravel"] = "Trpasličí badatel v Darkshore, který tvrdí, že našel něco úžasného. Jeho výkopy končí překvapením."
+P["Gershala Nightwhisper"] = "Noční elfka v Auberdine, zadavatelka questů."
+P["Terenthis"] = "Noční elf v Auberdine, který posílá hrdiny zjistit, jak velkou hrozbou jsou furbolgové."
 
 -- Theramore, Dustwallow
 P["Archmage Tervosh"] = "Mág v Theramore, věrný pomocník lady Jainy."
 P["Captain Garran Vimes"] = "Kapitán stráží v Theramore. Jméno je odkaz na kapitána Samuela Vimese z knih Terryho Pratchetta."
 P["Overlord Mok'Morokk"] = "Ogr, velitel Hordy v Brackenwall Village. Velký, silný a ne moc chytrý."
-P["Tabetha"] = "Čarodějka, která žije sama na farmě v bažinách Dustwallow."
+P["Tabetha"] = "Mágyně, která žije sama na farmě v bažinách Dustwallow."
 
 -- Booty Bay, Stranglethorn, Tanaris, Ratchet
 P["Baron Revilgaz"] = "Goblin, vládce Booty Bay. Platí tu jen jeho zákony a obchod."
 P["Fleet Master Seahorn"] = "Velitel flotily Booty Bay ve válce proti pirátům Bloodsail."
 P["Sir S. J. Erlgadin"] = "Lovec z Nesingwaryho výpravy ve Stranglethorn."
 P["Barnil Stonepot"] = "Trpasličí lovec z Nesingwaryho výpravy."
-P["Krazek"] = "Goblin v Booty Bay, který chce zabít krále ogrů. Ochotně zaplatí za cizí práci."
+P["Krazek"] = "Goblin, sekretář barona Revilgaze v Booty Bay. Tvrdí, že ví o všem, co se v džungli děje."
 P["Crank Fizzlebub"] = "Goblinský inženýr v Booty Bay, má kousek pro každého, kdo mu pomůže."
 P["Oglethorpe Obnoticus"] = "Gnóm v Booty Bay. Za tři zachráněná robotická kuřata OOX ti dá mechanické kuře."
 P["Old Man Heming"] = "Starý rybář v Booty Bay, který ví o rybaření všechno."
@@ -415,7 +411,7 @@ P["Ragged John"] = "Podivný tulák v Burning Steppes, který vypráví veršova
 P["Shakes O'Breen"] = "Pirátský kapitán ve Faldir's Cove v Arathi."
 P["Professor Phizzlethorpe"] = "Gnómský vědec v Arathi, kterého doprovázíš při jeho pokusech."
 P["Magistrate Henry Maleb"] = "Starosta Southshore."
-P["Farmer Ray"] = "Farmář v Hillsbradu, kterému Forsaken kazí úrodu."
+P["Farmer Ray"] = "Farmář na polích Hillsbradu. Hráči Hordy na něj dostanou quest v bitvě o Hillsbrad."
 P["Lord Aliden Perenolde"] = "Šlechtic z rodu zrádných králů Alteracu, dnes ve spojení se Syndikátem."
 P["Primal Torntusk"] = "Vůdce trollů Revantusk v Hinterlands."
 P["Gryphon Master Talonaxe"] = "Chovatel gryfů v Aerie Peak."
@@ -438,7 +434,7 @@ P["Pozzik"] = "Goblinský závodník na Mirage Raceway v Thousand Needles."
 P["Kravel Koalbeard"] = "Gnómský inženýr, soupeř goblinů na Mirage Raceway."
 P["Pao'ka Swiftmountain"] = "Mladý tauren ztracený v Thousand Needles. Doprovoď ho domů."
 P["Smeed Scrabblescrew"] = "Goblin v Desolace, který ti dá kouzlo na zkrocení umírajících kodo."
-P["Kim'jael"] = "Goblin v Azshara, kterému ukradli vybavení. Jeho vycpané kuře hledá celý Azeroth."
+P["Kim'jael"] = "Goblin v Azshara, kterému ukradli vybavení."
 P["Duke Hydraxis"] = "Vodní elementál na ostrově u Azshary. Posílá hrdiny proti služebníkům Ragnarose."
 P["Loramus Thalipedes"] = "Démonolog v Azshara, který o démonech ví víc, než je zdrávo."
 P["Arko'narin"] = "Noční elfka uvězněná v Shadow Hold ve Felwood. Kdo ji osvobodí, dozví se, co chystá Shadow Council."
@@ -447,7 +443,7 @@ P["Winna Hazzard"] = "Goblinka ve Felwood, která učí očišťovat zkažené r
 P["Donova Snowden"] = "Badatelka ve Winterspring, která zkoumá furbolgy a jejich zkázu."
 P["Rivern Frostwind"] = "Cvičitel sněhových levhartů ve Frostsaber Rock. Za reputaci ti prodá vzácného mounta."
 P["Haleh"] = "Modrá dračice, ochránkyně doupěte Mazthoril ve Winterspring."
-P["Rabine Saturna"] = "Druid v Nighthaven, jeden z vůdců Cenarion Circle."
+P["Rabine Saturna"] = "Druid Cenarion Circle v Nighthaven."
 P["Torwa Pathfinder"] = "Tauren v Un'Goro, který zkoumá pravěkou zvěř kráteru."
 P["J.D. Collie"] = "Badatel v Marshal's Refuge, který zkoumá krystaly a pylony Un'Goro."
 P["Larion"] = "Mág v Marshal's Refuge, který se hádá se svým sousedem Muiginem."
@@ -457,7 +453,7 @@ P["Spraggle Frock"] = "Goblin v Marshal's Refuge, který hledá ztraceného Ring
 P["Commander Mar'alith"] = "Velitel Cenarion Hold v Silithu."
 
 -- Bossové a legendy
-P["Hakkar the Soulflayer"] = "Krvavý bůh trollů Gurubashi, který se vrátil v Zul'Gurub."
+P["Hakkar"] = "Krvavý bůh trollů Gurubashi, který se vrátil v Zul'Gurub."
 P["C'Thun"] = "Starý bůh, který spí pod Ahn'Qiraj a ovládá silithidy i Qiraji."
 P["Archmage Arugal"] = "Arcimág z Dalaranu, který vyvolal worgeny a teď jim říká „své děti“."
 P["Mekgineer Thermaplugg"] = "Gnóm, který zradil Gnomeregan a prohlásil se králem toho, co zbylo."

@@ -271,7 +271,7 @@ Ostrov se zdá klidný, ale všechno ukazuje na to, že se blíží něco velké
 -- Z knih a legend – příběhy z románů a starších her (se spoilery), kniha je přidá před Tajemství
 WoWpoCesku_LoreKnihy = {
 
-["Mulgore"] = [[• Jak se potkali Cairne a Thrall (Warcraft III) – když orkové dorazili na Kalimdor, narazil Thrall na taureny, které štvali kentauři. Pomohl jim v boji a Cairne mu na oplátku poradil, kde hledat Orákulum. Tauren pak Thralla poslali dál a Cairne se svým lidem odešel do Mulgore. Od té chvíle platí, že kdo pomohl taurenům, má v nich přátele navždy.
+["Mulgore"] = [[• Jak se potkali Cairne a Thrall (Warcraft III) – když orkové dorazili na Kalimdor, narazil Thrall na taureny, které štvali kentauři. Pomohl jim v boji a Cairne mu na oplátku poradil, kde hledat Orákulum. Taureni se pak s Thrallem rozloučili a Cairne se svým lidem odešel do Mulgore. Od té chvíle platí, že kdo pomohl taurenům, má v nich přátele navždy.
 
 • Hamuul Runetotem – první tauren, který se stal druidem. Učil se přímo u Malfuriona Stormrage, nočního elfa, a jeho přátelství s druidy Kalimdoru je jedním z mostů mezi Hordou a nočními elfy.
 
@@ -295,11 +295,11 @@ WoWpoCesku_LoreKnihy = {
 
 • Anduin Lothar – Lev z Azerothu, poslední potomek starých arathorských králů. Padl později v bitvě pod Blackrock Spire rukou Orgrima Doomhammera. Varian po něm pojmenoval svého syna Anduina.
 
-• Tower of Azora – mág Theocritus ve věži slouží Stormwindu, ale v příbězích klasického WoW se říká, že má s lidmi i jiné plány. Kdo projde questy v okolí, sám posoudí.]],
+• Tower of Azora – věž mága Theocrita. Odtud vede řada questů až do Redridge: s předmětem Glyph of Azora (quest A Watchful Eye) se hrdinové dostanou ke zlému čaroději Morganthovi a jeho věži Tower of Ilgalar.]],
 
 ["Westfall"] = [[• Edwin VanCleef – mistr cechu kameníků, který vedl obnovu Stormwindu po První válce. Když šlechta – na radu lady Prestor – odmítla dělníkům zaplatit, vypukla vzpoura. Při nepokojích zemřela královna Tiffin, Varianova žena. Kameníci byli vyhnáni z města a VanCleef z nich udělal Bratrstvo Defias.
 
-• Deadmines – Defiasové v dolech pod Moonbrookem postavili válečnou loď, se kterou chtěli na Stormwind zaútočit. VanCleef na ní čeká na konci dungeonu – a u sebe má dopis, který prozradí, kdo za vším stojí.
+• Deadmines – Defiasové v dolech pod Moonbrookem postavili válečnou loď, se kterou chtěli na Stormwind zaútočit. VanCleef na ní čeká na konci dungeonu – a u sebe má dopis, který nikdy neodeslal a který vede ke stopám až ve Stormwindu.
 
 • SPOILER do budoucna (Cataclysm) – VanCleefova dcera Vanessa, která byla svědkem otcovy smrti, se po letech vrátí do Westfallu a Bratrstvo obnoví. Westfall je tak po celou historii WoW krajem, kde se pomsta dědí z otce na dceru.
 
@@ -307,7 +307,7 @@ WoWpoCesku_LoreKnihy = {
 
 ["Dun Morogh"] = [[• Válka tří kladiv – po smrti velekrále Modima Anvilmara se trpaslíci rozdělili na tři klany. Bronzebeardové ovládli Ironforge, Wildhammeři Grim Batol a Dark Ironové pod čarodějem Thaurissanem zaútočili na oba. Při bitvě Thaurissan vyvolal Ragnarose, pána ohně – výbuch zničil kraj a z něj vznikly Searing Gorge, Burning Steppes a hora Blackrock.
 
-• Tři bratři – král Magni Bronzebeard vládne Ironforge. Brann Bronzebeard je slavný badatel a zakladatel Explorers' League. Muradin Bronzebeard odešel s princem Arthasem do Northrendu a zmizel ve chvíli, kdy Arthas vzal do ruky prokletý meč Frostmourne – všichni ho mají za mrtvého. SPOILER: Muradin přežil, jen ztratil paměť.
+• Tři bratři – král Magni Bronzebeard vládne Ironforge. Brann Bronzebeard je nejslavnější badatel Explorers' League. Muradin Bronzebeard odešel s princem Arthasem do Northrendu a zmizel ve chvíli, kdy Arthas vzal do ruky prokletý meč Frostmourne – všichni ho mají za mrtvého. SPOILER: Muradin přežil, jen ztratil paměť.
 
 • Původ trpaslíků – v Uldamanu jsou ukryty disky titánů, které prozrazují, že trpaslíci pocházejí z earthen, kamenných služebníků titánů, jejichž kamenná těla se kletbou masa (Curse of Flesh) postupně proměnila v živé maso. Proto mají trpaslíci kámen tak rádi.
 
@@ -817,7 +817,7 @@ Nejnebezpečnější jsou ale Dark Ironové. Jejich špehové a sabotéři se po
 Kdo zná budoucnost, ví, že hráz jednou opravdu povolí. Ale to je jiný příběh.]] },
     },
 }
-WoWpoCesku_LoreKnihy["Loch Modan"] = [[• Hráz Stonewrought Dam – trpaslíci ji postavili, aby zachytili vodu pro Ironforge a zemědělství. SPOILER (Cataclysm): hráz se při kataklyzmatu protrhne a jezero vyteče – z kraje zůstane bahnité údolí.
+WoWpoCesku_LoreKnihy["Loch Modan"] = [[• Hráz Stonewrought Dam – obrovská trpasličí hráz, která zadržuje celé jezero. SPOILER (Cataclysm): hráz se při kataklyzmatu protrhne a jezero vyteče – z kraje zůstane bahnité údolí.
 
 • Původ trpaslíků – Explorers' League v Loch Modan vede výzkum, který vyvrcholí v Uldamanu (Badlands). Disky Norgannona tam prozradí, že trpaslíci jsou potomci earthen, služebníků titánů.]]
 WoWpoCesku_LoreTajemstvi["Loch Modan"] = [[• Stonewrought Dam – vyjdi nahoru na hráz. Výhled na jezero patří k nejhezčím v Khaz Modanu.
@@ -1011,7 +1011,7 @@ Hinterlands jsou jedním z nejkrásnějších a nejdivočejších krajů Eastern
 }
 WoWpoCesku_LoreKnihy["The Hinterlands"] = [[• Válka trollů – Amani kdysi ovládali celý sever kontinentu. Vysocí elfové z Quel'Thalas s nimi bojovali po staletí a zvítězili až s pomocí lidí z Arathoru.
 
-• Wildhammeři – po Válce tří kladiv odešli z Grim Batolu, když ho prokleli Dark Ironové. Usadili se v Hinterlands a z divokých gryfů si udělali věrné druhy. Za Druhé války bojoval jejich gryfí jezdec Kurdran Wildhammer v čele Aliance.
+• Wildhammeři – po Válce tří kladiv odešli z Grim Batolu, když na ně útočili Dark Ironové. Usadili se v Hinterlands a z divokých gryfů si udělali věrné druhy. Za Druhé války bojoval jejich gryfí jezdec Kurdran Wildhammer v čele Aliance.
 
 • Zul'jin – legendární trollí náčelník Amani, který za Druhé války vedl trolly v Hordě. SPOILER: v budoucnu (The Burning Crusade) ho najdeš v Zul'Aman, kde se mstí elfům.]]
 WoWpoCesku_LoreTajemstvi["The Hinterlands"] = [[• Jintha'Alor – obří trollí pevnost na jihovýchodě, kde sídlí kněží Hakkara.
@@ -1055,7 +1055,7 @@ WoWpoCesku_LoreKnihy["Western Plaguelands"] = [[• Andorhal a Kel'Thuzad – ar
 
 • Rod Barovů – šlechtici z Caer Darrow prodali svůj hrad Kultu výměnou za nesmrtelnost. Teď jsou z nich nemrtví učitelé v Scholomance.
 
-• Uther Lightbringer – první paladin a velitel Rytířů Stříbrné ruky. Arthas ho zabil, když se postavil proti jeho šílenství. Uther's Tomb stojí na jihu kraje a jeho duch tam promlouvá k těm, kdo přijdou s úctou.]]
+• Uther Lightbringer – první paladin a velitel Rytířů Stříbrné ruky. Arthas ho zabil, když se postavil proti jeho šílenství. Uther's Tomb stojí na jihu kraje na místě, kde padl.]]
 WoWpoCesku_LoreTajemstvi["Western Plaguelands"] = [[• Uther's Tomb – hrobka Uthera Lightbringera na jihu kraje.
 
 • Scholomance – škola nekromancie pod Caer Darrow. Na konci Darkmaster Gandling.
@@ -1095,9 +1095,9 @@ Kraj zůstává baštou Pohromy pod velením Kel'Thuzada. Pohroma, ghúlové, ob
 }
 WoWpoCesku_LoreKnihy["Eastern Plaguelands"] = [[• Vyčištění Stratholme (Warcraft III) – Arthas zjistil, že obilí v Stratholme je otrávené. Nařídil zabít všechny obyvatele, než se promění. Uther a Jaina ho odmítli následovat. Pro mnohé je to okamžik, kdy princ padl.
 
-• Bitva u Light's Hope – kaple stojí na místě, kde se kdysi ubránila malá skupina rytířů proti obrovské armádě Pohromy. Jejich víra posvětila zem.
+• Light's Hope Chapel – podle legend je zem kolem kaple posvěcená obětí těch, kdo ji bránili proti Pohromě. Proto ji nemrtví nedokážou dobýt.
 
-• Tirion Fordring – paladin, který byl vyhnán z řádu za to, že chránil orka Eitrigga. Žije jako poustevník v chatrči u jezera v tomto kraji. SPOILER: Tirion později vede Argent Crusade proti Lich Kingovi.
+• Tirion Fordring – paladin, který byl vyhnán z řádu za to, že chránil orka Eitrigga. Žije jako poustevník u řeky Thondroril v tomto kraji. SPOILER: Tirion později vede Argent Crusade proti Lich Kingovi.
 
 • Naxxramas – SPOILER: létající nekropole je posledním raidem klasického WoW. Na konci čeká Kel'Thuzad.]]
 WoWpoCesku_LoreTajemstvi["Eastern Plaguelands"] = [[• Tirion Fordring – v chatrči u jezera žije muž, který vypadá jako starý rybář. Jeho questová řada Redemption je jedna z nejkrásnějších v klasice.
@@ -1141,7 +1141,7 @@ Kdo se v Lethlor Ravine podívá na obří dračí kostru, pochopí, proč se to
 }
 WoWpoCesku_LoreKnihy["Badlands"] = [[• Disky Norgannona – v Uldamanu leží disky titánů, které prozrazují, že titáni stvořili earthen (kamenné bytosti) a že trpaslíci jsou jejich potomci. Prokletí masa (Curse of Flesh) z nich udělalo smrtelné tvory.
 
-• Ironaya – kamenná strážkyně Uldamanu, kterou postavili titáni. Hrdinové ji musí probudit, aby se dostali k diskům.
+• Ironaya – obryně, kterou titáni stvořili jako strážkyni Uldamanu. Hrdinové ji probudí v Map Chamber a musí ji porazit, protože střeží tajemství Uldamanu.
 
 • Draci z Lethlor Ravine – tady sídlí černí a rudí draci, kteří se navzájem nesnášejí. Rudí jsou spojenci Alexstraszy, černí slouží Deathwingovi.]]
 WoWpoCesku_LoreTajemstvi["Badlands"] = [[• Uldaman – trezor titánů s kamennými golemy a Archaedasem na konci. Disky Norgannona tu prozradí původ trpaslíků.
@@ -1183,7 +1183,7 @@ WoWpoCesku_LoreKnihy["Searing Gorge"] = [[• Vyvolání Ragnarose – na konci 
 
 • Blackrock Mountain – hora je dnes rozdělená: dole Dark Ironové a Ragnaros (Molten Core), nahoře orkové klanu Blackrock a drak Nefarian (Blackwing Lair).
 
-• Thorium Brotherhood – trpaslíci, kteří se vzepřeli Ragnarosovi a Dark Ironskému císaři.]]
+• Thorium Brotherhood – Dark Ironové, kteří se vzepřeli Ragnarosovi a svému císaři Thaurissanovi.]]
 WoWpoCesku_LoreTajemstvi["Searing Gorge"] = [[• Vstup do Blackrock Mountain – na jihu vede řetězový most do hory, kde jsou dungeony Blackrock Depths a Blackrock Spire a raidy Molten Core a Blackwing Lair.
 
 • Franclorn Forgewright – uvnitř hory se zjevuje duch trpasličího stavitele. Jeho quest Dark Iron Legacy tě dovede ke klíči Shadowforge Key.
@@ -1261,7 +1261,7 @@ Jsou to jedny z prvních stop, že draenei vůbec existují.]] },
 }
 WoWpoCesku_LoreKnihy["Swamp of Sorrows"] = [[• Zkáza chrámu – když se trollové Atal'ai pokusili vyvolat Hakkara, Ysera, aspekt snů, potopila celý chrám do bažiny. Pověřila draka Eranika, aby chrám hlídal. Eranikus ale za staletí zahořkl a jeho mysl ovládla Noční můra.
 
-• SPOILER – v dlouhé questové řadě k bránám Ahn'Qiraj se Eranikus objeví v Moonglade, posedlý Noční můrou. Po bitvě, které se účastní i Tyrande a Remulos, se z ní nakonec vymaní.
+• SPOILER – v dlouhé questové řadě k bránám Ahn'Qiraj se Eranikus objeví v Moonglade, posedlý Noční můrou. Remulos ho vyláká z portálu nad jezerem, Tyrande s kněžkami Elune ho modlitbou vysvobodí a Eranikus se vrátí bojovat proti Noční můře.
 
 • Lost Ones – draenei, kteří přišli z Draenoru. Patří k nejstarším stopám, že draenei vůbec existují.]]
 WoWpoCesku_LoreTajemstvi["Swamp of Sorrows"] = [[• Sunken Temple – potopený chrám Atal'Hakkar s avatarem Hakkara a zeleným drakem Eranikem.
@@ -1345,11 +1345,11 @@ Obchodník a podvodník Ariden se pokusil Medivha ošidit. Z pomsty proměnil po
         { "Zajímavosti", [[V klasickém WoW byl Karazhan zavřený a hráči léta zkoumali krypty pod věží a hledali tajné chodby. Kdo zná budoucnost, ví, že věž se jednou otevře – a uvnitř čekají hostiny duchů, divadlo i obří šachy.]] },
     },
 }
-WoWpoCesku_LoreKnihy["Deadwind Pass"] = [[• The Last Guardian – Khadgar, mladý mág z Dalaranu, přišel do Karazhanu jako Medivhův učeň. Postupně zjistil, že jeho mistr je posedlý Sargerasem. Spolu s Anduinem Lotharem a Garonou Medivha ve věži zabili.
+WoWpoCesku_LoreKnihy["Deadwind Pass"] = [[• The Last Guardian – Khadgar, mladý mág z Dalaranu, přišel do Karazhanu jako Medivhův učeň. Postupně zjistil, že jeho mistr je posedlý Sargerasem. Spolu s Anduinem Lotharem pak Medivha ve věži zabili.
 
 • Aegwynn – Medivhova matka, předchozí Strážkyně, kdysi porazila Sargerase. Netušila, že duch démona se ukryl v jejím synovi.
 
-• SPOILER (The Burning Crusade) – Karazhan se stane raidem pro deset hráčů. Uvidíš hostiny duchů, divadlo, šachy a samotného Medivhova démona.]]
+• SPOILER (The Burning Crusade) – Karazhan se stane raidem pro deset hráčů. Uvidíš hostiny duchů, divadlo, obří šachy a démona prince Malchezaara.]]
 WoWpoCesku_LoreTajemstvi["Deadwind Pass"] = [[• Karazhan – v klasice byla věž zavřená. Pod ní jsou krypty, které hráči léta prozkoumávali a hledali tajné chodby.
 
 • Ariden's Camp – tábor tajemného Aridena.
@@ -1545,7 +1545,7 @@ WoWpoCesku_LoreKnihy["Stonetalon Mountains"] = [[• Medivh jako prorok (Warcraf
 
 • Venture Company – goblinská obchodní společnost, která ničí přírodu za zisk. Patří k nejstarším nepřátelům v klasickém WoW.
 
-• SPOILER (Cataclysm) – Stonetalon zasáhne bomba Hordy a Windshear Crag shoří.]]
+• SPOILER (Cataclysm) – na Stonetalon dopadne bomba Hordy, která zničí elfí háj.]]
 WoWpoCesku_LoreTajemstvi["Stonetalon Mountains"] = [[• Sada Blessing of Kalimdor (novinka WoW Forever) – sada ze vzácných mobů z Barrens dává +5 % rychlosti i tady ve Stonetalonu.
 
 • Nové předměty ve Forever: z Taskmaster Whipfang padá dýka Whipfang's Skinsearer, z Foreman Rigger kroužková helma Foreman's Helm.
@@ -1809,7 +1809,7 @@ Rabine Saturna tu koordinuje práci druidů a druidové sem mají vlastní kouzl
 }
 WoWpoCesku_LoreKnihy["Moonglade"] = [[• Malfurion ztracený ve snu – Malfurion se ponořil do Smaragdového snu a nevrátil se. SPOILER: uvěznila ho tam Noční můra. V knize Stormrage se konečně probudí.
 
-• Cenarion Circle – kruh druidů, kteří chrání přírodu. Vede ho Remulos a Fandral Staghelm v Darnassu.
+• Cenarion Circle – kruh druidů, kteří chrání přírodu. Vede ho arcidruid Fandral Staghelm z Darnassu, v Moonglade nad ním bdí poloboh Keeper Remulos.
 
 • Lunar Festival – každý rok o Lunárním festivalu se v Moonglade slaví Elune a předkové.]]
 WoWpoCesku_LoreTajemstvi["Moonglade"] = [[• Druidský teleport – druidové mají kouzlo, které je okamžitě přenese do Moonglade.
@@ -1899,7 +1899,7 @@ WoWpoCesku_LoreKnihy["Un'Goro Crater"] = [[• Titáni a Un'Goro – titáni vyt
 
 • Silithidi z jihu – hmyzí bytosti z Silithusu se šíří do Un'Goro. Za nimi stojí Qiraji a Starý bůh C'Thun.
 
-• SPOILER (Cataclysm) – Un'Goro souvisí s Uldumem: obě jsou zařízení titánů.]]
+• Titánská zahrada – podle legend vytvořila Un'Goro titánka Freya jako místo pro pokusy se životem, podobně jako Sholazar Basin v Northrendu. Proto tu stojí titánské pylony.]]
 WoWpoCesku_LoreTajemstvi["Un'Goro Crater"] = [[• Linken – v kráteru žije podivný „chlapec“ s mečem a štítem. Je to odkaz na Linka ze Zeldy – v questech padne i hláška „It's dangerous to go alone“.
 
 • A-Me 01 – robot, kterého doprovázíš do bezpečí.
@@ -1967,7 +1967,7 @@ Illidan Stormrage pak Tichondria porazil a lebku si vzal. Vstřebal její sílu 
 }
 WoWpoCesku_LoreKnihy["Felwood"] = [[• Illidan a Lebka Gul'dana (Warcraft III) – Illidan, vězněný deset tisíc let, byl osvobozen Tyrande. V Felwoodu našel Lebku Gul'dana, artefakt plný démonické magie, a vstřebal ji. Stal se napůl démonem, zabil démona Tichondria a byl za to Malfurionem vyhnán.
 
-• Zkáza lesa – Lebka Gul'dana a démoni po bitvě o Hyjal les prokleli.
+• Zkáza lesa – démon Tichondrius les zkazil Lebkou Gul'dana ještě před bitvou o Hyjal.
 
 • Shadow Council – tajná rada čarodějů, kterou kdysi vedl Gul'dan. Pořád existuje a slouží Legii.]]
 WoWpoCesku_LoreTajemstvi["Felwood"] = [[• Songflowers – zkažené květiny, které můžeš očistit a získat silný buff Songflower Serenade.
@@ -1988,7 +1988,7 @@ WoWpoCesku_Lore["Winterspring"] = {
     ch = {
         { "Sněžné údolí", [[Winterspring je zasněžené horské údolí na severovýchodě Kalimdoru. Sníh tu leží celý rok, jezera jsou zamrzlá a nad krajem se tyčí hora Hyjal se zničeným Světovým stromem. Uprostřed leží goblinské městečko Everlook.]] },
 
-        { "Modří draci", [[Před tisíci lety byl Winterspring domovem modrých draků. Žila tu i Haleh, družka dračího aspektu Malygose. Modří draci dodnes sídlí v jeskyni Mazthoril.]] },
+        { "Modří draci", [[Před tisíci lety byl Winterspring domovem modrých draků. Modří draci dodnes sídlí v jeskyni Mazthoril a vládne jim dračice Haleh, poslední žijící družka dračího aspektu Malygose.]] },
 
         { "Kel'Theril", [[Asi deset tisíc let před První válkou stálo u jezera Lake Kel'Theril město Highborne. Jeho obyvatelé ukradli z chrámu v Eldarath krystal Zin-Malor. Když si s jeho svůdnou mocí začali hrát, krystal se rozbil a všechny je proklel. Velké rozpoltění pak město zničilo a zůstali v něm jen přízraky.
 
@@ -2005,9 +2005,9 @@ Asi sto let před První válkou se sem vypravili vysocí elfové pod vedením a
 }
 WoWpoCesku_LoreKnihy["Winterspring"] = [[• Bitva o Hyjal (Warcraft III) – nad Winterspring, na hoře Hyjal, se odehrála poslední bitva Třetí války. Lidé, orkové a noční elfové bojovali spolu proti Archimondovi. Noční elfové obětovali Nordrassil a Archimonde zahynul.
 
-• Lake Kel'Theril – ruiny u jezera pamatují Highborne, kteří tu žili po Velkém rozpoltění, než odpluli na východ.
+• Lake Kel'Theril – ruiny u jezera pamatují město Highborne, které zničilo Velké rozpoltění. Jeho obyvatelé se předtím prokleli krystalem Zin-Malor a dodnes tu straší.
 
-• Modří draci – Malygos, aspekt magie, je jejich vůdce. Jeho draci hlídají artefakty v Mazthoril.]]
+• Modří draci – Malygos, aspekt magie, je jejich vůdce. Jeho draci sídlí v Mazthoril pod vedením dračice Haleh.]]
 WoWpoCesku_LoreTajemstvi["Winterspring"] = [[• Frostsaber Rock – noční elfové s Rivern Frostwind cvičí sněhové levharty. Za reputaci získáš vzácný mount.
 
 • Mazthoril – jeskyně modrých draků. Runa hluboko uvnitř tě přenese na vrchol hory k dračici Haleh, ochránkyni doupěte.
