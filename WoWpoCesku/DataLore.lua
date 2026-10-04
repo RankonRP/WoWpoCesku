@@ -70,23 +70,49 @@ Maršál Dughan v Goldshire dělá, co může, ale bez pomoci dobrodruhů by kra
 
 ["Westfall"] = {
     title = "Westfall",
-    tag = "Bývalá obilnice Stormwindu, dnes opuštěná pole, sláma ve větru a zločinci na každém kroku.",
+    tag = "Bývalá obilnice Stormwindu, dnes opuštěná pole, sláma ve větru a strach z červených šátků.",
     ch = {
-        { "Obilnice, která zpustla", [[Westfall býval zlatou obilnicí lidského království. Nekonečná pole kukuřice a pšenice živila Stormwind a farmářské rodiny tu hospodařily po generace. Dnes je to kraj prázdných statků, rozpadlých plotů a polí, po nichž se potulují jen strašáci.
+        { "Obilnice království", [[Westfall je široká, mírně zvlněná krajina polí, luk a nízkých kopců na západ od Elwynn Forest. Na západě ji uzavírá pobřeží Longshore s útesy a starým majákem, na jihu se zvedají Dagger Hills a na severu skály, ve kterých se kdysi dolovalo. Půda je tu úrodná a slunce štědré – proto se Westfallu po generace říkalo obilnice Stormwindu.
 
-Když Stormwind po válce zapomněl na své venkovské poddané, Westfall zůstal bez ochrany. A tu mezeru vyplnil zločin.]] },
-        { "Bratrstvo Defias", [[Do opuštěného kraje se nastěhovalo Bratrstvo Defias. Jeho členové vyhnali sedláky ze statků, kradou úrodu a nosí červené šátky, podle nichž je poznáš na první pohled. Spolupracují s gnolly z kmene Riverpaw a v ruinách města Moonbrook mají svou základnu.
+Když se řeklo „chléb na stole královského města“, myslelo se tím westfallské obilí. Kukuřice, pšenice a dýně odtud putovaly vozy po silnici přes most do Elwynnu a dál do Stormwindu. Statky jako Saldean's Farm, Furlbrow's Pumpkin Patch nebo Jansen Stead patřily rodinám, které tu hospodařily od dob dědů. Uprostřed kraje leželo hornické městečko Moonbrook, kde se v okolních dolech kopalo železo a zlato.
 
-Pod Moonbrookem se skrývají Deadmines – staré doly, kde si Edwin VanCleef staví obrovskou válečnou loď. Odtud chce Bratrstvo vést válku proti království, které ho kdysi okradlo.]] },
-        { "Lidová domobrana", [[Proti Defiasům se postavili ti, kdo ve Westfallu zůstali. Gryan Stoutmantle, bývalý voják, založil na Sentinel Hill Lidovou domobranu – sbor sedláků a dobrodruhů, který se snaží kraji vrátit mír, když to nedělá Stormwind. Na věži Sentinel Hill visí odměny za hlavy zločinců a kapitán Danuvin posílá hlídky do plání.
+Dnes po tom zbyly prázdné stodoly, ploty spadlé do trávy a pole, na kterých místo obilí roste plevel. Po cestách se točí prachové víry a mezi strašáky se pohybuje něco, co strašák není.]] },
 
-Domobrana nemá peníze ani vojáky, ale má odhodlání. A každého, kdo je ochoten pomoct.]] },
-        { "Lidé a jejich trápení", [[Rodina Furlbrowových přišla o statek a teď čeká u rozbitého vozu, až se bude moct odstěhovat do města. Saldeanovi na své farmě vzdorují – farmář Saldean bojuje s Harvest Watchers, strašidelnými mechanickými strašáky, kteří se zbláznili a útočí na každého, a Salma vaří slavný westfallský guláš pro každého, kdo pomůže.
+        { "Staré války", [[Westfall poznal válku dávno předtím, než se objevili orkové. Za vlády krále Barathena Wrynna podnikali gnollové tak vytrvalé nájezdy, že Stormwind musel vést celou Válku s gnolly – a zatímco vojsko bojovalo jinde, westfallské statky hořely. O mnoho let později přepadla kraj loupeživá výprava trollů Gurubashi a vypálila tři městečka, což rozpoutalo válku s trolly z jihu.
 
-Na pobřeží žijí murlokové a v kopcích supi a kanci goretusk. Ve Forever navíc do kraje přišla nová starost: půdu, studny a možná i moře otravuje cosi neznámého. Sedláci i vyslanci z Darnassu pátrají, odkud ta zkáza pochází.]] },
-        { "Zajímavosti", [[Westfallský maják na jihu svítí nad pobřežím, kde dřív kotvily rybářské lodě. Cesta ze Stormwindu do Westfallu vede přes most nad řekou, za nímž začíná svět, na který šlechta zapomněla.
+Nejhorší ale přišlo s Temným portálem. V První válce táhla Horda pod velením Blackhanda přes celé lidské království a celé westfallské vesnice padly. Lidé byli pobiti nebo vyhnáni, pole spálena a stáda odehnána. Stormwind sám byl srovnán se zemí a přeživší uprchli lodí na sever do Lordaeronu.
 
-Westfall je příběh o tom, co se stane, když se vládci přestanou starat o své lidi – a o tom, že obyčejní lidé dokážou vzít osud do vlastních rukou.]] },
+Po Druhé válce se vrátili. Velitel Aliance Turalyon dohlížel na to, aby se uprchlíci mohli usadit zpátky na svých statcích, a mladý Varian Wrynn usedl na trůn obnoveného království. Westfall se začal pomalu vzpamatovávat – sedláci znovu orali a v Moonbrooku se znovu kopalo. Na chvíli to vypadalo, že nejhorší je za nimi.]] },
+
+        { "Kameníci a zrada", [[Stormwind se musel postavit znovu od základů. Tu obrovskou práci odvedl cech kameníků (Stonemasons' Guild) pod vedením mistra Edwina VanCleefa. Postavili hradby, katedrálu, ulice i královský palác – bílé město, jaké dnes znáš.
+
+Když ale přišli pro zaplacení, šlechta odmítla. Královská pokladna byla prázdná po válce a dluzích Aliance, a urození páni ze Sněmovny šlechticů (House of Nobles) měli jiné starosti než výplatu dělníků. Za vším navíc tahala za nitky lady Katrana Prestor – ve skutečnosti černá dračice Onyxia, která pomocí kouzelného amuletu ovlivňovala myšlenky šlechty a zasévala spory na obou stranách.
+
+Když VanCleef trval na tom, co jeho lidem náleží, Sněmovna cech rozpustila. Kameníci vyšli do ulic a vypukla vzpoura. Královna Tiffin Wrynn se je pokusila uklidnit – a hozený kámen ji zasáhl do hlavy. Zemřela. Zdrcený král Varian dal kameníky pronásledovat a ti, kdo nechtěli skončit v žaláři, uprchli z města na venkov. Mnozí z nich skončili právě ve Westfallu.]] },
+
+        { "Zrod Bratrstva Defias", [[Ve westfallských kopcích a opuštěných dolech se VanCleef postavil do čela rozhořčených vyhnanců. Byl to nejen stavitel, ale i muž zkušený v tichém pohybu a lsti – a ty dovednosti teď naučil i ostatní. Tak vzniklo Bratrstvo Defias, poznávací znamení: červený šátek přes tvář.
+
+Zpočátku chtěli jen vymoci zlato, které jim král dlužil. Onyxia ale dál přiživovala jejich nenávist – postarala se, aby kraj nedostával zásoby, a tak se z výběrčích stali lupiči a vrazi. Úroda selhávala, doly se zavíraly a stormwindská stráž se z Westfallu stáhla. Kdo mohl, odešel do města. Kdo zůstal, žil ve strachu.
+
+Pod Moonbrookem, ve starých dolech zvaných Deadmines, si Bratrstvo vybudovalo skrýš. V obrovské podzemní jeskyni u moře tam staví válečnou loď Juggernaut, se kterou chce jednoho dne připlout ke Stormwindu a vzít si, co mu patří. VanCleefovi slouží goblinský dřevař Sneed, tavič Gilnid, kapitán Greenskin, ogr Rhahk'Zor a tauren Mr. Smite. Ve stormwindském vězení pak velí jeho poručík Bazil Thredd.]] },
+
+        { "Westfall v rukou Defias", [[Dnes Bratrstvo Defias ovládá skoro celý Westfall. Najalo si gnolly z kmene Riverpaw, aby přepadávali statky, pálí sedlákům pole a solí půdu, aby na ní už nic nevyrostlo. Moonbrook je jejich městem – v rozpadlých domech hlídkují Defias Pillagers a Defias Highwaymen a po silnicích běhají jejich poslové.
+
+Nejstrašidelnějším nástrojem Bratrstva jsou žňoví strašáci – Harvest Watchers a Harvest Golems. Kdysi to byly užitečné stroje, které pomáhaly se sklizní. Goblini je ale přeprogramovali a teď se potulují po polích a útočí na každého, kdo se přiblíží.
+
+Uprostřed toho všeho se drží ti nejodolnější. Saldeanovi na své farmě vzdorují – farmář Saldean bojuje se strašáky a jeho žena Salma vaří westfallský guláš pro každého, kdo pomůže. Furlbrowovi už o statek přišli a čekají u rozbitého vozu, až se budou moct odstěhovat. A trpasličí badatel Brann Bronzebeard, který tudy kdysi prošel, napsal, že viděl jen opuštěné farmy, nekonečná prázdná pole a v Moonbrooku agenty Defias a žňové golemy.]] },
+
+        { "Lidová domobrana", [[Gryan Stoutmantle se narodil ve Westfallu, ale většinu života strávil daleko na severu. Stal se paladinem, rytířem Stříbrné ruky (Knights of the Silver Hand), a bojoval v Lordaeronu proti Pohromě. Byl svědkem toho, jak princ Arthas nechal vyvraždit Stratholme.
+
+Když se doslechl, co se děje v jeho rodném kraji, opustil frontu a vrátil se domů. Zjistil, že Stormwind Westfallu nepošle ani vojáky, ani pomoc – šlechta, zmanipulovaná lady Prestor, se o venkov nestará. A tak založil Lidovou domobranu (People's Militia): sbor sedláků, zbylých obyvatel a dobrodruhů, kteří berou obranu kraje do vlastních rukou.
+
+Domobrana sídlí na Sentinel Hill, opevněném kopci s věží uprostřed kraje. Kapitán Danuvin posílá hlídky proti gnollům, zvědka Galiaan sleduje Defiasy a na věži visí odměny za hlavy zločinců. Gryan nezůstal sám: spojil se se šéfem tajné služby SI:7 Mathiasem Shawem, jehož agent Kearnen hlídá kraj z Klaven's Tower, a s informátorem Wileym v Lakeshire. Kousek po kousku skládá důkazy, které vedou až do Deadmines – a možná ještě dál, ke královskému dvoru.]] },
+
+        { "Maják a pobřeží", [[Na západním pobřeží Longshore stojí Westfallský maják (Westfall Lighthouse). Kdysi chránil lodě před útesy – dokud jedné bezměsíčné noci nezhasl. Loď kapitána Graysona narazila na skály a kapitán zahynul. Od té doby jeho duch zůstává u majáku a dívá se, jak na pobřeží útočí murlokové vedení starým Old Murk-Eyem. Zabili i rodinu strážce majáku. Grayson teď hlídá plamen, aby nikdo další nedopadl jako on.
+
+Pobřeží láká i piráty. Podle jednoho příběhu odvlekli piráti z Bloodsail Buccaneers od majáku tři mladíky – Jamese Blackridge, Liama a Brama Woodringa. Měsíce je cvičili jako piráty, ale chlapci nezapomněli, odkud jsou: nakonec vtrhli do Deadmines, osvobodili vězně a dovedli je na Sentinel Hill.
+
+Westfall je příběh o tom, co se stane, když se vládci přestanou starat o své lidi. Ale také o tom, že obyčejní lidé – sedláci, vdovy, duchové i dobrodruzi – dokážou kraj bránit, i když na ně všichni ostatní zapomněli.]] },
     },
 },
 
@@ -215,7 +241,7 @@ WoWpoCesku_LoreKnihy = {
 
 • SPOILER do budoucna (Cataclysm) – VanCleefova dcera Vanessa, která byla svědkem otcovy smrti, se po letech vrátí do Westfallu a Bratrstvo obnoví. Westfall je tak po celou historii WoW krajem, kde se pomsta dědí z otce na dceru.
 
-• Gryan Stoutmantle – dnešní velitel Lidové domobrany prý kdysi sloužil v armádě Stormwindu. Ví, že král je daleko a šlechta nepomůže – proto chrání kraj sám.]],
+• Gryan Stoutmantle – westfallský rodák a paladin Stříbrné ruky, který viděl vyvraždění Stratholme. SPOILER: jeho Lidová domobrana se později stane oficiální Westfall Brigade, Gryan bude povýšen na maršála a za invaze Legie se vrátí k Rytířům Stříbrné ruky.]],
 
 ["Dun Morogh"] = [[• Válka tří kladiv – po smrti velekrále Modima Anvilmara se trpaslíci rozdělili na tři klany. Bronzebeardové ovládli Ironforge, Wildhammeři Grim Batol a Dark Ironové pod čarodějem Thaurissanem zaútočili na oba. Při bitvě Thaurissan vyvolal Ragnarose, pána ohně – výbuch zničil kraj a z něj vznikly Searing Gorge, Burning Steppes a hora Blackrock.
 
