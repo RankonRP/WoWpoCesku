@@ -315,6 +315,8 @@ P["Mangletooth"] = "Zajatý kančí člověk v Camp Taurajo. Za Blood Shards ti 
 P["Chief Hawkwind"] = "Náčelník Camp Narache, kde mladí taureni začínají svou cestu."
 P["Grull Hawkwind"] = "Tauren z Camp Narache z rodu Hawkwindů."
 P["Mull Thunderhorn"] = "Tauren v Bloodhoof Village, zadavatel questů pro mladé taureny."
+P["Ahab Wheathoof"] = "Tauren v Mulgore, kterému utekl pes Kyle. Quest Kyle's Gone Missing! je jeden z nejroztomilejších v Mulgore."
+P["Kyle the Frenzied"] = "Pes Ahaba Wheathoofa. Utekl a neposlouchá – dokud nedostane pamlsek."
 
 -- Undercity a Tirisfal
 P["Executor Zygand"] = "Velitel Forsaken v Brillu, posílá hrdiny proti Šarlatovým."
