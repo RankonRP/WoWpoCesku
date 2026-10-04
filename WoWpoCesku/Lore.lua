@@ -125,26 +125,16 @@ local function drawIllustration(mapID)
     return true
 end
 
-local function fillBook(key, mapID)
-    bookKey = key
-    local L = WoWpoCesku_Lore[key]
-    book.title:SetText(L.title)
-    book.tag:SetText(L.tag)
-    local hasArt = drawIllustration(mapID)
-    book.sf:ClearAllPoints()
-    book.sf:SetPoint("TOPLEFT", hasArt and book.ill or book.tag, "BOTTOMLEFT", 0, hasArt and -14 or -16)
-    book.sf:SetPoint("BOTTOMRIGHT", -34, 46)
+-- záložky na pravém okraji knihy
+local TABS = {
+    { id = "letopis", label = "Letopis" },
+    { id = "tajemstvi", label = "Tajemství" },
+    { id = "denik", label = "Poutníkův deník" },
+    { id = "bestiar", label = "Bestiář" },
+}
 
-    -- kapitoly + „Z knih a legend“ + „Tajemství a kam se podívat“
-    local chapters = {}
-    for _, ch in ipairs(L.ch) do chapters[#chapters + 1] = ch end
-    local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
-    if books then chapters[#chapters + 1] = { "Z knih a legend (spoilery)", books } end
-    local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
-    if secrets then chapters[#chapters + 1] = { "Tajemství a kam se podívat", secrets } end
-    local objevy = WoWpoCesku_ObjevyChapter and WoWpoCesku_ObjevyChapter(key)
-    if objevy then chapters[#chapters + 1] = objevy end
-
+-- vykreslí kapitoly jedné záložky do rolovací stránky
+local function renderPage(chapters)
     local y = 0
     for i, ch in ipairs(chapters) do
         local h, p, o = book.heads[i], book.paras[i], book.orns[i]
@@ -182,6 +172,85 @@ local function fillBook(key, mapID)
     end
     book.content:SetHeight(math.max(1, y))
     book.sf:SetVerticalScroll(0)
+end
+
+local function showTab(id)
+    if not book.pages[id] then id = "letopis" end
+    book.tab = id
+    for _, t in ipairs(book.tabs) do
+        local active = (t.id == id)
+        t:SetShown(book.pages[t.id] ~= nil)
+        t:SetWidth(active and 136 or 124)
+        t.bg:SetVertexColor(active and 1 or 0.72, active and 1 or 0.66, active and 1 or 0.58)
+        t.text:SetTextColor(active and RED[1] or SEPIA[1], active and RED[2] or SEPIA[2], active and RED[3] or SEPIA[3])
+    end
+    renderPage(book.pages[id])
+end
+
+local function fillBook(key, mapID)
+    bookKey = key
+    local L = WoWpoCesku_Lore[key]
+    book.title:SetText(L.title)
+    book.tag:SetText(L.tag)
+    local hasArt = drawIllustration(mapID)
+    book.sf:ClearAllPoints()
+    book.sf:SetPoint("TOPLEFT", hasArt and book.ill or book.tag, "BOTTOMLEFT", 0, hasArt and -14 or -16)
+    book.sf:SetPoint("BOTTOMRIGHT", -34, 46)
+
+    -- Letopis: kapitoly příběhu + „Z knih a legend“
+    local letopis = {}
+    for _, ch in ipairs(L.ch) do letopis[#letopis + 1] = ch end
+    local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
+    if books then letopis[#letopis + 1] = { "Z knih a legend (spoilery)", books } end
+    local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
+    book.pages = {
+        letopis = letopis,
+        tajemstvi = secrets and { { "Tajemství a kam se podívat", secrets } } or nil,
+        denik = WoWpoCesku_DenikPage and WoWpoCesku_DenikPage(key) or nil,
+        bestiar = WoWpoCesku_BestiarPage and WoWpoCesku_BestiarPage(key) or nil,
+    }
+    showTab(book.tab or "letopis")
+end
+
+local function createTabs()
+    book.tabs = {}
+    -- záložky jsou v rámečku pod knihou (nižší úroveň), aby je deska knihy překryla
+    book:SetFrameLevel(20)
+    local holder = CreateFrame("Frame", nil, UIParent)
+    holder:SetFrameStrata("DIALOG")
+    holder:SetFrameLevel(5)
+    holder:SetAllPoints(book)
+    holder:Hide()
+    book:HookScript("OnShow", function() holder:Show() end)
+    book:HookScript("OnHide", function() holder:Hide() end)
+    for i, def in ipairs(TABS) do
+        local t = CreateFrame("Button", nil, holder, "BackdropTemplate")
+        t.id = def.id
+        t:SetSize(124, 36)
+        t:SetPoint("TOPLEFT", book, "TOPRIGHT", -14, -70 - (i - 1) * 44)
+        t:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12,
+            insets = { left = 3, right = 3, top = 3, bottom = 3 } })
+        t:SetBackdropBorderColor(0.45, 0.30, 0.16, 1)
+        t.bg = t:CreateTexture(nil, "BACKGROUND")
+        t.bg:SetPoint("TOPLEFT", 3, -3)
+        t.bg:SetPoint("BOTTOMRIGHT", -3, 3)
+        t.bg:SetTexture(PARCHMENT)
+        t.bg:SetTexCoord(0.3, 0.6, 0.3, 0.4)
+        -- vínová stužka na konci záložky
+        local ribbon = t:CreateTexture(nil, "ARTWORK")
+        ribbon:SetColorTexture(RED[1], RED[2], RED[3], 0.85)
+        ribbon:SetPoint("TOPRIGHT", -4, -4)
+        ribbon:SetPoint("BOTTOMRIGHT", -4, 4)
+        ribbon:SetWidth(4)
+        t.text = fontString(t, 13, SEPIA[1], SEPIA[2], SEPIA[3])
+        t.text:SetPoint("LEFT", 20, 0)
+        t.text:SetText(def.label)
+        t:SetScript("OnClick", function(self)
+            PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
+            showTab(self.id)
+        end)
+        book.tabs[i] = t
+    end
 end
 
 local function createBook()
@@ -242,6 +311,8 @@ local function createBook()
     ill.clip:SetClipsChildren(true)
     ill.tiles = {}
     book.ill = ill
+
+    createTabs()
 
     local close = CreateFrame("Button", nil, book, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)

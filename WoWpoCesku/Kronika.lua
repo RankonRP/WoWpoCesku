@@ -194,48 +194,87 @@ local function placeVisited(place)
     return false
 end
 
--- kapitola „Tvoje objevy“ pro knihu (volá ji Lore.lua)
-function WoWpoCesku_ObjevyChapter(key)
+local YES, NO = "|cff1d6b1d[x]|r ", "|cff8a7458[  ]|r "
+local GRAY = "|cff6b4d2e"
+
+-- záložka Poutníkův deník: místa v oblasti
+function WoWpoCesku_DenikPage(key)
     local places = WoWpoCesku_Objevy and WoWpoCesku_Objevy[key]
+    if not places then
+        if WoWpoCesku_RareList and WoWpoCesku_RareList[key] then
+            return { { "Poutníkův deník", "Pro tuhle oblast zatím nemám seznam míst k objevení." } }
+        end
+        return nil
+    end
+    local lines, n = {}, 0
+    for _, place in ipairs(places) do
+        local ok = placeVisited(place)
+        if ok then n = n + 1 end
+        lines[#lines + 1] = (ok and YES or NO) .. place
+    end
+    local head = ("Objeveno %d z %d míst.%s\n\n"):format(n, #places,
+        n == #places and "  |cff1d6b1dVšechno jsi prozkoumal!|r" or "")
+    return {
+        { "Poutníkův deník", head .. table.concat(lines, "\n")
+            .. "\n\n" .. GRAY .. "Místo se odškrtne samo, když ho navštívíš (název vidíš u minimapy).|r" },
+    }
+end
+
+-- záložka Bestiář: vzácní mobové oblasti, co jsi viděl a kde
+function WoWpoCesku_BestiarPage(key)
     local rares = {}
     for name, info in pairs(RARE) do
         if info.zone == key then rares[#rares + 1] = name end
     end
-    table.sort(rares)
-    if not places and #rares == 0 then return nil end
     local S = seen()
-    local lines, nP, nR = {}, 0, 0
-    local YES, NO = "|cff1d6b1d[x]|r ", "|cff8a7458[  ]|r "
-    if places then
-        lines[#lines + 1] = "|cff801f0dMísta|r"
-        for _, place in ipairs(places) do
-            local ok = placeVisited(place)
-            if ok then nP = nP + 1 end
-            lines[#lines + 1] = (ok and YES or NO) .. place
-        end
-    end
-    if #rares > 0 then
-        lines[#lines + 1] = "\n|cff801f0dVzácní mobové|r"
-        for _, name in ipairs(rares) do
-            local rec = S.rares[name]
-            if rec then nR = nR + 1 end
-            lines[#lines + 1] = (rec and YES or NO) .. name
-                .. (rec and rec.t and ("  |cff6b4d2e(" .. date("%d.%m.", rec.t) .. ")|r") or "")
-        end
-    end
-    -- rary, které jsi tu viděl a v classic datech nejsou (novinky Forever)
     local extra = {}
     for name, rec in pairs(S.rares) do
         if rec.new and rec.z == key then extra[#extra + 1] = name end
     end
+    if #rares == 0 and #extra == 0 then
+        if WoWpoCesku_Objevy and WoWpoCesku_Objevy[key] then
+            return { { "Bestiář", "V této oblasti nežijí žádní známí vzácní mobové." } }
+        end
+        return nil
+    end
+    table.sort(rares, function(a, b)
+        local la, lb = tonumber((RARE[a].lvl or ""):match("%d+")) or 99, tonumber((RARE[b].lvl or ""):match("%d+")) or 99
+        if la ~= lb then return la < lb end
+        return a < b
+    end)
+    local lines, n = {}, 0
+    for _, name in ipairs(rares) do
+        local info, rec = RARE[name], S.rares[name]
+        if rec then n = n + 1 end
+        local desc = {}
+        if info.lvl and info.lvl ~= "?" then desc[#desc + 1] = "level " .. info.lvl end
+        if info.tame then desc[#desc + 1] = "ochočitelný" end
+        local line = (rec and YES or NO) .. name
+        if #desc > 0 then line = line .. GRAY .. "  – " .. table.concat(desc, ", ") .. "|r" end
+        if rec and rec.t then
+            line = line .. "\n      " .. GRAY .. "viděn " .. date("%d.%m. %H:%M", rec.t)
+                .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "")
+                .. ((rec.n or 1) > 1 and ("  (%dx)"):format(rec.n) or "") .. "|r"
+        end
+        lines[#lines + 1] = line
+    end
+    local page = {
+        { "Bestiář", ("Viděno %d z %d vzácných mobů.\n\n"):format(n, #rares) .. table.concat(lines, "\n")
+            .. "\n\n" .. GRAY .. "Seznam je z classic dat – ve WoW Forever se mnozí teprve potvrzují. Když nějakého uvidíš, addon ho sám zapíše.|r" },
+    }
     if #extra > 0 then
         table.sort(extra)
-        lines[#lines + 1] = "\n|cff801f0dTvoje objevy navíc (asi novinky Forever)|r"
-        for _, name in ipairs(extra) do lines[#lines + 1] = YES .. name end
+        local ex = {}
+        for _, name in ipairs(extra) do
+            local rec = S.rares[name]
+            ex[#ex + 1] = YES .. name .. (rec.l and (GRAY .. "  – level " .. rec.l .. "|r") or "")
+                .. "\n      " .. GRAY .. "viděn " .. date("%d.%m. %H:%M", rec.t or 0)
+                .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "") .. "|r"
+        end
+        page[#page + 1] = { "Tvoje objevy navíc", "Vzácní mobové, kteří v classic datech nejsou – nejspíš novinky WoW Forever. Napiš mi o nich!\n\n"
+            .. table.concat(ex, "\n") }
     end
-    local head = ("Objeveno %d z %d míst, viděno %d z %d vzácných mobů.\n\n"):format(
-        nP, places and #places or 0, nR, #rares)
-    return { "Tvoje objevy", head .. table.concat(lines, "\n") }
+    return page
 end
 
 -------------------------------------------------------------------------------
