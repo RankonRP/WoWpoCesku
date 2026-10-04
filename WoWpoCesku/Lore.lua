@@ -140,8 +140,15 @@ local function rowButton(i)
     if b then return b end
     b = CreateFrame("Button", nil, book.content)
     b.text = fontString(b, 13.5, INK[1], INK[2], INK[3])
-    b.text:SetPoint("TOPLEFT", 4, -2)
     b.text:SetSpacing(2)
+    -- zaškrtávátko v pevném sloupci vlevo (jako ve hře)
+    b.box = b:CreateTexture(nil, "ARTWORK")
+    b.box:SetSize(20, 20)
+    b.box:SetPoint("TOPLEFT", 0, 0)
+    b.box:SetTexture("Interface\\Buttons\\UI-CheckBox-Up")
+    b.check = b:CreateTexture(nil, "OVERLAY")
+    b.check:SetAllPoints(b.box)
+    b.check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
     local hl = b:CreateTexture(nil, "HIGHLIGHT")
     hl:SetAllPoints()
     hl:SetColorTexture(RED[1], RED[2], RED[3], 0.12)
@@ -192,7 +199,12 @@ local function renderPage(chapters)
         for _, row in ipairs(ch.rows or {}) do
             nRows = nRows + 1
             local b = rowButton(nRows)
-            b.text:SetWidth(W - 30)
+            local hasBox = row.mark ~= nil
+            b.box:SetShown(hasBox)
+            b.check:SetShown(row.mark == true)
+            b.text:ClearAllPoints()
+            b.text:SetPoint("TOPLEFT", hasBox and 24 or 4, -2)
+            b.text:SetWidth(W - (hasBox and 50 or 30))
             b.text:SetText(row.text)
             b.onClick, b.hint = row.onClick, row.hint
             b:ClearAllPoints()
@@ -204,6 +216,9 @@ local function renderPage(chapters)
         if ch.rows and ch.after then
             nRows = nRows + 1
             local b = rowButton(nRows)
+            b.box:Hide(); b.check:Hide()
+            b.text:ClearAllPoints()
+            b.text:SetPoint("TOPLEFT", 4, -2)
             b.text:SetWidth(W - 30)
             b.text:SetText(ch.after)
             b.onClick, b.hint = nil, nil

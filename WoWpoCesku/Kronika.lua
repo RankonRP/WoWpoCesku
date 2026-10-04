@@ -364,19 +364,14 @@ function WoWpoCesku_ShowRareOnMap(name)
     pcall(hookMap)
     WorldMapFrame:SetMapID(mapID)
     C_Timer.After(0.05, function() placePins(points) end)
-    -- herní značka (pokud ji klient umí) – ukáže i šipku u minimapy
-    pcall(function()
-        if C_Map.CanSetUserWaypointOnMap and not C_Map.CanSetUserWaypointOnMap(mapID) then return end
-        C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(mapID, points[1][1], points[1][2]))
-        if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then C_SuperTrack.SetSuperTrackedUserWaypoint(true) end
-    end)
+    -- případnou starou herní značku (animovaný ping) smazat
+    pcall(function() if C_Map.ClearUserWaypoint then C_Map.ClearUserWaypoint() end end)
     say(("%s: %d mist vyskytu na mape"):format(name, #points))
 end
 
-local YES, NO = "|cff1d6b1d[x]|r ", "|cff8a7458[  ]|r "
 local GRAY = "|cff6b4d2e"
 
--- záložka Poutníkův deník: místa v oblasti
+-- záložka Poutníkův deník: místa v oblasti (řádky se zaškrtávátkem)
 function WoWpoCesku_DenikPage(key)
     local places = WoWpoCesku_Objevy and WoWpoCesku_Objevy[key]
     if not places then
@@ -385,17 +380,42 @@ function WoWpoCesku_DenikPage(key)
         end
         return nil
     end
-    local lines, n = {}, 0
+    local rows, n = {}, 0
     for _, place in ipairs(places) do
         local ok = placeVisited(place)
         if ok then n = n + 1 end
-        lines[#lines + 1] = (ok and YES or NO) .. place
+        rows[#rows + 1] = { mark = ok, text = place }
     end
-    local head = ("Objeveno %d z %d míst.%s\n\n"):format(n, #places,
-        n == #places and "  |cff1d6b1dVšechno jsi prozkoumal!|r" or "")
     return {
-        { "Poutníkův deník", head .. table.concat(lines, "\n")
-            .. "\n\n" .. GRAY .. "Místo se odškrtne samo, když ho navštívíš (název vidíš u minimapy).|r" },
+        { "Poutníkův deník", ("Objeveno %d z %d míst.%s"):format(n, #places,
+            n == #places and "  |cff1d6b1dVšechno jsi prozkoumal!|r" or ""),
+            rows = rows,
+            after = GRAY .. "Místo se odškrtne samo, když ho navštívíš (název vidíš u minimapy).|r" },
+    }
+end
+
+-- jeden řádek Bestiáře: jméno, level, poznámka, kdy jsi ho viděl
+local function rareRow(name, info, rec, isExtra)
+    local desc = {}
+    local lvl = (info and info.lvl) or (rec and rec.l and tostring(rec.l))
+    if lvl and lvl ~= "?" then desc[#desc + 1] = "level " .. lvl end
+    if info and info.tame then desc[#desc + 1] = "ochočitelný" end
+    local text = name
+    if #desc > 0 then text = text .. GRAY .. "  – " .. table.concat(desc, ", ") .. "|r" end
+    local note = WoWpoCesku_RareNotes and WoWpoCesku_RareNotes[name]
+    if note then text = text .. "\n" .. note end
+    if rec and rec.t then
+        text = text .. "\n" .. GRAY .. "Viděn " .. date("%d.%m. %H:%M", rec.t)
+            .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "")
+            .. ((rec.n or 1) > 1 and ("  (%dx)"):format(rec.n) or "") .. "|r"
+    end
+    local hasPts = (WoWpoCesku_RareSpawns and WoWpoCesku_RareSpawns[name]) or (WoWpoCesku_RareMapPts and WoWpoCesku_RareMapPts[name])
+    if not hasPts and not isExtra then text = text .. "\n" .. GRAY .. "Místo výskytu neznámé.|r" end
+    return {
+        mark = rec ~= nil,
+        text = text,
+        hint = hasPts and "Klikni - ukaze se na mape" or nil,
+        onClick = hasPts and function() WoWpoCesku_ShowRareOnMap(name) end or nil,
     }
 end
 
@@ -421,32 +441,14 @@ function WoWpoCesku_BestiarPage(key)
         if la ~= lb then return la < lb end
         return a < b
     end)
-    local lines, n = {}, 0
-    local rows = {}
+    local rows, n = {}, 0
     for _, name in ipairs(rares) do
-        local info, rec = RARE[name], S.rares[name]
+        local rec = S.rares[name]
         if rec then n = n + 1 end
-        local desc = {}
-        if info.lvl and info.lvl ~= "?" then desc[#desc + 1] = "level " .. info.lvl end
-        if info.tame then desc[#desc + 1] = "ochočitelný" end
-        local line = (rec and YES or NO) .. name
-        if #desc > 0 then line = line .. GRAY .. "  – " .. table.concat(desc, ", ") .. "|r" end
-        if rec and rec.t then
-            line = line .. "\n      " .. GRAY .. "viděn " .. date("%d.%m. %H:%M", rec.t)
-                .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "")
-                .. ((rec.n or 1) > 1 and ("  (%dx)"):format(rec.n) or "") .. "|r"
-        end
-        local note = WoWpoCesku_RareNotes and WoWpoCesku_RareNotes[name]
-        if note then line = line .. "\n      " .. note end
-        local hasPts = (WoWpoCesku_RareSpawns and WoWpoCesku_RareSpawns[name]) or (WoWpoCesku_RareMapPts and WoWpoCesku_RareMapPts[name])
-        rows[#rows + 1] = {
-            text = line .. (hasPts and "" or ("  " .. GRAY .. "(místo neznámé)|r")),
-            hint = hasPts and "Klikni - ukaze se na mape" or nil,
-            onClick = function() WoWpoCesku_ShowRareOnMap(name) end,
-        }
+        rows[#rows + 1] = rareRow(name, RARE[name], rec)
     end
     local page = {
-        { "Bestiář", ("Viděno %d z %d vzácných mobů.\n\n"):format(n, #rares)
+        { "Bestiář", ("Viděno %d z %d vzácných mobů.\n"):format(n, #rares)
             .. "|cff801f0dKlikni na moba a na mapě se ukáže, kde se objevuje.|r",
             rows = rows,
             after = GRAY .. "Seznam je z classic dat – ve WoW Forever se mnozí teprve potvrzují. Když nějakého uvidíš, addon ho sám zapíše.|r" },
@@ -454,14 +456,9 @@ function WoWpoCesku_BestiarPage(key)
     if #extra > 0 then
         table.sort(extra)
         local ex = {}
-        for _, name in ipairs(extra) do
-            local rec = S.rares[name]
-            ex[#ex + 1] = YES .. name .. (rec.l and (GRAY .. "  – level " .. rec.l .. "|r") or "")
-                .. "\n      " .. GRAY .. "viděn " .. date("%d.%m. %H:%M", rec.t or 0)
-                .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "") .. "|r"
-        end
-        page[#page + 1] = { "Tvoje objevy navíc", "Vzácní mobové, kteří v classic datech nejsou – nejspíš novinky WoW Forever. Napiš mi o nich!\n\n"
-            .. table.concat(ex, "\n") }
+        for _, name in ipairs(extra) do ex[#ex + 1] = rareRow(name, nil, S.rares[name], true) end
+        page[#page + 1] = { "Tvoje objevy navíc",
+            "Vzácní mobové, kteří v classic datech nejsou – nejspíš novinky WoW Forever. Napiš mi o nich!", rows = ex }
     end
     return page
 end
