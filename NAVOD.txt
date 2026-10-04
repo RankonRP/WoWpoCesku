@@ -89,8 +89,11 @@ Záložky vpravo:
 - Tajemství – easter eggy, skrytá místa a zajímavosti.
 - Poutníkův deník – zajímavá místa, navštívená se odškrtávají.
 - Bestiář – vzácní mobové; klik na moba = lebky na mapě (otevři M).
+- Pečetě – vlastní úspěchy za průzkum, dungeony, vzácné moby a čtení.
 Když se poblíž objeví vzácný mob, addon zahlásí upozornění se zvukem.
-U důležitých postav světa ukáže v popisku krátkou poznámku, kdo to je.
+U důležitých postav světa ukáže v popisku krátkou poznámku, kdo to je,
+u slavných předmětů jejich příběh. Na velké mapě jsou značky míst
+z Poutníkova deníku s tipy ze záložky Tajemství.
 Texty jsou podle klasického WoW a Warcraft Wiki – ve WoW Forever se
 může něco lišit.
 

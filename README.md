@@ -31,17 +31,20 @@
 
 ## Kronika Azerothu
 
-Kniha, která vždy ukazuje **jen oblast nebo dungeon, kde právě jsi** – pro všech 41 klasických oblastí, 24 dungeonů a raidů i nový Zephras Isle z WoW Forever. Otevře se klikem na ikonu u minimapy nebo `/czq lore`; při vstupu do nové oblasti se ukáže krátký titulek. Vpravo má čtyři záložky:
+Kniha, která vždy ukazuje **jen oblast nebo dungeon, kde právě jsi** – pro všech 41 klasických oblastí, 24 dungeonů a raidů i nový Zephras Isle z WoW Forever. Otevře se klikem na ikonu u minimapy nebo `/czq lore`; při vstupu do nové oblasti se ukáže krátký titulek. Vpravo má pět záložek:
 
 - **Letopis** – příběh oblasti v kapitolách a kapitola **Z knih a legend** (lore z románů a Warcraftu I–III, i se spoilery). V dungeonu příběh dungeonu a přehled bossů, poražení se sami odškrtnou.
 - **Tajemství** – easter eggy, skrytá místa, slavné questové příběhy a zajímavosti, které se vyplatí najít.
 - **Poutníkův deník** – zajímavá místa oblasti; navštívená se sama odškrtávají.
 - **Bestiář** – vzácní (rare) mobové oblasti. Klik na moba vyznačí lebkou na mapě (**M**), kde se může objevit.
+- **Pečetě** – vlastní malé úspěchy: za prozkoumání celé oblasti, vyčištění dungeonu, vzácné moby, cestování a čtení kroniky.
 
 K tomu:
 
 - **Upozornění na vzácné moby** – když se poblíž objeví rare, ukáže se hláška se zvukem a tlačítko pro zaměření. Seznam viděných: `/czq vzacni`, vypnutí `/czq vzacni vyp`.
 - **Poznámky k postavám** – u přes 250 důležitých postav světa (Thrall, Hogger, Tirion, VanCleef…) se v popisku ukáže, kdo to je.
+- **Příběhy předmětů** – u legendárních a slavných předmětů (Thunderfury, Atiesh, Corrupted Ashbringer, Head of Onyxia…) se v popisku ukáže jejich příběh.
+- **Místa na mapě** – na velké mapě jsou značky míst z Poutníkova deníku (objevená odškrtnutá) a po najetí myší i tip ze záložky Tajemství.
 
 Texty jsou psané vlastními slovy podle klasického WoW a [Warcraft Wiki](https://warcraft.wiki.gg/) a ověřené. Ve WoW Forever se může něco lišit – když narazíš na chybu, napiš.
 

@@ -207,7 +207,7 @@ Questy tě pošlou pro skarabeové krunýře, Tiaru Tiara of the Deep a součás
     },
 }
 WoWpoCesku_LoreTajemstvi["Zul'Farrak"] = [[• Slavná bitva na schodech: osvoboď Sergeanta Blye a jeho druhy z klece a pak společně odrážejte vlny trollů.
-• Z dungeonu padá Carrot on a Stick – trinket na rychlejší jízdu.]]
+• Za porážku Gahz'rilly dostaneš od Wizzla Brassboltse z Mirage Raceway (quest Gahz'rilla) slavný trinket Carrot on a Stick na rychlejší jízdu.]]
 
 D["Maraudon"] = {
     title = "Maraudon", tag = "Jeskyně Theradras a Zaetara v Desolace (levely 46–55).",

@@ -131,6 +131,7 @@ local TABS = {
     { id = "tajemstvi", label = "Tajemství" },
     { id = "denik", label = "Poutníkův deník" },
     { id = "bestiar", label = "Bestiář" },
+    { id = "pecete", label = "Pečetě" },
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
@@ -252,6 +253,13 @@ end
 
 local function fillBook(key, mapID)
     bookKey = key
+    -- přečtené kapitoly kroniky (pro Pečetě kronikáře)
+    WoWpoCeskuSeen = WoWpoCeskuSeen or {}
+    WoWpoCeskuSeen.read = WoWpoCeskuSeen.read or {}
+    if not WoWpoCeskuSeen.read[key] then
+        WoWpoCeskuSeen.read[key] = time()
+        if WoWpoCesku_CheckSeals then C_Timer.After(1, WoWpoCesku_CheckSeals) end
+    end
     WoWpoCesku_BookMapID = mapID
     local L = WoWpoCesku_Lore[key]
     book.title:SetText(L.title)
@@ -272,6 +280,7 @@ local function fillBook(key, mapID)
         tajemstvi = secrets and { { "Tajemství a kam se podívat", secrets } } or nil,
         denik = WoWpoCesku_DenikPage and WoWpoCesku_DenikPage(key) or nil,
         bestiar = WoWpoCesku_BestiarPage and WoWpoCesku_BestiarPage(key) or nil,
+        pecete = WoWpoCesku_PecetePage and WoWpoCesku_PecetePage(key) or nil,
     }
     showTab(book.tab or "letopis")
 end
@@ -415,7 +424,7 @@ local function currentKeyAndMap()
     return resolve(currentZone()), nil
 end
 
-function WoWpoCesku_ShowLore()
+function WoWpoCesku_ShowLore(tab)
     local key, mapID = currentKeyAndMap()
     if not key then
         if book then book:Hide() end
@@ -425,6 +434,7 @@ function WoWpoCesku_ShowLore()
     if not book then createBook() end
     book:Show()
     book:Raise()
+    if tab then book.tab = tab end
     fillBook(key, mapID)
 end
 
@@ -465,8 +475,19 @@ local function createToast()
     toast:SetScript("OnClick", function(self)
         self.anim:Stop()
         self:Hide()
-        WoWpoCesku_ShowLore()
+        WoWpoCesku_ShowLore(self.tab)
     end)
+end
+
+-- oznámení o nové pečeti kronikáře (stejné titulky jako při vstupu do oblasti)
+function WoWpoCesku_SealToast(name, count)
+    if not toast then createToast() end
+    toast.tab = "pecete"
+    toast.title:SetText("Nová pečeť kronikáře")
+    toast.tag:SetText(name .. ((count or 1) > 1 and ("  (a další: " .. (count - 1) .. ")") or ""))
+    toast.hint:SetText("Klikni a otevře se záložka Pečetě")
+    toast.anim:Stop()
+    toast.anim:Play()
 end
 
 local function onZone()
@@ -486,6 +507,8 @@ local function onZone()
     if not toast then createToast() end
     local L = WoWpoCesku_Lore[key]
     toast.key = key
+    toast.tab = nil
+    toast.hint:SetText("Klikni a otevře se Kronika Azerothu  (/czq lore)")
     toast.title:SetText(L.title)
     toast.tag:SetText(L.tag)
     toast.anim:Stop()

@@ -845,6 +845,12 @@ local function buildOptions()
     addCheck(right, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
         function() return WoWpoCeskuSettings.npcNotes ~= false end,
         function(on) WoWpoCeskuSettings.npcNotes = on end)
+    addCheck(right, "Příběhy slavných předmětů", "Thunderfury, Atiesh, Corrupted Ashbringer…",
+        function() return WoWpoCeskuSettings.itemNotes ~= false end,
+        function(on) WoWpoCeskuSettings.itemNotes = on end)
+    addCheck(right, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
+        function() return WoWpoCeskuSettings.mapPlaces ~= false end,
+        function(on) WoWpoCeskuSettings.mapPlaces = on end)
 
     -- pravý sloupec: panel s překladem
     addSection(right, "Panel s překladem")
