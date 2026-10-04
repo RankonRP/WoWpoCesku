@@ -644,10 +644,31 @@ WoWpoCesku_Lore["Alterac Mountains"] = {
     title = "Alterac Mountains",
     tag = "Zasněžené hory zrádného království, které prodalo Alianci orkům.",
     ch = {
-        { "Zrádné království", [[Alterac bylo jedno ze sedmi lidských království. Jeho král Aiden Perenolde za Druhé války uzavřel tajnou dohodu s Hordou – doufal, že tak své království ochrání. Zrada byla odhalena, Aliance Alterac obsadila a království přestalo existovat. Perenoldovi šlechtici se od té doby schovávají a z jejich zbytků vznikl Syndikát.]] },
-        { "Ruiny a hory", [[Hory jsou zasněžené a nehostinné. V údolích leží ruiny Alterac City, kde dnes sídlí ogrové a Syndikát. Na jihu kraje stojí ruiny města Dalaran, které obklopuje fialová kouzelná bariéra.]] },
-        { "Dalaran", [[Dalaran bývalo městem mágů. Za Třetí války ho démon Archimonde srovnal se zemí. Přeživší mágové ho teď za neprostupnou kopulí opravují a zkoumají, co zbylo. Do města nikdo nesmí.]] },
-        { "Hrozby", [[V horách žijí yetiové, ogrové, Syndikát a trollové z kmene Witherbark. Na severu, v Alterac Valley, spolu bojují trpaslíci ze Stormpike a orkové z Frostwolf klanu.]] },
+        { "Zasněžené hory", [[Alterac Mountains jsou zasněžené a nehostinné hory na severu Hillsbradu. V údolích leží ruiny hlavního města Alterac, na severu se otevírá údolí Alterac Valley a na jihozápadě, u jezera Lordamere, zakrývá zničený Dalaran fialová kouzelná kopule.]] },
+
+        { "Alteraci a Válka trollů", [[Kmen Alteraci se stal součástí Arathorského císařství poté, co jeho vůdce Ignaeus prohrál s králem Thoradinem. Ve Válce trollů se pod těmito horami odehrála poslední a rozhodující bitva mezi trollí říší Amani a spojenými armádami lidí a vysokých elfů.
+
+Později se Alterac osamostatnil jako městský stát a stal se jedním ze sedmi lidských království.]] },
+
+        { "Zrada", [[Ve Druhé válce se šlechta Alteracu dopustila zrady: pomohla Hordě proti Alianci, protože doufala, že tak své království ochrání. Aliance Lordaeronu zradu odhalila a vojska táhla přes hory, aby zrádce potrestala.
+
+Alterac přestalo existovat jako království. Vyhnaná šlechta se nevzdala – z jejích zbytků vznikl Syndikát, zločinecká organizace, která dodnes škodí celému Lordaeronu. Vede ji vyhnaný princ Aliden Perenolde.]] },
+
+        { "Po válce", [[Po válce si v horách udržovaly vojenské posádky Lordaeron i Stromgarde a vedly se ostré spory o to, komu území patří. Horda později tyto posádky přepadala, když hledala Medivhovu knihu.
+
+Ruiny hlavního města Alterac si nakonec vzali ogrové z kmene Crushridge pod vojevůdcem Mug'tholem. Vesnice Strahnbrad, kterou Lordaeron kdysi opevnil, dnes patří Syndikátu.]] },
+
+        { "Dalaran", [[Dalaran bývalo městem mágů a sídlem Kirin Tor. Za Třetí války ho démon Archimonde srovnal se zemí. Arthas sem předtím přišel pro Medivhovu knihu kouzel, aby mohl oživit Kel'Thuzada, a zabil při tom velkého arcimága Antonidase.
+
+Přeživší mágové teď město za neprostupnou kopulí opravují a zkoumají, co zbylo. Dovnitř nikdo nesmí.]] },
+
+        { "Alterac Valley a Ravenholdt", [[Na severu leží Alterac Valley – údolí, o které spolu bojují trpaslíci Stormpike Guard pod velením Vanndara Stormpika a vyhnaní orkové z klanu Frostwolf. Právě tady kdysi Thrall poprvé našel svůj lid a starého šamana Drek'thara.
+
+V horách se skrývá i Ravenholdt Manor, neutrální sídlo, kam se dostanou jen ti, kdo vědí, kudy jít.]] },
+
+        { "Zajímavosti", [[Alterac je varováním: království, které zradilo své spojence, zmizelo z mapy. Jeho šlechtici dnes žijí jako zločinci a jeho hlavní město patří ogrům.
+
+V klasickém WoW se bitvy v Alterac Valley táhly celé hodiny a někdy i dny – a hráči na ně vzpomínají dodnes.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Alterac Mountains"] = [[• Zrada Perenolda (Warcraft II a Tides of Darkness) – Aiden Perenolde dovolil Hordě projít přes své území, aby zaútočila na Lordaeron. Když Aliance zradu odhalila, Lothar s Turalyonem Alterac obsadili.
@@ -671,10 +692,31 @@ WoWpoCesku_Lore["Arathi Highlands"] = {
     title = "Arathi Highlands",
     tag = "Kolébka lidstva – kopce, kde stálo první lidské království.",
     ch = {
-        { "Arathor", [[Arathi Highlands jsou travnaté kopce se skalami a ruinami. Kdysi tu stálo Arathorské císařství, první lidský stát. Jeho hlavním městem byl Strom, a právě odtud se lidé rozšířili po celém kontinentu. Ze Stromu dnes zbyly jen ruiny.]] },
-        { "Thoradin's Wall a Stromgarde", [[Na severní hranici stojí Thoradin's Wall, mohutná stará zeď nesoucí jméno prvního lidského krále Thoradina. Na západě leží Stromgarde, hlavní město království Stromgarde, potomků Arathoru. Dnes je napůl v troskách a bojují o něj ogrové, Syndikát a zbytky lidí.]] },
-        { "Kdo tu žije", [[Aliance drží Refuge Pointe, malý tábor uprostřed kraje. Horda má Hammerfall na východě – orkskou pevnost v kraji, kde kdysi stály lidské internační tábory pro orky. Mezi nimi leží Arathi Basin, bitevní pole o zdroje.]] },
-        { "Hrozby", [[Trollové Witherbark žijí na východě, ogrové v Circle of East Binding a jinde. Syndikát ovládá část kraje a na kopcích stojí staré kamenné kruhy, které kdysi postavili mágové. Na pobřeží řádí piráti a nagové.]] },
+        { "Travnaté kopce", [[Arathi Highlands jsou travnaté kopce se skalami, ruinami a starými kamennými kruhy mezi Hillsbradem a Wetlands. Na západě leží ruiny města Stromgarde, na jihu most Thandol Span a na severní hranici stará zeď Thoradin's Wall.]] },
+
+        { "Arathorské císařství", [[Asi 2800 let před otevřením Temného portálu sjednotil král Thoradin rozdělené lidské kmeny. Podle legendy mu sen řekl, ať jde do vyprahlé země na jihovýchodě, kde jeho lid bude vzkvétat. Tak vzniklo Arathorské císařství a jeho hlavní město Strom – první lidské hlavní město v dějinách.
+
+Thoradin postavil velkou zeď na ochranu proti trollům. Ve Válce trollů se lidé poprvé setkali s vysokými elfy a spojili se s nimi proti trollí říši Amani. Elfové lidi naučili magii a z tohoto spojenectví se zrodila první lidská velmoc.]] },
+
+        { "Rozpad a Stromgarde", [[Kolem roku 1200 před otevřením portálu moc Stromu slábla – hornatá země neměla dost zdrojů. Šlechtické rody odešly na sever do úrodného Lordaeronu. Thoradinovi potomci vedení Faldirem se vydali na jih a založili Stormwind. Rody, které zůstaly, proměnily Strom v království Stromgarde.
+
+Po generace pak rod Trollbane a jeho vojáci bojovali s trolly z kmene Witherbark, které považovali za úhlavní nepřátele.]] },
+
+        { "Druhá válka a Hammerfall", [[Ve Druhé válce velel vojskům Stromgarde král Thoras Trollbane jako součást Aliance Lordaeronu. Horda ale Arathi Highlands i samotné Stromgarde zaplavila. Po válce tu Aliance zřídila internační tábor Hammerfall, kde držela zajaté orky.
+
+Thrall a Orgrim Doomhammer později na tábor zaútočili a zajatce osvobodili. Dnes na tom místě stojí orkská osada Hammerfall – připomínka, že tu kdysi orkové sloužili jako vězni.]] },
+
+        { "Úpadek Stromgarde", [[Po Třetí válce Stromgarde upadlo. O jeho ruiny dnes bojují Syndikát, ogrové z kmene Boulderfist a trollové Witherbark. Přeživší lidé z Aliance se stáhli do tábora Refuge Pointe uprostřed kraje, zatímco Horda drží Hammerfall na východě.
+
+Lidské osady jako Dabyrie's Farmstead, Faldir's Cove a Highlands Mill se snaží přežít, jak se dá. V dolech se usadili koboldi z kmene Drywhisker.]] },
+
+        { "Kruhy spoutání", [[Na kopcích stojí staré kamenné kruhy – Circles of Binding. Spoutávají bytost, o které se dlouho nevědělo nic. Jmenuje se Myzrael a kdo se pustí do questů kolem kruhů, zjistí, co se stane, když se pouta uvolní.
+
+Mezi Refuge Pointe a Hammerfall leží Arathi Basin, bitevní pole o pět zdrojů, kde Aliance a Horda bojují o kovárnu, farmu, důl, stáje a pilu.]] },
+
+        { "Zajímavosti", [[Arathi Highlands jsou kolébkou lidstva. Z tohoto kraje vyšli předkové lidí z Lordaeronu, Stormwindu i Stromgarde. Kdo stojí v ruinách Stromgarde, stojí tam, kde začaly dějiny lidí.
+
+A až uvidíš na mapě Faldir's Cove, vzpomeň si, že Faldir byl Thoradinův potomek, který vedl lidi na jih – a založil Stormwind.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Arathi Highlands"] = [[• Válka trollů – před téměř třemi tisíci lety bojovali lidé Arathoru spolu s vysokými elfy proti trollí říši Amani. Elfové lidi naučili magii a sto lidí z Arathoru se stalo prvními lidskými mágy. Spojenectví lidí a elfů trvá dodnes.
@@ -892,10 +934,29 @@ WoWpoCesku_Lore["Stranglethorn Vale"] = {
     title = "Stranglethorn Vale",
     tag = "Džungle trollích ruin, pirátů a lovců, kde se soupeří o každou trofej.",
     ch = {
-        { "Džungle na jihu", [[Stranglethorn Vale je obrovská tropická džungle na jihu Eastern Kingdoms. Kdysi tu stála trollí říše Gurubashi, jedna z největších na světě. Dnes zbyly jen ruiny chrámů zarostlé lianami, tygři, raptoři a gorily.]] },
-        { "Booty Bay", [[Na jižním cípu leží Booty Bay, goblinský přístav postavený kolem zátoky, kde se potkávají obchodníci i pašeráci. Vchod je skrytý v tlamě obří žraločí lebky. Platí tu jediný zákon: obchod. Kdo zaútočí ve městě, toho rozsekají stráže kartelu Steamwheedle. Piráti z Bloodsail Buccaneers jsou jejich úhlavní nepřátelé.]] },
-        { "Kdo tu žije", [[Lovci z Nesingwary's Expedition pořádají velký hon na zvěř. Aliance drží Rebel Camp a Horda Grom'gol Base Camp na pobřeží. Uprostřed džungle stojí Gurubashi Arena, kde se bojuje o poklad.]] },
-        { "Hrozby", [[Trollové Bloodscalp, Skullsplitter a Gurubashi, piráti Bloodsail Buccaneers, nagové na pobřeží a Kurzen's Mercenaries – bývalí vojáci, kteří se v džungli zbláznili. A v srdci džungle se probouzí krvavý bůh Hakkar.]] },
+        { "Džungle na jihu", [[Stranglethorn Vale je obrovská tropická džungle na jihu Eastern Kingdoms. Ruiny chrámů zarostlé lianami, tygři, raptoři, gorily a krokodýli – a na jižním cípu goblinský přístav Booty Bay. Na severovýchodě se v hloubi džungle skrývá Zul'Gurub.]] },
+
+        { "Říše Gurubashi", [[Stranglethorn bylo srdcem trollí říše Gurubashi a džunglí byla rozeseta její města. Říše nakonec padla po vnitřních sporech. Plány posledního císaře Var'gazula zmařil pán moří Neptulon: jeho krakeni zničili zemi na západ od Zul'Gurub a potopili město I'lalai.]] },
+
+        { "Hakkar", [[Asi 1500 let před otevřením Temného portálu vypukla krvavá občanská válka. Kněží Gurubashi vyvolali krvavého boha Hakkara Soulflayera a fanatičtí kněží Atal'ai se stali jeho nejvěrnějšími služebníky.
+
+Proti nim vypluli trollové Zandalari a Hakkara v Zul'Gurub porazili. Přeživší kněží Atal'ai uprchli do Swamp of Sorrows, kde postavili chrám Atal'Hakkar. V klasickém WoW se ale Hakkar v Zul'Gurub vrací.]] },
+
+        { "Booty Bay", [[Booty Bay byl původně lidský přístav. Trollové ho dobyli, ale goblini z kartelu Steamwheedle si ho vzali zpět a udělali z něj svou základnu v Eastern Kingdoms. Vládne mu Baron Revilgaz. Vchod do města vede tlamou obří žraločí lebky a platí tu jediný zákon: obchod.
+
+Booty Bay je neutrální – potkávají se tu obchodníci, lovci, pašeráci i hrdinové obou frakcí. S kartelem ale vedou válku piráti Bloodsail Buccaneers, kteří soupeří i s jinými piráty, Blackwater Raiders.]] },
+
+        { "Orkové v džungli", [[Když v První válce vtrhla Horda na Azeroth, pokusil se Stranglethorn ovládnout klan Bleeding Hollow pod vedením Kilrogga Deadeye. Trollové Gurubashi je ale partyzánskou válkou z džungle vyhnali.
+
+Dnes má Horda na pobřeží Grom'gol Base Camp, kde Kin'weelay bojuje s trolly Bloodscalp a Skullsplitter. Aliance drží Rebel Camp na severu.]] },
+
+        { "Kdo tu ještě je", [[V Rebel Camp vede vojáky Lieutenant Doren. Bojují proti plukovníkovi Kurzenovi, kterého kdosi ovládl, a jeho žoldákům Kurzen's Mercenaries, kteří se v džungli obrátili proti vlastním lidem.
+
+Lovci z Nesingwary's Expedition pod vedením Hemeta Nesingwaryho Jr. pořádají velký hon na zvěř. A goblini z Venture Company tu kácejí a dolují a ničí džungli stejně jako všude jinde.]] },
+
+        { "Zajímavosti", [[Stranglethorn je jedním z nejživějších krajů klasického WoW. Uprostřed džungle stojí Gurubashi Arena, kde se o poklad bojuje každé tři hodiny, a stránky knihy „Green Hills of Stranglethorn“ jsou rozházené po celém kraji.
+
+Džungle je nebezpečná – jedovatí pavouci, tygři a nemoci tu zabijí víc dobrodruhů než trollové. Kdo sem jde, ať si vezme protijed.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Stranglethorn Vale"] = [[• Říše Gurubashi – trollové Gurubashi kdysi ovládali jih kontinentu. Když jejich moc slábla, vyvolali krvavého boha Hakkara Soulflayera. Hakkar začal vraždit vlastní uctívače, a tak ho trollové zahnali. Říše se rozpadla na menší kmeny.
@@ -1008,10 +1069,25 @@ WoWpoCesku_Lore["Badlands"] = {
     title = "Badlands",
     tag = "Rudá vyprahlá poušť, kde draci odpočívají a trpaslíci hledají svou minulost.",
     ch = {
-        { "Spálená země", [[Badlands jsou rudá, rozpraskaná poušť jižně od Loch Modan. Žádné stromy, žádná tráva, jen skály, kaňony a kosti obřích tvorů. Kdysi tu byla úrodná krajina, ale válka a ohnivá magie ji spálily.]] },
-        { "Uldaman", [[Na severu leží Uldaman, prastarý trezor titánů. Trpaslíci z Explorers' League tu kopou a hledají důkazy o tom, odkud pocházejí. A Dark Ironové sem posílají své lidi, aby je předběhli.]] },
-        { "Kdo tu žije", [[Horda má Kargath na západě – orkskou pevnost, která hlídá kraj před klanem Blackrock. Aliance drží jen malé tábory badatelů. Goblini kopou v dolech a draci z Lethlor Ravine se slunci na skalách.]] },
-        { "Hrozby", [[Dark Ironové, ogrové, troggové, kojoti, supi, buvoli a draci. Na jihu se Badlands potkávají se Searing Gorge, odkud se valí oheň a láva.]] },
+        { "Spálená země", [[Badlands jsou rudá, rozpraskaná poušť jižně od Loch Modan. Žádné stromy, žádná tráva, jen skály, kaňony a kosti obřích tvorů. Na severu leží Uldaman, na západě orkská pevnost Kargath a na jihu se kraj stýká se Searing Gorge.]] },
+
+        { "Údolí, které shořelo", [[Kdysi byly Badlands zeleným údolím plným přírodního bohatství. Pak, asi tři sta let před První válkou, přišel Ragnaros. Když ho Dark Ironský čaroděj Thaurissan vyvolal, výbuch spálil celý kraj a proměnil ho v pustou, vyprahlou pustinu, jakou je dnes.]] },
+
+        { "Uldaman", [[V severním kaňonu leží Uldaman – obrovské prastaré město titánů. Byli v něm stvořeni earthen, kamenné bytosti, ze kterých podle pozdějších objevů pocházejí trpaslíci.
+
+Pak Uldaman zaplavili primitivní troggové z kmene Stonevault, vyhnali odtud trpaslíky a město si vzali. Explorers' League sem posílá badatele, kteří hledají artefakty titánů, a Dark Ironové jim jdou po krku.]] },
+
+        { "Draci", [[V Badlands má silnou přítomnost černý dračí rod Deathwinga, hlavně v rokli Lethlor Ravine a v Dustbowl. Žijí tu ale i rudí draci, spojenci dračí královny Alexstraszy – a oba rody se navzájem nesnášejí.]] },
+
+        { "Kargath", [[Horda si v Badlands postavila Kargath, svou hlavní základnu v Khaz Modanu. Spravuje ji klan Shattered Hand a pevnost nese jméno jeho slavného náčelníka Kargatha Bladefista. Odsud vyrážejí výpravy proti nepřátelům Hordy v Khaz Modanu.]] },
+
+        { "Hrozby", [[Dark Ironové sídlí v pevnosti Angor Fortress a ogrové obsadili tábory Camp Boff, Camp Cagg, Camp Kosh a Camp Wurg. V kraji jsou i badatelské výkopy jako Hammertoe's Digsite a místo Agmond's End.
+
+Po pustině se toulají kojoti, supi, buvoli a draci – a na jihu se valí oheň ze Searing Gorge.]] },
+
+        { "Zajímavosti", [[Badlands jsou kraj, kde se dá najít odpověď na otázku, kterou si trpaslíci kladou po staletí: odkud jsme přišli? Odpověď leží v Uldamanu.
+
+Kdo se v Lethlor Ravine podívá na obří dračí kostru, pochopí, proč se tomuto kraji říká Badlands.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Badlands"] = [[• Disky Norgannona – v Uldamanu leží disky titánů, které prozrazují, že titáni stvořili earthen (kamenné bytosti) a že trpaslíci jsou jejich potomci. Prokletí masa (Curse of Flesh) z nich udělalo smrtelné tvory.
@@ -1404,10 +1480,31 @@ WoWpoCesku_Lore["Desolace"] = {
     title = "Desolace",
     tag = "Šedá pustina kentaurů, démonů a kostí – kraj, který se zdá mrtvý, ale není.",
     ch = {
-        { "Pustina", [[Desolace je šedá, vyprahlá pustina na západě Kalimdoru. Nebe je zatažené, země prasklá a po krajině leží obří kosti. Není tu nic krásného – ale je tu spousta příběhů.]] },
-        { "Kentauři", [[Kentauři z pěti klanů (Gelkis, Magram, Kolkar, Galak a Maraudine) tu žijí a válčí mezi sebou. Pro hrdiny je to šance – pomoct jednomu klanu proti druhému.]] },
-        { "Kdo tu žije", [[Aliance drží Nijel's Point na severu, Horda Shadowprey Village na pobřeží. Kodo Graveyard uprostřed je hřbitovem obřích kodo.]] },
-        { "Hrozby", [[Kentauři, démoni v Mannoroc Coven, Burning Blade v Thunder Axe Fortress, satyrové, nagové a obří štíři.]] },
+        { "Pustina", [[Desolace je šedá, vyprahlá pustina na západě Kalimdoru, mezi horami Stonetalon a pralesem Feralas. Nebe je zatažené, země prasklá a po krajině leží obří kosti. Není tu nic krásného – ale je tu spousta příběhů.]] },
+
+        { "Stav Matky Země", [[Kdysi se tomuto kraji říkalo Mashan'she – v jazyce taurenů „Stav Matky Země“. Asi 1100 let před otevřením Temného portálu to byla úrodná travnatá pláň, kde žili kočovní taurenští šamani.
+
+Šamani se tu pokusili probudit bytost, o které věřili, že je Matkou Zemí. Probudili ale princeznu Theradras, obrovskou elementálku země a dceru Therazane, Matky kamene. Theradras potřebovala sílu, a tak ji vysála z okolní krajiny. Z úrodné pláně se stala pustina – Desolace.]] },
+
+        { "Zrození kentaurů", [[Katastrofa přilákala Zaetara, syna lesního poloboha Cenaria. Měl Theradras uvěznit, ale místo toho se do ní zamiloval. Z jejich zakázaného svazku se zrodili kentauři – a ti krutě zavraždili vlastního otce.
+
+Kentauři se pak rozšířili po celém Kalimdoru a vyhnali taureny z jejich zemí. Theradras pohřbila Zaetara v jeskyních Maraudon a dodnes tam truchlí.]] },
+
+        { "Pět kmenů", [[Desolace dodnes ovládá pět kentauřích kmenů. Gelkis žijí v roklích na jihu, Magram u brakických jezírek uprostřed kraje, Kolkar v horách na východě a Maraudine v kaňonech na západě, kde hlídají cestu do Maraudonu. Pátým kmenem jsou Galak.
+
+Gelkis a Magram spolu vedou válku a hrdinové si mohou vybrat stranu – ale reputace u jednoho kmene znamená nepřátelství druhého.]] },
+
+        { "Kdo tu žije", [[Horda má na pobřeží Shadowprey Village, kterou založili trollové Darkspear, a tauren tábor Ghost Walker Post. Aliance drží Nijel's Point na severu mezi ruinami nočních elfů. Elfové mají i neutrální tábor Ethel Rethor.
+
+Po silnicích Desolace se potuluje Rexxar, napůl ork a napůl ogr, se svou medvědicí Mishou – hrdina z Warcraft III.]] },
+
+        { "Hrozby", [[Kromě kentaurů tu číhají démoni v pevnosti Mannoroc Coven na jihu, kultisté Burning Blade v Thunder Axe Fortress, satyrové v ruinách Sargeron a nagové na ostrově Ranazjar Isle.
+
+Uprostřed kraje leží Kodo Graveyard – hřbitov obřích kodo plný kostí, kam umírající kodo přicházejí naposledy.]] },
+
+        { "Zajímavosti", [[Desolace je kraj, kde se zrodila jedna z nejstarších nenávistí Kalimdoru – mezi kentaury a taureny. A je to kraj, který vznikl omylem: šamani chtěli probudit Matku Zemi a probudili něco úplně jiného.
+
+Kdo sestoupí do Maraudonu, uvidí, jak vypadá žal princezny země – a co z něj vyrostlo.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Desolace"] = [[• Zrození kentaurů – Zaetar, syn Cenaria, se zamiloval do Theradras, princezny živlu země. Jejich děti byly kentauři – a zabili svého otce. Theradras pohřbila Zaetara v Maraudonu a dodnes tam truchlí.
@@ -1431,10 +1528,29 @@ WoWpoCesku_Lore["Dustwallow Marsh"] = {
     title = "Dustwallow Marsh",
     tag = "Bažina mezi Theramore a Onyxiiným doupětem, kde se Jaina snaží udržet mír.",
     ch = {
-        { "Bažiny", [[Dustwallow Marsh jsou tmavé bažiny na východním pobřeží Kalimdoru. Mlha, kroutící se kořeny, krokodýli a žáby. Na pobřeží stojí lidské město Theramore.]] },
-        { "Theramore", [[Theramore založila Jaina Proudmoore po Třetí válce. Je to přístav, kde lidé a orkové žijí v míru – nebo aspoň v příměří. Jaina tu vládne jako lady a snaží se udržet mír s Thrallem.]] },
-        { "Kdo tu žije", [[Horda má Brackenwall Village, kde velí ogr Overlord Mok'Morokk. V bažinách žijí murlokové, ještěři, ogři a draci. Na jihu leží Onyxia's Lair, doupě dračice Onyxie.]] },
-        { "Hrozby", [[Draci a drakonidi, ogři z Stonemaul, murlokové, krokodýli a pavouci. A pak je tu Witch Hill s čarodějnicemi.]] },
+        { "Bažiny", [[Dustwallow Marsh jsou tmavé bažiny na východním pobřeží Kalimdoru, jižně od Barrens. Mlha, kroutící se kořeny, krokodýli a žáby. Na ostrově u pobřeží stojí lidské město Theramore a na jihu, v Wyrmbogu, leží doupě černé dračice Onyxie.]] },
+
+        { "Theramore", [[Po bitvě u hory Hyjal založila Jaina Proudmoore na ostrově u pobřeží městský stát Theramore. Rychle se rozrostl a jeho opevnění sahalo až do bažin – stal se velkou baštou Aliance na Kalimdoru.
+
+Jaina tu vládne jako lady a snaží se udržet mír s Thrallem. V Theramore žijí i arcimág Tervosh a kapitán stráží Garran Vimes.]] },
+
+        { "Admirál Proudmoore", [[Mír byl křehký. Jainin otec, admirál Daelin Proudmoore z Kul Tiras, připlul s flotilou a zaútočil na Echo Isles, kde žili trollové Darkspear. Konflikt přerostl ve velkou válku mezi Kul Tiras a Hordou.
+
+Admirál nakonec zahynul. Jaina se postavila na stranu míru, ale vztahy mezi Aliancí a Hordou se už nikdy úplně nezahojily.]] },
+
+        { "Brackenwall Village", [[Hlavní pevností Hordy v bažinách je Brackenwall Village. Vládne jí Overlord Mok'Morokk a žijí v ní ogrové z kmene Stonemaul. Rexxar, napůl ork a napůl ogr, je kdysi získal pro Hordu poté, co porazil jejich krutého vůdce Kor'galla.]] },
+
+        { "Místa v bažinách", [[Na severu stojí Witch Hill a opuštěné sídlo Swamplight Manor, které terorizují nemrtví. Na cestě z Barrens leží vyhořelý hostinec Shady Rest Inn, kde se kdysi odehrávaly tajné schůzky mezi Aliancí a Hordou.
+
+U pobřeží leží Alcaz Island, ostrov s vězením. Ve WoW Forever tu má vzniknout nový dungeon Alcaz Prison.]] },
+
+        { "Onyxia", [[Na jihu kraje, v bažinách Wyrmbog, má doupě Onyxia, dcera Deathwinga. Ve Stormwindu se vydává za lady Katranu Prestor a manipuluje královským dvorem. Tady, ve svém doupěti, na hrdiny čeká ve své pravé podobě.
+
+V Wyrmbogu se to hemží černými draky a drakonidy, kteří jí slouží.]] },
+
+        { "Zajímavosti", [[Dustwallow Marsh je kraj, kde se snoubí naděje na mír a hrozba války. Theramore je důkazem, že lidé a orkové mohou žít vedle sebe – ale jen dokud se o to obě strany snaží.
+
+Kdo zná budoucnost, ví, že Theramore jednoho dne čeká strašný osud.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Dustwallow Marsh"] = [[• Cycle of Hatred – kniha o tom, jak se mezi Theramore a Durotarem udržuje křehký mír. Kult Burning Blade se ho snaží zničit.
