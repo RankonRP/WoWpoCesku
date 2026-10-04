@@ -1,4 +1,4 @@
--- WoWpoCesku: příběhy oblastí (lore)
+-- WoWpoCesku: Kronika Azerothu – příběhy oblastí (lore)
 --  * při vstupu do oblasti nahoře krátce název + úvodní věta (klik = kniha)
 --  * kniha s celým příběhem v kapitolách – vždy jen pro oblast, kde hráč je
 --  * /czq lore = kniha pro oblast, kde jsi; /czq lore vyp|zap = titulky při vstupu
@@ -50,60 +50,136 @@ local function fontString(parent, size, r, g, b, flags)
     return fs
 end
 
-local function fillBook(key)
+-- barvy kroniky: inkoust na pergamenu
+local INK   = { 0.20, 0.13, 0.07 }
+local RED   = { 0.50, 0.12, 0.05 }
+local SEPIA = { 0.42, 0.30, 0.18 }
+local PARCHMENT = "Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga"
+local W = 520   -- šířka textu a ilustrace
+
+-- ozdobný předěl: linka – kosočtverec – linka
+local function ornament(parent, width)
+    local f = CreateFrame("Frame", nil, parent)
+    f:SetSize(width, 12)
+    local d = f:CreateTexture(nil, "ARTWORK")
+    d:SetColorTexture(RED[1], RED[2], RED[3], 0.85)
+    d:SetSize(7, 7)
+    d:SetPoint("CENTER")
+    d:SetRotation(math.rad(45))
+    for _, side in ipairs({ -1, 1 }) do
+        local l = f:CreateTexture(nil, "ARTWORK")
+        l:SetColorTexture(SEPIA[1], SEPIA[2], SEPIA[3], 0.7)
+        l:SetSize(width / 2 - 14, 1)
+        l:SetPoint(side < 0 and "RIGHT" or "LEFT", d, "CENTER", side * 10, 0)
+    end
+    return f
+end
+
+-- ilustrace: mapa oblasti ze hry v sépiovém tónu (jako stará kreslená mapa)
+local function drawIllustration(mapID)
+    local ill = book.ill
+    for _, t in ipairs(ill.tiles) do t:Hide() end
+    local layers = mapID and C_Map.GetMapArtLayers and C_Map.GetMapArtLayers(mapID)
+    local layer = layers and layers[1]
+    local textures = layer and C_Map.GetMapArtLayerTextures and C_Map.GetMapArtLayerTextures(mapID, 1)
+    if not layer or not textures or not layer.layerWidth or layer.layerWidth == 0 then
+        ill:Hide()
+        return false
+    end
+    ill:Show()
+    local k = W / layer.layerWidth
+    local H = layer.layerHeight * k
+    -- výřez ze středu mapy
+    local top = math.max(0, (H - ill:GetHeight()) / 2)
+    local cols = math.ceil(layer.layerWidth / layer.tileWidth)
+    for i, fileID in ipairs(textures) do
+        local t = ill.tiles[i]
+        if not t then
+            t = ill.clip:CreateTexture(nil, "ARTWORK")
+            ill.tiles[i] = t
+        end
+        local col, row = (i - 1) % cols, math.floor((i - 1) / cols)
+        t:SetTexture(fileID)
+        t:SetDesaturated(true)
+        t:SetVertexColor(1, 0.86, 0.62)
+        t:SetSize(layer.tileWidth * k, layer.tileHeight * k)
+        t:ClearAllPoints()
+        t:SetPoint("TOPLEFT", ill.clip, "TOPLEFT", col * layer.tileWidth * k, -row * layer.tileHeight * k + top)
+        t:Show()
+    end
+    return true
+end
+
+local function fillBook(key, mapID)
     bookKey = key
     local L = WoWpoCesku_Lore[key]
     book.title:SetText(L.title)
     book.tag:SetText(L.tag)
-    local y = 0
-    local w = book.content:GetWidth()
-    -- kapitoly + na konec „Tajemství a kam se podívat“
+    local hasArt = drawIllustration(mapID)
+    book.sf:ClearAllPoints()
+    book.sf:SetPoint("TOPLEFT", hasArt and book.ill or book.tag, "BOTTOMLEFT", 0, hasArt and -14 or -16)
+    book.sf:SetPoint("BOTTOMRIGHT", -34, 46)
+
+    -- kapitoly + „Z knih a legend“ + „Tajemství a kam se podívat“
     local chapters = {}
     for _, ch in ipairs(L.ch) do chapters[#chapters + 1] = ch end
     local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
     if books then chapters[#chapters + 1] = { "Z knih a legend (spoilery)", books } end
-    local secrets =WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
+    local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
     if secrets then chapters[#chapters + 1] = { "Tajemství a kam se podívat", secrets } end
-    L = { ch = chapters }
-    for i, ch in ipairs(L.ch) do
-        local h = book.heads[i]
+
+    local y = 0
+    for i, ch in ipairs(chapters) do
+        local h, p, o = book.heads[i], book.paras[i], book.orns[i]
         if not h then
-            h = fontString(book.content, 15, GOLD[1], GOLD[2], GOLD[3])
-            book.heads[i] = h
+            h = fontString(book.content, 16, RED[1], RED[2], RED[3])
+            h:SetJustifyH("CENTER")
+            p = fontString(book.content, 13.5, INK[1], INK[2], INK[3])
+            p:SetSpacing(4)
+            o = ornament(book.content, 160)
+            book.heads[i], book.paras[i], book.orns[i] = h, p, o
         end
-        local p = book.paras[i]
-        if not p then
-            p = fontString(book.content, 13, 0.92, 0.9, 0.85)
-            p:SetSpacing(3)
-            book.paras[i] = p
+        h:SetWidth(W - 20)
+        p:SetWidth(W - 20)
+        if i > 1 then
+            o:ClearAllPoints()
+            o:SetPoint("TOP", book.content, "TOPLEFT", (W - 20) / 2, -y)
+            o:Show()
+            y = y + 22
+        else
+            o:Hide()
         end
-        h:SetWidth(w)
-        p:SetWidth(w)
         h:ClearAllPoints()
         h:SetPoint("TOPLEFT", 0, -y)
         h:SetText(ch[1])
         h:Show()
-        y = y + h:GetStringHeight() + 6
+        y = y + h:GetStringHeight() + 8
         p:ClearAllPoints()
         p:SetPoint("TOPLEFT", 0, -y)
         p:SetText(ch[2])
         p:Show()
-        y = y + p:GetStringHeight() + 18
+        y = y + p:GetStringHeight() + 16
     end
-    for i = #L.ch + 1, #book.heads do book.heads[i]:Hide(); book.paras[i]:Hide() end
+    for i = #chapters + 1, #book.heads do
+        book.heads[i]:Hide(); book.paras[i]:Hide(); book.orns[i]:Hide()
+    end
     book.content:SetHeight(math.max(1, y))
     book.sf:SetVerticalScroll(0)
 end
 
 local function createBook()
+    -- kožená vazba
     book = CreateFrame("Frame", "WoWpoCeskuLore", UIParent, "BackdropTemplate")
-    book:SetSize(560, 600)
+    book:SetSize(600, 700)
     book:SetPoint("CENTER")
     book:SetFrameStrata("DIALOG")
     book:SetToplevel(true)
-    book:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
-    book:SetBackdropColor(0.06, 0.045, 0.03, 0.97)
-    book:SetBackdropBorderColor(0.75, 0.55, 0.25, 1)
+    book:SetBackdrop({
+        bgFile = "Interface\\Buttons\\WHITE8x8",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 },
+    })
+    book:SetBackdropColor(0.23, 0.13, 0.07, 1)
     book:EnableMouse(true)
     book:SetMovable(true)
     book:SetClampedToScreen(true)
@@ -113,36 +189,74 @@ local function createBook()
     book:Hide()
     tinsert(UISpecialFrames, "WoWpoCeskuLore")
 
-    book.title = fontString(book, 22, GOLD[1], GOLD[2], GOLD[3])
-    book.title:SetPoint("TOPLEFT", 22, -18)
-    book.tag = fontString(book, 13, 0.75, 0.72, 0.65)
-    book.tag:SetPoint("TOPLEFT", book.title, "BOTTOMLEFT", 0, -6)
-    book.tag:SetWidth(510)
-    local line = book:CreateTexture(nil, "ARTWORK")
-    line:SetColorTexture(0.75, 0.55, 0.25, 0.6)
-    line:SetPoint("TOPLEFT", 20, -80)
-    line:SetPoint("TOPRIGHT", -20, -80)
-    line:SetHeight(1)
+    -- stránka z pergamenu
+    local page = book:CreateTexture(nil, "BACKGROUND", nil, 1)
+    page:SetPoint("TOPLEFT", 16, -16)
+    page:SetPoint("BOTTOMRIGHT", -16, 16)
+    page:SetColorTexture(0.91, 0.84, 0.66, 1)   -- kdyby textura chyběla (před restartem hry)
+    local tex = book:CreateTexture(nil, "BACKGROUND", nil, 2)
+    tex:SetAllPoints(page)
+    tex:SetTexture(PARCHMENT)
+
+    -- záhlaví: KRONIKA AZEROTHU
+    local head = fontString(book, 12, RED[1], RED[2], RED[3])
+    head:SetPoint("TOP", 0, -30)
+    head:SetText("K R O N I K A   A Z E R O T H U")
+    local o = ornament(book, 300)
+    o:SetPoint("TOP", head, "BOTTOM", 0, -4)
+
+    book.title = fontString(book, 28, INK[1], INK[2], INK[3])
+    book.title:SetPoint("TOP", o, "BOTTOM", 0, -6)
+    book.title:SetJustifyH("CENTER")
+    book.tag = fontString(book, 13, SEPIA[1], SEPIA[2], SEPIA[3])
+    book.tag:SetPoint("TOP", book.title, "BOTTOM", 0, -6)
+    book.tag:SetWidth(W)
+    book.tag:SetJustifyH("CENTER")
+
+    -- ilustrace s rámečkem
+    local ill = CreateFrame("Frame", nil, book, "BackdropTemplate")
+    ill:SetSize(W, 160)
+    ill:SetPoint("TOP", book.tag, "BOTTOM", 0, -12)
+    ill:SetBackdrop({ edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
+    ill:SetBackdropBorderColor(SEPIA[1], SEPIA[2], SEPIA[3], 0.9)
+    ill.clip = CreateFrame("Frame", nil, ill)
+    ill.clip:SetPoint("TOPLEFT", 3, -3)
+    ill.clip:SetPoint("BOTTOMRIGHT", -3, 3)
+    ill.clip:SetClipsChildren(true)
+    ill.tiles = {}
+    book.ill = ill
+
     local close = CreateFrame("Button", nil, book, "UIPanelCloseButton")
-    close:SetPoint("TOPRIGHT", 2, 2)
+    close:SetPoint("TOPRIGHT", -8, -8)
 
     book.sf = CreateFrame("ScrollFrame", nil, book, "UIPanelScrollFrameTemplate")
-    book.sf:SetPoint("TOPLEFT", 22, -92)
-    book.sf:SetPoint("BOTTOMRIGHT", -40, 50)
     book.content = CreateFrame("Frame", nil, book.sf)
-    book.content:SetSize(490, 10)
+    book.content:SetSize(W - 20, 10)
     book.sf:SetScrollChild(book.content)
-    book.heads, book.paras = {}, {}
+    book.heads, book.paras, book.orns = {}, {}, {}
 
-    local hint = fontString(book, 11, 0.6, 0.6, 0.6)
-    hint:SetPoint("BOTTOMRIGHT", -22, 19)
-    hint:SetJustifyH("RIGHT")
-    hint:SetText("Příběh oblasti, kde právě jsi – WoWpoČesku")
+    local foot = ornament(book, 120)
+    foot:SetPoint("BOTTOM", 0, 30)
+    local hint = fontString(book, 10, SEPIA[1], SEPIA[2], SEPIA[3])
+    hint:SetPoint("TOP", foot, "BOTTOM", 0, -2)
+    hint:SetText("sepsáno pro WoWpoČesku")
 end
 
 -- kniha ukazuje vždy jen oblast, kde hráč právě je
+local function currentKeyAndMap()
+    local id = C_Map and C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player")
+    for _ = 1, 5 do
+        local info = id and C_Map.GetMapInfo(id)
+        if not info then break end
+        local key = resolve(info.name)
+        if key then return key, id end
+        id = info.parentMapID
+    end
+    return resolve(currentZone()), nil
+end
+
 function WoWpoCesku_ShowLore()
-    local key = resolve(currentZone())
+    local key, mapID = currentKeyAndMap()
     if not key then
         if book then book:Hide() end
         say("pro tuhle oblast zatim pribeh nemam (" .. tostring(currentZone()) .. ").")
@@ -151,7 +265,7 @@ function WoWpoCesku_ShowLore()
     if not book then createBook() end
     book:Show()
     book:Raise()
-    fillBook(key)
+    fillBook(key, mapID)
 end
 
 -------------------------------------------------------------------------------
@@ -175,7 +289,7 @@ local function createToast()
     toast.hint = fontString(toast, 11, 0.75, 0.75, 0.75, "OUTLINE")
     toast.hint:SetPoint("TOP", toast.tag, "BOTTOM", 0, -6)
     toast.hint:SetJustifyH("CENTER")
-    toast.hint:SetText("Klikni pro celý příběh oblasti  (/czq lore)")
+    toast.hint:SetText("Klikni a otevře se Kronika Azerothu  (/czq lore)")
     toast:SetAlpha(0)
     toast:Hide()
     local anim = toast:CreateAnimationGroup()
@@ -217,7 +331,7 @@ local function onZone()
     toast.anim:Stop()
     toast.anim:Play()
     -- kdo titulky nestihne, najde připomínku v chatu
-    say("pribeh oblasti " .. key .. " - otevres ho Ctrl+klikem na ikonu u minimapy nebo /czq lore")
+    say("pribeh oblasti " .. key .. " je v Kronice Azerothu - otevres ji Ctrl+klikem na ikonu u minimapy nebo /czq lore")
 end
 
 -- příkaz /czq lore …
