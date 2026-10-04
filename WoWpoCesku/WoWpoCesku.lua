@@ -736,9 +736,9 @@ local function refreshOptions()
     for _, w in ipairs(optionWidgets) do w:Refresh() end
 end
 
-local function addCheck(y, label, note, get, set)
+local function addCheck(y, label, note, get, set, x)
     local cb = CreateFrame("CheckButton", nil, options, "UICheckButtonTemplate")
-    cb:SetPoint("TOPLEFT", 16, y)
+    cb:SetPoint("TOPLEFT", x or 16, y)
     local text = options:CreateFontString(nil, "ARTWORK")
     text:SetFontObject(labelFont)
     text:SetPoint("LEFT", cb, "RIGHT", 4, 1)
@@ -781,6 +781,22 @@ local function buildOptions()
     addCheck(-290, "Ikona u minimapy", nil,
         function() return WoWpoCeskuSettings.minimap ~= false end,
         function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
+
+    -- Kronika Azerothu (pravý sloupec)
+    local kronHead = options:CreateFontString(nil, "ARTWORK")
+    kronHead:SetFontObject(labelFont)
+    kronHead:SetTextColor(1, 0.82, 0)
+    kronHead:SetPoint("TOPLEFT", 440, -54)
+    kronHead:SetText("Kronika Azerothu:")
+    addCheck(-75, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: Ctrl+klik na ikonu, /czq lore",
+        function() return WoWpoCeskuSettings.loreToast ~= false end,
+        function(on) WoWpoCeskuSettings.loreToast = on end, 436)
+    addCheck(-120, "Upozornění na vzácné moby", "Zvuk + okno, zapíše se kde a kdy (/czq vzacni)",
+        function() return WoWpoCeskuSettings.rareAlert ~= false end,
+        function(on) WoWpoCeskuSettings.rareAlert = on end, 436)
+    addCheck(-165, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
+        function() return WoWpoCeskuSettings.npcNotes ~= false end,
+        function(on) WoWpoCeskuSettings.npcNotes = on end, 436)
 
     -- Rozhraní hry česky – části (Lokalizace.lua), každou jde zapnout zvlášť
     local lokHead = options:CreateFontString(nil, "ARTWORK")
@@ -1045,6 +1061,8 @@ SlashCmdList.CZQUESTS = function(msg)
         scanCommand(arg)
     elseif cmd == "lore" or cmd == "pribeh" then
         WoWpoCesku_LoreCommand(arg)
+    elseif cmd == "vzacni" or cmd == "rare" then
+        if WoWpoCesku_RareCommand then WoWpoCesku_RareCommand(arg) end
     elseif cmd == "vypis" then
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0

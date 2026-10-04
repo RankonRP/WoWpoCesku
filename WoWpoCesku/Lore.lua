@@ -9,7 +9,16 @@ local GOLD = { 1, 0.82, 0.35 }
 local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
 
 -- název oblasti, kde hráč je (anglicky, jak ho dává hra)
+-- v dungeonu: název instance (Deadmines, Ragefire Chasm…)
+local function instanceName()
+    if not (IsInInstance and IsInInstance()) then return nil end
+    local name = GetInstanceInfo and GetInstanceInfo()
+    if name and (WoWpoCesku_Lore[name] or WoWpoCesku_LoreAlias[name]) then return name end
+end
+
 local function currentZone()
+    local inst = instanceName()
+    if inst then return inst end
     local id = C_Map and C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player")
     -- vyšší úroveň mapy, dokud nenarazíme na zónu (podoblasti a města mají vlastní mapu)
     for _ = 1, 4 do
@@ -36,6 +45,12 @@ local function resolve(name)
     end
 end
 
+
+-- klíč kroniky pro oblast, kde hráč je (používá Kronika.lua pro deník objevů)
+function WoWpoCesku_CurrentZoneKey()
+    local z = currentZone()
+    return resolve(z) or z
+end
 
 -------------------------------------------------------------------------------
 -- Kniha
@@ -127,6 +142,8 @@ local function fillBook(key, mapID)
     if books then chapters[#chapters + 1] = { "Z knih a legend (spoilery)", books } end
     local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
     if secrets then chapters[#chapters + 1] = { "Tajemství a kam se podívat", secrets } end
+    local objevy = WoWpoCesku_ObjevyChapter and WoWpoCesku_ObjevyChapter(key)
+    if objevy then chapters[#chapters + 1] = objevy end
 
     local y = 0
     for i, ch in ipairs(chapters) do
@@ -244,6 +261,10 @@ end
 
 -- kniha ukazuje vždy jen oblast, kde hráč právě je
 local function currentKeyAndMap()
+    local inst = instanceName()
+    if inst then
+        return resolve(inst), C_Map and C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player")
+    end
     local id = C_Map and C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player")
     for _ = 1, 5 do
         local info = id and C_Map.GetMapInfo(id)
