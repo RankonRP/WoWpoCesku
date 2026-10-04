@@ -95,10 +95,8 @@ end
 -- tlačítko „Zaměřit“ (jako NPCScan): bezpečné tlačítko s makrem /targetexact – jen mimo boj
 local targetBtn
 local function setupTargetButton(name)
-    if InCombatLockdown() then
-        if targetBtn then targetBtn:Hide() end
-        return false
-    end
+    -- v boji se bezpečné tlačítko nesmí měnit ani schovat (hra by to zablokovala)
+    if InCombatLockdown() then return false end
     if not targetBtn then
         targetBtn = CreateFrame("Button", "WoWpoCeskuRareTarget", UIParent, "SecureActionButtonTemplate")
         targetBtn:SetFrameStrata("HIGH")
@@ -374,7 +372,7 @@ local GRAY = "|cff6b4d2e"
 -------------------------------------------------------------------------------
 -- Dungeony: bossové v Bestiáři, zabití se zapisují do WoWpoCeskuSeen.bosses[dungeon][boss]
 -------------------------------------------------------------------------------
-local function normBoss(n) return (n or ""):lower():gsub("^the ", "") end
+local function normBoss(n) return ((n or ""):lower():gsub("^the ", "")) end
 
 local function markBoss(name)
     if not name or secret(name) then return end
@@ -555,6 +553,7 @@ local function onUnitTooltip(tt)
     if not text then return end
     if not note then
         note = parchmentFrame("WoWpoCeskuNpcNote", GameTooltip, "TOOLTIP")
+        note:SetClampedToScreen(true)
         GameTooltip:HookScript("OnHide", function() note:Hide() end)
     end
     note.title:SetText(title)

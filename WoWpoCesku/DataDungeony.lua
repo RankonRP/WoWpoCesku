@@ -11,7 +11,7 @@ D["Ragefire Chasm"] = {
     },
 }
 WoWpoCesku_LoreTajemstvi["Ragefire Chasm"] = [[• Krátký dungeon, ideální na první pokus o skupinu.
-• Questy dostaneš v Orgrimmaru (mimo jiné od Rahauro v Thunder Bluff a od lidí v Cleft of Shadow).
+• Questy dostaneš v Orgrimmaru (Cleft of Shadow) a v Thunder Bluff (Rahauro).
 • Pozor na lávu – nedá se v ní stát.]]
 
 D["Wailing Caverns"] = {
@@ -69,7 +69,7 @@ D["Gnomeregan"] = {
         { "Příběh", [[Gnomeregan byl technickým zázrakem, dokud ho nezaplavili troggové z hlubin. Na radu Sicca Thermaplugga vypustili gnómové do města jedovaté záření – a zabili tím i velkou část vlastního lidu. Thermaplugg se pak prohlásil králem toho, co zbylo.]] },
     },
 }
-WoWpoCesku_LoreTajemstvi["Gnomeregan"] = [[• Do Gnomereganu vede i zadní vchod výtahem (pro Hordu z Dun Morogh).
+WoWpoCesku_LoreTajemstvi["Gnomeregan"] = [[• Do Gnomereganu vede i zadní vchod výtahem, kterým se dostane i Horda.
 • Děrné štítky (Punchcards) – sbírej je a vlož do Matrix Punchograph 3005 pro sérii questů.
 • Pozor na radiaci (Irradiated).]]
 
@@ -156,7 +156,7 @@ D["Blackrock Spire"] = {
     },
 }
 WoWpoCesku_LoreTajemstvi["Blackrock Spire"] = [[• Do horní části potřebuješ pečeť Seal of Ascension.
-• Drakkisathův znak je potřeba pro vstup do Blackwing Lair.]]
+• Pro vstup do Blackwing Lair musíš porazit Drakkisatha a dotknout se Orb of Command (quest Blackhand's Command).]]
 
 D["Dire Maul"] = {
     title = "Dire Maul", tag = "Ruiny elfího města Eldre'Thalas ve Feralas (levely 55–60).",
@@ -213,13 +213,13 @@ D["Blackwing Lair"] = {
         { "Příběh", [[Nefarian, syn Deathwinga, tu vytváří chromatické draky ze všech dračích rodů. Jeho zajatcem je i rudý drak Vaelastrasz, kterého Nefarian zkazil.]] },
     },
 }
-WoWpoCesku_LoreTajemstvi["Blackwing Lair"] = [[• Vaelastrasz vám na začátku dá buff, který vás pomalu zabíjí – smutný souboj s dobrým drakem.
+WoWpoCesku_LoreTajemstvi["Blackwing Lair"] = [[• Vaelastrasz vám na začátku dá Essence of the Red a během boje sesílá na hráče Burning Adrenaline, která je po chvíli zabije. Smutný souboj s dobrým drakem, kterého Nefarian donutil bojovat.
 • Na Nefariana potřebujete Onyxia Scale Cloak proti jeho ohni.]]
 
 D["Zul'Gurub"] = {
     title = "Zul'Gurub", tag = "Hlavní město trollů Gurubashi ve Stranglethorn – raid pro 20 hráčů.",
     ch = {
-        { "Příběh", [[Kněží Atal'ai vyvolali krvavého boha Hakkara. Jeho velekněží, kteří získali sílu zvířecích bohů, mu slouží v srdci džungle.]] },
+        { "Příběh", [[Kněží Hakkara vyvolali krvavého boha zpět na Azeroth. Jeho velekněží, kteří získali sílu zvířecích bohů, mu slouží v srdci džungle.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Zul'Gurub"] = [[• Z Mandokira padá Swift Razzashi Raptor a z Thekala Swift Zulian Tiger – vzácné mounty.

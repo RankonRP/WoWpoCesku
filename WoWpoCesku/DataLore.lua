@@ -16,7 +16,7 @@ Ještě nedávno ale taureni žádný pevný domov neměl. Kmeny putovaly za st�
 Cairne pak sjednotil rozptýlené kmeny a dal jim to, co nikdy neměli: domov, který není třeba opouštět. Moudrý a klidný stařec je dnes nejváženějším hlasem svého lidu.]] },
         { "Thunder Bluff a vesnice", [[Nad pláněmi se zvedají strmé stolové hory, na jejichž vrcholcích taureni postavili Thunder Bluff. Město ze stanů, totemů a dřevěných mostů nad propastí je přístupné jen výtahy – ideální obrana proti kentaurům. Na jednotlivých plošinách sídlí šamani, druidové i obchodníci.
 
-Dole v pláních leží Bloodhoof Village, srdce venkovského Mulgore, kde se taureni starají o stáda a pole. Mladí taureni začínají na Red Cloud Mesa v táboře Camp Narache, kde podstupují první zkoušky dospělosti – a jednou z nich je i Rite of Vision, rituál, při němž se mladý tauren pokouší zahlédnout svou cestu.]] },
+Dole v pláních leží Bloodhoof Village, srdce venkovského Mulgore, kde se taureni starají o stáda a pole. Mladí taureni začínají na Red Cloud Mesa v táboře Camp Narache, kde podstupují první zkoušky dospělosti. V Bloodhoof Village pak na ně čeká Rite of Vision, rituál, při němž se mladý tauren pokouší zahlédnout svou cestu.]] },
         { "Hrozby", [[I na posvátné zemi je dost nepřátel. Goblini z Venture Company sem přišli kácet lesy a dolovat a o posvátnost země se nestarají. Gnollové z kmene Palemane přepadávají poutníky, harpyje z klanu Windfury hnízdí na skalách a ohrožují každého, kdo se přiblíží.
 
 Studny, z nichž pije zvěř i lidé, občas otráví zlé síly – očišťování studny Winterhoof patří mezi první úkoly, které mladí taureni dostávají. A uvnitř samotného lidu doutná nesvár: klan Grimtotem pod vedením Magathy nesouhlasí s Cairnovým spojenectvím s Hordou a jeho hlas sílí.]] },
@@ -39,7 +39,7 @@ Tam bojoval po boku taurenů i trollů a nakonec se svým lidem usadil právě t
         { "Kdo tu žije", [[Kromě orků tu žijí trollové z kmene Darkspear pod vedením Vol'jina. Thrall jim kdysi pomohl uniknout ze zkázy a od té doby jsou věrnými spojenci Hordy. Jejich vesnice Sen'jin Village leží na jižním pobřeží; jejich původní domov, Echo Isles, ovládl šílený čaroděj Zalazane, který svými kouzly zotročil část jejich lidu.
 
 Mladí orkové a trollové začínají ve Valley of Trials – údolí zkoušek, kde se ze slabých stávají bojovníci hodní Hordy. Kdo neobstojí, toho prý údolí semele.]] },
-        { "Nepřátelé", [[Durotar není klidná země. Na jihu se usadili kultisté Burning Blade – orkové, kteří znovu propadli démonům, jimž kdysi Horda sloužila. Skrývají se v jeskyních a pro Thralla jsou připomínkou temné minulosti jeho lidu.
+        { "Nepřátelé", [[Durotar není klidná země. V jeskyních po celém kraji – od Valley of Trials až po Skull Rock u Orgrimmaru – se usadili kultisté Burning Blade, orkové, kteří znovu propadli démonům, jimž kdysi Horda sloužila. Skrývají se ve tmě a pro Thralla jsou připomínkou temné minulosti jeho lidu.
 
 Na pobřeží stojí pevnost Tiragarde Keep, kde se drží vojáci z Kul Tiras – zbytek lidské flotily admirála Proudmoora, která na orky zaútočila po jejich příchodu. Po krajině se potulují kanci, štíři a quilboarové z kmene Razormane, kteří bojují o každý kousek půdy.]] },
         { "Zajímavosti", [[Razor Hill je vojenská osada mezi Valley of Trials a Orgrimmarem, kde se mladí bojovníci učí, že Horda je rodina. Na severu kraje, u vstupu do Orgrimmaru, se tyčí mohutné hradby z rudého kamene.
@@ -57,7 +57,7 @@ Orkové tu žijí podle šamanských tradic, uctívají živly a duchy předků.
 Pod tou idylou se ale skrývá kraj, kterému chybějí vojáci. Velká část armády je daleko od domova a stráže v Elwynnu musí zvládat čím dál víc problémů jen s hrstkou mužů.]] },
         { "Válka, která všechno změnila", [[Za První války sem přišli orkové temným portálem a Stormwind vyplenili do základů. Lidé uprchli na sever a království se muselo celé postavit znovu. Obnovu města vedli kameníci, kterým za jejich práci nakonec šlechta odmítla zaplatit.
 
-Z rozhořčení ukřivděných kameníků se zrodilo Bratrstvo Defias. Vedené tajemným mistrem kameníkem Edwinem VanCleefem se z cechu stala zločinecká síť, která dnes okrádá doly, přepadává sedláky a rozkládá kraj zevnitř. Když najdeš u zloděje prsten Cechu kameníků, víš, odkud vítr vane.]] },
+Z rozhořčení ukřivděných kameníků se zrodilo Bratrstvo Defias. Vedené tajemným mistrem kameníkem Edwinem VanCleefem se z cechu stala zločinecká síť, která dnes okrádá doly, přepadává sedláky a rozkládá kraj zevnitř.]] },
         { "Místa", [[Northshire Abbey je klášter v údolí na severu, kde kněží Světla vychovávají nové bojovníky a kde začíná většina lidí. Goldshire je rušné městečko na křižovatce cest s hostincem Lion's Pride Inn – nejlepší místo, kde si odpočinout a vyslechnout drby.
 
 Na východě leží Eastvale Logging Camp, tábor dřevorubců, a na jihovýchodě Tower of Azora, věž mága Theocrita. U Stone Cairn Lake si murlokové postavili vesnici, v dolech Fargodeep a Jasperlode řádí koboldi a na dýňovém poli Brackwell se ukrývají Defiasové.]] },
@@ -131,7 +131,7 @@ Trpaslíci patří k pilířům Aliance a mezi lidmi mají věrné přátele.]] 
 Přeživší gnómové pod vedením High Tinker Mekkatorquea našli útočiště v Ironforge a sní o dni, kdy svůj domov získají zpět.]] },
         { "Hrozby", [[Troggové se nevynořili jen v Gnomereganu – objevují se po celém Khaz Modanu. V Coldridge Valley, kde začínají mladí trpaslíci a gnómové, napadli tábor a obsadili kopce kolem zamrzlého jezera. V horách žijí trollové z kmene Frostmane, kteří trpaslíkům odjakživa nepřejí, a po lesích se toulají vlci a medvědi.
 
-Hlídky z Anvilmaru, trpasličí pevnosti v údolí, se snaží troggy zahnat zpátky do děr, odkud přišli.]] },
+Hlídky z Anvilmaru, trpasličího sídla v údolí, se snaží troggy zahnat zpátky do děr, odkud přišli.]] },
         { "Zajímavosti", [[Kharanos je útulná vesnice s hostincem Thunderbrew Distillery, kde se vaří pivo, o kterém se zpívá po celém Azerothu. Lovci z Dun Morogh mají hluboký vztah k divočině – učí se stopovat medvěda horami a vážit si zvířat, která s nimi bojují bok po boku.
 
 V Dun Morogh poznáš, že trpasličí srdce je stejně pevné jako kámen, ze kterého je postavené jejich město.]] },
@@ -173,7 +173,7 @@ Lidé ve městě se ptají, proč se vojáci nevracejí a proč kraje mimo hradb
         { "Čtvrti", [[Stormwind se dělí na čtvrti. V Trade District bije srdce obchodu, v Mage Quarter se učí mágové, v Dwarven District mají dílny trpaslíci a v Old Town sídlí tajná služba SI:7 a vojáci. Cathedral of Light je chrám Svatého světla a domov kněží a paladinů.
 
 Městem protékají kanály, na kterých najdeš obchody jako krejčovství u kanálu, a ve vězení Stockade drží zločince – kteří se tam ovšem nedávno vzbouřili.]] },
-        { "Pod povrchem", [[Pod lesklou fasádou se skrývají problémy. Šlechta se stará víc o své zisky než o venkov, Defiasové mají ve městě své lidi a v kanálech a sklepeních se šíří kulty. Obchodníci si všímají, že lidé skupují zbroj a teplé oblečení, jako by čekali zlé časy.
+        { "Pod povrchem", [[Pod lesklou fasádou se skrývají problémy. Šlechta se stará víc o své zisky než o venkov, Defiasové mají ve městě své lidi a v kanálech a sklepeních se šíří kulty.
 
 Kdo chce Stormwindu pomoct, musí se dívat i tam, kam se šlechta dívat nechce.]] },
         { "Zajímavosti", [[Z věže u Trade District létají gryfové do celého království. V Cathedral Square se scházejí lidé, aby uctili Světlo, a na hradbách stojí stráže v modrých tabardech se lvem.
@@ -247,9 +247,9 @@ WoWpoCesku_LoreKnihy = {
 
 • Tři bratři – král Magni Bronzebeard vládne Ironforge. Brann Bronzebeard je slavný badatel a zakladatel Explorers' League. Muradin Bronzebeard odešel s princem Arthasem do Northrendu a zmizel ve chvíli, kdy Arthas vzal do ruky prokletý meč Frostmourne – všichni ho mají za mrtvého. SPOILER: Muradin přežil, jen ztratil paměť.
 
-• Původ trpaslíků – v Uldamanu jsou ukryty disky titánů, které prozrazují, že trpaslíci pocházejí z earthen, kamenných služebníků titánů, kteří postupně „zkameněli v maso“. Proto mají trpaslíci kámen tak rádi.
+• Původ trpaslíků – v Uldamanu jsou ukryty disky titánů, které prozrazují, že trpaslíci pocházejí z earthen, kamenných služebníků titánů, jejichž kamenná těla se kletbou masa (Curse of Flesh) postupně proměnila v živé maso. Proto mají trpaslíci kámen tak rádi.
 
-• Princezna Moira – Magniho dcera zmizela. SPOILER: unesl ji Dagran Thaurissan, císař Dark Ironů, a vzal si ji za ženu. Magni posílá hrdiny do Blackrock Depths, aby ji „zachránili“ – jenže Moira nosí Dagranovo dítě a vůbec nechce být zachráněna.
+• Princezna Moira – Magniho dcera zmizela. SPOILER: unesl ji Dagran Thaurissan, císař Dark Ironů, a vzal si ji za ženu. Magni posílá hrdiny do Blackrock Depths, aby ji „zachránili“ – jenže Moira vůbec nechce být zachráněna.
 
 • Gnomeregan – zrádce Sicco Thermaplugg byl poradcem krále gnómů Gelbina Mekkatorqua. Radil vypustit do města jedovaté záření a pak se prohlásil králem toho, co zbylo.
 
@@ -339,7 +339,7 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]],
 
 ["Westfall"] = [[• Bratrstvo Defias – celý příběh – řada questů The Defias Brotherhood začíná u Gryana Stoutmantla na Sentinel Hill. Pošle tě až do Redridge za informátorem Wileym do hostince v Lakeshire, pak po stopě defiasského posla (Defias Messenger), který běhá po cestách Westfallu, a nakonec doprovázíš zrádce Defias Traitor do Moonbrooku, kde ti ukáže skrýš Bratrstva. Konec je v Deadmines u Edwina VanCleefa.
 
-• Dopis, který VanCleef nestihl poslat – z VanCleefa padá An Unsent Letter adresovaný Barosu Alexstonovi, stavitelům Stormwindu. Odstartuje další questy ve Stormwindu a vede ke stopám, které míří až ke královskému dvoru. V pozdějších verzích WoW dopis zmizel – je to kousek příběhu, který zůstal jen v klasice.
+• Dopis, který VanCleef nestihl poslat – z VanCleefa padá An Unsent Letter adresovaný Barosu Alexstonovi, městskému architektovi Stormwindu. Odstartuje další questy ve Stormwindu a vede ke stopám, které míří až ke královskému dvoru. V pozdějších verzích WoW dopis zmizel – je to kousek příběhu, který zůstal jen v klasice.
 
 • Deadmines – vchod je v domě v Moonbrooku. Uvnitř: goblinský inženýr Sneed se svým Shredderem, tauren první důstojník Mr. Smite, který v boji mění zbraně, murlok kuchař Cookie a kapitán Greenskin. Na konci obrovská jeskyně s válečnou lodí Defias Juggernaut.
 
@@ -347,7 +347,7 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]],
 
 • Westfallský guláš a Saldeanovi – Salma Saldean ti uvaří Westfall Stew, když jí doneseš maso supů, rypáky kanců Goretusk, oči murloků a okru. Na stejné farmě farmář Saldean bojuje se zbláznivšími se strašáky Harvest Watcher. A Verna Furlbrow u rozbitého vozu potřebuje ovesy pro svého starého koně – quest Poor Old Blanchy.
 
-• Novinky ve WoW Forever (podle průvodců k becie):
+• Novinky ve WoW Forever (podle průvodců k betě):
   – Vaření tu dává smysl: kančí a murločí maso je všude a vařené jídlo ve Forever dává staty a po deseti vteřinách jídla i +5 % zkušeností za zabití.
   – Campsites – tábořiště v otevřeném světě s buffy, opravami a stanicemi profesí.
   – Příběh Defias pokračuje dál: nový dungeon Alcaz Prison (levely 48–53) má navazovat na příběh Bratrstva a mluví se o souvislosti s králem Varianem. Zatím jde spíš o pověsti.
@@ -412,7 +412,7 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]],
 
 • Ostrov je nový – tajemství Zephrasu se teprve objevují. Když najdeš něco zvláštního, napiš mi.
 
-Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]],
+Zdroj: questy na Zephrasu a foreverchanges.pro.]],
 
 }
 
@@ -442,8 +442,8 @@ Kraj zničila Pohroma (Scourge). Mor, který rozšířil Kult zatracených, prom
         { "Forsaken a Undercity", [[Když moc Lich Kinga na chvíli zeslábla, část nemrtvých se probudila ze sevření jeho vůle. Vedla je Sylvanas Windrunner, bývalá generálka hraničářů z Quel'Thalas, kterou Arthas zabil a proměnil v banshee. Říkají si Forsaken – Opuštění.
 
 Pod troskami hlavního města si postavili Undercity, labyrint kanálů, krypt a laboratoří. Spojili se s Hordou, ale jen proto, že potřebují spojence. Jejich lékárníci (Royal Apothecary Society) potají vyvíjejí nový mor – prý proti Pohromě. Kdo ví, proti komu ještě.]] },
-        { "Brill a Deathknell", [[Nově probuzení Forsaken začínají v Deathknell, hřbitově na severozápadě, kde se probouzejí z hrobů a učí se znovu chodit. Brill je ponuré městečko s hostincem Gallows' End Tavern a hřbitovem, kde se nikdo nedivi, když se mrtví procházejí po ulicích.]] },
-        { "Hrozby", [[Šarlatový křižácký řád (Scarlet Crusade) považuje každého nemrtvého za zrůdu, kterou je nutno spálit. Na západě drží Scarlet Monastery a jejich hlídky obsadily i okolí Tirisfalu. Kromě nich tu řádí zbytky Pohromy, zdivočelí nemrtví (Scourge), murlokové u jezera Brightwater a gnollové.]] },
+        { "Brill a Deathknell", [[Nově probuzení Forsaken začínají v Deathknell, hřbitově na severozápadě, kde se probouzejí z hrobů a učí se znovu chodit. Brill je ponuré městečko s hostincem Gallows' End Tavern a hřbitovem, kde se nikdo nediví, když se mrtví procházejí po ulicích.]] },
+        { "Hrozby", [[Šarlatový křižácký řád (Scarlet Crusade) považuje každého nemrtvého za zrůdu, kterou je nutno spálit. Na severovýchodě drží Scarlet Monastery a jejich hlídky obsadily i okolí Tirisfalu. Kromě nich tu řádí zbytky Pohromy a zdivočelí nemrtví, murlokové u jezera Brightwater a gnollové.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Tirisfal Glades"] = [[• Arthas: Rise of the Lich King – princ Arthas Menethil chtěl svůj lid zachránit za každou cenu. Ve Stratholme nechal vyvraždit obyvatele, aby se nestali nemrtvými, v Northrendu zradil své muže a vzal do ruky Frostmourne. Domů se vrátil jako rytíř smrti a jeho prvním činem bylo zabít otce.
@@ -472,7 +472,7 @@ WoWpoCesku_Lore["Silverpine Forest"] = {
         { "Les pod mrakem", [[Silverpine Forest je hustý, deštivý jehličnatý les jižně od Tirisfalu, který se táhne podél pobřeží až k Hillsbradu. Kdysi tudy vedla obchodní cesta z Lordaeronu do Gilneasu. Dnes je les plný mlhy, polorozpadlých vesnic a opuštěných statků.]] },
         { "Forsaken a Sepulcher", [[Forsaken tu drží základnu The Sepulcher – kryptu ukrytou v lese, odkud vysílají hlídky proti všem, kdo ohrožují cestu k Undercity. Velí tu Deathstalkerové, lovci a zvědové Sylvaniny armády. Podél pobřeží stojí Pyrewood Village, vesnice, ve které se v noci děje něco zvláštního.]] },
         { "Gilneas a Greymane Wall", [[Na jihu les uzavírá obrovská zeď Greymane Wall. Postavil ji král Genn Greymane z Gilneasu, když se jeho království odtrhlo od Aliance – nechtěl platit za válku ani za tábory pro orky. Za zdí se Gilneas uzavřel před světem a nikdo neví, co se tam děje.]] },
-        { "Hrozby", [[V horách a lesích žijí worgeni – vlkodlaci z Gilneasu. Kult mága Arugala, pod vedením samotného Arugala, sídlí v Shadowfang Keep, temném hradu nad lesem. Na pobřeží řádí murlokové, gnollové z kmene Moonrage a Rot Hide se svými nemocnými psy. Z jihu se tlačí Dalaranští mágové, kteří nad svým zničeným městem postavili kouzelnou bariéru.]] },
+        { "Hrozby", [[V horách a lesích žijí worgeni – vlkodlaci z Gilneasu. Kult mága Arugala, pod vedením samotného Arugala, sídlí v Shadowfang Keep, temném hradu nad lesem. Na pobřeží řádí murlokové, gnollové z kmene Moonrage a morem nakažení gnollové Rot Hide. V Ambermillu kouzlí mágové z Dalaranu, jehož zničené město na jihovýchodě zakrývá kouzelná bariéra.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Silverpine Forest"] = [[• Arugal a worgeni – arcimág Arugal z Dalaranu chtěl za Třetí války zastavit Pohromu. Vyvolal z jiného světa worgeny, divoké vlčí bytosti, a ztratil nad nimi kontrolu. Worgeni zabíjeli všechny bez rozdílu a Arugal, zničený vinou, se jich ujal jako „svých dětí“ a usadil se v Shadowfang Keep.
@@ -508,7 +508,7 @@ WoWpoCesku_LoreKnihy["Hillsbrad Foothills"] = [[• Lord of the Clans – Thrall
 
 • Taretha Foxton – žila se svou rodinou v Southshore a Hillsbradu. Když Thrall dobyl Durnholde, Blackmoore ji zabil a hodil Thrallovi pod nohy její hlavu. Thrall to nikdy nezapomněl.
 
-• Caverns of Time – v budoucnosti (The Burning Crusade) se hrdinové vrátí časem do Old Hillsbrad Foothills a pomohou Thrallovi utéct z Durnholde. Uvidí i mladou Tarethu a orka, který se s ní setkal.]]
+• Caverns of Time – v budoucnosti (The Burning Crusade) se hrdinové vrátí časem do Old Hillsbrad Foothills a pomohou Thrallovi utéct z Durnholde. Uvidí i mladou Tarethu – a pomohou ubránit dějiny před draky Infinite Dragonflight, kteří chtějí minulost změnit.]]
 WoWpoCesku_LoreTajemstvi["Hillsbrad Foothills"] = [[• Durnholde Keep – trosky pevnosti, kde Blackmoore věznil orky a kde vyrůstal Thrall. Dnes tu sídlí Syndikát.
 
 • Southshore vs Tarren Mill – na PvP serverech bývala silnice mezi městy nejrušnější bitevní frontou klasického WoW.
@@ -535,7 +535,7 @@ WoWpoCesku_LoreKnihy["Alterac Mountains"] = [[• Zrada Perenolda (Warcraft II a
 
 • Frostwolf klan v Alterac Valley – po vyhnání Gul'danem žil Durotanův klan v horách severně od Alteracu. Tady Thrall poprvé potkal svůj lid a starého šamana Drek'thara, který ho naučil šamanismu.
 
-• Dalaran a Antonidas – v Dalaranu žil velký arcimág Antonidas, učitel Jainy Proudmoore. Zabil ho Arthas, když přišel pro knihu kouzel Kel'Thuzada. SPOILER: Dalaran se v budoucnu (Wrath) vznese do vzduchu a odletí do Northrendu.]]
+• Dalaran a Antonidas – v Dalaranu žil velký arcimág Antonidas, učitel Jainy Proudmoore. Zabil ho Arthas, když si do Dalaranu přišel pro Medivhovu knihu kouzel, aby mohl oživit Kel'Thuzada. SPOILER: Dalaran se v budoucnu (Wrath) vznese do vzduchu a odletí do Northrendu.]]
 WoWpoCesku_LoreTajemstvi["Alterac Mountains"] = [[• Alterac Valley – na severu leží legendární bitevní pole Aliance proti Hordě. Bitvy v klasice trvaly hodiny i dny.
 
 • Ravenholdt Manor – skryté sídlo lotrů v horách. Lotrovský quest tě k němu dovede.
@@ -552,10 +552,10 @@ WoWpoCesku_Lore["Arathi Highlands"] = {
     title = "Arathi Highlands",
     tag = "Kolébka lidstva – kopce, kde stálo první lidské království.",
     ch = {
-        { "Arathor", [[Arathi Highlands jsou travnaté kopce se skalami a ruinami. Kdysi tu stálo Arathorské císařství, první lidský stát. Jeho hlavním městem byl Strom, a právě odtud se lidé rozšířili po celém kontinentu. Strom byl za Druhé války zničen a lidé se do něj nevrátili.]] },
-        { "Thoradin's Wall a Stromgarde", [[Na severní hranici stojí Thoradin's Wall, zeď, kterou postavil první lidský král Thoradin proti trollům. Na západě leží Stromgarde, hlavní město království Stromgarde, potomků Arathoru. Dnes je napůl v troskách a bojují o něj ogrové, Syndikát a zbytky lidí.]] },
-        { "Kdo tu žije", [[Aliance drží Refuge Pointe, malý tábor uprostřed kraje. Horda má Hammerfall na východě – osadu orků, kteří tu kdysi trpěli v internačních táborech. Mezi nimi leží Arathi Basin, bitevní pole o zdroje.]] },
-        { "Hrozby", [[Trollové Witherbark žijí na východě, ogrové v Circle of East Binding a jinde. Syndikát ovládá část kraje a mágové z Dalaranu staví na kopcích tajemné kruhy. Na pobřeží řádí piráti a nagové.]] },
+        { "Arathor", [[Arathi Highlands jsou travnaté kopce se skalami a ruinami. Kdysi tu stálo Arathorské císařství, první lidský stát. Jeho hlavním městem byl Strom, a právě odtud se lidé rozšířili po celém kontinentu. Ze Stromu dnes zbyly jen ruiny.]] },
+        { "Thoradin's Wall a Stromgarde", [[Na severní hranici stojí Thoradin's Wall, mohutná stará zeď nesoucí jméno prvního lidského krále Thoradina. Na západě leží Stromgarde, hlavní město království Stromgarde, potomků Arathoru. Dnes je napůl v troskách a bojují o něj ogrové, Syndikát a zbytky lidí.]] },
+        { "Kdo tu žije", [[Aliance drží Refuge Pointe, malý tábor uprostřed kraje. Horda má Hammerfall na východě – orkskou pevnost v kraji, kde kdysi stály lidské internační tábory pro orky. Mezi nimi leží Arathi Basin, bitevní pole o zdroje.]] },
+        { "Hrozby", [[Trollové Witherbark žijí na východě, ogrové v Circle of East Binding a jinde. Syndikát ovládá část kraje a na kopcích stojí staré kamenné kruhy, které kdysi postavili mágové. Na pobřeží řádí piráti a nagové.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Arathi Highlands"] = [[• Válka trollů – před téměř třemi tisíci lety bojovali lidé Arathoru spolu s vysokými elfy proti trollí říši Amani. Elfové lidi naučili magii a sto lidí z Arathoru se stalo prvními lidskými mágy. Spojenectví lidí a elfů trvá dodnes.
@@ -581,8 +581,8 @@ WoWpoCesku_Lore["Wetlands"] = {
     title = "Wetlands",
     tag = "Bažiny plné krokodýlů, raptorů a trpaslíků, kteří tu už nechtějí být.",
     ch = {
-        { "Brána na sever", [[Wetlands jsou deštivé bažiny a mokřady na severní hranici trpasličí říše Khaz Modan. Je to jediná suchozemská cesta mezi Ironforge a severními královstvími. Proto tu trpaslíci postavili most Thandol Span a přístav Menethil Harbor, odkud plují lodě na Kalimdor a Northrend.]] },
-        { "Grim Batol", [[Na východě se tyčí hora Grim Batol, kdysi pevnost Wildhammerů. Po Válce tří kladiv ji obsadili Dark Ironové a jejich prokletí horu otrávilo. Za Druhé války tu klan Dragonmaw držel v zajetí dračí královnu Alexstraszu a nutil její děti bojovat za Hordu.]] },
+        { "Brána na sever", [[Wetlands jsou deštivé bažiny a mokřady na severní hranici trpasličí říše Khaz Modan. Je to jediná suchozemská cesta mezi Ironforge a severními královstvími. Proto tu trpaslíci postavili most Thandol Span a přístav Menethil Harbor, odkud plují lodě do Theramore na Kalimdoru a do Auberdine.]] },
+        { "Grim Batol", [[Na východě se tyčí hora Grim Batol, kdysi pevnost Wildhammerů. Na konci Války tří kladiv ji Dark Ironové proklely a Wildhammeři horu opustili. Za Druhé války tu klan Dragonmaw držel v zajetí dračí královnu Alexstraszu a nutil její děti bojovat za Hordu.]] },
         { "Kdo tu žije", [[Menethil Harbor je malé lidské městečko na pobřeží. Trpaslíci z Ironforge mají hlídky podél silnice a ve Whelgar's Excavation Site kopou badatelé Explorers' League. Dragonmaw orkové stále drží několik pevností na východě.]] },
         { "Hrozby", [[Klan Dragonmaw, murlokové, raptoři, krokodýli (crocolisk) a gnollové z Mosshide. V ruinách Dun Modr sídlí Dark Ironové a v jeskyních se skrývají draci.]] },
     },
@@ -608,17 +608,15 @@ WoWpoCesku_Lore["Loch Modan"] = {
     title = "Loch Modan",
     tag = "Klidné jezero za gigantickou hrází, kterou trpaslíci postavili s kladivem v ruce.",
     ch = {
-        { "Jezero za hrází", [[Loch Modan je hornatý kraj jezer, borovic a pastvin východně od Dun Morogh. Uprostřed leží velké jezero, které vzniklo, když trpaslíci postavili obrovskou hráz Stonewrought Dam. Kraj je klidnější než bažiny na severu a trpaslíci tu chovají horské kozy a beraní.]] },
-        { "Thelsamar", [[Hlavním městečkem je Thelsamar, malá vesnice se stájemi a hostincem. Na severu leží Stonesplinter Valley a v horách výzkumná stanice Explorers' League, která pátrá po původu trpaslíků.]] },
+        { "Jezero za hrází", [[Loch Modan je hornatý kraj jezer, borovic a pastvin východně od Dun Morogh. Uprostřed leží velké jezero, které vzniklo, když trpaslíci postavili obrovskou hráz Stonewrought Dam. Kraj je klidnější než bažiny na severu a trpaslíci tu chovají horské kozy a berany.]] },
+        { "Thelsamar", [[Hlavním městečkem je Thelsamar, malá vesnice se stájemi a hostincem. Na jihu leží Stonesplinter Valley a na jihovýchodě výkop Explorers' League, která pátrá po původu trpaslíků.]] },
         { "Kdo tu žije", [[Kromě trpaslíků tu žijí gnómové, kteří utekli z Gnomereganu, a horníci v dole Silver Stream Mine. Mountaineers – trpasličí horalové – hlídají průsmyky a silnice.]] },
-        { "Hrozby", [[Troggové z kmene Stonesplinter se tlačí z hlubin. Koboldi z Tunnel Rat obsadili doly, gnollové a Dark Ironové škodí na hrázi. Na jihu se ozývají útoky ogrů a Dark Ironů z Badlands.]] },
+        { "Hrozby", [[Troggové z kmene Stonesplinter se tlačí z hlubin. Koboldi z Tunnel Rat obsadili doly a špehové Dark Ironů škodí na hrázi. Na jihu se ozývají útoky ogrů a Dark Ironů z Badlands.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Loch Modan"] = [[• Hráz Stonewrought Dam – trpaslíci ji postavili, aby zachytili vodu pro Ironforge a zemědělství. SPOILER (Cataclysm): hráz se při kataklyzmatu protrhne a jezero vyteče – z kraje zůstane bahnité údolí.
 
-• Původ trpaslíků – Explorers' League v Loch Modan vede výzkum, který vyvrcholí v Uldamanu (Badlands). Disky Norgannona tam prozradí, že trpaslíci jsou potomci earthen, služebníků titánů.
-
-• Brann Bronzebeard – slavný badatel a Magniho bratr kdysi začal své výpravy právě odsud.]]
+• Původ trpaslíků – Explorers' League v Loch Modan vede výzkum, který vyvrcholí v Uldamanu (Badlands). Disky Norgannona tam prozradí, že trpaslíci jsou potomci earthen, služebníků titánů.]]
 WoWpoCesku_LoreTajemstvi["Loch Modan"] = [[• Stonewrought Dam – vyjdi nahoru na hráz. Výhled na jezero patří k nejhezčím v Khaz Modanu.
 
 • Valley of Kings – průsmyk z Dun Morogh hlídají obrovské sochy trpasličích králů.
@@ -637,7 +635,7 @@ WoWpoCesku_Lore["Redridge Mountains"] = {
     ch = {
         { "Kraj rudých skal", [[Redridge Mountains jsou rudé kopce a jehličnaté lesy s velkým jezerem Lake Everstill uprostřed, východně od Elwynn Forest. Je to pohraničí lidského království – za horami leží Burning Steppes, odkud útočí ogrové a orkové z Blackrock.]] },
         { "Lakeshire", [[Hlavním městem je Lakeshire, malebné městečko na jezeře s mostem a radnicí. Starosta a velitelé stráže se snaží kraj ubránit, ale Stormwind jim posílá jen málo vojáků. Proto vypisují odměny a hledají dobrodruhy.]] },
-        { "Kdo tu žije", [[Žijí tu rybáři, dřevorubci a farmáři. Kraj byl za První války prvním, kudy orkové táhli na Stormwind, a starší obyvatelé si to dobře pamatují.]] },
+        { "Kdo tu žije", [[Žijí tu rybáři, dřevorubci a farmáři. Kraj byl za První války jedním z prvních, kudy orkové táhli na Stormwind, a starší obyvatelé si to dobře pamatují.]] },
         { "Hrozby", [[Gnollové z kmene Redridge napadají farmy, orkové Blackrock zakládají pevnosti v horách a stále se šíří zvěsti o drakonidech z Burning Steppes. V jezeře řádí murlokové.]] },
     },
 }
@@ -670,9 +668,9 @@ WoWpoCesku_Lore["Duskwood"] = {
 }
 WoWpoCesku_LoreKnihy["Duskwood"] = [[• Stitches – nekromant Abercrombie, který žije v chatrči v lese, sešil obří zrůdu z těl mrtvých. SPOILER: když ji pustí, vydá se po silnici do Darkshire a strážníci ji musí zastavit. Je to jeden z nejpamátnějších questů klasického WoW.
 
-• Morbent Fel – nekromant, který ovládá ruiny vesnice Raven Hill. Na jeho zabití potřebuješ speciální zbraň od kněze.
+• Morbent Fel – nekromant, který ovládá ruiny vesnice Raven Hill. Na jeho zabití potřebuješ speciální zbraň Morbent's Bane.
 
-• Worgeni v Duskwood – SPOILER: jsou propojeni s Arugalovým kultem ze Silverpine. Kult pomalu šíří prokletí na jih.
+• Worgeni v Duskwood – odkud se v lese vzali, není jisté. Jedna stopa vede k Arugalovým worgenům ze Silverpine, kteří se šíří na jih.
 
 • Karazhan – Medivhova věž v Deadwind Pass je nedaleko. Temnota lesa je její stín.]]
 WoWpoCesku_LoreTajemstvi["Duskwood"] = [[• Stitches – nekromant Abercrombie, který žije v chatrči na západě lesa, sešil obří zrůdu z mrtvol. Když ji pustí, vydá se po silnici do Darkshire a stráže ji musí zastavit.
@@ -692,14 +690,14 @@ WoWpoCesku_Lore["Stranglethorn Vale"] = {
     tag = "Džungle trollích ruin, pirátů a lovců, kde se soupeří o každou trofej.",
     ch = {
         { "Džungle na jihu", [[Stranglethorn Vale je obrovská tropická džungle na jihu Eastern Kingdoms. Kdysi tu stála trollí říše Gurubashi, jedna z největších na světě. Dnes zbyly jen ruiny chrámů zarostlé lianami, tygři, raptoři a gorily.]] },
-        { "Booty Bay", [[Na jižním cípu leží Booty Bay, goblinské pirátské město postavené kolem zátoky. Vchod je skrytý v tlamě obří žraločí lebky. Platí tu jediný zákon: obchod. Kdo zaútočí ve městě, toho rozsekají stráže kartelu Steamwheedle. Piráti z Bloodsail Buccaneers jsou jejich úhlavní nepřátelé.]] },
+        { "Booty Bay", [[Na jižním cípu leží Booty Bay, goblinský přístav postavený kolem zátoky, kde se potkávají obchodníci i pašeráci. Vchod je skrytý v tlamě obří žraločí lebky. Platí tu jediný zákon: obchod. Kdo zaútočí ve městě, toho rozsekají stráže kartelu Steamwheedle. Piráti z Bloodsail Buccaneers jsou jejich úhlavní nepřátelé.]] },
         { "Kdo tu žije", [[Lovci z Nesingwary's Expedition pořádají velký hon na zvěř. Aliance drží Rebel Camp a Horda Grom'gol Base Camp na pobřeží. Uprostřed džungle stojí Gurubashi Arena, kde se bojuje o poklad.]] },
         { "Hrozby", [[Trollové Bloodscalp, Skullsplitter a Gurubashi, piráti Bloodsail Buccaneers, nagové na pobřeží a Kurzen's Mercenaries – bývalí vojáci, kteří se v džungli zbláznili. A v srdci džungle se probouzí krvavý bůh Hakkar.]] },
     },
 }
-WoWpoCesku_LoreKnihy["Stranglethorn Vale"] = [[• Říše Gurubashi – trollové Gurubashi kdysi ovládali jih kontinentu. Ve válce s jinými kmeny vyvolali krvavého boha Hakkara Soulflayera. Hakkar začal vraždit vlastní uctívače, a tak ho trollové zahnali. Říše se rozpadla na menší kmeny.
+WoWpoCesku_LoreKnihy["Stranglethorn Vale"] = [[• Říše Gurubashi – trollové Gurubashi kdysi ovládali jih kontinentu. Když jejich moc slábla, vyvolali krvavého boha Hakkara Soulflayera. Hakkar začal vraždit vlastní uctívače, a tak ho trollové zahnali. Říše se rozpadla na menší kmeny.
 
-• Zul'Gurub – kněží Atal'ai se Hakkara snaží znovu vyvolat. SPOILER: v klasickém WoW se Hakkar vrátil v Zul'Gurub, velkém raidu v severovýchodní části džungle.
+• Zul'Gurub – kněží Hakkara se ho snaží znovu vyvolat. SPOILER: v klasickém WoW se Hakkar vrátil v Zul'Gurub, velkém raidu v severovýchodní části džungle.
 
 • Hemet Nesingwary – lovec s legendárními úlovky. Jméno je odkaz na Ernesta Hemingwaye a jeho lovecké knihy. Jeho questy na zabití desítek tygrů jsou proslulé.]]
 WoWpoCesku_LoreTajemstvi["Stranglethorn Vale"] = [[• Green Hills of Stranglethorn – stránky knihy Hemeta Nesingwaryho jsou rozházené po celé džungli. Kdo posbírá všechny kapitoly, složí knihu. Název odkazuje na Hemingwayovy „Zelené pahorky africké“.
@@ -723,7 +721,7 @@ WoWpoCesku_Lore["The Hinterlands"] = {
     tag = "Divoké vrchoviny gryfích jezdců a trollů, kteří si pamatují dávnou slávu.",
     ch = {
         { "Divočina na severu", [[The Hinterlands jsou zelené, hornaté lesy na severovýchodě Lordaeronu, daleko od měst a silnic. Vzduch je tu čistý a na nebi krouží gryfové. Kdysi tu vládla trollí říše Amani, jejíž ruiny jsou rozeseté po celém kraji.]] },
-        { "Aerie Peak", [[Na skalách na západě leží Aerie Peak, domov trpaslíků Wildhammer. Na rozdíl od svých bratranců z Ironforge žijí venku, v souladu s přírodou, a létají na gryfech. Jsou to divocí, hrdí válečníci a Ironforge si moc nerozumějí – ale v nouzi stojí za Aliancí.]] },
+        { "Aerie Peak", [[Na skalách na západě leží Aerie Peak, domov trpaslíků Wildhammer. Na rozdíl od svých bratranců z Ironforge žijí venku, v souladu s přírodou, a létají na gryfech. Jsou to divocí, hrdí válečníci a s Ironforge si moc nerozumějí – ale v nouzi stojí za Aliancí.]] },
         { "Revantusk", [[Na východním pobřeží žijí trollové z kmene Revantusk. Jsou to Amani, kteří se oddělili od svých bratří a přidali se k Hordě. Jejich vesnice je jedním z mála míst Hordy v tomto kraji.]] },
         { "Hrozby", [[Trollové Witherbark a Vilebranch sídlí v obřích pevnostech Shadra'Alor a Jintha'Alor. Kněží Atal'ai uctívají Hakkara, v lesích žijí vlci, sovy a divocí gryfové. Na severu se tlačí zbytky Pohromy.]] },
     },
@@ -750,7 +748,7 @@ WoWpoCesku_Lore["Western Plaguelands"] = {
     tag = "Mrtvá pole Lordaeronu, kde se bojuje o každou vesnici s nemrtvými.",
     ch = {
         { "Země moru", [[Western Plaguelands jsou zpustlé kopce a pole východně od Tirisfalu. Kdysi tu byly bohaté farmy a vesnice; mor je proměnil v šedé, nemocné kraje plné rozpadlých stodol a mrtvých stromů. Uprostřed kraje se tyčí Andorhal, město, kde začal mor.]] },
-        { "Chillwind Camp a Bulwark", [[Aliance drží Chillwind Camp na jihu – malý tábor Argent Dawn a Aliance, odkud se plánují útoky. Horda a Forsaken hlídají The Bulwark, opevněnou hranici s Tirisfalem. Obě strany mají stejného nepřítele: Pohromu.]] },
+        { "Chillwind Camp a Bulwark", [[Aliance drží Chillwind Camp na jihu – malý tábor, odkud se plánují útoky proti Pohromě. Horda a Forsaken hlídají The Bulwark, opevněnou hranici s Tirisfalem. Obě strany mají stejného nepřítele: Pohromu.]] },
         { "Hearthglen a Scholomance", [[Na severu leží Hearthglen, pevnost Šarlatového křižáckého řádu. Na ostrově v jezeře Darrowmere stojí Caer Darrow s ruinami hradu rodu Barov – pod ním je Scholomance, škola nekromancie, kde Kult zatracených učí nové nekromanty.]] },
         { "Hrozby", [[Pohroma, nekromanti, Šarlatoví, zdivočelí nemrtví, mutovaní vlci a medvědi. V Andorhalu se bojuje nejvíc – mrtví tam jsou všude.]] },
     },
@@ -809,7 +807,7 @@ WoWpoCesku_Lore["Badlands"] = {
     ch = {
         { "Spálená země", [[Badlands jsou rudá, rozpraskaná poušť jižně od Loch Modan. Žádné stromy, žádná tráva, jen skály, kaňony a kosti obřích tvorů. Kdysi tu byla úrodná krajina, ale válka a ohnivá magie ji spálily.]] },
         { "Uldaman", [[Na severu leží Uldaman, prastarý trezor titánů. Trpaslíci z Explorers' League tu kopou a hledají důkazy o tom, odkud pocházejí. A Dark Ironové sem posílají své lidi, aby je předběhli.]] },
-        { "Kdo tu žije", [[Horda má Kargath na západě – pevnost orků, kteří utekli z Blackrock. Aliance drží jen malé tábory badatelů. Goblini kopou v dolech a draci z Lethlor Ravine se slunci na skalách.]] },
+        { "Kdo tu žije", [[Horda má Kargath na západě – orkskou pevnost, která hlídá kraj před klanem Blackrock. Aliance drží jen malé tábory badatelů. Goblini kopou v dolech a draci z Lethlor Ravine se slunci na skalách.]] },
         { "Hrozby", [[Dark Ironové, ogrové, troggové, kojoti, supi, buvoli a draci. Na jihu se Badlands potkávají se Searing Gorge, odkud se valí oheň a láva.]] },
     },
 }
@@ -915,7 +913,7 @@ WoWpoCesku_Lore["Blasted Lands"] = {
 }
 WoWpoCesku_LoreKnihy["Blasted Lands"] = [[• Otevření portálu (Rise of the Horde, The Last Guardian) – Medivh, posedlý Sargerasem, se spojil s Gul'danem. Spolu otevřeli Temný portál a orkové táhli na Azeroth.
 
-• Uzavření portálu – po Druhé válce Aliance portál zničila. Pak ho šaman Ner'zhul znovu otevřel a odvedl orky zpátky na Draenor. Draenor se při tom roztrhal na kusy – a stal se z něj Outland.
+• Uzavření portálu – po Druhé válce Aliance portál zničila. Pak ho šaman Ner'zhul znovu otevřel a na Draenoru otevíral další portály do jiných světů. Draenor se při tom roztrhal na kusy – a stal se z něj Outland.
 
 • SPOILER (The Burning Crusade) – Temný portál se znovu otevře a hrdinové jím projdou do Outlandu.]]
 WoWpoCesku_LoreTajemstvi["Blasted Lands"] = [[• Temný portál – v klasice neaktivní brána, kterou orkové přišli na Azeroth.
@@ -947,7 +945,7 @@ WoWpoCesku_LoreKnihy["Deadwind Pass"] = [[• The Last Guardian – Khadgar, mla
 • SPOILER (The Burning Crusade) – Karazhan se stane raidem pro deset hráčů. Uvidíš hostiny duchů, divadlo, šachy a samotného Medivhova démona.]]
 WoWpoCesku_LoreTajemstvi["Deadwind Pass"] = [[• Karazhan – v klasice byla věž zavřená. Pod ní jsou krypty, které hráči léta prozkoumávali a hledali tajné chodby.
 
-• Ariden's Camp – tábor tajemného Aridena na jihu kraje.
+• Ariden's Camp – tábor tajemného Aridena.
 
 • Grosh'gok Compound – ogří tábor v horách.
 
@@ -973,7 +971,7 @@ WoWpoCesku_Lore["The Barrens"] = {
         { "Hrozby", [[Kentauři Kolkar, kančí lidé quilboar z Razorfen, harpyje, Venture Company, Bael'dunští trpaslíci a lidé z Northwatch Hold, kteří se připravují k útoku na Hordu.]] },
     },
 }
-WoWpoCesku_LoreKnihy["The Barrens"] = [[• Thrallova cesta (Warcraft III) – orkové táhli přes Barrens, když hledali Orákulum na hoře Stonetalon. Grom Hellscream tu postavil předsunutou základnu proti nočním elfům.
+WoWpoCesku_LoreKnihy["The Barrens"] = [[• Thrallova cesta (Warcraft III) – orkové táhli přes Barrens, když hledali Orákulum na hoře Stonetalon. Grom Hellscream pak táhl dál na sever do lesů Ashenvale.
 
 • Quilboar a Agamaggan – kančí lidé uctívají poloboha Agamaggana, obřího kance, který zemřel za Války starověku. Z jeho trnitých kořenů vyrostly Razorfen Kraul a Razorfen Downs.
 
@@ -999,9 +997,9 @@ WoWpoCesku_Lore["Darkshore"] = {
     tag = "Mlhavé pobřeží, kde se noční elfové snaží udržet poslední pevnosti své dávné slávy.",
     ch = {
         { "Pobřeží v šeru", [[Darkshore je dlouhé pobřeží s tmavými lesy a mlhou na severozápadě Kalimdoru. Moře je tu studené, noci dlouhé a v lesích jsou ruiny elfích měst z doby, kdy noční elfové vládli celému světu.]] },
-        { "Auberdine", [[Hlavní osadou je Auberdine, malé elfské městečko s přístavem. Lodě odtud plují do Teldrassilu, Stormwindu a Menethil Harbor. Je to brána, kterou noční elfové vycházejí do světa.]] },
+        { "Auberdine", [[Hlavní osadou je Auberdine, malé elfské městečko s přístavem. Lodě odtud plují do Teldrassilu a do Menethil Harbor. Je to brána, kterou noční elfové vycházejí do světa.]] },
         { "Ruiny", [[Ameth'Aran, Bashal'Aran a další ruiny jsou pozůstatky měst z doby před Velkým rozpoltěním. V některých stále straší duchové Highborne, kteří nedokázali opustit svou minulost.]] },
-        { "Hrozby", [[Kult Twilight's Hammer zkazil furbolgy z kmene Blackwood. Murlokové, nagové, satyrové a zdivočelí medvědi. V lesích se objevují pavouci a v ruinách duchové.]] },
+        { "Hrozby", [[Furbolgové z kmene Blackwood se zkazili a obrátili se proti elfům. Murlokové, nagové, satyrové a zdivočelí medvědi. V lesích se objevují pavouci a v ruinách duchové.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Darkshore"] = [[• Highborne a jejich duchové – po Velkém rozpoltění zůstaly ruiny Highborne opuštěné. Duchové některých z nich ještě dnes kouzlí a šíří prokletí.
@@ -1013,11 +1011,11 @@ WoWpoCesku_LoreTajemstvi["Darkshore"] = [[• For Love Eternal – druid Cerelle
 
 • Prospector Remtravel – gnómský badatel, který tvrdí, že našel něco úžasného. Jeho řada končí překvapením.
 
-• Tower of Althalaxx – věž, kde kult Twilight's Hammer provádí rituály.
+• Tower of Althalaxx – věž, kde kultisté Dark Strand provádějí temné rituály.
 
 • Grove of the Ancients – háj, kde odpočívají Ancients, živé stromy.
 
-• Cliffspring Falls – vodopád na severu s jeskyní nag.
+• Cliffspring Falls – vodopád na severu kraje.
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
@@ -1050,7 +1048,7 @@ WoWpoCesku_Lore["Stonetalon Mountains"] = {
     title = "Stonetalon Mountains",
     tag = "Hory, kde goblini kácejí lesy a kde Thrall našel svého proroka.",
     ch = {
-        { "Kamenné hory", [[Stonetalon Mountains jsou vysoké, skalnaté hory západně od Barrens. Na vrcholcích leží zelené údolí Stonetalon Peak, posvátné pro druidy, a pod ním vyhořelé údolí Charred Vale.]] },
+        { "Kamenné hory", [[Stonetalon Mountains jsou vysoké, skalnaté hory západně od Barrens. Na vrcholcích leží zelené údolí Stonetalon Peak, posvátné pro druidy, a na jihozápadě vyhořelé údolí Charred Vale.]] },
         { "Kdo tu žije", [[Horda má Sun Rock Retreat, tauren osadu ve skalách. Noční elfové drží Stonetalon Peak. Venture Company tu kácí lesy ve Windshear Crag a ničí krajinu tak rychle, jak jen mohou.]] },
         { "Orákulum", [[Na vrcholu hory čekalo Orákulum – tajemný prorok, který vedl Thralla i Jainu na Kalimdor. Byl to Medivh, který se vrátil z mrtvých, aby napravil své chyby.]] },
         { "Hrozby", [[Venture Company, harpyje, kentauři Kolkar, elementálové a obří pavouci.]] },
@@ -1133,7 +1131,7 @@ WoWpoCesku_Lore["Dustwallow Marsh"] = {
     ch = {
         { "Bažiny", [[Dustwallow Marsh jsou tmavé bažiny na východním pobřeží Kalimdoru. Mlha, kroutící se kořeny, krokodýli a žáby. Na pobřeží stojí lidské město Theramore.]] },
         { "Theramore", [[Theramore založila Jaina Proudmoore po Třetí válce. Je to přístav, kde lidé a orkové žijí v míru – nebo aspoň v příměří. Jaina tu vládne jako lady a snaží se udržet mír s Thrallem.]] },
-        { "Kdo tu žije", [[Horda má Brackenwall Village, vesnici Darkspear trollů. V bažinách žijí murlokové, ještěři, ogři a draci. Na jihu leží Onyxia's Lair, doupě dračice Onyxie.]] },
+        { "Kdo tu žije", [[Horda má Brackenwall Village, kde velí ogr Overlord Mok'Morokk. V bažinách žijí murlokové, ještěři, ogři a draci. Na jihu leží Onyxia's Lair, doupě dračice Onyxie.]] },
         { "Hrozby", [[Draci a drakonidi, ogři z Stonemaul, murlokové, krokodýli a pavouci. A pak je tu Witch Hill s čarodějnicemi.]] },
     },
 }
@@ -1170,12 +1168,12 @@ WoWpoCesku_LoreKnihy["Feralas"] = [[• Eldre'Thalas – po Velkém rozpoltění
 
 • Spojení s shen'dorei – jiní Highborne se podle Forever dostali do nebe. Dire Maul je kanonický příklad Highborne, kteří zůstali na zemi.
 
-• Isle of Dread – ostrov u pobřeží, kde žijí chiméry Chimaerok a jeden ze čtyř stromů snu.]]
+• Isle of Dread – ostrov u pobřeží, kde žijí chiméry Chimaerok.]]
 WoWpoCesku_LoreTajemstvi["Feralas"] = [[• Dire Maul – ruiny elfího města Eldre'Thalas se třemi křídly. V severní části můžeš projít bez zabití stráží („tribute run“) a získat poklad od krále ogrů.
 
 • OOX-22/FE – porouchané robotické kuře v kraji. Spolu s dalšími dvěma (Tanaris a Hinterlands) tě dovede k mechanickému kuřeti jako mazlíčkovi.
 
-• Dream Bough a Isle of Dread – jeden ze čtyř stromů snu a ostrov chimér Chimaerok.
+• Dream Bough a Isle of Dread – jeden ze čtyř stromů snu u jezera Jademir Lake a ostrov chimér Chimaerok.
 
 • Twin Colossals – obří sochy uprostřed lesa.
 
@@ -1189,7 +1187,7 @@ WoWpoCesku_Lore["Azshara"] = {
     ch = {
         { "Věčný podzim", [[Azshara je kraj s rudými a zlatými stromy na severovýchodě Kalimdoru. Je pojmenovaná po královně Azsharé a kdysi tu stálo hlavní město Highborne. Dnes jsou tu ruiny, satyrové a nagové.]] },
         { "Ruiny", [[Ruiny Eldarath, Temple of Zin-Malor a další stavby připomínají slávu Highborne. Moře na východě skrývá ruiny potopeného města.]] },
-        { "Kdo tu žije", [[Horda má Valormok, malý tábor. Noční elfové drží Talrendis Point. Modří draci žijí u Lake Mennar a Azuregos, obří modrý drak, se potuluje po kraji.]] },
+        { "Kdo tu žije", [[Horda má Valormok, malý tábor. Noční elfové drží Talrendis Point. Po kraji se potuluje Azuregos, obří modrý drak.]] },
         { "Hrozby", [[Satyrové Haldarr, nagové, harpyje, modří draci, obři a Timbermaw furbolgové.]] },
     },
 }
@@ -1257,7 +1255,7 @@ WoWpoCesku_LoreKnihy["Tanaris"] = [[• Bronzoví draci – Nozdormu dostal od t
 
 • Zul'Farrak – trollové Sandfury uctívají boha Gahz'rillu, obří hydru. Jejich město je jedno z mála trollích měst, které dodnes stojí.
 
-• SPOILER (The Burning Crusade a Cataclysm) – Caverns of Time se otevřou a hrdinové se vrátí do minulosti: k Thrallovu útěku, k Temnému portálu, na Hyjal i ke Stratholme. Na jihu se otevře Uldum.]]
+• SPOILER (The Burning Crusade, Wrath of the Lich King a Cataclysm) – Caverns of Time se otevřou a hrdinové se vrátí do minulosti: k Thrallovu útěku, k Temnému portálu, na Hyjal i ke Stratholme. Na jihu se otevře Uldum.]]
 WoWpoCesku_LoreTajemstvi["Tanaris"] = [[• OOX-17/TN – porouchané robotické kuře v poušti. Doprovoď ho domů a spolu s dalšími dvěma (Feralas a Hinterlands) získáš od Oglethorpa Obnoticuse v Booty Bay mechanické kuře.
 
 • Tooga – ztracená želva, kterou doprovodíš k její družce. Pomalá, ale roztomilá.
@@ -1285,11 +1283,11 @@ WoWpoCesku_LoreKnihy["Un'Goro Crater"] = [[• Titáni a Un'Goro – titáni vyt
 • Silithidi z jihu – hmyzí bytosti z Silithusu se šíří do Un'Goro. Za nimi stojí Qiraji a Starý bůh C'Thun.
 
 • SPOILER (Cataclysm) – Un'Goro souvisí s Uldumem: obě jsou zařízení titánů.]]
-WoWpoCesku_LoreTajemstvi["Un'Goro Crater"] = [[• Linken – na severu žije podivný „chlapec“ s mečem a štítem. Je to odkaz na Linka ze Zeldy – v questech padne i hláška „It's dangerous to go alone“.
+WoWpoCesku_LoreTajemstvi["Un'Goro Crater"] = [[• Linken – v kráteru žije podivný „chlapec“ s mečem a štítem. Je to odkaz na Linka ze Zeldy – v questech padne i hláška „It's dangerous to go alone“.
 
 • A-Me 01 – robot, kterého doprovázíš do bezpečí.
 
-• Ringo – ztracený tvor, kterého musíš cestou polévat vodou, aby neusnul.
+• Ringo – ztracenec, kterého musíš cestou polévat vodou, aby neomdlel.
 
 • Krystaly a pylony – J.D. Collie v Marshal's Refuge zkoumá energetické krystaly a pylony titánů.
 
@@ -1307,14 +1305,14 @@ WoWpoCesku_Lore["Silithus"] = {
 }
 WoWpoCesku_LoreKnihy["Silithus"] = [[• Válka pohyblivých písků (War of the Shifting Sands) – před tisícem let silithidi a Qiraji zaútočili na noční elfy. Fandral Staghelm vedl obranu a ztratil v ní svého syna Valstanna. Draci čtyř barev nakonec Qiraji uzavřeli za Scarab Wall.
 
-• Scepter of the Shifting Sands – žezlo, kterým lze zeď otevřít. Anachronos z bronzových draků ho střeží.
+• Scepter of the Shifting Sands – žezlo, kterým lze zeď otevřít. Jeho tajemství zná bronzový drak Anachronos.
 
 • SPOILER – v klasickém WoW se Ahn'Qiraj otevřel velkou událostí, kdy celý server sbíral suroviny a jeden hráč udeřil do gongu.]]
 WoWpoCesku_LoreTajemstvi["Silithus"] = [[• Gong na Scarab Wall – po dlouhé řadě questů může jeden hráč udeřit do gongu a otevřít brány Ahn'Qiraj pro celý server.
 
 • Thunderfury – legendární meč, jehož části padají v Molten Core, se dokončuje tady: Highlord Demitrian tě pošle vyvolat a porazit prince Thunderaana.
 
-• Twilight's Hammer – kultisté vyvolávají elementální pány. S jejich artefakty můžeš vyvolat elementály a bojovat s nimi.
+• Twilight's Hammer – kultisté vyvolávají mocné elementály. S jejich artefakty můžeš vyvolat elementály a bojovat s nimi.
 
 • Hive'Ashi, Hive'Zora, Hive'Regal – úly silithidů.
 
