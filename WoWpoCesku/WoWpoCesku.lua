@@ -736,19 +736,44 @@ local function refreshOptions()
     for _, w in ipairs(optionWidgets) do w:Refresh() end
 end
 
-local function addCheck(y, label, note, get, set, x)
+-- Rozložení: dva sloupce se sekcemi; každý sloupec si pamatuje, kde skončil (col.y)
+local COL_W = 370
+local function newColumn(x) return { x = x, y = -60 } end
+
+local function addSection(col, title)
+    col.y = col.y - 6
+    local t = options:CreateFontString(nil, "ARTWORK")
+    t:SetFontObject(labelFont)
+    t:SetTextColor(1, 0.82, 0)
+    t:SetPoint("TOPLEFT", col.x, col.y)
+    t:SetText(title)
+    local line = options:CreateTexture(nil, "ARTWORK")
+    line:SetColorTexture(1, 0.82, 0, 0.35)
+    line:SetPoint("TOPLEFT", col.x, col.y - 18)
+    line:SetSize(COL_W, 1)
+    col.y = col.y - 26
+end
+
+local function addCheck(col, label, note, get, set)
     local cb = CreateFrame("CheckButton", nil, options, "UICheckButtonTemplate")
-    cb:SetPoint("TOPLEFT", x or 16, y)
+    cb:SetPoint("TOPLEFT", col.x - 4, col.y + 2)
     local text = options:CreateFontString(nil, "ARTWORK")
     text:SetFontObject(labelFont)
-    text:SetPoint("LEFT", cb, "RIGHT", 4, 1)
+    text:SetPoint("TOPLEFT", col.x + 28, col.y - 4)
+    text:SetWidth(COL_W - 32)
+    text:SetJustifyH("LEFT")
     text:SetText(label)
+    local h = text:GetStringHeight() + 4
     if note then
         local n = options:CreateFontString(nil, "ARTWORK")
         n:SetFontObject(noteFont)
         n:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 0, -2)
+        n:SetWidth(COL_W - 32)
+        n:SetJustifyH("LEFT")
         n:SetText(note)
+        h = h + n:GetStringHeight() + 2
     end
+    col.y = col.y - math.max(28, h + 10)
     cb:SetScript("OnClick", function(self) set(self:GetChecked() and true or false) end)
     cb.Refresh = function(self) self:SetChecked(get()) end
     optionWidgets[#optionWidgets + 1] = cb
@@ -760,95 +785,95 @@ local function buildOptions()
     head:SetPoint("TOPLEFT", 16, -16)
     head:SetText("WoWpoČesku – nastavení")
 
-    addCheck(-50, "Překlad zapnutý", nil,
+    local left, right = newColumn(20), newColumn(420)
+
+    -- levý sloupec: překlad
+    addSection(left, "Překlad")
+    addCheck(left, "Překlad zapnutý", nil,
         function() return WoWpoCeskuSettings.enabled end, setEnabled)
-    addCheck(-85, "Překlad v deníku questů (klávesa L)", nil,
+    addCheck(left, "Překlad v deníku questů (klávesa L)", nil,
         function() return WoWpoCeskuSettings.log ~= false end,
         function(on) WoWpoCeskuSettings.log = on end)
-    addCheck(-120, "Překlad rozhovorů s NPC", "Když NPC jen mluví (obchodníci, strážní…)",
+    addCheck(left, "Překlad rozhovorů s NPC", "Když NPC jen mluví (obchodníci, strážní…)",
         function() return WoWpoCeskuSettings.gossip ~= false end,
         function(on) WoWpoCeskuSettings.gossip = on; if not on and panel.source == "gossip" then panel:Hide() end end)
-    addCheck(-165, "Automaticky označit text pro Ctrl+C", "U nového questu je text hned připravený ke zkopírování",
-        function() return WoWpoCeskuSettings.autofocus end,
-        function(on) WoWpoCeskuSettings.autofocus = on end)
-    addCheck(-210, "Čeština v přehledu úkolů, názvech questů a volbách u NPC",
-        "Názvy questů, 'Zabito – …: 3/10', 'Ukaž mi, kam můžu letět' … (projeví se po /reload)",
-        function() return WoWpoCeskuSettings.ui ~= false end,
-        function(on) WoWpoCeskuSettings.ui = on end)
-    addCheck(-255, "Překlad knih, dopisů a cedulí", nil,
+    addCheck(left, "Překlad knih, dopisů a cedulí", nil,
         function() return WoWpoCeskuSettings.books ~= false end,
         function(on) WoWpoCeskuSettings.books = on; if not on and panel.source == "book" then panel:Hide() end end)
-    addCheck(-290, "Ikona u minimapy", nil,
-        function() return WoWpoCeskuSettings.minimap ~= false end,
-        function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
+    addCheck(left, "Čeština v přehledu úkolů a volbách u NPC",
+        "Názvy questů, „Zabito: 3/10“, „Ukaž mi, kam můžu letět“… (po /reload)",
+        function() return WoWpoCeskuSettings.ui ~= false end,
+        function(on) WoWpoCeskuSettings.ui = on end)
+    addCheck(left, "Automaticky označit text pro Ctrl+C", "U nového questu je text hned připravený ke zkopírování",
+        function() return WoWpoCeskuSettings.autofocus end,
+        function(on) WoWpoCeskuSettings.autofocus = on end)
 
-    -- Kronika Azerothu (pravý sloupec)
-    local kronHead = options:CreateFontString(nil, "ARTWORK")
-    kronHead:SetFontObject(labelFont)
-    kronHead:SetTextColor(1, 0.82, 0)
-    kronHead:SetPoint("TOPLEFT", 440, -54)
-    kronHead:SetText("Kronika Azerothu:")
-    addCheck(-75, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: Ctrl+klik na ikonu, /czq lore",
-        function() return WoWpoCeskuSettings.loreToast ~= false end,
-        function(on) WoWpoCeskuSettings.loreToast = on end, 436)
-    addCheck(-120, "Upozornění na vzácné moby", "Zvuk + okno, zapíše se kde a kdy (/czq vzacni)",
-        function() return WoWpoCeskuSettings.rareAlert ~= false end,
-        function(on) WoWpoCeskuSettings.rareAlert = on end, 436)
-    addCheck(-165, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
-        function() return WoWpoCeskuSettings.npcNotes ~= false end,
-        function(on) WoWpoCeskuSettings.npcNotes = on end, 436)
-
-    -- Rozhraní hry česky – části (Lokalizace.lua), každou jde zapnout zvlášť
-    local lokHead = options:CreateFontString(nil, "ARTWORK")
-    lokHead:SetFontObject(labelFont)
-    lokHead:SetTextColor(1, 0.82, 0)
-    lokHead:SetPoint("TOPLEFT", 20, -335)
-    lokHead:SetText("Rozhraní hry česky (projeví se po /reload):")
-    local y = -355
+    -- levý sloupec: rozhraní hry česky (Lokalizace.lua)
+    addSection(left, "Rozhraní hry česky (po /reload)")
     for _, part in ipairs(WoWpoCesku_LokParts or {}) do
-        addCheck(y, part.label, part.note,
+        addCheck(left, part.label, part.note and part.note:gsub("%s*%(projeví se po /reload%)", ""),
             function() return not (WoWpoCeskuSettings.lok and WoWpoCeskuSettings.lok[part.key] == false) end,
             function(on) WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}; WoWpoCeskuSettings.lok[part.key] = on end)
-        y = y - 45
     end
-    local shift = y + 340   -- o kolik posunout prvky pod částmi (záporné číslo)
 
-    -- Velikost písma: − číslo +
+    -- pravý sloupec: Kronika Azerothu
+    addSection(right, "Kronika Azerothu")
+    addCheck(right, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: Ctrl+klik na ikonu nebo /czq lore",
+        function() return WoWpoCeskuSettings.loreToast ~= false end,
+        function(on) WoWpoCeskuSettings.loreToast = on end)
+    addCheck(right, "Upozornění na vzácné moby", "Zvuk, nápis a cedulka; zapíše se kde a kdy (/czq vzacni)",
+        function() return WoWpoCeskuSettings.rareAlert ~= false end,
+        function(on) WoWpoCeskuSettings.rareAlert = on end)
+    addCheck(right, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
+        function() return WoWpoCeskuSettings.npcNotes ~= false end,
+        function(on) WoWpoCeskuSettings.npcNotes = on end)
+
+    -- pravý sloupec: panel s překladem
+    addSection(right, "Panel s překladem")
     local sizeLabel = options:CreateFontString(nil, "ARTWORK")
     sizeLabel:SetFontObject(labelFont)
-    sizeLabel:SetPoint("TOPLEFT", 20, -350 + shift)
-    sizeLabel:SetText("Velikost písma v panelu:")
+    sizeLabel:SetPoint("TOPLEFT", right.x, right.y - 4)
+    sizeLabel:SetText("Velikost písma:")
     local minus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     minus:SetSize(26, 22)
-    minus:SetPoint("LEFT", sizeLabel, "RIGHT", 10, 0)
+    minus:SetPoint("LEFT", sizeLabel, "RIGHT", 12, 0)
     minus:SetText("-")
     local value = options:CreateFontString(nil, "ARTWORK")
     value:SetFontObject(labelFont)
-    value:SetPoint("LEFT", minus, "RIGHT", 10, 0)
+    value:SetPoint("LEFT", minus, "RIGHT", 8, 0)
     value:SetWidth(24)
     local plus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     plus:SetSize(26, 22)
-    plus:SetPoint("LEFT", value, "RIGHT", 10, 0)
+    plus:SetPoint("LEFT", value, "RIGHT", 8, 0)
     plus:SetText("+")
     value.Refresh = function(self) self:SetText(WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) end
     optionWidgets[#optionWidgets + 1] = value
     minus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) - 1); value:Refresh() end)
     plus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) + 1); value:Refresh() end)
+    right.y = right.y - 36
 
     local reset = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
     reset:SetSize(230, 24)
-    reset:SetPoint("TOPLEFT", 20, -390 + shift)
+    reset:SetPoint("TOPLEFT", right.x, right.y)
     czButton(reset)
     reset:SetText("Vrátit panel na výchozí místo")
     reset:SetScript("OnClick", function() WoWpoCeskuSettings.pos = nil; if panel:IsShown() then placePanel(panel.source) end end)
+    right.y = right.y - 40
+
+    -- pravý sloupec: ostatní
+    addSection(right, "Ostatní")
+    addCheck(right, "Ikona u minimapy", "Klik = nastavení, pravý klik = překlad zap/vyp, Ctrl+klik = Kronika",
+        function() return WoWpoCeskuSettings.minimap ~= false end,
+        function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
 
     local help = options:CreateFontString(nil, "ARTWORK")
     help:SetFontObject(noteFont)
-    help:SetPoint("TOPLEFT", 20, -435 + shift)
-    help:SetWidth(520)
+    help:SetPoint("TOPLEFT", right.x, right.y - 8)
+    help:SetWidth(COL_W)
     help:SetJustifyH("LEFT")
-    help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat).\n"
-        .. "Panel s překladem jde přetáhnout myší. Příkazy do chatu: /czq nastaveni, /czq stav")
+    help:SetSpacing(2)
+    help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat). "
+        .. "Panel s překladem jde přetáhnout myší.\nPříkazy do chatu: /czq nastaveni, /czq stav, /czq lore, /czq vzacni")
 end
 
 options:SetScript("OnShow", function(self)
