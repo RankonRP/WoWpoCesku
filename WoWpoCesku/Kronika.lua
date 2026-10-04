@@ -447,6 +447,8 @@ function WoWpoCesku_BestiarPage(key)
                 .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "")
                 .. ((rec.n or 1) > 1 and ("  (%dx)"):format(rec.n) or "") .. "|r"
         end
+        local note = WoWpoCesku_RareNotes and WoWpoCesku_RareNotes[name]
+        if note then line = line .. "\n      " .. note end
         local hasPts = (WoWpoCesku_RareSpawns and WoWpoCesku_RareSpawns[name]) or (WoWpoCesku_RareMapPts and WoWpoCesku_RareMapPts[name])
         rows[#rows + 1] = {
             text = line .. (hasPts and "" or ("  " .. GRAY .. "(místo neznámé)|r")),
