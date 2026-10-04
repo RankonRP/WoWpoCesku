@@ -7,6 +7,7 @@ local PARCHMENT = "Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga"
 local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.42, 0.30, 0.18 }
 
 local function say(s) print("|cffffd100WoWpoCesku:|r " .. s) end
+
 local function seen()
     WoWpoCeskuSeen = WoWpoCeskuSeen or {}
     WoWpoCeskuSeen.rares = WoWpoCeskuSeen.rares or {}
@@ -590,10 +591,8 @@ ev:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 pcall(ev.RegisterEvent, ev, "VIGNETTES_UPDATED")
 pcall(ev.RegisterEvent, ev, "VIGNETTE_MINIMAP_UPDATED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
-ev:RegisterEvent("ADDON_ACTION_BLOCKED")
-ev:RegisterEvent("ADDON_ACTION_FORBIDDEN")
 pcall(ev.RegisterEvent, ev, "ENCOUNTER_END")
-pcall(ev.RegisterEvent, ev, "COMBAT_LOG_EVENT_UNFILTERED")
+-- POZOR: COMBAT_LOG_EVENT_UNFILTERED ve WoW Forever addony registrovat nesmí (hra hlásí zakázanou akci)
 ev:SetScript("OnEvent", function(_, event, unit, ...)
     if event == "PLAYER_LOGIN" then
         pcall(hookTooltip)
@@ -608,20 +607,6 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
     elseif event == "ENCOUNTER_END" then
         local encName, _, _, success = ...   -- unit = encounterID
         if success == 1 then pcall(markBoss, encName) end
-    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-        if IsInInstance and IsInInstance() and CombatLogGetCurrentEventInfo then
-            local ok, _, sub, _, _, _, _, _, _, destName = pcall(CombatLogGetCurrentEventInfo)
-            if ok and (sub == "UNIT_DIED" or sub == "PARTY_KILL") then pcall(markBoss, destName) end
-        end
-    elseif event == "ADDON_ACTION_BLOCKED" or event == "ADDON_ACTION_FORBIDDEN" then
-        -- unit = název addonu, ... = funkce, kterou hra zablokovala – ať víme, co opravit
-        local func = ...
-        if unit == "WoWpoCesku" then
-            say(("hra zablokovala akci: %s (napis to prosim autorovi)"):format(tostring(func)))
-            local S = seen()
-            S.blocked = S.blocked or {}
-            S.blocked[#S.blocked + 1] = date("%d.%m. %H:%M ") .. tostring(func)
-        end
     elseif event == "PLAYER_REGEN_ENABLED" then
         if not (alert and alert:IsShown()) then hideTargetButton() end
     else

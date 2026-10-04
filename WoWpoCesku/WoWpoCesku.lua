@@ -3,6 +3,20 @@
 -- Nepřeložený quest nabídne k označení -> hráč zmáčkne Ctrl+C -> Pomocník ho přeloží.
 -- Funguje v okně questu u NPC i v deníku questů.
 
+-- zablokované akce ("blocked from an action only available to the Blizzard UI") – vypsat a uložit, ať víme, co opravit
+do
+    local guard = CreateFrame("Frame")
+    guard:RegisterEvent("ADDON_ACTION_BLOCKED")
+    guard:RegisterEvent("ADDON_ACTION_FORBIDDEN")
+    guard:SetScript("OnEvent", function(_, event, addon, func)
+        if addon ~= "WoWpoCesku" then return end
+        print(("|cffffd100WoWpoCesku:|r hra zablokovala akci: %s (%s) - napis to prosim autorovi"):format(tostring(func), event))
+        WoWpoCeskuSeen = WoWpoCeskuSeen or {}
+        WoWpoCeskuSeen.blocked = WoWpoCeskuSeen.blocked or {}
+        table.insert(WoWpoCeskuSeen.blocked, date("%d.%m. %H:%M ") .. tostring(func))
+    end)
+end
+
 local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
 local NAME_TOKEN = "{N}"
 local DEFAULT_FONT_SIZE = 13
