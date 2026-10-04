@@ -984,10 +984,29 @@ WoWpoCesku_Lore["The Hinterlands"] = {
     title = "The Hinterlands",
     tag = "Divoké vrchoviny gryfích jezdců a trollů, kteří si pamatují dávnou slávu.",
     ch = {
-        { "Divočina na severu", [[The Hinterlands jsou zelené, hornaté lesy na severovýchodě Lordaeronu, daleko od měst a silnic. Vzduch je tu čistý a na nebi krouží gryfové. Kdysi tu vládla trollí říše Amani, jejíž ruiny jsou rozeseté po celém kraji.]] },
-        { "Aerie Peak", [[Na skalách na západě leží Aerie Peak, domov trpaslíků Wildhammer. Na rozdíl od svých bratranců z Ironforge žijí venku, v souladu s přírodou, a létají na gryfech. Jsou to divocí, hrdí válečníci a s Ironforge si moc nerozumějí – ale v nouzi stojí za Aliancí.]] },
-        { "Revantusk", [[Na východním pobřeží žijí trollové z kmene Revantusk. Jsou to Amani, kteří se oddělili od svých bratří a přidali se k Hordě. Jejich vesnice je jedním z mála míst Hordy v tomto kraji.]] },
-        { "Hrozby", [[Trollové Witherbark a Vilebranch sídlí v obřích pevnostech Shadra'Alor a Jintha'Alor. Kněží Atal'ai uctívají Hakkara, v lesích žijí vlci, sovy a divocí gryfové. Na severu se tlačí zbytky Pohromy.]] },
+        { "Divočina na severu", [[The Hinterlands jsou zelené, hornaté lesy na severovýchodě Lordaeronu, daleko od měst a silnic. Vzduch je tu čistý a na nebi krouží gryfové. Na západě leží Aerie Peak, na východním pobřeží trollí vesnice Revantusk a v hloubi kraje obří trollí pevnosti.]] },
+
+        { "Srdce říše Amani", [[Prvními obyvateli Hinterlands byli lesní trollové z říše Amani. Jejich říše se táhla přes velkou část východního Lordaeronu a Hinterlands byly jejím srdcem.
+
+Asi 2800 let před otevřením Temného portálu přišli trollové Zandalari na pomoc svým lesním bratrancům a vypukla ničivá Válka trollů. Trollové vtrhli do Quel'Thalas, dokud se vysocí elfové nespojili s lidmi. Říše Amani pak byla zredukována na malé zbytky ve východním Quel'Thalas a na jihu Hinterlands.]] },
+
+        { "Příchod Wildhammerů", [[Asi 230 let před otevřením portálu, po Válce tří kladiv, opustili trpaslíci Wildhammer svůj podzemní domov v Grim Batolu a přesídlili do Hinterlands, kde založili Aerie Peak. Vytvořili jedinečnou kulturu blízkou přírodě a hlavně spjatou s gryfy, na kterých létají.
+
+Trollové je od začátku považovali za vetřelce na zemi svých předků. Tři přeživší trollí kmeny si kraj rozdělily: Vilebranch drží Jintha'Alor a Altar of Zul, Witherbark žijí v Shadra'Alor a Hiri'watha a kočovní Revantusk zpočátku žádné trvalé sídlo neměli.]] },
+
+        { "Druhá válka", [[Ve Druhé válce vedl thane Kurdran Wildhammer gryfí jezdce, kteří útočili na Hordu ze vzduchu. Válečný náčelník Orgrim Doomhammer se spojil se Zul'jinem a trolly Amani, aby odlákali síly Aliance od jejích hlavních cílů.
+
+Thane Wildhammerů nakonec přislíbil pomoc svého království Alianci. Gryfí jezdci se stali jedním ze symbolů Aliance a jejich jména zná každý trpasličí bard.]] },
+
+        { "Kdo tu dnes žije", [[Na skalách na západě leží Aerie Peak, domov Wildhammerů. Na rozdíl od svých bratranců z Ironforge žijí venku, v souladu s přírodou, a s Ironforge si moc nerozumějí – ale v nouzi stojí za Aliancí. Jejich vůdcem je Falstad Wildhammer.
+
+Po Třetí válce se trollové z kmene Revantusk s nevolí přidali k Hordě, která jim pomohla postavit Revantusk Village na východním pobřeží. Vysocí elfové z Highvale si zřídili loveckou chatu Quel'Danil Lodge.]] },
+
+        { "Seradane", [[V jižní části kraje stojí Seradane – prastarý obrovský strom s portálem do Smaragdového snu, který hlídají zelení draci. Zelená dračice Ysondre ale podlehla Smaragdové noční můře a vyšla z portálu, aby kraj terorizovala, dokud ji dobrodruzi neporazili.]] },
+
+        { "Hrozby a zajímavosti", [[Trollové Witherbark a Vilebranch sídlí v obřích pevnostech a uctívají staré bohy. V lesích žijí vlci, sovy a divocí gryfové a na severu se tlačí zbytky Pohromy.
+
+Hinterlands jsou jedním z nejkrásnějších a nejdivočejších krajů Eastern Kingdoms. Kdo se z Aerie Peak podívá do údolí, uvidí krajinu, která se od dob říše Amani téměř nezměnila.]] },
     },
 }
 WoWpoCesku_LoreKnihy["The Hinterlands"] = [[• Válka trollů – Amani kdysi ovládali celý sever kontinentu. Vysocí elfové z Quel'Thalas s nimi bojovali po staletí a zvítězili až s pomocí lidí z Arathoru.
@@ -1011,10 +1030,25 @@ WoWpoCesku_Lore["Western Plaguelands"] = {
     title = "Western Plaguelands",
     tag = "Mrtvá pole Lordaeronu, kde se bojuje o každou vesnici s nemrtvými.",
     ch = {
-        { "Země moru", [[Western Plaguelands jsou zpustlé kopce a pole východně od Tirisfalu. Kdysi tu byly bohaté farmy a vesnice; mor je proměnil v šedé, nemocné kraje plné rozpadlých stodol a mrtvých stromů. Uprostřed kraje se tyčí Andorhal, město, kde začal mor.]] },
-        { "Chillwind Camp a Bulwark", [[Aliance drží Chillwind Camp na jihu – malý tábor, odkud se plánují útoky proti Pohromě. Horda a Forsaken hlídají The Bulwark, opevněnou hranici s Tirisfalem. Obě strany mají stejného nepřítele: Pohromu.]] },
-        { "Hearthglen a Scholomance", [[Na severu leží Hearthglen, pevnost Šarlatového křižáckého řádu. Na ostrově v jezeře Darrowmere stojí Caer Darrow s ruinami hradu rodu Barov – pod ním je Scholomance, škola nekromancie, kde Kult zatracených učí nové nekromanty.]] },
-        { "Hrozby", [[Pohroma, nekromanti, Šarlatoví, zdivočelí nemrtví, mutovaní vlci a medvědi. V Andorhalu se bojuje nejvíc – mrtví tam jsou všude.]] },
+        { "Země moru", [[Western Plaguelands jsou zpustlé kopce a pole východně od Tirisfalu. Kdysi tu byly bohaté farmy a vesnice; mor je proměnil v šedé, nemocné kraje plné rozpadlých stodol a mrtvých stromů. Uprostřed kraje leží Andorhal, na severu Hearthglen a na jihovýchodě jezero Darrowmere s ostrovem Caer Darrow.]] },
+
+        { "Krásná zemědělská krajina", [[Před Třetí válkou byl tento kraj krásnou lesnatou zemědělskou krajinou východně od Tirisfalu. Hearthglen byl správním centrem a Andorhal střediskem, odkud se rozváželo obilí pro celý severní Lordaeron.]] },
+
+        { "Mor", [[Lich King šířil mor pomocí morových kotlů ukrytých ve vesnicích, které ovládal Kult zatracených. Kult nakazil obilí z Andorhalu a na polích čtyř největších statků v kraji postavil čtyři obrovské morové kotle. Mor se pak šířil nezadržitelně.
+
+Statky Felstone Field, Dalson's Farm, Gahrron's Withering a The Writhing Haunt dnes nesou stopy té tragédie – a každý má svůj smutný příběh.]] },
+
+        { "Uther a Caer Darrow", [[Uther's Tomb označuje místo, kde padl legendární paladin Uther Lightbringer, první paladin a velitel Rytířů Stříbrné ruky. Zabil ho Arthas, když se mu postavil.
+
+Caer Darrow na ostrově v jezeře je největší zbývající baštou Pohromy v kraji. Pod hradem leží Scholomance – škola nekromancie, kterou zpočátku vedl rod Barovů. Ten svůj hrad prodal Kultu zatracených.]] },
+
+        { "Šarlatoví v Hearthglen", [[Šarlatový křižácký řád obsadil v Hearthglen pevnost Mardenholde Keep a udělal z ní své regionální velitelství. Odtud se snaží získat zpět morem zpustošené země – svým nemilosrdným způsobem.]] },
+
+        { "Tábory a odboj", [[Aliance drží Chillwind Camp na jihu a Horda The Bulwark na hranici s Tirisfalem. Obě strany mají stejného nepřítele: Pohromu.
+
+Postupně se tu objevila Argent Dawn – organizace, která bojuje proti Pohromě i moru bez ohledu na frakce.]] },
+
+        { "Zajímavosti", [[Kdo se zastaví u Uther's Tomb, stojí u hrobu jednoho z největších hrdinů lidstva. A kdo projde opuštěné farmy kolem Andorhalu, najde v nich deníky a příběhy rodin, které mor zastihl nepřipravené.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Western Plaguelands"] = [[• Andorhal a Kel'Thuzad – arcimág Kel'Thuzad z Dalaranu propadl nekromancii a založil Kult zatracených. Rozšířil mor přes obilí ze sýpek v Andorhalu. Arthas ho tu zabil – ale Kel'Thuzad se vrátil jako lich a vládne v Naxxramas.
@@ -1038,10 +1072,25 @@ WoWpoCesku_Lore["Eastern Plaguelands"] = {
     title = "Eastern Plaguelands",
     tag = "Srdce Pohromy – kraj, nad kterým se vznáší létající nekropole.",
     ch = {
-        { "Nejhorší místo Lordaeronu", [[Eastern Plaguelands jsou nejvíc zasažená část bývalého Lordaeronu. Půda je tu zelená morem, stromy mrtvé a řeky otrávené. Nad krajem se vznáší Naxxramas, létající nekropole Kel'Thuzada, odkud Pohroma řídí své armády.]] },
-        { "Light's Hope Chapel", [[Na východě stojí Light's Hope Chapel, kaple, kde se Argent Dawn drží proti Pohromě. Je to jediné bezpečné místo v kraji – Světlo tu je tak silné, že nemrtví neprojdou. Tady se scházejí hrdinové obou frakcí.]] },
-        { "Stratholme", [[Na severu leží Stratholme, kdysi druhé největší lidské město. Tady Arthas nechal vyvraždit obyvatele, aby je mor nezměnil v nemrtvé – a tady se začal měnit v to, čím se stal. Dnes je město plné Pohromy a Šarlatových.]] },
-        { "Hrozby", [[Všechno. Pohroma, ghúlové, obludy sešité z mrtvol, nekromanti, nemrtví draci a Šarlatoví z Tyr's Hand. Mrtví tu převyšují živé stokrát.]] },
+        { "Nejhorší místo Lordaeronu", [[Eastern Plaguelands jsou nejvíc zasažená část bývalého Lordaeronu. Půda je tu zelená morem, stromy mrtvé a řeky otrávené. Na severu leží Stratholme, na východě kaple Light's Hope Chapel a pevnost Tyr's Hand a nad krajem se vznáší Naxxramas.]] },
+
+        { "Vyčištění Stratholme", [[Princ Arthas pronásledoval nekromanta Kel'Thuzada až do Stratholme, kde zjistil, že obyvatelé jsou nakaženi morem nemrtvých. Když Uther Lightbringer odmítl město vyčistit, Arthas ho zbavil velení, rozpustil Rytíře Stříbrné ruky a obyvatele pobil sám.
+
+Pád Stratholme byl zlomem. Princ, který chtěl svůj lid zachránit, tu udělal první velký krok do temnoty.]] },
+
+        { "Darrowshire", [[Po Stratholme mor zpustošil další osady – mezi nimi Darrowshire, kde se obránci zuřivě bránili. Kapitán Joseph Redpath padl nekromancii Marduka a jeho duše byla vyrvána z těla a zkažena do služeb Pohromy.
+
+Jeho dcera Pamela bloudí v troskách Darrowshire jako duch a hledá svou rodinu. Řada questů o bitvě u Darrowshire patří k nejdojemnějším v klasickém WoW.]] },
+
+        { "Rozpad křížové výpravy", [[Alexandros Mograine založil z přeživších Rytířů Stříbrné ruky křížovou výpravu a ovládl Tyr's Hand a západní Stratholme. Po Mograinově smrti se výprava rozpadla na Bratrstvo Světla, Argent Dawn se sídlem v Light's Hope Chapel a Šarlatový křižácký řád.]] },
+
+        { "Tirion Fordring", [[U řeky Thondroril žije vyhnaný paladin Tirion Fordring. Byl vyhnán z řádu za to, že zachránil orka jménem Eitrigg. Žije jako poustevník – ale jeho příběh ještě zdaleka neskončil.]] },
+
+        { "Místa a hrozby", [[Plaguewood na severu je nejzamořenější částí kraje. Zul'Mashar byl kdysi hlavním městem trollů Mossflayer, dnes je oslabený. Tyr's Hand drží Šarlatoví a Light's Hope Chapel je sídlem Argent Dawn – jediným bezpečným místem v kraji.
+
+Kraj zůstává baštou Pohromy pod velením Kel'Thuzada. Pohroma, ghúlové, obludy sešité z mrtvol, nekromanti a Šarlatoví – mrtví tu převyšují živé stokrát.]] },
+
+        { "Zajímavosti", [[Nad krajem se vznáší Naxxramas, létající nekropole Kel'Thuzada a poslední raid klasického WoW. A ve Stratholme na barona Rivendara čeká jeden z nejslavnějších mountů klasiky.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Eastern Plaguelands"] = [[• Vyčištění Stratholme (Warcraft III) – Arthas zjistil, že obilí v Stratholme je otrávené. Nařídil zabít všechny obyvatele, než se promění. Uther a Jaina ho odmítli následovat. Pro mnohé je to okamžik, kdy princ padl.
@@ -1107,10 +1156,27 @@ WoWpoCesku_Lore["Searing Gorge"] = {
     title = "Searing Gorge",
     tag = "Rozžhavená roklina, kde Dark Ironové otrocky dolují pro svého ohnivého pána.",
     ch = {
-        { "Kraj ohně", [[Searing Gorge je kaňon rozžhavené skály, láv a kouře na sever od Blackrock Mountain. Vzduch tu pálí a země hoří. Kdysi to byla část trpasličí říše, ale Válka tří kladiv ji proměnila v peklo.]] },
-        { "Thorium Brotherhood", [[V Thorium Point sídlí Thorium Brotherhood – trpasličí kováři, kteří se odtrhli od Dark Ironů. Hledají spojence a nabízejí nejlepší kovářské recepty na světě. Ale aby ti uvěřili, musíš si získat jejich důvěru.]] },
-        { "The Cauldron", [[Uprostřed kraje je The Cauldron, obrovský důl, kde Dark Ironové nutí otroky – i jiné trpaslíky – kopat rudu. Nad ním stojí stroje a mosty a dýmá z něj černý kouř.]] },
-        { "Hrozby", [[Dark Ironové, ohniví elementálové, golemové a pavouci. Na jihu se tyčí Blackrock Mountain, kde sídlí Ragnaros i Nefarian.]] },
+        { "Kraj ohně", [[Searing Gorge je kaňon rozžhavené skály, láv a kouře na sever od hory Blackrock. Vzduch tu pálí a země hoří. Na jihu vede řetězový most do nitra hory, uprostřed kraje se otevírá obrovský důl The Cauldron a na okraji kaňonu stojí Thorium Point.]] },
+
+        { "Údolí, které shořelo", [[Searing Gorge bylo nejspíš kdysi zeleným údolím, součástí hor Redridge. Pak, před více než 230 lety za Války tří kladiv, přišla katastrofa.
+
+Vůdce Dark Ironů, čaroděj Thaurissan, hledal nadpřirozenou pomoc ve válce s ostatními trpasličími klany. Spolu se sedmi svými nejmocnějšími a nejvěrnějšími trpaslíky vzýval prastaré síly, které spí pod světem – a vyvolal pána ohně Ragnarose. Výbuch sopky vytvořil horu Blackrock, zpustošil krajinu a z hlavního města Dark Ironů, Thaurissanu, zbyly jen ruiny.]] },
+
+        { "Důl The Cauldron", [[Dark Ironové se přesunuli do podzemního města Shadowforge a začali s obrovskou těžbou. Hlavním dolem se stal The Cauldron, pod kterým leží důl Slag Pit bohatý na rudy.
+
+Těžba stojí na práci otroků – hlavně zajatých nepřátel. Kdo se dostane do Cauldron, uvidí, jak krutě Dark Ironové se svými zajatci zacházejí.]] },
+
+        { "Thorium Brotherhood", [[Ne všichni Dark Ironové slouží Ragnarosovi. Thorium Brotherhood jsou Dark Ironové, kteří se od svého klanu odtrhli. Na okraji kaňonu si postavili Thorium Point a odtud sledují, co se děje v Cauldron pod nimi.
+
+Jsou to vynikající kováři a nabízejí nejlepší kovářské recepty na světě. Ale aby ti uvěřili, musíš si získat jejich důvěru.]] },
+
+        { "Místa v kaňonu", [[Kromě Cauldron a Thorium Point najdeš v kaňonu pláň Pyrox Flats, výkop Grimesilt Dig Site, jeskyni Blackchar Cave a hřbet Firewatch Ridge, kde Dark Ironové hlídají okolí.
+
+Všude je cítit síra a z puklin v zemi stoupá dým. Searing Gorge není místo, kde by člověk chtěl zůstat déle, než musí.]] },
+
+        { "Hrozby", [[Dark Ironové, ohniví elementálové, golemové a pavouci. Na jihu se tyčí hora Blackrock, kde dole sídlí Ragnaros a nahoře černý drak Nefarian.]] },
+
+        { "Zajímavosti", [[Searing Gorge je bránou do hory Blackrock – místa, kde jsou dungeony Blackrock Depths a Blackrock Spire a raidy Molten Core a Blackwing Lair. Kdo jednou projde po řetězovém mostě do hory, ví, že se blíží konec cesty.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Searing Gorge"] = [[• Vyvolání Ragnarose – na konci Války tří kladiv vyvolal Dark Ironský čaroděj Thaurissan pána ohně Ragnarose. Výbuch zničil tento kraj a Ragnaros zotročil samotné Dark Irony.
@@ -1130,12 +1196,29 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
 WoWpoCesku_Lore["Burning Steppes"] = {
     title = "Burning Steppes",
-    tag = "Spálené pláně pod Blackrock Mountain, kde se orkové a draci perou o horu.",
+    tag = "Spálené pláně pod horou Blackrock, kde se orkové a draci perou o horu.",
     ch = {
-        { "Popel a láva", [[Burning Steppes jsou černé, spálené pláně na jih od Blackrock Mountain. Láva tu teče potoky, kouř zakrývá slunce a všude je cítit síra. Kraj vznikl při stejném výbuchu jako Searing Gorge.]] },
-        { "Blackrock", [[Klan Blackrock tu má svou pevnost v horách a v Blackrock Spire. Vede je Warchief Rend Blackhand, syn Blackhanda – a slouží drakovi Nefarianovi, i když to sami nepřiznají.]] },
-        { "Kdo tu žije", [[Aliance drží Morgan's Vigil na jihovýchodě, kde Marshal Maxwell hlídá cestu do Redridge. Horda má jen malý tábor Flame Crest u hory, kde orkové plánují pomstu Blackrocku.]] },
-        { "Hrozby", [[Orkové Blackrock, černí draci a drakonidi, ohniví elementálové a obří psi. Nad horou vládne Nefarian a pod ní Ragnaros.]] },
+        { "Popel a láva", [[Burning Steppes jsou černé, spálené pláně na jih od hory Blackrock. Láva tu teče potoky, kouř zakrývá slunce a všude je cítit síra. Na jihovýchodě leží tábor Aliance Morgan's Vigil, který hlídá cestu do Redridge.]] },
+
+        { "Než přišel oheň", [[Kraj byl kdysi nejspíš podobný horám Redridge a patřil předkům lidí ze Stormwindu, hlavně rodu Morganů – odtud jméno Morgan's Vigil.
+
+Asi dvě stě let před otevřením Temného portálu tu vyhnaní Dark Ironové založili město Thaurissan. Čaroděj Thaurissan se pokusil vyvolat elementály proti soupeřícím trpasličím klanům a místo toho probudil Ragnarose. Pán ohně roztavil několik hor a vytvořil sopku Blackrock.]] },
+
+        { "Orkové u sopky", [[V První válce dorazili orkové a usadili se kolem sopky – horké, drsné prostředí jim připomínalo domov.
+
+Ve Druhé válce Horda dobyla Blackrock Spire a udělala z něj svou základnu. Aliance pevnost obléhala a u úpatí sopky, na sklonku války, zabil Orgrim Doomhammer lidského hrdinu Anduina Lothara. Lotharova smrt ale Alianci spíš sjednotila a dovedla k vítězství.]] },
+
+        { "Temná Horda", [[Klan Blackrock tu zůstal i po válce. Horní patra Blackrock Spire dnes drží Temná Horda (Dark Horde) pod vedením Warchiefa Renda Blackhanda, syna Blackhanda, a s nimi černí draci Nefariana, syna Deathwinga.
+
+Rend si říká válečný náčelník Hordy, ale Thrallovu Hordu neuznává. A nad ním ve skutečnosti vládne Nefarian.]] },
+
+        { "Kdo tu ještě je", [[Aliance drží Morgan's Vigil na jihovýchodě, kde Marshal Maxwell vede výpravy proti Blackrocku. Horda má malý tábor Flame Crest u hory. V kraji leží i ruiny Ruins of Thaurissan, ogří pevnost Dreadmaul Rock, oltář Altar of Storms a Draco'dar.]] },
+
+        { "Hrozby", [[Orkové Blackrock, černí draci a drakonidi, ohniví elementálové a obří psi. Nad horou vládne Nefarian a pod ní Ragnaros – a mezi nimi jsou Burning Steppes, kraj, kterým musí projít každý, kdo chce do hory.]] },
+
+        { "Zajímavosti", [[Tady padl Anduin Lothar, Lev z Azerothu, poslední potomek arathorských králů. Jeho smrt je jednou z nejsmutnějších chvil v historii Aliance.
+
+V Morgan's Vigil začíná řada questů, která vede až k odhalení lady Prestor jako dračice Onyxie – jedna z nejslavnějších v klasickém WoW.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Burning Steppes"] = [[• Blackhand – náčelník klanu Blackrock a velitel Hordy v První válce. Zabil ho Orgrim Doomhammer v souboji, aby převzal vládu nad Hordou. Jeho synové Rend a Maim sídlí v Blackrock Spire.
@@ -1157,10 +1240,23 @@ WoWpoCesku_Lore["Swamp of Sorrows"] = {
     title = "Swamp of Sorrows",
     tag = "Smutná bažina, kde leží potopený chrám boha, kterého trollové chtěli vrátit.",
     ch = {
-        { "Bažina smutku", [[Swamp of Sorrows je tmavá bažina plná mechu, zkroucených stromů a jezírek na jihovýchodě Eastern Kingdoms. Mlha tu nikdy nezmizí a ze stromů visí liány. Kraj nese jméno po smutku a zkáze, které tu zanechala válka trollů a potopení chrámu.]] },
-        { "Sunken Temple", [[Uprostřed bažiny leží Temple of Atal'Hakkar, potopený chrám, kde kněží Atal'ai kdysi uctívali krvavého boha Hakkara. Zelený drak Eranikus ho po staletí hlídal, aby se Hakkar nevrátil. Pod hladinou jezera stále sídlí trollové a draci.]] },
-        { "Stonard", [[Horda tu má Stonard, velkou orkskou pevnost postavenou z kamene a dřeva. Aliance má jen malé tábory. Z jihu se táhne cesta k Blasted Lands a Temnému portálu.]] },
-        { "Hrozby", [[Trollové Atal'ai, zelení draci, krokodýli, nagové, ještěři a Lost Ones – zbloudilí draenei, kteří přežili zkázu svého světa.]] },
+        { "Bažina smutku", [[Swamp of Sorrows je tmavá bažina plná mechu, zkroucených stromů a jezírek na jihovýchodě Eastern Kingdoms. Mlha tu nikdy nezmizí a ze stromů visí liány. Na západě leží orkská pevnost Stonard, uprostřed jezero Pool of Tears s potopeným chrámem a na jihu začínají Blasted Lands.]] },
+
+        { "Black Morass", [[Swamp of Sorrows byla kdysi severní částí obrovské bažiny jménem Black Morass. Když byl Temný portál zničen, jižní část bažiny se změnila v Blasted Lands a sever si ponechal dnešní jméno.]] },
+
+        { "Potopený chrám", [[Asi 1500 let před otevřením portálu uprchli z padlé říše Gurubashi odpadlí trollové Atal'ai a postavili tu chrám Atal'Hakkar. Uctívali temného boha Hakkara Soulflayera a temnými rituály se ho snažili vyvolat.
+
+Dračí aspekt Ysera na to odpověděla svou mocí a potopila chrám do největší bažiny. Na stráž postavila svého druha Eranika a další zelené draky, aby se o vyvolání už nikdo nepokusil. Eranikovu mysl ale časem ovládla Smaragdová noční můra.]] },
+
+        { "Stonard", [[V První válce si tu Horda postavila několik základen – Rockard, Stonard a Kyross. Rockard a Kyross byly za války zničeny a Stonard těžce poškozen. Dnes je Stonard opět velkou orkskou pevností Hordy z kamene a dřeva a odtud se táhne cesta k Blasted Lands.]] },
+
+        { "Lost Ones", [[Po zničení Temného portálu zůstala na Azerothu skupinka Broken – zlomených draenei z Draenoru. Někteří z nich se zbláznili steskem po domově a stali se z nich Lost Ones, zbloudilí. Malá skupina zůstala mírumilovná a žije ve Fallow Sanctuary.
+
+Jsou to jedny z prvních stop, že draenei vůbec existují.]] },
+
+        { "Hrozby", [[Trollové Atal'ai, zelení draci, krokodýli, nagové na pobřeží Misty Reed Strand a Lost Ones. U potopeného chrámu hlídá zelený drak Itharius a u silnice blízko Stonardu stojí duch padlého hrdiny Hordy, jehož příběh vede až do Blasted Lands.]] },
+
+        { "Zajímavosti", [[Kdo se podívá na hladinu Pool of Tears, uvidí vrcholky věží potopeného chrámu. Pod vodou dodnes leží Atal'Hakkar – a s ním tajemství, které trollové Atal'ai nikdy nevzdali.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Swamp of Sorrows"] = [[• Zkáza chrámu – když se trollové Atal'ai pokusili vyvolat Hakkara, Ysera, aspekt snů, potopila celý chrám do bažiny. Pověřila draka Eranika, aby chrám hlídal. Eranikus ale za staletí zahořkl a jeho mysl ovládla Noční můra.
@@ -1184,10 +1280,27 @@ WoWpoCesku_Lore["Blasted Lands"] = {
     title = "Blasted Lands",
     tag = "Pustina, kde stojí Temný portál – brána, kterou orkové přišli na Azeroth.",
     ch = {
-        { "Spálená země", [[Blasted Lands jsou rudá, mrtvá pustina na jihovýchodě Eastern Kingdoms. Nic tu neroste, voda je otrávená a nebe rudé. Kraj zničila démonická magie, která proudila Temným portálem.]] },
-        { "Temný portál", [[Na jihu kraje stojí obrovská brána – Temný portál. Otevřeli ho čaroděj Gul'dan s Medivhem a orkové jím přišli na Azeroth. Brána je dnes neaktivní, ale démoni kolem ní stále krouží.]] },
-        { "Nethergarde Keep", [[Na severu stojí Nethergarde Keep, pevnost mágů z Dalaranu, kteří hlídají portál, aby se znovu neotevřel. Jsou to jediní, kdo v kraji žije dobrovolně.]] },
-        { "Hrozby", [[Démoni, ogrové, kolosální štíři, hyeny, satyrové a Shadowsworn kultisté, kteří se snaží portál znovu otevřít.]] },
+        { "Spálená země", [[Blasted Lands jsou rudá, mrtvá pustina na jihovýchodě Eastern Kingdoms. Nic tu neroste, voda je otrávená a nebe rudé. Na jihu stojí Temný portál, na severu pevnost Nethergarde Keep a na severozápadě se otevírá jizva Tainted Scar.]] },
+
+        { "Black Morass", [[Blasted Lands byly kdysi součástí Black Morass – temné bažiny plné močálů. Proměna začala, když Medivh postavil Temný portál, aby propojil Azeroth s Draenorem, domovem orků.
+
+Když se portál otevřel, Horda se jím vyvalila na Azeroth a začala První válka. Démonická magie, která bránu poháněla, byla tak silná, že bažinu vysála a zanechala po ní suchou rudou hlínu.]] },
+
+        { "Nethergarde Keep", [[Ve Druhé válce postavila Kirin Tor z popudu arcimága Khadgara pevnost Nethergarde Keep, aby už žádná další invaze z Draenoru nepřišla. Mágové tu dodnes hlídají portál.
+
+Bloodmage Lynnore a Bloodmage Drazial v Nethergarde vaří z ingrediencí, které v pustině najdeš, silné elixíry.]] },
+
+        { "Ner'zhul a zničení portálu", [[Když Ner'zhulova Horda portál znovu otevřela, strhly se tu tvrdé bitvy. Khadgar nakonec pomocí Lebky Gul'dana zničil kamenný rám brány a přerušil spojení mezi světy.
+
+Orkové, kteří se vzdali, skončili v internačních táborech po celém Lordaeronu. Nethergarde zůstalo strategickou pevností, která hlídá jih.]] },
+
+        { "Lord Kazzak", [[O mnoho let později vedl zbytky Plamenné legie v Tainted Scar obří démon Lord Kazzak a jeho poručíkem tu byl Razelikh the Defiler. V klasickém WoW je Kazzak world boss.]] },
+
+        { "Kult Shadowsworn", [[Nedávno vznikl kult Shadowsworn, který sdružuje vůdce zkažené démony – lady Sevine, arcimága Allistarje a Grola Ničitele. Postavili Altar of Storms a snaží se portál znovu otevřít.
+
+V pustině řádí i ogrové z Dreadmaul Hold, kolosální štíři, hyeny a satyrové.]] },
+
+        { "Zajímavosti", [[V klasickém WoW byl Temný portál neaktivní a hráči spekulovali, kdy se otevře. Kdo zná budoucnost, ví, že se jednou opravdu otevře – a hrdinové jím projdou do Outlandu, do trosek Draenoru.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Blasted Lands"] = [[• Otevření portálu (Rise of the Horde, The Last Guardian) – Medivh, posedlý Sargerasem, se spojil s Gul'danem. Spolu otevřeli Temný portál a orkové táhli na Azeroth.
@@ -1212,9 +1325,24 @@ WoWpoCesku_Lore["Deadwind Pass"] = {
     tag = "Průsmyk mrtvého větru, kde stojí věž, ve které začalo všechno zlo.",
     ch = {
         { "Průsmyk smrti", [[Deadwind Pass je pustý průsmyk mezi Duskwoodem a Swamp of Sorrows. Stromy jsou mrtvé, vítr kvílí a nad krajem visí věčné šero. Uprostřed se tyčí Karazhan, věž Medivha.]] },
-        { "Karazhan", [[Medivh, Strážce Tirisfalu, žil v Karazhanu se svými služebníky. Ve věži se odehrály hostiny, kouzla i šílenství, které nakonec vedlo k otevření Temného portálu. Když Medivh zemřel, věž opustili všichni – kromě duchů.]] },
-        { "Kdo tu žije", [[Nikdo. Jen duchové, ogrové a záhadné bytosti, které přitahuje magie věže. Občas sem zavítají badatelé a mágové.]] },
-        { "Hrozby", [[Duchové, ogrové, nemrtví a záhadné stínové bytosti. A ve věži něco, co se probouzí.]] },
+
+        { "Žnec duší", [[Podle legend proklela tento kraj Sataiel, první nekromantka Azerothu. Sargeras jí dal kosu Ulthalesh, Deadwind Harvester, a přikázal jí žnout duše vzpurných obyvatel Azerothu. Sataiel zabila nespočet trollů a pohltila jejich duše – a pak obrátila zbraň proti samotné zemi a vysála z ní všechen život. Stromy se proměnily v suché skořápky a bažiny v poušť.
+
+Tak vzniklo mocné magické ohnisko a kráter, kde později stanul Karazhan. Sargeras nakonec zmanipuloval Strážce jménem Scavell, aby Sataiel zničil.]] },
+
+        { "Karazhan", [[Asi šest set let před První válkou postavila Aegwynn, Strážkyně Tirisfalu, na mocných ley liniích tajně věž Karazhan. Začala být podezíravá vůči Radě Tirisfalu – pod vlivem ducha Sargerase. Věž jí sloužila jako útočiště i jako zdroj moci.
+
+Později v ní žil její syn Medivh. Kolem věže vyrostla malá lidská osada s kostelem Morgan's Plot a sklepeními Master's Cellar.]] },
+
+        { "Medivhovo prokletí", [[Medivh, posedlý Sargerasem, kraj aktivně kazil. Mág z Kirin Tor jménem Arrexis tu zkoumal, jak potlačit podivné účinky Karazhanu na realitu. Medivh ho podnítil zkoušet rituály na démonických říších – a přilákal tak eredara Balaadura. Skončilo to katastrofou.
+
+Obchodník a podvodník Ariden se pokusil Medivha ošidit. Z pomsty proměnil posedlý čaroděj Aridena a jeho družinu v Dark Riders, Temné jezdce, kteří navěky honí magické artefakty. Jeho tábor, Ariden's Camp, tu stojí dodnes.]] },
+
+        { "Smrt Medivha", [[Když Anduin Lothar a Khadgar v První válce Medivha porazili, jeho smrt uvolnila démonickou energii. Deadwind Pass se proměnil v zpustošenou pustinu a nedaleký Brightwood se změnil v Duskwood.]] },
+
+        { "Kdo tu žije", [[V průsmyku se usadili ogrové z Deadwindu. Jejich hlavním sídlem je Grosh'gok Compound v místě zvaném Vice a vetřelce ze své prokleté země nesnášejí. Jinak tu žijí jen duchové a ticho.]] },
+
+        { "Zajímavosti", [[V klasickém WoW byl Karazhan zavřený a hráči léta zkoumali krypty pod věží a hledali tajné chodby. Kdo zná budoucnost, ví, že věž se jednou otevře – a uvnitř čekají hostiny duchů, divadlo i obří šachy.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Deadwind Pass"] = [[• The Last Guardian – Khadgar, mladý mág z Dalaranu, přišel do Karazhanu jako Medivhův učeň. Postupně zjistil, že jeho mistr je posedlý Sargerasem. Spolu s Anduinem Lotharem a Garonou Medivha ve věži zabili.
