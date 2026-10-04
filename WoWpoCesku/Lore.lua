@@ -393,7 +393,9 @@ local function createBook()
     foot:SetPoint("BOTTOM", 0, 30)
     local hint = fontString(book, 10, SEPIA[1], SEPIA[2], SEPIA[3])
     hint:SetPoint("TOP", foot, "BOTTOM", 0, -2)
-    hint:SetText("sepsáno pro WoWpoČesku")
+    hint:SetWidth(W)
+    hint:SetJustifyH("CENTER")
+    hint:SetText("sepsáno pro WoWpoČesku podle klasického WoW a Warcraft Wiki – ve WoW Forever se může něco lišit")
 end
 
 -- kniha ukazuje vždy jen oblast, kde hráč právě je

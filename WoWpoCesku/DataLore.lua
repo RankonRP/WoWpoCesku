@@ -20,7 +20,7 @@ Taureni přesto nezahořkli. Drželi se svých tradic, uctívali Matku Zemi a v�
 
 Cairne pak dovedl svůj lid do Mulgore a sjednotil rozptýlené kmeny. Poprvé po stovkách let měli taureni domov, který není třeba opouštět. Ten dluh vůči orkům nikdy nezapomněli – od té doby stojí po boku Hordy a Cairne je nejváženějším hlasem svého lidu.]] },
 
-        { "Thunder Bluff a vesnice", [[Nad pláněmi se zvedají strmé stolové hory, na jejichž vrcholcích taureni postavili Thunder Bluff. Město ze stanů, totemů a dřevěných mostů nad propastí je přístupné jen výtahy – ideální obrana proti kentaurům. Na jednotlivých plošinách sídlí šamani, druidové i obchodníci a pod Spirit Rise leží tajemná jezírka Pools of Vision.
+        { "Thunder Bluff a vesnice", [[Nad pláněmi se zvedají strmé stolové hory, na jejichž vrcholcích taureni postavili Thunder Bluff. Město ze stanů, totemů a dřevěných mostů nad propastí je přístupné jen výtahy – ideální obrana proti kentaurům. Na jednotlivých plošinách sídlí šamani, druidové i obchodníci. Spirit Rise je centrem šamanů a v tunelech pod ním, u jezírek Pools of Vision, mají v Thunder Bluff své útočiště Forsaken.
 
 Dole v pláních leží Bloodhoof Village, srdce venkovského Mulgore, kde se taureni starají o stáda a pole. A na jihu, na stolové hoře Red Cloud Mesa, je tábor Camp Narache, kde začínají mladí taureni.]] },
 
@@ -58,11 +58,11 @@ Dokud mír s lidmi držel, posílali orkové přebytky úrody do lidského Thera
 
 Ani údolí zkoušek ale není bezpečné. V jeskyni Burning Blade Coven na severu se usadili kultisté Burning Blade, kteří tu vyvolávají démonické skřety – Vile Familiars. Pro mladé orky je to první setkání s temnotou, které jejich lid kdysi propadl.]] },
 
-        { "Darkspear a Echo Isles", [[Kromě orků tu žijí trollové z kmene Darkspear. Když Thrall plul na Kalimdor, našel je na ostrově, kde je zajali murlokové mořské čarodějnice. Jejich stařešina Sen'jin při tom zahynul, ale Thrall zachránil jeho syna Vol'jina a zbytek kmene. Od té doby jsou Darkspear věrnými spojenci Hordy.
+        { "Darkspear a Echo Isles", [[Kromě orků tu žijí trollové z kmene Darkspear. Když Thrallovy lodě cestou na Kalimdor poškodila bouře, přistál na ostrovech trollů Darkspear. Murlokové, poštvaní mořskou čarodějnicí Zar'jirou, zajali trolly i orky. Thrall se osvobodil, ale jejich stařešinu Sen'jina murločí čaroděj obětoval mořské čarodějnici. Umírající Sen'jin Thralla prosil, ať jeho lid odvede do bezpečí – a Thrall to udělal. Kmen pak vedl Sen'jinův syn Vol'jin. Od té doby jsou Darkspear věrnými spojenci Hordy.
 
 Jejich vesnice Sen'jin Village na jižním pobřeží nese jméno padlého stařešiny. Jejich nový domov, ostrovy Echo Isles, ale ovládl šílený čaroděj Zalazane, který svou magií zotročil část jejich lidu. Vol'jin a Master Gadrin hledají každého, kdo jim pomůže ostrovy získat zpět.]] },
 
-        { "Nepřátelé", [[Durotar není klidná země. V jeskyních po celém kraji – od Valley of Trials přes Dustwind Cave a Thunder Ridge až po Skull Rock u Orgrimmaru – se skrývají kultisté Burning Blade. Pro Thralla jsou připomínkou temné minulosti jeho lidu a jak se ukáže, za nimi stojí ještě temnější síla.
+        { "Nepřátelé", [[Durotar není klidná země. V jeskyních po celém kraji – od Valley of Trials přes Dustwind Cave nad Razorwind Canyon a Thunder Ridge až po Skull Rock u Orgrimmaru – se skrývají kultisté Burning Blade. Pro Thralla jsou připomínkou temné minulosti jeho lidu a jak se ukáže, za nimi stojí ještě temnější síla.
 
 Na pobřeží stojí bílá pevnost Tiragarde Keep, kde se drží vojáci z Kul Tiras – zbytek flotily admirála Proudmoora, který na orky zaútočil po jejich příchodu. Po krajině se potulují kančí lidé z kmene Razormane, v Kolkar Crag táboří kentauři a v rokli Drygulch Ravine hnízdí harpyje.]] },
 
@@ -112,7 +112,7 @@ Až půjdeš po silnici z Goldshire k branám Stormwindu, uvidíš obnovené bí
     ch = {
         { "Obilnice království", [[Westfall je široká, mírně zvlněná krajina polí, luk a nízkých kopců na západ od Elwynn Forest. Na západě ji uzavírá pobřeží Longshore s útesy a starým majákem, na jihu se zvedají Dagger Hills a na severu skály, ve kterých se kdysi dolovalo. Půda je tu úrodná a slunce štědré – proto se Westfallu po generace říkalo obilnice Stormwindu.
 
-Když se řeklo „chléb na stole královského města“, myslelo se tím westfallské obilí. Kukuřice, pšenice a dýně odtud putovaly vozy po silnici přes most do Elwynnu a dál do Stormwindu. Statky jako Saldean's Farm, Furlbrow's Pumpkin Patch nebo Jansen Stead patřily rodinám, které tu hospodařily od dob dědů. Uprostřed kraje leželo hornické městečko Moonbrook, kde se v okolních dolech kopalo železo a zlato.
+Když se řeklo „chléb na stole královského města“, myslelo se tím westfallské obilí. Kukuřice, pšenice a dýně odtud putovaly vozy po silnici přes most do Elwynnu a dál do Stormwindu. Statky jako Saldean's Farm, Furlbrow's Pumpkin Patch nebo Jansen Stead patřily rodinám, které tu hospodařily od dob dědů. Uprostřed kraje leželo hornické městečko Moonbrook, které žilo z okolních dolů.
 
 Dnes po tom zbyly prázdné stodoly, ploty spadlé do trávy a pole, na kterých místo obilí roste plevel. Po cestách se točí prachové víry a mezi strašáky se pohybuje něco, co strašák není.]] },
 
@@ -174,9 +174,9 @@ Bronzebeardové si udrželi Ironforge, Wildhammeři odešli do Grim Batolu a Dar
 
 Po válce spojil král Magni síly s vrchním mechanikem Gelbinem Mekkatorquem a společně postavili Deeprun Tram – obrovskou podzemní dráhu, která vede pod mořem z Ironforge až do Stormwindu. Je to symbol přátelství, které mezi trpaslíky, gnómy a lidmi trvá dodnes.]] },
 
-        { "Pád Gnomereganu", [[Gnomeregan byl technickým zázrakem – město plné strojů, výtahů a dílen. Pak ale z hlubin vylezli troggové, divocí tvorové z kamene a hlíny, a začali město zaplavovat. Gnómové se je pokusili zastavit na radu Sicca Thermaplugga, jednoho z poradců krále Mekkatorquea: vypustili do města jedovaté záření. Troggy to nezastavilo – ale zabilo to velkou část samotných gnómů.
+        { "Pád Gnomereganu", [[Gnomeregan byl technickým zázrakem – město plné strojů, výtahů a dílen. Pak ale z hlubin vylezli troggové, divocí tvorové z kamene a hlíny, a začali město zaplavovat. Gnómové se je pokusili zastavit na radu Sicca Thermaplugga, hlavního poradce a nejlepšího přítele vrchního mechanika Mekkatorquea: vypustili do města jedovaté záření. Thermaplugg ale Mekkatorqueovi záviděl a potají počítal s tím, že záření zabije i gnómy a vina padne na krále. Troggy to nezastavilo – a zahynulo skoro osmdesát procent gnómského národa.
 
-Přeživší utekli do Ironforge, kde jim trpaslíci dali útočiště v Tinker Town. Thermaplugg v troskách zůstal, prohlásil se králem toho, co zbylo, a zradil vlastní lid. Mekkatorque dnes sní o dni, kdy Gnomeregan získá zpět, a záření z ruin dodnes otravuje okolní kraj.]] },
+Přeživší utekli do Ironforge, kde jim trpaslíci dali útočiště v Tinker Town. Thermaplugg, kterého záření úplně připravilo o rozum, v troskách zůstal, prohlásil se „králem gnómů“ a vládne zmutovaným gnómům, kteří přežili. Mekkatorque dnes sní o dni, kdy Gnomeregan získá zpět, a záření z ruin dodnes otravuje okolní kraj.]] },
 
         { "Coldridge Valley a Kharanos", [[Mladí trpaslíci a gnómové začínají v Coldridge Valley, zasněženém údolí kolem trpasličího sídla Anvilmar. Troggové tu napadli tábor a obsadili kopce kolem zamrzlého jezera, a trollové Frostmane číhají v jeskyních. Kdo tu obstojí, vydá se tunelem dál do kraje.
 
@@ -359,7 +359,7 @@ WoWpoCesku_LoreTajemstvi = {
 
 • Red Rocks – posvátné pohřebiště taurenů na severovýchodě. Projdi se tu potichu.
 
-• Thunder Bluff a Pools of Vision – pod Spirit Rise jsou jezírka vidění, kam se chodí šamani a druidové dívat do jiných světů.
+• Thunder Bluff a Pools of Vision – v tunelech pod Spirit Rise jsou jezírka vidění, kde mají své útočiště Forsaken. Vchod je u mostu z Lower Rise na Spirit Rise.
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]],
 
@@ -764,7 +764,7 @@ Severní Redridge postihla i jiná katastrofa. Když čaroděj Thaurissan na kon
 
         { "Válka a návrat", [[V První válce Redridge dobyla Horda a lidé museli uprchnout spolu s celým Stormwindem. Když se po Druhé válce vrátili, obnovili své vesnice – ale klid nikdy úplně nenastal. Orkové z klanů Blackrock a Black Tooth Grin z hory Blackrock kraj stále sužují.
 
-Krátce před dneškem se orkové spojili s čarodějem Morganthem a jeho gnolly z kmene Shadowhide. Společně obsadili východní polovinu Redridge i lidskou pevnost Stonewatch Keep. Morganth se usadil ve věži Tower of Ilgalar.]] },
+Krátce před dneškem se orkové spojili s čarodějem Morganthem a jeho gnolly z kmene Shadowhide. Společně obsadili východní polovinu Redridge i lidskou pevnost Stonewatch Keep. Morganth, kterého kdysi vyhnali z Mage Quarter ve Stormwindu, zabil mága Ilgalara a usadil se v jeho věži Tower of Ilgalar.]] },
 
         { "Lakeshire", [[Hlavním městem je Lakeshire, malebné městečko na jezeře s mostem a radnicí. Starosta Magistrate Solomon a velitel stráže Marshal Marris se snaží kraj ubránit, ale Stormwind jim kvůli politickým sporům u dvora posílá jen málo vojáků. Solomon proto píše do Stormwindu dopisy s prosbou o pomoc – a mezitím vypisuje odměny a hledá dobrodruhy.
 
@@ -792,7 +792,7 @@ WoWpoCesku_LoreTajemstvi["Redridge Mountains"] = [[• Lakeshire – městečko 
 
 • Stonewatch Keep – pevnost na východě obsazená orky Blackrock.
 
-• Tower of Ilgalar – věž zrádného mága Ilgalara na severu kraje.
+• Tower of Ilgalar – věž mága Ilgalara na východě kraje. Zlý čaroděj Morganth, vyhnaný z Mage Quarter ve Stormwindu, ho přepadl s armádou zotročených gnollů, zabil ho a věž si vzal.
 
 • Render's Valley – údolí na jihovýchodě, kde Redridge sousedí s Burning Steppes.
 
