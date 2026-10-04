@@ -885,7 +885,7 @@ function WoWpoCesku_PecetePage(key)
     table.sort(dungs, byName)
     local page = {
         { "Pečetě kronikáře", ("Získáno |cff801f0d%d|r z %d pečetí  ·  body pečetí: |cff801f0d%d|r z %d"):format(got, total, pts, ptsAll)
-            .. (me and ("\n%s získal(a) %d z nich."):format(me, mine) or "")
+            .. (me and ("\nZ toho získala postava %s: |cff801f0d%d|r."):format(me, mine) or "")
             .. "\nPečetě jsou společné pro všechny tvoje postavy – u každé vidíš, kdo ji získal."
             .. " Splň, co je napsané pod pečetí, a sama se vtiskne do kroniky.",
             seals = here },
