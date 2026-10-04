@@ -109,7 +109,7 @@ $GossipLuaPath   = Join-Path $Root "WoWpoCesku\DataRozhovory.lua"
 $RemoteGossipUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/rozhovory.json"
 $GossipEtagPath  = Join-Path $Root ".rozhovory.etag"
 
-function Get-GossipKey([string]$s) { ($s -replace '\s+', ' ').Trim() }
+function Get-GossipKey([string]$s) { (($s -replace '\\r', '') -replace '\s+', ' ').Trim() }
 
 function ConvertFrom-GossipJson([string]$text) {
     $result = @{}
@@ -917,10 +917,11 @@ function Read-QueueFile([string]$path) {
     $m = [regex]::Match($text, '(?ms)^WoWpoCeskuQueue\s*=\s*\{(.*?)^\}')
     if (-not $m.Success) { return @() }
     $items = foreach ($e in [regex]::Matches($m.Groups[1].Value, '\["(?:[^"\\]|\\.)*"\]\s*=\s*"((?:[^"\\]|\\.)*)"')) {
-        # Lua escape: \n, \", \\ (a případně \ddd)
-        [regex]::Replace($e.Groups[1].Value, '\\(n|"|\\|\d{1,3})', {
+        # Lua escape: \n, \r, \t, \", \\ (a případně \ddd). Hra ukládá konce řádků jako \r\n –
+        # bez převodu \r by klíč rozhovoru obsahoval doslovné "\r" a addon by překlad nenašel.
+        [regex]::Replace($e.Groups[1].Value, '\\(n|r|t|"|\\|\d{1,3})', {
             param($x)
-            switch -Regex ($x.Groups[1].Value) { '^n$' { "`n" } '^"$' { '"' } '^\\$' { '\' } default { [string][char][int]$x.Groups[1].Value } }
+            switch -Regex ($x.Groups[1].Value) { '^n$' { "`n" } '^r$' { "`r" } '^t$' { "`t" } '^"$' { '"' } '^\\$' { '\' } default { [string][char][int]$x.Groups[1].Value } }
         })
     }
     return @($items)

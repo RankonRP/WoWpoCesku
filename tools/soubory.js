@@ -27,7 +27,9 @@ function writeJsonLines(p, obj, keys) {
 const luaString = (s) => '"' + s.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\r/g, "").replace(/\n/g, "\\n") + '"';
 
 // Klíč rozhovoru = anglický text se sjednocenými mezerami (addon ho počítá stejně)
-const gossipKey = (en) => (en || "").replace(/\s+/g, " ").trim();
+// Doslovné "\r" / "\t" (escape z uložených dat hry, které se dřív nepřevedly) -> pryč / tabulátor
+const cleanText = (t) => (t || "").replace(/\\r/g, "").replace(/\\t/g, "\t");
+const gossipKey = (en) => cleanText(en).replace(/\s+/g, " ").trim();
 
 // --- Questy ---
 const readCache = () => readJson(CACHE_PATH, {});
@@ -85,4 +87,4 @@ function writeUiLua(ui) {
   fs.writeFileSync(UI_LUA_PATH, out.join("\r\n") + "\r\n");
 }
 
-module.exports = { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua };
+module.exports = { cleanText, readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua };

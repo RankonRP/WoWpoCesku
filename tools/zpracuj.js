@@ -16,7 +16,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const { readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua } = require("./soubory");
+const { cleanText, readCache, writeCache, writeDataLua, readGossip, writeGossip, writeGossipLua, gossipKey, readUi, writeUi, writeUiLua } = require("./soubory");
 const { apply: applyRules, protectStats, restoreStats } = require("./pravidla");
 const { translateAll, PREKLADAC } = require("./preklad");
 
@@ -51,6 +51,7 @@ const hasBlockedWord = (s) => FILTER_RE.test(s || "");
 // Nové questy od hráčů -> překlad. Vrací seznam k potvrzení (ack) a návrhy ke schválení.
 async function processSubmissions(cache, gossip, ui) {
   const all = (await sberna("/confirmed")).items || [];
+  for (const it of all) it.en_text = cleanText(it.en_text);
   console.log(`Potvrzených textů ze sběrny: ${all.length}`);
   if (!all.length) return { changed: false, gossipChanged: false, uiChanged: false, ack: [], review: [] };
   const items = all.filter((it) => it.field !== "gossip" && it.field !== "ui");

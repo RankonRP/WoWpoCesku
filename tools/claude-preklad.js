@@ -30,7 +30,7 @@ function savedVariablesFiles() {
 // Z Lua souboru vytáhne tabulku WoWpoCeskuSeen = { ["q"] = { [123] = …, }, ["g"] = { ["text"] = …, }, … }
 function readSeen() {
   const seen = { q: new Set(), g: new Set(), u: new Set() };
-  const unescape = (s) => s.replace(/\\(n|"|\\)/g, (_, c) => (c === "n" ? "\n" : c));
+  const unescape = (s) => s.replace(/\\(n|r|t|"|\\)/g, (_, c) => (c === "n" ? "\n" : c === "r" ? "\r" : c === "t" ? "\t" : c));
   for (const file of savedVariablesFiles()) {
     const text = fs.readFileSync(file, "utf8");
     const block = text.match(/^WoWpoCeskuSeen\s*=\s*\{([\s\S]*?)^\}\s*$/m);
