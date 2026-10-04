@@ -371,6 +371,58 @@ end
 
 local GRAY = "|cff6b4d2e"
 
+-------------------------------------------------------------------------------
+-- Dungeony: bossové v Bestiáři, zabití se zapisují do WoWpoCeskuSeen.bosses[dungeon][boss]
+-------------------------------------------------------------------------------
+local function normBoss(n) return (n or ""):lower():gsub("^the ", "") end
+
+local function markBoss(name)
+    if not name or secret(name) then return end
+    local key = zoneKey()
+    local list = key and WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]
+    if not list then return end
+    local want = normBoss(name)
+    for _, b in ipairs(list) do
+        if b[1] and normBoss(b[1]) == want then
+            local S = seen()
+            S.bosses = S.bosses or {}
+            S.bosses[key] = S.bosses[key] or {}
+            local first = not S.bosses[key][b[1]]
+            S.bosses[key][b[1]] = time()
+            if first then say(("Kronika: %s zapsan do Bestiare (%s)"):format(b[1], key)) end
+            return
+        end
+    end
+end
+
+local function dungeonBestiar(key, list)
+    local S = seen()
+    local killed = (S.bosses and S.bosses[key]) or {}
+    local rows, n, total = {}, 0, 0
+    for _, b in ipairs(list) do
+        if b.sekce then
+            rows[#rows + 1] = { text = "|cff801f0d" .. b.sekce .. "|r" }
+        else
+            total = total + 1
+            local t = killed[b[1]]
+            if t then n = n + 1 end
+            local text = b[1]
+            if b[2] and b[2] ~= "" then text = text .. GRAY .. "  – " .. b[2] .. "|r" end
+            local note = WoWpoCesku_PostavyNote and WoWpoCesku_PostavyNote(b[1])
+            if note then text = text .. "\n" .. note end
+            if t then text = text .. "\n" .. GRAY .. "Poražen " .. date("%d.%m. %H:%M", t) .. "|r" end
+            rows[#rows + 1] = { mark = t ~= nil, text = text }
+        end
+    end
+    return {
+        { "Bestiář", ("Poraženo %d z %d bossů.%s"):format(n, total,
+            (n == total and total > 0) and "  |cff1d6b1dDungeon je vyčištěný!|r" or ""),
+            rows = rows,
+            after = GRAY .. "Boss se odškrtne sám, když ho tvoje skupina porazí.|r" },
+    }
+end
+
+
 -- záložka Poutníkův deník: místa v oblasti (řádky se zaškrtávátkem)
 function WoWpoCesku_DenikPage(key)
     local places = WoWpoCesku_Objevy and WoWpoCesku_Objevy[key]
@@ -421,6 +473,8 @@ end
 
 -- záložka Bestiář: vzácní mobové oblasti, co jsi viděl a kde
 function WoWpoCesku_BestiarPage(key)
+    local bosses = WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]
+    if bosses then return dungeonBestiar(key, bosses) end
     local rares = {}
     for name, info in pairs(RARE) do
         if info.zone == key then rares[#rares + 1] = name end
@@ -477,6 +531,8 @@ local function npcNote(name)
     end
 end
 
+WoWpoCesku_PostavyNote = function(name) return npcNote(name) end
+
 local function onUnitTooltip(tt)
     if tt ~= GameTooltip then return end
     if WoWpoCeskuSettings and (WoWpoCeskuSettings.enabled == false or WoWpoCeskuSettings.npcNotes == false) then return end
@@ -532,7 +588,9 @@ ev:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 pcall(ev.RegisterEvent, ev, "VIGNETTES_UPDATED")
 pcall(ev.RegisterEvent, ev, "VIGNETTE_MINIMAP_UPDATED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
-ev:SetScript("OnEvent", function(_, event, unit)
+pcall(ev.RegisterEvent, ev, "ENCOUNTER_END")
+pcall(ev.RegisterEvent, ev, "COMBAT_LOG_EVENT_UNFILTERED")
+ev:SetScript("OnEvent", function(_, event, unit, ...)
     if event == "PLAYER_LOGIN" then
         pcall(hookTooltip)
     elseif event == "NAME_PLATE_UNIT_ADDED" then
@@ -543,6 +601,14 @@ ev:SetScript("OnEvent", function(_, event, unit)
         pcall(checkRare, "mouseover")
     elseif event == "VIGNETTES_UPDATED" or event == "VIGNETTE_MINIMAP_UPDATED" then
         pcall(checkVignettes)
+    elseif event == "ENCOUNTER_END" then
+        local encName, _, _, success = ...   -- unit = encounterID
+        if success == 1 then pcall(markBoss, encName) end
+    elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
+        if IsInInstance and IsInInstance() and CombatLogGetCurrentEventInfo then
+            local ok, _, sub, _, _, _, _, _, _, destName = pcall(CombatLogGetCurrentEventInfo)
+            if ok and (sub == "UNIT_DIED" or sub == "PARTY_KILL") then pcall(markBoss, destName) end
+        end
     elseif event == "PLAYER_REGEN_ENABLED" then
         if not (alert and alert:IsShown()) then hideTargetButton() end
     else
