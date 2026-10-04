@@ -737,7 +737,7 @@ local function refreshOptions()
 end
 
 -- Rozložení: dva sloupce se sekcemi; každý sloupec si pamatuje, kde skončil (col.y)
-local COL_W = 370
+local COL_W = 300   -- přepočítá se podle skutečné šířky okna nastavení
 local function newColumn(x) return { x = x, y = -60 } end
 
 local function addSection(col, title)
@@ -785,7 +785,11 @@ local function buildOptions()
     head:SetPoint("TOPLEFT", 16, -16)
     head:SetText("WoWpoČesku – nastavení")
 
-    local left, right = newColumn(20), newColumn(420)
+    -- dva stejně široké sloupce podle skutečné šířky okna (hra ho škáluje)
+    local w = options:GetWidth()
+    if not w or w < 300 then w = 640 end
+    COL_W = math.floor((w - 70) / 2)
+    local left, right = newColumn(20), newColumn(40 + COL_W)
 
     -- levý sloupec: překlad
     addSection(left, "Překlad")
