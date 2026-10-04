@@ -91,13 +91,23 @@ local panel = CreateFrame("Frame", "WoWpoCeskuPanel", UIParent, BackdropTemplate
 panel:SetSize(360, 460)
 panel:SetFrameStrata("HIGH")
 panel:SetClampedToScreen(true)
+-- vzhled jako Kronika Azerothu: kožená vazba, pergamen, tmavý inkoust
+local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.42, 0.30, 0.18 }
 panel:SetBackdrop({
-    bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-    tile = true, tileSize = 16, edgeSize = 16,
-    insets = { left = 4, right = 4, top = 4, bottom = 4 },
+    bgFile = "Interface\\Buttons\\WHITE8x8",
+    edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+    edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 },
 })
-panel:SetBackdropColor(0.05, 0.05, 0.08, 1)
+panel:SetBackdropColor(0.23, 0.13, 0.07, 1)
+do
+    local page = panel:CreateTexture(nil, "BACKGROUND", nil, 1)
+    page:SetPoint("TOPLEFT", 14, -14)
+    page:SetPoint("BOTTOMRIGHT", -14, 14)
+    page:SetColorTexture(0.91, 0.84, 0.66, 1)   -- kdyby textura chyběla
+    local tex = panel:CreateTexture(nil, "BACKGROUND", nil, 2)
+    tex:SetAllPoints(page)
+    tex:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga")
+end
 panel:SetMovable(true)
 panel:EnableMouse(true)
 panel:RegisterForDrag("LeftButton")
@@ -111,35 +121,52 @@ panel:Hide()
 
 local header = panel:CreateFontString(nil, "OVERLAY")
 header:SetFont(FONT, 11, "")
-header:SetTextColor(0.6, 0.6, 0.6)
-header:SetPoint("TOPLEFT", 12, -10)
-header:SetText("WoWpoČesku")
+header:SetTextColor(RED[1], RED[2], RED[3])
+header:SetPoint("TOP", 0, -22)
+header:SetText("W o W p o Č e s k u")
+-- ozdobný předěl pod záhlavím: linka – kosočtverec – linka
+local orn = CreateFrame("Frame", nil, panel)
+orn:SetSize(200, 10)
+orn:SetPoint("TOP", header, "BOTTOM", 0, -3)
+do
+    local d = orn:CreateTexture(nil, "ARTWORK")
+    d:SetColorTexture(RED[1], RED[2], RED[3], 0.85)
+    d:SetSize(6, 6)
+    d:SetPoint("CENTER")
+    d:SetRotation(math.rad(45))
+    for _, side in ipairs({ -1, 1 }) do
+        local l = orn:CreateTexture(nil, "ARTWORK")
+        l:SetColorTexture(SEPIA[1], SEPIA[2], SEPIA[3], 0.7)
+        l:SetSize(86, 1)
+        l:SetPoint(side < 0 and "RIGHT" or "LEFT", d, "CENTER", side * 9, 0)
+    end
+end
 
 local close = CreateFrame("Button", nil, panel, "UIPanelCloseButton")
-close:SetPoint("TOPRIGHT", -2, -2)
+close:SetPoint("TOPRIGHT", -8, -8)
 
 local title = panel:CreateFontString(nil, "OVERLAY")
-title:SetTextColor(1, 0.82, 0)
-title:SetPoint("TOPLEFT", 12, -28)
-title:SetPoint("RIGHT", panel, "RIGHT", -30, 0)
-title:SetJustifyH("LEFT")
+title:SetTextColor(INK[1], INK[2], INK[3])
+title:SetPoint("TOPLEFT", 24, -46)
+title:SetPoint("RIGHT", panel, "RIGHT", -24, 0)
+title:SetJustifyH("CENTER")
 
 -- Režim "přeloženo": rolovací text + tlačítka dole
 local scroll = CreateFrame("ScrollFrame", "WoWpoCeskuScroll", panel, "UIPanelScrollFrameTemplate")
-scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
-scroll:SetPoint("BOTTOMRIGHT", -30, 42)
+scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -12)
+scroll:SetPoint("BOTTOMRIGHT", -36, 46)
 
 -- Když překlad nesedí na text ve hře (Forever quest změnil), jde ho přeložit znovu
 local retry = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
 retry:SetSize(165, 22)
-retry:SetPoint("BOTTOMLEFT", 12, 12)
+retry:SetPoint("BOTTOMLEFT", 20, 18)
 czButton(retry)
 retry:SetText("Nesedí? Přeložit znovu")
 
 -- Špatný překlad jde opravit v Pomocníkovi (oprava se pošle i ostatním hráčům)
 local fix = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
 fix:SetSize(150, 22)
-fix:SetPoint("BOTTOMRIGHT", -12, 12)
+fix:SetPoint("BOTTOMRIGHT", -20, 18)
 czButton(fix)
 fix:SetText("Opravit překlad")
 
@@ -148,7 +175,7 @@ content:SetSize(310, 10)
 scroll:SetScrollChild(content)
 
 local body = content:CreateFontString(nil, "OVERLAY")
-body:SetTextColor(0.95, 0.92, 0.85)
+body:SetTextColor(INK[1], INK[2], INK[3])
 body:SetPoint("TOPLEFT")
 body:SetWidth(310)
 body:SetJustifyH("LEFT")
@@ -157,10 +184,10 @@ body:SetSpacing(2)
 -- Režim "kopírování": návod + políčko s textem pro Pomocníka
 local copyFrame = CreateFrame("Frame", nil, panel)
 copyFrame:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
-copyFrame:SetPoint("BOTTOMRIGHT", -12, 12)
+copyFrame:SetPoint("BOTTOMRIGHT", -22, 18)
 
 local hint = copyFrame:CreateFontString(nil, "OVERLAY")
-hint:SetTextColor(0.95, 0.92, 0.85)
+hint:SetTextColor(INK[1], INK[2], INK[3])
 hint:SetPoint("TOPLEFT")
 hint:SetPoint("RIGHT")
 hint:SetJustifyH("LEFT")
@@ -168,58 +195,56 @@ hint:SetSpacing(3)
 
 local HINTS = {
     preklad = "Tento quest ještě není přeložený.\n\n"
-        .. "|cffffd100Hned:|r text níže je označený – zmáčkni |cff00ff00Ctrl+C|r,\n"
+        .. "|cff801f0dHned:|r text níže je označený – zmáčkni |cff1d6b1dCtrl+C|r,\n"
         .. "překlad se ukáže v okně Pomocníka.\n"
-        .. "|cffffd100Nebo nic nedělej:|r po |cff00ff00/reload|r ho Pomocník přeloží sám\n"
-        .. "a po dalším |cff00ff00/reload|r bude česky i tady.",
+        .. "|cff801f0dNebo nic nedělej:|r po |cff1d6b1d/reload|r ho Pomocník přeloží sám\n"
+        .. "a po dalším |cff1d6b1d/reload|r bude česky i tady.",
     znovu = "Přeložit znovu podle aktuálního textu ve hře:\n\n"
-        .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
-        .. "|cffffd1002.|r Nový překlad se ukáže v okně Pomocníka\n"
-        .. "|cffffd1003.|r Po |cff00ff00/reload|r bude i tady",
+        .. "|cff801f0d1.|r Text níže je označený – zmáčkni |cff1d6b1dCtrl+C|r\n"
+        .. "|cff801f0d2.|r Nový překlad se ukáže v okně Pomocníka\n"
+        .. "|cff801f0d3.|r Po |cff1d6b1d/reload|r bude i tady",
     rozhovor = "Tenhle rozhovor ještě není přeložený.\n\n"
-        .. "|cffffd100Hned:|r klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r.\n"
-        .. "|cffffd100Nebo nic nedělej:|r po |cff00ff00/reload|r ho Pomocník přeloží sám\n"
-        .. "a po dalším |cff00ff00/reload|r bude česky i tady.",
+        .. "|cff801f0dHned:|r klikni na 'Označit text' a zmáčkni |cff1d6b1dCtrl+C|r.\n"
+        .. "|cff801f0dNebo nic nedělej:|r po |cff1d6b1d/reload|r ho Pomocník přeloží sám\n"
+        .. "a po dalším |cff1d6b1d/reload|r bude česky i tady.",
     kniha = "Tahle stránka ještě není přeložená.\n\n"
-        .. "|cffffd100Hned:|r klikni na 'Označit text' a zmáčkni |cff00ff00Ctrl+C|r.\n"
-        .. "|cffffd100Nebo nic nedělej:|r po |cff00ff00/reload|r ho Pomocník přeloží sám\n"
-        .. "a po dalším |cff00ff00/reload|r bude česky i tady.",
+        .. "|cff801f0dHned:|r klikni na 'Označit text' a zmáčkni |cff1d6b1dCtrl+C|r.\n"
+        .. "|cff801f0dNebo nic nedělej:|r po |cff1d6b1d/reload|r ho Pomocník přeloží sám\n"
+        .. "a po dalším |cff1d6b1d/reload|r bude česky i tady.",
     oprava = "Oprava překladu:\n\n"
-        .. "|cffffd1001.|r Text níže je označený – zmáčkni |cff00ff00Ctrl+C|r\n"
-        .. "|cffffd1002.|r V Pomocníkovi se otevře okno pro opravu\n"
-        .. "|cffffd1003.|r Po uložení a |cff00ff00/reload|r bude oprava i tady",
+        .. "|cff801f0d1.|r Text níže je označený – zmáčkni |cff1d6b1dCtrl+C|r\n"
+        .. "|cff801f0d2.|r V Pomocníkovi se otevře okno pro opravu\n"
+        .. "|cff801f0d3.|r Po uložení a |cff1d6b1d/reload|r bude oprava i tady",
 }
 
 local boxBg = CreateFrame("Frame", nil, copyFrame, BackdropTemplateMixin and "BackdropTemplate")
 boxBg:SetPoint("TOPLEFT", hint, "BOTTOMLEFT", 0, -12)
 boxBg:SetPoint("RIGHT")
 boxBg:SetHeight(110)
-boxBg:SetBackdrop({
-    bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
-    edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-    tile = true, tileSize = 16, edgeSize = 12,
-    insets = { left = 3, right = 3, top = 3, bottom = 3 },
-})
-boxBg:SetBackdropColor(0, 0, 0, 0.8)
+boxBg:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 })
+boxBg:SetBackdropColor(1, 0.97, 0.88, 0.45)
+boxBg:SetBackdropBorderColor(SEPIA[1], SEPIA[2], SEPIA[3], 0.9)
 boxBg:SetClipsChildren(true)
 
 local edit = CreateFrame("EditBox", nil, boxBg)
 edit:SetMultiLine(true)
 edit:SetAutoFocus(false)
 edit:SetFontObject(ChatFontNormal)
+edit:SetTextColor(INK[1], INK[2], INK[3])
 edit:SetPoint("TOPLEFT", 8, -8)
 edit:SetWidth(310)
 edit:SetMaxLetters(0)
 
 local status = copyFrame:CreateFontString(nil, "OVERLAY")
 status:SetPoint("TOPLEFT", boxBg, "BOTTOMLEFT", 0, -10)
+status:SetTextColor(INK[1], INK[2], INK[3])
 status:SetPoint("RIGHT")
 status:SetJustifyH("LEFT")
 
 local function selectPayload()
     edit:SetFocus()
     edit:HighlightText()
-    status:SetText("|cffaaaaaaOznačeno – zmáčkni Ctrl+C (Esc = zrušit)|r")
+    status:SetText("|cff6b4d2eOznačeno – zmáčkni Ctrl+C (Esc = zrušit)|r")
 end
 
 local again = CreateFrame("Button", nil, copyFrame, "UIPanelButtonTemplate")
@@ -260,7 +285,7 @@ edit:SetScript("OnKeyDown", function(self, key)
     if key == "C" and IsControlKeyDown() then
         C_Timer.After(0.1, function()
             self:ClearFocus()
-            status:SetText("|cff00ff00Zkopírováno!|r  Pokračuj v okně Pomocníka.")
+            status:SetText("|cff1d6b1dZkopírováno!|r  Pokračuj v okně Pomocníka.")
         end)
     end
 end)
@@ -274,7 +299,7 @@ local function applyLayout()
     body:SetFont(FONT, size, "")
     hint:SetFont(FONT, size, "")
     status:SetFont(FONT, size, "")
-    local inner = width - 50
+    local inner = width - 66
     content:SetWidth(inner)
     body:SetWidth(inner)
     edit:SetWidth(inner)
@@ -424,7 +449,7 @@ local function showTranslated(q)
     if q.part == "detail" then
         text = fromToken(tr.text or "")
         if tr.objectives and tr.objectives ~= "" then
-            text = text .. "\n\n|cffffd100Úkol:|r\n" .. fromToken(tr.objectives)
+            text = text .. "\n\n|cff801f0dÚkol:|r\n" .. fromToken(tr.objectives)
         end
     else
         text = fromToken(tr[q.part] or "")
@@ -506,7 +531,7 @@ local function showCopy(q, mode)
     if WoWpoCeskuSettings.autofocus and not passive then
         selectPayload()
     elseif passive then
-        status:SetText("|cffaaaaaaKlikni na 'Označit text' a zmáčkni Ctrl+C|r")
+        status:SetText("|cff6b4d2eKlikni na 'Označit text' a zmáčkni Ctrl+C|r")
     end
 end
 
