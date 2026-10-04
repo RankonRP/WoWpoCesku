@@ -807,14 +807,29 @@ local function showNextBanner()
     banner.anim:Play()
 end
 
+-- jméno postavy, která pečeť získala (pečetě jsou společné pro celý účet)
+local function charName()
+    local ok, name = pcall(UnitName, "player")
+    if ok and type(name) == "string" and name ~= "" and not secret(name) then return name end
+end
+
 checkSeals = function()
     local S = seen()
     local first = S.seals == nil
     S.seals = S.seals or {}
+    S.sealBy = S.sealBy or {}
+    local me = charName()
+    -- pečetě z doby, kdy se jméno nezapisovalo, připadnou postavě, která se přihlásí první
+    if me then
+        for id in pairs(S.seals) do
+            if not S.sealBy[id] then S.sealBy[id] = me end
+        end
+    end
     local new = {}
     for _, s in ipairs(sealList()) do
         if s.need > 0 and s.have >= s.need and not S.seals[s.id] then
             S.seals[s.id] = time()
+            S.sealBy[s.id] = me
             new[#new + 1] = s
         end
     end
@@ -840,11 +855,14 @@ function WoWpoCesku_PecetePage(key)
     pcall(checkSeals)
     local S = seen()
     local all = sealList()
-    local got, total, pts, ptsAll = 0, 0, 0, 0
+    local got, total, pts, ptsAll, mine = 0, 0, 0, 0, 0
+    local me = charName()
     for _, s in ipairs(all) do
         total, ptsAll = total + 1, ptsAll + s.points
         s.got = S.seals and S.seals[s.id]
+        s.by = S.sealBy and S.sealBy[s.id]
         if s.got then got, pts = got + 1, pts + s.points end
+        if s.got and me and s.by == me then mine = mine + 1 end
     end
     local here, general, zones, dungs = {}, {}, {}, {}
     local nextShown = {}
@@ -867,7 +885,9 @@ function WoWpoCesku_PecetePage(key)
     table.sort(dungs, byName)
     local page = {
         { "Pečetě kronikáře", ("Získáno |cff801f0d%d|r z %d pečetí  ·  body pečetí: |cff801f0d%d|r z %d"):format(got, total, pts, ptsAll)
-            .. "\nKaždá pečeť je jako úspěch ve hře – splň, co je napsané pod ní, a pečeť se sama vtiskne do kroniky.",
+            .. (me and ("\n%s získal(a) %d z nich."):format(me, mine) or "")
+            .. "\nPečetě jsou společné pro všechny tvoje postavy – u každé vidíš, kdo ji získal."
+            .. " Splň, co je napsané pod pečetí, a sama se vtiskne do kroniky.",
             seals = here },
         { "Hrdinské pečetě", "Za lov vzácných mobů, cestování, objevování, dungeony a čtení kroniky.", seals = general },
         { "Oblasti", #zones > 0 and "Rozpracované a dokončené oblasti."

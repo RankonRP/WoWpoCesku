@@ -229,7 +229,7 @@ local function fillSeal(c, s, width)
         c.icon:SetDesaturated(false)
         c.icon:SetAlpha(1)
         c.name:SetTextColor(RED[1], RED[2], RED[3])
-        c.status:SetText("získáno " .. date("%d.%m.%Y", s.got) .. pts)
+        c.status:SetText("získáno " .. date("%d.%m.%Y", s.got) .. (s.by and (" – " .. s.by) or "") .. pts)
         c.barBg:Hide(); c.bar:Hide()
     else
         c.rim:SetVertexColor(0.80, 0.72, 0.57)
