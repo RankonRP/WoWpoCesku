@@ -748,8 +748,30 @@ local function updateStats()
     if ok and type(lvl) == "number" and not secret(lvl) then S.maxLvl = math.max(S.maxLvl or 0, lvl) end
     local okM, money = pcall(GetMoney)
     if okM and type(money) == "number" and not secret(money) then S.maxGold = math.max(S.maxGold or 0, money) end
+    S.prof = S.prof or {}
+    -- novější klient (WoW Forever): GetProfessions / GetProfessionInfo
+    if GetProfessions and GetProfessionInfo then
+        local okP, a, b, c, d, e, f = pcall(GetProfessions)
+        if okP then
+            for _, idx in ipairs({ a or 0, b or 0, c or 0, d or 0, e or 0, f or 0 }) do
+                if idx and idx > 0 then
+                    local okI, name, _, rank = pcall(GetProfessionInfo, idx)
+                    if okI and type(name) == "string" and type(rank) == "number" and PROF_SET[name] then
+                        S.prof[name] = math.max(S.prof[name] or 0, rank)
+                    end
+                end
+            end
+        end
+    end
+    -- jízda v novějším klientu = naučené kouzlo (Apprentice / Journeyman Riding)
+    local known = IsPlayerSpell or IsSpellKnown
+    if known then
+        local ok75, has75 = pcall(known, 33388)
+        local ok150, has150 = pcall(known, 33391)
+        if ok150 and has150 then S.riding = math.max(S.riding or 0, 150)
+        elseif ok75 and has75 then S.riding = math.max(S.riding or 0, 75) end
+    end
     if GetNumSkillLines and GetSkillLineInfo then
-        S.prof = S.prof or {}
         for i = 1, GetNumSkillLines() do
             local okS, name, header, _, rank = pcall(GetSkillLineInfo, i)
             if okS and type(name) == "string" and not header and type(rank) == "number" then
@@ -1271,6 +1293,19 @@ pcall(ev.RegisterEvent, ev, "ENCOUNTER_END")
 pcall(ev.RegisterEvent, ev, "QUEST_TURNED_IN")
 for _, e in ipairs({ "PLAYER_LEVEL_UP", "PLAYER_MONEY", "SKILL_LINES_CHANGED", "UPDATE_FACTION", "PLAYER_DEAD", "UNIT_PET" }) do
     pcall(ev.RegisterEvent, ev, e)
+end
+-- /czq pecete: co addon o postavě zjistil (kontrola, že se profese a reputace čtou)
+function WoWpoCesku_SealDebug()
+    pcall(updateStats)
+    local S = seen()
+    local profs = {}
+    for k, v in pairs(S.prof or {}) do profs[#profs + 1] = k .. " " .. v end
+    local reps = {}
+    for k in pairs(S.rep or {}) do reps[#reps + 1] = k end
+    say(("pecete: uroven %d, nejvic zlata %d, jizda %d, smrti %d"):format(S.maxLvl or 0, math.floor((S.maxGold or 0) / 10000), S.riding or 0, S.deaths or 0))
+    say("profese: " .. (#profs > 0 and table.concat(profs, ", ") or "zadne nenalezeny"))
+    say("exalted: " .. (#reps > 0 and table.concat(reps, ", ") or "zatim zadne"))
+    pcall(checkSeals)
 end
 -- statistiky postavy a kontrola pečetí nejvýš jednou za 3 s (PLAYER_MONEY chodí často)
 local statsPending

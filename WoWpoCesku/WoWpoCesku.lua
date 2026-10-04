@@ -1117,6 +1117,8 @@ SlashCmdList.CZQUESTS = function(msg)
         scanCommand(arg)
     elseif cmd == "lore" or cmd == "pribeh" then
         WoWpoCesku_LoreCommand(arg)
+    elseif cmd == "pecete" then
+        if WoWpoCesku_SealDebug then WoWpoCesku_SealDebug() end
     elseif cmd == "vzacni" or cmd == "rare" then
         if WoWpoCesku_RareCommand then WoWpoCesku_RareCommand(arg) end
     elseif cmd == "vypis" then
