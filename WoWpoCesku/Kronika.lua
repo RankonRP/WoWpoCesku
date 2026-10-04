@@ -724,16 +724,16 @@ local SERIES = {
       desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
     -- postava (group = "postava")
-    { id = "level", group = "postava", icon = IC .. "Spell_Holy_SealOfMight", image = PIC .. "hrdina", what = "úrovní",
+    { id = "level", group = "postava", icon = IC .. "Spell_Holy_SealOfMight", image = PIC .. "uroven", what = "úrovní",
       desc = function(n) return ("Dosáhni s některou postavou úrovně %d."):format(n) end,
       steps = { { 10, "Na cestě", 5 }, { 20, "Zkušený dobrodruh", 5 }, { 40, "Veterán", 10 }, { 60, "Na vrcholu", 25 } } },
-    { id = "gold", group = "postava", icon = IC .. "INV_Misc_Coin_01", image = PIC .. "objevitel", what = "zlatých",
+    { id = "gold", group = "postava", icon = IC .. "INV_Misc_Coin_01", image = PIC .. "bohatstvi", what = "zlatých",
       desc = function(n) return ("Měj u jedné postavy najednou %d zlatých."):format(n) end,
       steps = { { 100, "Zámožný", 10 }, { 1000, "Boháč", 25 } } },
-    { id = "riding", group = "postava", icon = IC .. "Ability_Mount_RidingHorse", image = PIC .. "cestovatel", what = "bodů jízdy",
+    { id = "riding", group = "postava", icon = IC .. "Ability_Mount_RidingHorse", image = PIC .. "jezdec", what = "bodů jízdy",
       desc = function(n) return n <= 75 and "Nauč se jezdit na mountovi." or "Nauč se jezdit na epickém mountovi." end,
       steps = { { 75, "Na koni", 10 }, { 150, "Epický jezdec", 25 } } },
-    { id = "death", group = "postava", icon = IC .. "Spell_Shadow_DeathScream", image = PIC .. "dobyvatel", what = "smrtí",
+    { id = "death", group = "postava", icon = IC .. "Spell_Shadow_DeathScream", image = PIC .. "smrt", what = "smrtí",
       desc = function(n) return ("Zemři %d×. Smrt je jen začátek."):format(n) end,
       steps = { { 10, "Ještě dýchám?", 5 }, { 50, "Duch Azerothu", 10 }, { 100, "Nesmrtelný", 10 } } },
 }
@@ -884,7 +884,7 @@ local function sealList()
     for _, C in ipairs(WoWpoCesku_SealContinents or {}) do
         local n, missing = 0, {}
         for _, z in ipairs(C.zones) do if S.z[z] then n = n + 1 else missing[#missing + 1] = "• " .. z end end
-        out[#out + 1] = { id = "kontinent:" .. C.id, name = C.name, icon = IC .. "INV_Misc_Map_01", image = PIC .. "cestovatel",
+        out[#out + 1] = { id = "kontinent:" .. C.id, name = C.name, icon = IC .. "INV_Misc_Map_01", image = PIC .. "kontinent",
             desc = "Navštiv všechny oblasti kontinentu.", points = 25, gold = true, have = n, need = #C.zones, what = "oblastí",
             group = "svet", detail = #missing > 0 and ("Ještě nenavštíveno:\n" .. table.concat(missing, "\n")) or nil }
     end
@@ -895,21 +895,21 @@ local function sealList()
             if S.cap and S.cap[c .. ":" .. fk] then n = n + 1 else missing[#missing + 1] = "• " .. c end
         end
         out[#out + 1] = { id = "mesta:" .. fk, name = fk == "Alliance" and "Velvyslanec Aliance" or "Velvyslanec Hordy",
-            icon = IC .. "INV_Misc_Book_11", image = PIC .. "legenda", points = 10, have = n, need = #cities, what = "měst",
+            icon = IC .. "INV_Misc_Book_11", image = PIC .. "mesta", points = 10, have = n, need = #cities, what = "měst",
             desc = "Navštiv všechna hlavní města své frakce.", faction = fk == "Alliance" and "A" or "H", group = "svet",
             detail = #missing > 0 and ("Ještě nenavštíveno:\n" .. table.concat(missing, "\n")) or nil }
     end
     -- profese na 300
     for _, p in ipairs(WoWpoCesku_SealProfese or {}) do
         local rank = (S.prof and S.prof[p[1]]) or 0
-        out[#out + 1] = { id = "prof:" .. p[1], name = p[2], icon = IC .. "Trade_BlackSmithing", image = PIC .. "hrdina",
+        out[#out + 1] = { id = "prof:" .. p[1], name = p[2], icon = IC .. "Trade_BlackSmithing", image = PIC .. "remeslo",
             desc = ("Dosáhni úrovně 300 v profesi %s (%s)."):format(p[1], p[3]), points = 10,
             have = math.min(rank, 300), need = 300, what = "bodů", group = "remeslo" }
     end
     -- reputace Exalted
     for _, R in ipairs(WoWpoCesku_SealRep or {}) do
         local got = S.rep and S.rep[R[1]]
-        out[#out + 1] = { id = "rep:" .. R[1], name = "Exalted – " .. R[1], icon = IC .. "INV_Misc_Book_11", image = PIC .. "legenda",
+        out[#out + 1] = { id = "rep:" .. R[1], name = "Exalted – " .. R[1], icon = IC .. "INV_Misc_Book_11", image = PIC .. "reputace",
             desc = ("Dosáhni u frakce %s nejvyšší reputace Exalted."):format(R[1]), points = R[3] and 25 or 10, gold = R[3],
             have = got and 1 or 0, need = 1, group = "reputace", faction = R[2], statusText = (not got) and "zatím ne" or nil }
     end
