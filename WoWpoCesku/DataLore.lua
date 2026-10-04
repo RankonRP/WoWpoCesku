@@ -385,11 +385,11 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Pokud ve Forever najde�
 
 ["Elwynn Forest"] = [[• Hogger – nejslavnější gnoll Warcraftu. Vede gnolly z Riverpaw v jihozápadních lesích a na nástěnce v Goldshire visí plakát Wanted: Hogger. Je elitní – sám na něj nechoď.
 
-• Princezna musí zemřít – Ma Stonefield tě pošle na dýňové pole Brackwell Pumpkin Patch, kde se vykrmuje obrovská prasnice Princess. Defiasové si ji přivlastnili a quest „Princess Must Die!“ patří k nejvtipnějším v kraji.
+• Princezna musí zemřít – Ma Stonefield tě pošle na dýňové pole Brackwell Pumpkin Patch, kde se vykrmuje obrovská prasnice Princess. Pole obsadili Defiasové a quest „Princess Must Die!“ patří k nejvtipnějším v kraji.
 
 • Mladí milenci – rodiny Stonefieldových a Maclureových se nesnášejí, ale Tommy Joe Stonefield a Maybell Maclure se do sebe zamilovali. Quest Young Lovers je elwynnská verze Romea a Julie.
 
-• Tower of Azora – věž mága Theocrita na východě kraje. Questy kolem ní tě zavedou ke koboldům a k jeho podivným experimentům.
+• Tower of Azora – věž mága Theocrita na východě kraje. Odtud vede řada questů až k čaroději Morganthovi do Redridge.
 
 • Rolf a Malakai – ztracení vojáci z hlídky u murločích jezer. Najít je a zjistit, co se jim stalo, je úkol pro odvážné.
 
@@ -542,7 +542,7 @@ WoWpoCesku_LoreTajemstvi["Tirisfal Glades"] = [[• Ruiny Lordaeronu – nad vch
 
 • Lékárníci v Undercity – Royal Apothecary Society vyvíjí „lék“ proti Pohromě. Kdo pozorně čte jejich questy, pozná, že to žádný lék není.
 
-• Brill – hostinec Gallows' End Tavern je jediné místo, kde se ti nemrtvý barman usměje.
+• Brill – v hostinci Gallows' End Tavern sedí Coleman Farthing, který zná příběh rodu Agamandů.
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
@@ -588,9 +588,9 @@ WoWpoCesku_LoreTajemstvi["Silverpine Forest"] = [[• Shadowfang Keep – hrad n
 
 • Pyrewood Village – vesnice, jejíž obyvatelé se v noci mění ve worgeny. Přijď za tmy a uvidíš.
 
-• Ambermill – vesnice dalaranských mágů, kteří tu kouzlí bez dovolení Forsaken.
+• Ambermill – vesnice obsazená mágy z Dalaranu, s nimiž Forsaken vedou spor.
 
-• Fenris Isle – ostrov na jezeře se zničenou pevností, kde sídlí Thule Ravenclaw a jeho kult.
+• Fenris Isle – ostrov na jezeře se zničenou pevností, kde sídlí Thule Ravenclaw.
 
 • The Sepulcher – krypta Forsaken ukrytá v lese, odkud vyrážejí Deathstalkerové.
 
@@ -632,11 +632,11 @@ WoWpoCesku_LoreTajemstvi["Hillsbrad Foothills"] = [[• Durnholde Keep – trosk
 
 • Southshore vs Tarren Mill – na PvP serverech bývala silnice mezi městy nejrušnější bitevní frontou klasického WoW.
 
-• Ravenholdt Manor – skryté sídlo lotrů v horách na severu. Najdou ho jen lotři přes speciální úkoly.
+• Ravenholdt Manor – skryté sídlo lotrů v horách na severu (už v Alterac Mountains). Lotry k němu dovede jejich quest.
 
 • Dun Garok – opuštěná trpasličí pevnost na jihu.
 
-• Azurelode Mine – důl, kde se dolování zvrhlo a horníci ho přenechali nepřátelům.
+• Azurelode Mine – důl na jihozápadě kraje.
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
@@ -680,7 +680,7 @@ WoWpoCesku_LoreTajemstvi["Alterac Mountains"] = [[• Alterac Valley – na seve
 
 • Ravenholdt Manor – skryté sídlo lotrů v horách. Lotrovský quest tě k němu dovede.
 
-• Bariéra Dalaranu – fialová kopule nad zničeným městem mágů. Zevnitř je vidět město a mágové, kteří ho opravují.
+• Bariéra Dalaranu – fialová kopule nad zničeným městem mágů. Skrz ni je vidět zničené město.
 
 • Strahnbrad – vesnice obsazená Syndikátem, zbytkem alteracké šlechty.
 
@@ -728,7 +728,7 @@ WoWpoCesku_LoreTajemstvi["Arathi Highlands"] = [[• Stromgarde – ruiny města
 
 • Arathi Basin – bitevní pole o pět zdrojů (kovárna, farma, důl, stáje, pila).
 
-• Circle of Binding – kamenné kruhy na kopcích, kde mágové kdysi drželi uvězněné síly. Questy ti ukážou, co se stane, když se kruhy poruší.
+• Circle of Binding – záhadné kamenné kruhy na kopcích kraje. Navštíví je quest The Stones That Bind Us.
 
 • Witherbark Village – trollí vesnice na východě plná vúdú magie.
 
@@ -782,7 +782,7 @@ WoWpoCesku_LoreTajemstvi["Wetlands"] = [[• Wetlands Excavation Site (novinka W
 
 • Thandol Span – most přes rokli, jehož část Dark Ironové vyhodili do vzduchu.
 
-• Thelgen Rock – jeskyně plná pavouků, troggů a jezírek.
+• Thelgen Rock – jeskyně na jihu kraje.
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
@@ -920,9 +920,9 @@ WoWpoCesku_LoreKnihy["Duskwood"] = [[• Stitches – nekromant Abercrombie, kte
 • Karazhan – Medivhova věž v Deadwind Pass je nedaleko. Temnota lesa je její stín.]]
 WoWpoCesku_LoreTajemstvi["Duskwood"] = [[• Stitches – nekromant Abercrombie, který žije v chatrči na západě lesa, sešil obří zrůdu z mrtvol. Když ji pustí, vydá se po silnici do Darkshire a stráže ji musí zastavit.
 
-• Příběh Stalvana Mistmantla – dlouhá řada questů začínající v Darkshire tě provede přes Westfall, Elwynn i Stormwind a odhalí temné tajemství.
+• Příběh Stalvana Mistmantla – dlouhá řada questů začínající v Darkshire tě provede přes Elwynn a Stormwind a odhalí temné tajemství.
 
-• Morbent Fel – nekromant na hřbitově Raven Hill. Bez speciální zbraně Morbent's Bane na něj nestačíš.
+• Morbent Fel – nekromant v domě na vršku Forlorn Rowe nad hřbitovem Raven Hill. Bez speciální zbraně Morbent's Bane na něj nestačíš.
 
 • Twilight Grove – háj na severu, kde se objevují zelení draci posedlí Noční můrou (Emeriss, Lethon, Taerar nebo Ysondre).
 
@@ -1100,7 +1100,7 @@ WoWpoCesku_LoreKnihy["Eastern Plaguelands"] = [[• Vyčištění Stratholme (Wa
 • Tirion Fordring – paladin, který byl vyhnán z řádu za to, že chránil orka Eitrigga. Žije jako poustevník u řeky Thondroril v tomto kraji. SPOILER: Tirion později vede Argent Crusade proti Lich Kingovi.
 
 • Naxxramas – SPOILER: létající nekropole je posledním raidem klasického WoW. Na konci čeká Kel'Thuzad.]]
-WoWpoCesku_LoreTajemstvi["Eastern Plaguelands"] = [[• Tirion Fordring – v chatrči u jezera žije muž, který vypadá jako starý rybář. Jeho questová řada Redemption je jedna z nejkrásnějších v klasice.
+WoWpoCesku_LoreTajemstvi["Eastern Plaguelands"] = [[• Tirion Fordring – v chatrči nedaleko řeky Thondroril žije muž, který vypadá jako obyčejný poustevník. Jeho questová řada Redemption je jedna z nejkrásnějších v klasice.
 
 • Stratholme – dungeon rozdělený na živou a nemrtvou část. Z barona Rivendara vzácně padá kůň Deathcharger.
 
@@ -1146,7 +1146,7 @@ WoWpoCesku_LoreKnihy["Badlands"] = [[• Disky Norgannona – v Uldamanu leží 
 • Draci z Lethlor Ravine – tady sídlí černí a rudí draci, kteří se navzájem nesnášejí. Rudí jsou spojenci Alexstraszy, černí slouží Deathwingovi.]]
 WoWpoCesku_LoreTajemstvi["Badlands"] = [[• Uldaman – trezor titánů s kamennými golemy a Archaedasem na konci. Disky Norgannona tu prozradí původ trpaslíků.
 
-• Lethlor Ravine – rokle s obří dračí kostrou, kde hnízdí draci.
+• Lethlor Ravine – rokle na východě, kde hnízdí černí draci.
 
 • Kargath – orčí pevnost pojmenovaná po Kargathu Bladefistovi, náčelníkovi klanu Shattered Hand.
 
@@ -1314,7 +1314,7 @@ WoWpoCesku_LoreTajemstvi["Blasted Lands"] = [[• Temný portál – v klasice n
 
 • Nethergarde Keep – mágové tu hlídají portál. Bloodmage Lynnore a Bloodmage Drazial ti za suroviny z kraje (třeba Snickerfang Jowls) udělají silné elixíry.
 
-• Altar of Storms – oltář spojený s Gul'danovými rytíři smrti.
+• Altar of Storms – temný oltář na severozápadě kraje.
 
 • Dreadmaul Hold – ogří pevnost blízko portálu.
 
@@ -1406,7 +1406,7 @@ WoWpoCesku_LoreKnihy["The Barrens"] = [[• Thrallova cesta (Warcraft III) – o
 • Northwatch Hold – pevnost lidí z Kul Tiras, kteří přišli s admirálem Proudmoorem. Po jeho smrti zůstali a dál bojují proti Hordě.]]
 WoWpoCesku_LoreTajemstvi["The Barrens"] = [[• Kde je Mankrikova žena? – ork Mankrik v Crossroads tě v questu Lost in Battle prosí, abys našel jeho ženu Olgru. Spolu bojovali s kančími lidmi Bristleback a v boji se rozdělili. Hráči ji hledali tak dlouho, že se z otázky „Where is Mankrik's wife?“ stal jeden z nejstarších memů v historii her.
   Nápověda (spoiler): z Crossroads jdi na jih přes most u stezky z Lushwater Oasis. Na západní straně uvidíš dvě chatrče – před jednou z nich leží Beaten Corpse (zhruba 49, 50). Olgra už nežije.
-  Do budoucna: v Cataclysm Mankrik Olgru konečně pohřbí a v Hearthstone má vlastní legendární kartu s popiskem, že svou noční můru prožívá znovu pokaždé, když vznikne nová postava Hordy.
+  Do budoucna: v Cataclysm Mankrik Olgru konečně pohřbí a v Hearthstone má vlastní legendární kartu.
 
 • Sada „Blessing of Kalimdor“ (novinka WoW Forever) – vzácní mobové tu padají kusy sady (plášť, prsten, náhrdelník). Už dva kusy dají +5 % rychlosti pohybu v Barrens a Stonetalon Mountains. Padají z Humar the Pridelord, Swiftmane a Takk the Leaper – proto se je vyplatí lovit.
 
@@ -1458,7 +1458,7 @@ WoWpoCesku_LoreKnihy["Darkshore"] = [[• Highborne a jejich duchové – po Vel
 • SPOILER (Cataclysm a Battle for Azeroth) – Darkshore bude zničen kataklyzmatem a později vypálen Hordou při válce o Teldrassil.]]
 WoWpoCesku_LoreTajemstvi["Darkshore"] = [[• For Love Eternal – druid Cerellean Whiteclaw v Auberdine truchlí pro svou lásku Anayu Dawnrunner, která zahynula při zkáze Ameth'Aran za Války starověku. Její duch v ruinách stále bloudí – osvoboď ho a přines Cerelleanovi její přívěsek. Smutný milostný příběh starý deset tisíc let (v pozdějších verzích WoW zmizel).
 
-• Prospector Remtravel – gnómský badatel, který tvrdí, že našel něco úžasného. Jeho řada končí překvapením.
+• Prospector Remtravel – trpasličí badatel, který tvrdí, že našel něco úžasného. Jeho řada končí překvapením.
 
 • Tower of Althalaxx – věž, kde kultisté Dark Strand provádějí temné rituály.
 

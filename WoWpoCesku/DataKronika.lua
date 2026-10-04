@@ -207,8 +207,8 @@ WoWpoCesku_Postavy = {
     -- Padouši a legendy
     ["Hogger"] = "Nejslavnější gnoll Warcraftu, vůdce gnollů Riverpaw v Elwynn Forest. Mnoho hrdinů na něj nestačilo.",
     ["Edwin VanCleef"] = "Vůdce Bratrstva Defias. Kdysi mistr kameníků, kterým šlechta nezaplatila za obnovu Stormwindu.",
-    ["Captain Grayson"] = "Duch kapitána, který straší v majáku na pobřeží Westfallu.",
-    ["Old Murk-Eye"] = "Obávaný starý murlok z pobřeží Westfallu.",
+    ["Captain Grayson"] = "Duch pirátského kapitána v majáku Westfallu. Jeho loď ztroskotala, protože maják té noci nesvítil. Teď plamen hlídá sám.",
+    ["Old Murk-Eye"] = "Starý vůdce murloků na pobřeží Westfallu, který útočí na maják. Zabil i rodinu jeho strážce.",
     ["Stitches"] = "Obří zrůda sešitá z mrtvol nekromantem Abercrombiem v Duskwoodu.",
     ["Morbent Fel"] = "Nekromant, který žije v domě na vršku Forlorn Rowe nad hřbitovem Raven Hill v Duskwoodu.",
     ["Tirion Fordring"] = "Paladin vyhnaný z řádu za to, že zachránil orka Eitrigga. Dnes žije jako poustevník – jeho příběh ještě neskončil.",

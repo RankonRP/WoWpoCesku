@@ -128,7 +128,7 @@ Thermaplugg, sžíraný závistí, počítal jen s třiceti procenty mrtvých gn
 Gnómové sbírají ve městě děrné štítky (punchcards) pro sérii questů a hledají lék na následky záření.]] },
     },
 }
-WoWpoCesku_LoreTajemstvi["Gnomeregan"] = [[• Do Gnomereganu vede i zadní vchod výtahem, kterým se dostane i Horda.
+WoWpoCesku_LoreTajemstvi["Gnomeregan"] = [[• Kromě hlavního vchodu má Gnomeregan i zadní vchod výtahem.
 • Děrné štítky (Punchcards) – sbírej je a vlož do Matrix Punchograph 3005 pro sérii questů.
 • Pozor na radiaci (Irradiated).]]
 
