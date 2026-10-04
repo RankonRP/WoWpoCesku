@@ -947,7 +947,7 @@ local function showNextBanner()
     if not banner then
         banner = parchmentFrame("WoWpoCeskuSealBanner", UIParent, "HIGH")
         banner:SetSize(400, 92)
-        banner:SetPoint("BOTTOM", 0, 190)
+        banner:SetPoint("CENTER", 0, 120)   -- uprostřed obrazovky, kousek nad postavou
         banner:EnableMouse(true)
         banner.wax = banner:CreateTexture(nil, "ARTWORK", nil, 2)
         banner.wax:SetSize(78, 78)
