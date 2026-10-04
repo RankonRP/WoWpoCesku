@@ -785,7 +785,7 @@ local function sealList()
         local done = false
         for _, q in ipairs(L.q) do if questDone(q) then done = true break end end
         out[#out + 1] = { id = "legenda:" .. L.id, name = L.name, desc = L.desc, icon = IC .. "INV_Misc_Book_11",
-            image = PIC .. "ctenar", gold = L.gold, points = L.pts or 10, have = done and 1 or 0, need = 1,
+            image = PIC .. "legenda", gold = L.gold, points = L.pts or 10, have = done and 1 or 0, need = 1,
             group = "legenda", faction = L.f }
     end
     -- skryté pečetě: potkat postavu nebo navštívit místo
@@ -793,7 +793,7 @@ local function sealList()
     for _, H in ipairs(WoWpoCesku_SealHidden or {}) do
         local done = (H.npc and met[H.npc] ~= nil) or (H.misto and placeVisited(H.misto)) or false
         out[#out + 1] = { id = "skryta:" .. H.id, name = H.name, desc = H.desc, hint = H.hint,
-            icon = IC .. "INV_Misc_QuestionMark", image = PIC .. "objevitel", points = H.pts or 10,
+            icon = IC .. "INV_Misc_QuestionMark", image = PIC .. "skryta", points = H.pts or 10,
             have = done and 1 or 0, need = 1, group = "skryta", hidden = true }
     end
     return out
