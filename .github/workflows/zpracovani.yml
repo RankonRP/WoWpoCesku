@@ -21,6 +21,13 @@ jobs:
     # může měnit jen správce repozitáře – cizí hráči opravy schválit nemůžou.
     if: github.event_name != 'issues' || contains(github.event.issue.labels.*.name, 'opravy')
     runs-on: ubuntu-latest
+    env:
+      SBERNA_URL: https://wowpocesku-sberna.wowpocesku-sberna.workers.dev
+      SBERNA_ADMIN_KEY: ${{ secrets.SBERNA_ADMIN_KEY }}
+      PREKLADAC: ${{ vars.PREKLADAC || 'google' }}
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      ODLOZIT: "1"
     steps:
       - uses: actions/checkout@v5
 
@@ -29,22 +36,31 @@ jobs:
           node-version: 24
 
       - name: Přeložit nové questy a zpracovat opravy
-        env:
-          SBERNA_URL: https://wowpocesku-sberna.wowpocesku-sberna.workers.dev
-          SBERNA_ADMIN_KEY: ${{ secrets.SBERNA_ADMIN_KEY }}
-          PREKLADAC: ${{ vars.PREKLADAC || 'google' }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node tools/zpracuj.js
 
+      # Push může selhat, když někdo mezitím nahrál něco jiného (souběh). Pak se stáhne
+      # nová verze a překlad se zopakuje – potvrzení sběrně se posílají až po úspěšném pushi.
       - name: Uložit změny
         run: |
-          if git diff --quiet; then
-            echo "Žádné změny v překladech."
-            exit 0
-          fi
           git config user.name "wowpocesku-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add preklady.json WoWpoCesku/Data.lua rozhovory.json WoWpoCesku/DataRozhovory.lua rozhrani.json WoWpoCesku/DataRozhrani.lua
-          git commit -m "Nové překlady questů a rozhovorů"
-          git push
+          DATA="preklady.json WoWpoCesku/Data.lua rozhovory.json WoWpoCesku/DataRozhovory.lua rozhrani.json WoWpoCesku/DataRozhrani.lua"
+          for pokus in 1 2 3; do
+            if git diff --quiet -- $DATA; then
+              echo "Žádné změny v překladech."
+              exit 0
+            fi
+            git add $DATA
+            git commit -m "Nové překlady questů a rozhovorů"
+            if git push; then exit 0; fi
+            echo "Push selhal (pokus $pokus) – stahuji novou verzi a zpracuji znovu."
+            git fetch origin main
+            git reset --hard origin/main
+            sleep 5
+            node tools/zpracuj.js
+          done
+          echo "Push se nepodařil ani na třetí pokus – potvrzení se neodešlou, sběrna texty nabídne příště znovu."
+          exit 1
+
+      - name: Potvrdit sběrně
+        run: node tools/zpracuj.js --odeslat

@@ -24,6 +24,11 @@ const ROOT = path.join(__dirname, "..");
 
 const { SBERNA_URL, SBERNA_ADMIN_KEY } = process.env;
 const DRY_RUN = process.env.DRY_RUN === "1";
+// ODLOZIT=1: potvrzení sběrně (ack, nové návrhy, vyřízené opravy) se jen uloží do .odeslat.json
+// a odešle je až "node tools/zpracuj.js --odeslat" PO úspěšném pushi. Když push selže, nic se
+// neztratí – sběrna texty nabídne znovu.
+const ODLOZIT = process.env.ODLOZIT === "1";
+const ODESLAT_PATH = path.join(ROOT, ".odeslat.json");
 
 const simple = (s) => (s || "").toLowerCase().replace(/[\s\p{P}]/gu, "");
 
@@ -258,7 +263,7 @@ async function main() {
 
   const subs = await processSubmissions(cache, gossip, ui);
   // Podezřelé změny a zakázaná slova -> do sběrny jako návrhy ke schválení (objeví se v issue)
-  if (subs.review.length && !DRY_RUN) await sberna("/corrections/add", subs.review);
+  if (subs.review.length && !DRY_RUN && !ODLOZIT) await sberna("/corrections/add", subs.review);
   const corr = await processCorrections(cache);
 
   if (DRY_RUN) {
@@ -278,13 +283,29 @@ async function main() {
     writeUi(ui);
     writeUiLua(ui);
   }
-  if (subs.ack.length) await sberna("/ack", subs.ack);
-  if (corr.resolve.length) await sberna("/corrections/resolve", corr.resolve);
+  if (ODLOZIT) {
+    fs.writeFileSync(ODESLAT_PATH, JSON.stringify({ review: subs.review, ack: subs.ack, resolve: corr.resolve }));
+    console.log(`Potvrzení odložena do .odeslat.json (ack ${subs.ack.length}, návrhy ${subs.review.length}, opravy ${corr.resolve.length}).`);
+  } else {
+    if (subs.ack.length) await sberna("/ack", subs.ack);
+    if (corr.resolve.length) await sberna("/corrections/resolve", corr.resolve);
+  }
   await updateIssue(corr.pending, corr.issue, cache);
   console.log("Hotovo.");
 }
 
-main().catch((e) => {
+// Odeslání odložených potvrzení (po úspěšném pushi)
+async function odeslat() {
+  if (!fs.existsSync(ODESLAT_PATH)) { console.log("Nic k odeslání."); return; }
+  const p = JSON.parse(fs.readFileSync(ODESLAT_PATH, "utf8"));
+  if (p.review?.length) await sberna("/corrections/add", p.review);
+  if (p.ack?.length) await sberna("/ack", p.ack);
+  if (p.resolve?.length) await sberna("/corrections/resolve", p.resolve);
+  fs.unlinkSync(ODESLAT_PATH);
+  console.log(`Odesláno: ack ${p.ack?.length || 0}, návrhy ${p.review?.length || 0}, opravy ${p.resolve?.length || 0}.`);
+}
+
+(process.argv.includes("--odeslat") ? odeslat() : main()).catch((e) => {
   console.error(e);
   process.exit(1);
 });

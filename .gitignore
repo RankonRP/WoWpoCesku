@@ -15,3 +15,5 @@ sberna/tajne.txt
 .cache-odeslano
 .fronta-zpracovano
 .rozhrani.etag
+
+.odeslat.json
