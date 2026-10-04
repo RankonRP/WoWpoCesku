@@ -863,6 +863,8 @@ local function createMinimapButton()
     minimapButton:SetScript("OnClick", function(_, button)
         if IsShiftKeyDown() then
             ReloadUI()   -- načíst nové překlady
+        elseif IsControlKeyDown() and WoWpoCesku_ShowLore then
+            WoWpoCesku_ShowLore()   -- kniha příběhů pro aktuální oblast
         elseif button == "RightButton" then
             setEnabled(not WoWpoCeskuSettings.enabled)
             print("|cffffd100WoWpoCesku:|r preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT"))
@@ -887,6 +889,7 @@ local function createMinimapButton()
         GameTooltip:AddLine("Levy klik: nastaveni", 1, 1, 1)
         GameTooltip:AddLine("Pravy klik: preklad zapnout / vypnout", 1, 1, 1)
         GameTooltip:AddLine("Shift+klik: nacist nove preklady (/reload)", 1, 1, 1)
+        GameTooltip:AddLine("Ctrl+klik: pribeh oblasti (kniha)", 1, 1, 1)
         local n = 0
         for _ in pairs(WoWpoCeskuQueue or {}) do n = n + 1 end
         if n > 0 then GameTooltip:AddLine(("Ceka na preklad: %d textu"):format(n), 1, 0.82, 0) end

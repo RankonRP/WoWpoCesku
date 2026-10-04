@@ -239,6 +239,53 @@ local function onZone()
     toast.tag:SetText(L.tag)
     toast.anim:Stop()
     toast.anim:Play()
+    -- kdo titulky nestihne, najde připomínku v chatu
+    say("pribeh oblasti " .. key .. " - otevres ho Ctrl+klikem na ikonu u minimapy, tlacitkem na mape nebo /czq lore")
+end
+
+-- hledání oblasti podle (části) názvu: /czq lore elwynn
+local function findKey(text)
+    text = text:lower()
+    local key = resolve(text)
+    if key then return key end
+    for k, L in pairs(WoWpoCesku_Lore) do
+        if k:lower():find(text, 1, true) or L.title:lower():find(text, 1, true) then return k end
+    end
+    for alias, k in pairs(WoWpoCesku_LoreAlias) do
+        if alias:lower():find(text, 1, true) and WoWpoCesku_Lore[k] then return k end
+    end
+end
+
+-- tlačítko s knihou na velké mapě: otevře příběh oblasti, kterou si právě prohlížíš
+local function createMapButton()
+    if not WorldMapFrame or WoWpoCeskuLoreMapButton then return end
+    local b = CreateFrame("Button", "WoWpoCeskuLoreMapButton", WorldMapFrame)
+    b:SetSize(28, 28)
+    b:SetFrameStrata("HIGH")
+    b:SetPoint("TOPRIGHT", WorldMapFrame, "TOPRIGHT", -70, -30)
+    local icon = b:CreateTexture(nil, "ARTWORK")
+    icon:SetAllPoints()
+    icon:SetTexture("Interface\\Icons\\INV_Misc_Book_09")
+    b:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square", "ADD")
+    b:SetScript("OnClick", function()
+        local key
+        local id = WorldMapFrame.GetMapID and WorldMapFrame:GetMapID()
+        for _ = 1, 4 do
+            local info = id and C_Map.GetMapInfo(id)
+            if not info then break end
+            key = resolve(info.name)
+            if key then break end
+            id = info.parentMapID
+        end
+        WoWpoCesku_ShowLore(key)
+    end)
+    b:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_LEFT")
+        GameTooltip:AddLine("WoWpoCesku")
+        GameTooltip:AddLine("Pribeh teto oblasti (kniha)", 1, 1, 1)
+        GameTooltip:Show()
+    end)
+    b:SetScript("OnLeave", GameTooltip_Hide)
 end
 
 -- příkaz /czq lore …
@@ -253,7 +300,10 @@ function WoWpoCesku_LoreCommand(arg)
     elseif arg == "seznam" then
         local names = {}
         for _, k in ipairs(sortedKeys()) do names[#names + 1] = WoWpoCesku_Lore[k].title end
-        say("pribehy oblasti: " .. table.concat(names, ", "))
+        say("pribehy oblasti: " .. table.concat(names, ", ") .. "  (otevres napr. /czq lore elwynn)")
+    elseif arg ~= "" then
+        local key = findKey(arg)
+        if key then WoWpoCesku_ShowLore(key) else say("oblast '" .. arg .. "' nenalezena - zkus /czq lore seznam") end
     else
         WoWpoCesku_ShowLore()
     end
@@ -262,4 +312,7 @@ end
 local ev = CreateFrame("Frame")
 ev:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 ev:RegisterEvent("PLAYER_ENTERING_WORLD")
-ev:SetScript("OnEvent", function() C_Timer.After(1.5, function() pcall(onZone) end) end)
+ev:SetScript("OnEvent", function(_, event)
+    if event == "PLAYER_ENTERING_WORLD" then pcall(createMapButton) end
+    C_Timer.After(1.5, function() pcall(onZone) end)
+end)
