@@ -678,19 +678,10 @@ local function ascii(s) return (s:gsub("[\195-\226][\128-\191]+", function(c) re
 
 local function countKeys(t) local n = 0; for _ in pairs(t or {}) do n = n + 1 end; return n end
 
--- série pečetí za počet (vzácní mobové, oblasti, přečtená kronika)
-local SERIES = {
-    { id = "rare", what = "vzácných mobů", count = function(S) return countKeys(S.rares) end,
-      steps = { { 1, "Stopař" }, { 10, "Lovec vzácností" }, { 25, "Mistr lovu" }, { 50, "Legenda Bestiáře" } } },
-    { id = "zone", what = "oblastí", count = function(S)
-          local n = 0
-          for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then n = n + 1 end end
-          return n
-      end,
-      steps = { { 5, "Tulák" }, { 15, "Cestovatel" }, { 30, "Poutník Azerothu" }, { 42, "Kartograf Azerothu" } } },
-    { id = "read", what = "kapitol kroniky (oblastí a dungeonů)", count = function(S) return countKeys(S.read) end,
-      steps = { { 5, "Čtenář kroniky" }, { 20, "Učenec" }, { 50, "Kronikář Azerothu" } } },
-}
+-- Pečetě fungují jako achievementy: každá má popisek, ikonu a body; při získání vyjede banner.
+local IC = "Interface\\Icons\\"
+local RAIDS = { ["Molten Core"] = true, ["Onyxia's Lair"] = true, ["Blackwing Lair"] = true, ["Zul'Gurub"] = true,
+    ["Ruins of Ahn'Qiraj"] = true, ["Ahn'Qiraj Temple"] = true, ["Naxxramas"] = true }
 
 local function bossTotal(list)
     local n = 0
@@ -698,29 +689,111 @@ local function bossTotal(list)
     return n
 end
 
--- všechny pečetě: { id, name, have, need, group, key }
+-- série za počet: { id, ikona, co se počítá, popisek, stupně { počet, název, body } }
+local SERIES = {
+    { id = "rare", icon = IC .. "Ability_Hunter_SniperShot", what = "vzácných mobů",
+      desc = function(n) return n == 1 and "Uviď svého prvního vzácného moba." or ("Uviď %d různých vzácných mobů."):format(n) end,
+      steps = { { 1, "Stopař", 5 }, { 10, "Lovec vzácností", 10 }, { 25, "Mistr lovu", 25 }, { 50, "Legenda Bestiáře", 50 } } },
+    { id = "zone", icon = IC .. "Ability_Mount_RidingHorse", what = "oblastí",
+      desc = function(n) return ("Navštiv %d oblastí Azerothu."):format(n) end,
+      steps = { { 5, "Tulák", 5 }, { 15, "Cestovatel", 10 }, { 30, "Poutník Azerothu", 25 }, { 42, "Kartograf Azerothu", 50 } } },
+    { id = "mista", icon = IC .. "INV_Misc_Spyglass_02", what = "míst",
+      desc = function(n) return ("Objev celkem %d míst z Poutníkova deníku."):format(n) end,
+      steps = { { 25, "Objevitel", 5 }, { 100, "Zvěd", 10 }, { 200, "Znalec všech cest", 25 } } },
+    { id = "dung", icon = IC .. "INV_Sword_04", what = "dungeonů",
+      desc = function(n) return n == 1 and "Vyčisti svůj první dungeon – poraz v něm všechny bosse."
+          or ("Vyčisti %d různých dungeonů nebo raidů."):format(n) end,
+      steps = { { 1, "Hrdina", 10 }, { 5, "Ochránce Azerothu", 10 }, { 10, "Postrach temnot", 25 }, { 20, "Legenda dungeonů", 50 } } },
+    { id = "read", icon = IC .. "INV_Misc_Book_09", what = "kapitol kroniky",
+      desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
+      steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
+}
+
+-- všechny pečetě: { id, name, desc, icon, points, have, need, what, group, key, series }
 local function sealList()
     local S = seen()
-    local out = {}
-    for _, ser in ipairs(SERIES) do
-        local c = ser.count(S)
-        for _, st in ipairs(ser.steps) do
-            out[#out + 1] = { id = ser.id .. st[1], name = st[2], have = math.min(c, st[1]), need = st[1],
-                what = ser.what, group = "obecne", series = ser.id }
-        end
-    end
+    local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0 }
+    for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then counts.zone = counts.zone + 1 end end
     for zone, places in pairs(WoWpoCesku_Objevy or {}) do
         local n = 0
         for _, p in ipairs(places) do if placeVisited(p) then n = n + 1 end end
-        out[#out + 1] = { id = "poutnik:" .. zone, name = "Průzkumník – " .. zone, have = n, need = #places,
-            what = "míst", group = "oblast", key = zone }
+        counts.mista = counts.mista + n
+        out[#out + 1] = { id = "poutnik:" .. zone, name = "Průzkumník – " .. zone, icon = IC .. "INV_Misc_Map_01",
+            desc = "Navštiv všechna místa Poutníkova deníku v oblasti " .. zone .. ".",
+            points = 10, have = n, need = #places, what = "míst", group = "oblast", key = zone }
     end
     for dung, list in pairs(WoWpoCesku_DungeonBosses or {}) do
-        local n = countKeys(S.bosses and S.bosses[dung])
-        out[#out + 1] = { id = "dobyvatel:" .. dung, name = "Dobyvatel – " .. dung, have = math.min(n, bossTotal(list)),
-            need = bossTotal(list), what = "bossů", group = "dungeon", key = dung }
+        local total = bossTotal(list)
+        local n = math.min(countKeys(S.bosses and S.bosses[dung]), total)
+        if total > 0 and n >= total then counts.dung = counts.dung + 1 end
+        local raid = RAIDS[dung]
+        out[#out + 1] = { id = "dobyvatel:" .. dung, name = "Dobyvatel – " .. dung,
+            icon = IC .. (raid and "INV_Misc_Head_Dragon_01" or "INV_Misc_Bone_HumanSkull_01"),
+            desc = "Poraz všechny bosse " .. (raid and "v raidu " or "v dungeonu ") .. dung .. ".",
+            points = raid and 25 or 10, have = n, need = total, what = "bossů", group = "dungeon", key = dung }
+    end
+    for _, ser in ipairs(SERIES) do
+        local c = counts[ser.id] or 0
+        for _, st in ipairs(ser.steps) do
+            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, points = st[3],
+                have = math.min(c, st[1]), need = st[1], what = ser.what, group = "obecne", series = ser.id }
+        end
     end
     return out
+end
+
+-- banner „Pečeť získána!“ (jako achievement ve hře); víc pečetí najednou jde postupně
+local banner, bannerQueue = nil, {}
+local function showNextBanner()
+    local s = table.remove(bannerQueue, 1)
+    if not s then return end
+    if not banner then
+        banner = parchmentFrame("WoWpoCeskuSealBanner", UIParent, "HIGH")
+        banner:SetSize(400, 92)
+        banner:SetPoint("BOTTOM", 0, 190)
+        banner:EnableMouse(true)
+        banner.wax = banner:CreateTexture(nil, "ARTWORK", nil, 2)
+        banner.wax:SetSize(78, 78)
+        banner.wax:SetPoint("LEFT", 6, 0)
+        banner.wax:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
+        banner.wax:SetVertexColor(0.86, 0.20, 0.13)
+        banner.icon = banner:CreateTexture(nil, "OVERLAY")
+        banner.icon:SetSize(40, 40)
+        banner.icon:SetPoint("CENTER", banner.wax)
+        pcall(banner.icon.SetMask, banner.icon, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
+        banner.title:ClearAllPoints()
+        banner.title:SetPoint("TOPLEFT", banner.wax, "TOPRIGHT", 6, -8)
+        banner.title:SetFont(FONT, 11, "")
+        banner.title:SetTextColor(SEPIA[1], SEPIA[2], SEPIA[3])
+        banner.name = banner:CreateFontString(nil, "OVERLAY")
+        banner.name:SetFont(FONT, 17, "")
+        banner.name:SetTextColor(RED[1], RED[2], RED[3])
+        banner.name:SetPoint("TOPLEFT", banner.title, "BOTTOMLEFT", 0, -3)
+        banner.name:SetWidth(296)
+        banner.name:SetJustifyH("LEFT")
+        banner.text:ClearAllPoints()
+        banner.text:SetPoint("TOPLEFT", banner.name, "BOTTOMLEFT", 0, -3)
+        banner.text:SetWidth(296)
+        banner.text:SetFont(FONT, 11, "")
+        local anim = banner:CreateAnimationGroup()
+        local a1 = anim:CreateAnimation("Alpha"); a1:SetFromAlpha(0); a1:SetToAlpha(1); a1:SetDuration(0.4); a1:SetOrder(1)
+        local a2 = anim:CreateAnimation("Alpha"); a2:SetFromAlpha(1); a2:SetToAlpha(1); a2:SetDuration(5); a2:SetOrder(2)
+        local a3 = anim:CreateAnimation("Alpha"); a3:SetFromAlpha(1); a3:SetToAlpha(0); a3:SetDuration(1); a3:SetOrder(3)
+        anim:SetScript("OnPlay", function() banner:Show(); banner:SetAlpha(1) end)
+        anim:SetScript("OnFinished", function() banner:Hide(); showNextBanner() end)
+        banner.anim = anim
+        banner:SetScript("OnMouseUp", function()
+            banner.anim:Stop(); banner:Hide(); wipe(bannerQueue)
+            if WoWpoCesku_ShowLore then WoWpoCesku_ShowLore("pecete") end
+        end)
+    end
+    banner.title:SetText(("Pečeť získána!  ·  %d bodů"):format(s.points or 0))
+    banner.name:SetText(s.name)
+    banner.text:SetText(s.desc or "")
+    banner.icon:SetTexture(s.icon)
+    pcall(PlaySound, 888, "Master")
+    banner.anim:Stop()
+    banner.anim:Play()
 end
 
 checkSeals = function()
@@ -734,12 +807,13 @@ checkSeals = function()
             new[#new + 1] = s
         end
     end
-    -- napoprvé (starší postup) pečetě jen tiše zapsat
+    -- napoprvé (postup z doby před pečetěmi) jen tiše zapsat
     if first or #new == 0 then return end
-    PlaySound(SOUNDKIT and SOUNDKIT.IG_QUEST_LIST_COMPLETE or 618)
-    for i = 1, math.min(#new, 3) do say("nova pecet kronikare: " .. ascii(new[i].name)) end
-    if #new > 3 then say(("... a dalsich %d peceti"):format(#new - 3)) end
-    if WoWpoCesku_SealToast then pcall(WoWpoCesku_SealToast, new[1].name, #new) end
+    for i = 1, #new do
+        say("nova pecet: " .. ascii(new[i].name))
+        if i <= 5 then bannerQueue[#bannerQueue + 1] = new[i] end
+    end
+    if not (banner and banner:IsShown()) then showNextBanner() end
 end
 
 onNewPlace = function()
@@ -750,61 +824,47 @@ end
 
 WoWpoCesku_CheckSeals = function() pcall(checkSeals) end
 
-local function sealRow(s, S)
-    local t = S.seals and S.seals[s.id]
-    local text = (t and "|cff801f0d" or "") .. s.name .. (t and "|r" or "")
-    if t then
-        text = text .. "\n" .. GRAY .. "Získáno " .. date("%d.%m.%Y", t) .. "|r"
-    else
-        text = text .. "\n" .. GRAY .. ("%d z %d %s"):format(s.have, s.need, s.what) .. "|r"
-    end
-    return { mark = t ~= nil, text = text }
-end
-
--- záložka Pečetě
+-- záložka Pečetě: mřížka voskových pečetí (vykresluje Lore.lua)
 function WoWpoCesku_PecetePage(key)
     pcall(checkSeals)
     local S = seen()
     local all = sealList()
-    local got, total = 0, 0
+    local got, total, pts, ptsAll = 0, 0, 0, 0
     for _, s in ipairs(all) do
-        total = total + 1
-        if S.seals and S.seals[s.id] then got = got + 1 end
+        total, ptsAll = total + 1, ptsAll + s.points
+        s.got = S.seals and S.seals[s.id]
+        if s.got then got, pts = got + 1, pts + s.points end
     end
     local here, general, zones, dungs = {}, {}, {}, {}
-    -- u série jen získané + nejbližší další
     local nextShown = {}
+    local byName = function(a, b) return a.name < b.name end
     for _, s in ipairs(all) do
-        local t = S.seals and S.seals[s.id]
         if s.key and s.key == key then
-            here[#here + 1] = sealRow(s, S)
+            here[#here + 1] = s
         elseif s.group == "obecne" then
-            if t or not nextShown[s.series] then
-                general[#general + 1] = sealRow(s, S)
-                if not t then nextShown[s.series] = true end
+            -- u série jen získané + nejbližší další stupeň
+            if s.got or not nextShown[s.series] then
+                general[#general + 1] = s
+                if not s.got then nextShown[s.series] = true end
             end
-        elseif (t or s.have > 0) then
+        elseif s.got or s.have > 0 then
             local list = s.group == "oblast" and zones or dungs
-            list[#list + 1] = { s = s, row = sealRow(s, S) }
+            list[#list + 1] = s
         end
     end
-    local function rows(list)
-        table.sort(list, function(a, b) return a.s.name < b.s.name end)
-        local out = {}
-        for _, x in ipairs(list) do out[#out + 1] = x.row end
-        return out
-    end
+    table.sort(zones, byName)
+    table.sort(dungs, byName)
     local page = {
-        { "Pečetě kronikáře", ("Získáno %d z %d pečetí.\n"):format(got, total)
-            .. "Pečeť dostaneš za prozkoumání celé oblasti, vyčištění dungeonu, vzácné moby, cesty po Azerothu a čtení kroniky.",
-            rows = #here > 0 and here or nil },
-        { "Hrdinské pečetě", "Za lov, cestování a čtení kroniky.", rows = general },
+        { "Pečetě kronikáře", ("Získáno |cff801f0d%d|r z %d pečetí  ·  body pečetí: |cff801f0d%d|r z %d"):format(got, total, pts, ptsAll)
+            .. "\nKaždá pečeť je jako úspěch ve hře – splň, co je napsané pod ní, a pečeť se sama vtiskne do kroniky.",
+            seals = here },
+        { "Hrdinské pečetě", "Za lov vzácných mobů, cestování, objevování, dungeony a čtení kroniky.", seals = general },
+        { "Oblasti", #zones > 0 and "Rozpracované a dokončené oblasti."
+            or "Zatím žádná – projdi místa Poutníkova deníku a pečeť oblasti se začne plnit.", seals = zones },
+        { "Dungeony a raidy", #dungs > 0 and "Rozpracované a dokončené dungeony."
+            or "Zatím žádný – poraz bosse v dungeonu a pečeť se začne plnit.", seals = dungs,
+          after = GRAY .. "Pečetě se zapisují samy. Postup z doby před touto verzí se počítá také.|r" },
     }
-    page[#page + 1] = { "Oblasti", #zones > 0 and "Rozpracované a dokončené oblasti (pečeť = všechna místa Poutníkova deníku)."
-        or "Zatím žádná. Projdi všechna místa v Poutníkově deníku některé oblasti.", rows = rows(zones) }
-    page[#page + 1] = { "Dungeony", #dungs > 0 and "Pečeť = všichni bossové dungeonu poraženi."
-        or "Zatím žádný. Poraz všechny bosse v dungeonu.", rows = rows(dungs),
-        after = GRAY .. "Pečetě se zapisují samy. Postup z doby před touto verzí se počítá také.|r" }
     return page
 end
 

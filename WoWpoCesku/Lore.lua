@@ -165,8 +165,81 @@ local function rowButton(i)
     return b
 end
 
+-- vosková pečeť (záložka Pečetě): kotouč s ikonou, název, stav a ukazatel postupu
+local MASK = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
+local function circle(tex) pcall(tex.SetMask, tex, MASK) end
+local function sealCard(i)
+    local c = book.sealCards[i]
+    if c then return c end
+    c = CreateFrame("Frame", nil, book.content)
+    -- vosková pečeť (Textures/pecet.tga z tools/pecet.js); kotouč pod ní je záloha, než hra texturu načte
+    c.rim = c:CreateTexture(nil, "ARTWORK", nil, 4)
+    c.rim:SetSize(78, 78)
+    c.rim:SetPoint("TOP", 0, 0)
+    c.rim:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
+    c.disc = c:CreateTexture(nil, "ARTWORK", nil, 2)
+    c.disc:SetSize(56, 56)
+    c.disc:SetPoint("CENTER", c.rim)
+    c.disc:SetTexture("Interface\\Buttons\\WHITE8x8")
+    circle(c.disc)
+    c.icon = c:CreateTexture(nil, "OVERLAY", nil, 1)
+    c.icon:SetSize(40, 40)
+    c.icon:SetPoint("CENTER", c.rim)
+    circle(c.icon)
+    c.name = fontString(c, 12.5, INK[1], INK[2], INK[3])
+    c.name:SetPoint("TOP", c.rim, "BOTTOM", 0, -1)
+    c.name:SetJustifyH("CENTER")
+    c.desc = fontString(c, 10.5, INK[1], INK[2], INK[3])
+    c.desc:SetPoint("TOP", c.name, "BOTTOM", 0, -2)
+    c.desc:SetJustifyH("CENTER")
+    c.status = fontString(c, 10.5, SEPIA[1], SEPIA[2], SEPIA[3])
+    c.status:SetPoint("TOP", c.desc, "BOTTOM", 0, -3)
+    c.status:SetJustifyH("CENTER")
+    c.barBg = c:CreateTexture(nil, "ARTWORK")
+    c.barBg:SetSize(100, 5)
+    c.barBg:SetPoint("TOP", c.status, "BOTTOM", 0, -4)
+    c.barBg:SetColorTexture(SEPIA[1], SEPIA[2], SEPIA[3], 0.25)
+    c.bar = c:CreateTexture(nil, "OVERLAY")
+    c.bar:SetHeight(5)
+    c.bar:SetPoint("LEFT", c.barBg, "LEFT")
+    c.bar:SetColorTexture(RED[1], RED[2], RED[3], 0.8)
+    book.sealCards[i] = c
+    return c
+end
+
+local function fillSeal(c, s, width)
+    c.name:SetWidth(width - 12)
+    c.desc:SetWidth(width - 16)
+    c.status:SetWidth(width - 12)
+    c.name:SetText(s.name)
+    c.desc:SetText(s.desc or "")
+    c.desc:SetAlpha(s.got and 0.9 or 0.7)
+    local pts = (s.points and s.points > 0) and ("  ·  %d bodů"):format(s.points) or ""
+    c.icon:SetTexture(s.icon or "Interface\\Icons\\INV_Misc_QuestionMark")
+    if s.got then
+        c.rim:SetVertexColor(0.86, 0.20, 0.13)
+        c.disc:SetVertexColor(0.55, 0.11, 0.07)
+        c.icon:SetDesaturated(false)
+        c.icon:SetAlpha(1)
+        c.name:SetTextColor(RED[1], RED[2], RED[3])
+        c.status:SetText("získáno " .. date("%d.%m.%Y", s.got) .. pts)
+        c.barBg:Hide(); c.bar:Hide()
+    else
+        c.rim:SetVertexColor(0.80, 0.72, 0.57)
+        c.disc:SetVertexColor(0.66, 0.58, 0.44)
+        c.icon:SetDesaturated(true)
+        c.icon:SetAlpha(0.55)
+        c.name:SetTextColor(INK[1], INK[2], INK[3], 0.75)
+        c.status:SetText(("%d z %d %s"):format(s.have, s.need, s.what) .. pts)
+        c.barBg:Show()
+        local f = (s.need > 0) and math.min(1, s.have / s.need) or 0
+        c.bar:SetWidth(math.max(1, 100 * f))
+        c.bar:SetShown(f > 0)
+    end
+end
+
 local function renderPage(chapters)
-    local y, nRows = 0, 0
+    local y, nRows, nSeals = 0, 0, 0
     for i, ch in ipairs(chapters) do
         local h, p, o = book.heads[i], book.paras[i], book.orns[i]
         if not h then
@@ -197,6 +270,25 @@ local function renderPage(chapters)
         p:SetText(ch[2])
         p:Show()
         y = y + p:GetStringHeight() + 16
+        if ch.seals and #ch.seals > 0 then
+            local cols = 3
+            local cw = math.floor((W - 20) / cols)
+            local maxH = 0
+            for k, s in ipairs(ch.seals) do
+                nSeals = nSeals + 1
+                local c = sealCard(nSeals)
+                fillSeal(c, s, cw)
+                local col = (k - 1) % cols
+                if col == 0 and k > 1 then y = y + maxH + 12; maxH = 0 end
+                local h = 78 + 1 + c.name:GetStringHeight() + 2 + c.desc:GetStringHeight() + 3 + c.status:GetStringHeight() + 12
+                maxH = math.max(maxH, h)
+                c:ClearAllPoints()
+                c:SetPoint("TOPLEFT", col * cw, -y)
+                c:SetSize(cw, h)
+                c:Show()
+            end
+            y = y + maxH + 14
+        end
         for _, row in ipairs(ch.rows or {}) do
             nRows = nRows + 1
             local b = rowButton(nRows)
@@ -214,7 +306,7 @@ local function renderPage(chapters)
             b:Show()
             y = y + b.text:GetStringHeight() + 7
         end
-        if ch.rows and ch.after then
+        if (ch.rows or ch.seals) and ch.after then
             nRows = nRows + 1
             local b = rowButton(nRows)
             b.box:Hide(); b.check:Hide()
@@ -231,6 +323,7 @@ local function renderPage(chapters)
         end
     end
     for i = nRows + 1, #book.rowBtns do book.rowBtns[i]:Hide() end
+    for i = nSeals + 1, #book.sealCards do book.sealCards[i]:Hide() end
     for i = #chapters + 1, #book.heads do
         book.heads[i]:Hide(); book.paras[i]:Hide(); book.orns[i]:Hide()
     end
@@ -396,7 +489,7 @@ local function createBook()
     book.content = CreateFrame("Frame", nil, book.sf)
     book.content:SetSize(W - 20, 10)
     book.sf:SetScrollChild(book.content)
-    book.heads, book.paras, book.orns, book.rowBtns = {}, {}, {}, {}
+    book.heads, book.paras, book.orns, book.rowBtns, book.sealCards = {}, {}, {}, {}, {}
 
     local foot = ornament(book, 120)
     foot:SetPoint("BOTTOM", 0, 40)
