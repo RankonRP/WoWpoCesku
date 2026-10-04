@@ -150,7 +150,7 @@ Městem protékají kanály, na kterých najdeš obchody jako krejčovství u ka
         { "Pod povrchem", [[Pod lesklou fasádou se skrývají problémy. Šlechta se stará víc o své zisky než o venkov, Defiasové mají ve městě své lidi a v kanálech a sklepeních se šíří kulty. Obchodníci si všímají, že lidé skupují zbroj a teplé oblečení, jako by čekali zlé časy.
 
 Kdo chce Stormwindu pomoct, musí se dívat i tam, kam se šlechta dívat nechce.]] },
-        { "Zajímavosti", [[Z přístavu Stormwind Harbor vyplouvají lodě k ostatním břehům a z věže u Trade District létají gryfové do celého království. V Cathedral Square se scházejí lidé, aby uctili Světlo, a na hradbách stojí stráže v modrých tabardech se lvem.
+        { "Zajímavosti", [[Z věže u Trade District létají gryfové do celého království. V Cathedral Square se scházejí lidé, aby uctili Světlo, a na hradbách stojí stráže v modrých tabardech se lvem.
 
 Stormwind je symbolem lidské odvahy – národa, který se nikdy nevzdal, i když přišel o všechno.]] },
     },
@@ -265,17 +265,23 @@ WoWpoCesku_LoreKnihy = {
 -- (podle klasického WoW; ve Forever může být něco jinak)
 WoWpoCesku_LoreTajemstvi = {
 
-["Mulgore"] = [[• Ghost Howl – po pláních Mulgore se prý toulá přízračný vlk. Je to vzácná bytost, kterou potkáš jen občas; tauren o něm vyprávějí smutný příběh o věrném společníkovi, který se nedokázal rozloučit.
+["Mulgore"] = [[• Mazzranache – obrovská puma, na kterou ti v Bloodhoof Village dá quest Maur Raincaller. Je to vzácný mob (24–48 h) a lovec si ji může ochočit.
 
-• Mazzranache – obrovská puma, kterou jen tak nenajdeš. Lovci v Bloodhoof Village by za důkaz jejího skolení dali hodně.
+• Ghost Howl – přízračný vlk, který se toulá po pláních. Taureni o něm vyprávějí příběh o věrném společníkovi, který se nedokázal rozloučit.
 
-• Bael'dun Digsite – na severozápadě kopou trpaslíci z Bael'dunu. Co tak hluboko v zemi taurenů hledají, a kdo jim to dovolil?
+• Bael'dun Digsite – na severozápadě kopou trpaslíci z Bael'dunu. Co tak hluboko v zemi taurenů hledají?
 
-• Venture Co. Mine – v dole goblinů z Venture Company je vidět, jak bezohledně drancují posvátnou zemi. Kdo se odváží dovnitř, pozná jejich vedoucí.
+• Venture Co. Mine – goblinský důl, kde je vidět, jak bezohledně drancují posvátnou zemi.
 
-• Thunder Bluff – výtahy na stolové hory jsou pro nováčky zkouškou odvahy. A stará vtipná pravda: kdo z okraje plošiny spadne, padá hodně dlouho.
+• Red Rocks – posvátné pohřebiště taurenů na severovýchodě. Projdi se tu potichu.
 
-• Red Rocks – posvátné pohřebiště na severovýchodě. Projdi se tu potichu – je to jedno z nejkrásnějších a nejtišších míst Kalimdoru.]],
+• Thunder Bluff a Pools of Vision – pod Spirit Rise jsou jezírka vidění, kam se chodí šamani a druidové dívat do jiných světů.
+
+• Noví vzácní ve WoW Forever: Snarlsnout, Stormherald Ukta a Thornstarter Igleg.
+
+• Vzácní (classic data): Mazzranache (ochočitelná), Snagglespear, The Rake (puma, ochočitelná), Enforcer Emilgund, Sister Hatelash (elitní harpyje) a Ghost Howl. Levely 9–12.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]],
 
 ["Durotar"] = [[• Líní peoni (Valley of Trials) – Foreman Thazz'ril ti dá obušek Foreman's Blackjack a pošle tě budit peony, kteří spí pod stromy místo práce. Po ráně zabrblají třeba „Ow! OK, I'll get back to work“ a jdou zase sekat dřevo. Peoni se točí v kruhu – spí, sekají, nosí dřevo – takže na spáče musíš občas chvíli počkat.
 
@@ -300,6 +306,8 @@ WoWpoCesku_LoreTajemstvi = {
   – Rathorian (15) – 1,5–2,5 h
   Ve Forever se zatím většina z nich nepotvrdila – pokud nějakého potkáš, je to malý objev.
 
+• Noví vzácní ve WoW Forever: Dustwind Eggtender (level 5–10, zhruba 51, 20 a 52, 24) a Shal'ma (kočkovitá šelma, lovec si ji může ochočit, zhruba 59, 91).
+
 • Proč zrovna Durotar – orkové si vybrali drsnou, vyprahlou zemi úmyslně, jako pokání za svou krvavou minulost. Kraj byl původně součástí Barrens a vládli tu kančí lidé Razormane, dokud je Horda za Třetí války nevyhnala na západ.
 
 • Obchod s Theramore – dokud mír držel, orkové posílali přebytky úrody lidem do Theramore a dostávali za ně ryby. Na drsné Hordě je to nečekaně mírumilovný detail.
@@ -308,17 +316,25 @@ WoWpoCesku_LoreTajemstvi = {
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Pokud ve Forever najdeš něco jinak, napiš mi.]],
 
-["Elwynn Forest"] = [[• Hogger – nejslavnější gnoll celého Warcraftu. Vede gnolly v jihozápadních lesích (Forest's Edge) a stráže na něj vypsaly odměnu. Mnoho hrdinů na něj při prvním setkání nestačilo – a hráči si z toho dělají legraci dodnes.
+["Elwynn Forest"] = [[• Hogger – nejslavnější gnoll Warcraftu. Vede gnolly z Riverpaw v jihozápadních lesích a na nástěnce v Goldshire visí plakát Wanted: Hogger. Je elitní – sám na něj nechoď.
 
-• Princezna – na dýňovém poli Brackwell se vykrmuje obrovská prasnice jménem Princess, kterou si přivlastnili Defiasové. Quest „Princezna musí zemřít!“ patří k nejvtipnějším v kraji.
+• Princezna musí zemřít – Ma Stonefield tě pošle na dýňové pole Brackwell Pumpkin Patch, kde se vykrmuje obrovská prasnice Princess. Defiasové si ji přivlastnili a quest „Princess Must Die!“ patří k nejvtipnějším v kraji.
 
-• Romeo a Julie po elwynnsku – rodiny Stonefieldových a Maclureových se spolu nesnášejí, zatímco jejich děti Tommy Joe a Maybell se do sebe zamilovaly. Pomůžeš mladým milencům?
+• Mladí milenci – rodiny Stonefieldových a Maclureových se nesnášejí, ale Tommy Joe Stonefield a Maybell Maclure se do sebe zamilovali. Quest Young Lovers je elwynnská verze Romea a Julie.
 
-• Vzácní nepřátelé – v klasickém Elwynnu se objevuje pavoučice Mother Fang v dole Jasperlode, gnoll Gruff Swiftbite a lstivá Morgaine the Sly.
+• Tower of Azora – věž mága Theocrita na východě kraje. Questy kolem ní tě zavedou ke koboldům a k jeho podivným experimentům.
 
-• Tower of Azora – věž mága Theocrita v jihovýchodní části kraje. Uvnitř se dějí věci, o kterých se v Goldshire šeptá.
+• Rolf a Malakai – ztracení vojáci z hlídky u murločích jezer. Najít je a zjistit, co se jim stalo, je úkol pro odvážné.
 
-• Northshire – vinice kolem kláštera obsadili Defiasové. Už první kroky hrdiny tak vedou k tomu, co bude Bratrstvo provádět po celém království.]],
+• Elmpaw (novinka WoW Forever) – nový elitní vzácný mob (level 12) na východě kraje (zhruba 81, 85 a 75, 38). Padá z něj Elmpaw's Head, který spustí quest za zkušenosti a reputaci se Stormwindem.
+
+• Vzácní (classic data): Morgaine the Sly, Mother Fang (pavoučice v Jasperlode Mine, dá se ochočit), Narg the Taskmaster, Thuros Lightfingers, Fedfennel a Gruff Swiftbite. Všichni kolem levelu 10–12, respawn 1–2,5 h.
+
+• Northshire – vinice kolem kláštera obsadili Defiasové. Už první kroky hrdiny vedou k tomu, co Bratrstvo provádí po celém království.
+
+• Lion's Pride Inn – hostinec v Goldshire, kde se potkávají všichni noví hrdinové Aliance. Nejrušnější hostinec ve hře.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]],
 
 ["Westfall"] = [[• Bratrstvo Defias – celý příběh – řada questů The Defias Brotherhood začíná u Gryana Stoutmantla na Sentinel Hill. Pošle tě až do Redridge za informátorem Wileym do hostince v Lakeshire, pak po stopě defiasského posla (Defias Messenger), který běhá po cestách Westfallu, a nakonec doprovázíš zrádce Defias Traitor do Moonbrooku, kde ti ukáže skrýš Bratrstva. Konec je v Deadmines u Edwina VanCleefa.
 
@@ -353,51 +369,79 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Pokud ve Forever najde�
 
 Zdroj: Warcraft Wiki, Wowhead (classic), games.gg a foreverdb.net. Pokud ve Forever najdeš něco jinak, napiš mi.]],
 
-["Dun Morogh"] = [[• Deeprun Tram – z Tinker Town v Ironforge jezdí gnómská podzemní dráha až do Stormwindu. Vede pod mořem, takže cestou vidíš skleněnými stěnami ryby a vodu.
+["Dun Morogh"] = [[• Deeprun Tram – z Tinker Town v Ironforge jezdí gnómská podzemní dráha až do Stormwindu. Vede pod mořem, takže cestou vidíš skleněnými stěnami vodu a ryby.
 
-• Hall of Explorers – sál v Ironforge plný kostí pravěkých tvorů, map a starožitností. Sídlí tu Explorers' League, trpasličí badatelé, kteří hledají původ svého národa.
+• Hall of Explorers – sál v Ironforge plný kostí pravěkých tvorů, map a starožitností. Sídlí tu Explorers' League a knihovna.
 
-• Legendární letiště – hráči kdysi našli vysoko na horách nad Ironforge nedokončené, prázdné „letiště“, kam se normálně nedá dostat. Stalo se jedním z nejslavnějších tajemství klasického WoW.
+• Legendární letiště – hráči kdysi našli vysoko na horách nad Ironforge nedokončené, prázdné „letiště“, kam se normálně nedá dostat. Je to jedno z nejslavnějších tajemství klasického WoW.
 
-• Vzácní nepřátelé – v klasickém Dun Morogh se objevují vlk Timber, medvědi Old Icebeard a Bjarn, Edan the Howler a troll Great Father Arctikus.
+• Gnomeregan – vchod do ztraceného gnómského města je na západě kraje. Dungeon plný troggů, robotů a radiace se zrádcem Thermapluggem na konci.
 
-• Gnomeregan – vchod do ztraceného gnómského města leží na západě kraje. Uvnitř je dungeon plný troggů, robotů a radiace – a zrádce Thermaplugg.
+• Ghostfang (novinka WoW Forever) – nový vzácný kocour, kterého si lovec může ochočit (zhruba 74, 63). Zatím z něj nic vlastního nepadá.
 
-• Brewnall Village – vesnička u jezera, kde trpaslíci zkoušejí nové druhy piva. Kdo by čekal něco jiného?]],
+• Vzácní (classic data): Edan the Howler, Timber (vlk, dá se ochočit), Gibblewilt, Great Father Arctikus (troll Frostmane), Bjarn (medvěd, dá se ochočit) a Hammerspine. Levely 9–12.
 
-["Teldrassil"] = [[• Rut'theran Village – u kořenů stromu, kde přistávají lodě. Odtud vede magický portál nahoru do Darnassu a hipogryfové létají přes moře do Darkshore.
+• Thunderbrew Distillery – pivovar v Kharanosu, kde se vaří pivo, o kterém se zpívá po celém Azerothu.
 
-• Vzácní nepřátelé – v klasickém Teldrassilu se objevují medvěd Uruson, Grimmaw, Duskstalker a zkažený Blackmoss the Fetid, který je přímo spojený se zkázou lesa.
+• Amberstill Ranch – farma, kde trpaslíci chovají berany. Odtud pochází jejich slavné jízdní zvíře.
 
-• Ban'ethil Barrow Den – podzemní doupě, kde se skrývají ti, kdo šíří zkázu mezi furbolgy. Na jeho konci se dozvíš, odkud Fel Moss pochází.
+• Brewnall Village – vesnička u zamrzlého jezera, kde trpaslíci zkoušejí nové druhy piva.
 
-• Oracle Glade – tichá mýtina na severozápadě s měsíční studnou. Jedno z nejkrásnějších a nejklidnějších míst ostrova.
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]],
 
-• Temple of the Moon – chrám Elune v Darnassu. Uvnitř je fontána se sochou Haidene, první velekněžky – zastav se a poslouchej.
+["Teldrassil"] = [[• Ban'ethil Barrow Den – podzemní doupě, kde se skrývají ti, kdo šíří zkázu mezi furbolgy. Na konci se dozvíš, odkud Fel Moss pochází.
 
-• Lake Al'Ameth – velké jezero uprostřed Teldrassilu. Rybáři tu tráví celé noci pod měsícem.]],
+• Oracle Glade – tichá mýtina na severozápadě s měsíční studnou.
 
-["Stormwind City"] = [[• The Slaughtered Lamb – hostinec v Mage Quarter, který vypadá nevinně. Ve sklepě ale sídlí čarodějové a jejich démoni – tajemství, o kterém poctiví občané raději nevědí.
+• Lake Al'Ameth – velké jezero uprostřed ostrova, rybáři tu tráví celé noci.
 
-• Deeprun Tram – ze Dwarven District jezdí podzemní dráha pod mořem až do Ironforge. Uprostřed cesty uvidíš skleněnými stěnami mořské dno.
+• Temple of the Moon – chrám Elune v Darnassu s fontánou a sochou Haidene, první velekněžky.
+
+• Rut'theran Village – portál nahoru do Darnassu a hipogryfové přes moře do Darkshore.
+
+• Noví vzácní ve WoW Forever: Nightscreech (dravý pták, ochočitelný, zhruba 46, 33) a Wrathvine (zhruba 53, 70).
+
+• Vzácní (classic data): Threggil, Uruson, Fury Shelda, Duskstalker (ochočitelný), Grimmaw a Blackmoss the Fetid (spojený se zkázou lesa). Levely 6–13.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]],
+
+["Stormwind City"] = [[• The Slaughtered Lamb – hostinec v Mage Quarter, který vypadá nevinně. Ve sklepě ale sídlí čarodějové a jejich démoni.
+
+• Deeprun Tram – z Dwarven District jezdí podzemní dráha pod mořem až do Ironforge.
 
 • The Stockade – vězení ve městě, kde se vzbouřili vězni pod vedením Defiasů. Dungeon přímo pod nosem stráží.
 
-• Lady Katrana Prestor – vlivná šlechtična u královského dvora. Sleduj, co říká a komu – s ní je něco v nepořádku a kdo dává pozor, časem pochopí co.
+• Lady Katrana Prestor (spoiler) – je to černá dračice Onyxia v lidské podobě. Ovládá dvůr kouzly a stála za tím, že kameníci nedostali zaplaceno. Pozorně čti, co říká Bolvarovi.
 
-• SI:7 – tajná služba Stormwindu v Old Town. Pokud hraješ za lotra, zde začíná mnoho tvých tajných úkolů.
+• Sewer Beast – v kanálech pod městem žije vzácné zvíře (level 50), kterého si lovec může ochočit. Mezi lovci je to legenda – hledat ho v kanálech plných nízkých hráčů je zážitek.
 
-• Památník První války – u vstupu do města stojí památník padlým. Přečti si jeho nápis a pochopíš, proč lidé tak tvrdě bojují za každý kousek svého království.]],
+• SI:7 – tajná služba Stormwindu v Old Town. Lotři tu dostávají své tajné úkoly.
 
-["Zephras Isle"] = [[• Živelní soutok – u stojících kamenů na severovýchodě je místo, kde je nebeský zrak (skysight) mnohem silnější. Duchové, které taková místa přitahují, ti prý občas prozradí i střípek jiné moudrosti – zkus to tam použít víckrát.
+• Stormwind Keep – v trůnním sále sedí malý král Anduin a regent Bolvar Fordragon. A po jejich boku lady Prestor.
+
+• Cathedral of Light – chrám Svatého světla, domov kněží a paladinů.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]],
+
+["Zephras Isle"] = [[• Živelní soutok – u stojících kamenů na severovýchodě je nebeský zrak (skysight) mnohem silnější. Duchové ti tam prý občas prozradí i střípek jiné moudrosti.
 
 • Padání se stylem – z vrcholu strážní věže v Thendal Grove se dá skočit a díky chůzi po vzduchu doplachtit daleko. Kdo přistane přímo před Rorianem the Dayseeker a vyleká ho, dostane od Myriaal „bonusové body“.
 
-• Kotevní pylony – hraničář Halaan Hawk-Eye ti půjčí svůj dar a ukáže obrovský pylon v dálce. Na celém ostrově jich je víc – kde všude stojí?
+• Kotevní pylony – hraničář Halaan Hawk-Eye ti ukáže obrovský pylon v dálce. Na ostrově jich je víc.
 
-• Větrné kameny – surová energie větru roztroušená po háji. Jsou čím dál vzácnější, tak se dívej kolem sebe.
+• Vzácní mobové Zephrasu (ve Forever úplně noví):
+  – Den'dralass – zhruba 61, 37 (nebo 56, 31)
+  – Fernfeather – zhruba 48, 85 a 53, 78, tallstrider, lovec si ho může ochočit
+  – Galemender Delanea – zhruba 62, 62
+  – Mystmane – zhruba 60, 34, sovomedvěd, dá se ochočit
+  – Slydris – zhruba 50, 51
+  – Tel'daeor the Stormspeaker – zhruba 66, 53
+  – The Lost One – zhruba 52, 46
+  – Snapbeak the Quick – další nový vzácný mob ostrova
 
-• Ostrov je nový – Zephras je ve Forever úplně nová oblast a jeho tajemství se teprve objevují. Když najdeš něco zvláštního, napiš mi to a doplním to sem.]],
+• Ostrov je nový – tajemství Zephrasu se teprve objevují. Když najdeš něco zvláštního, napiš mi.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]],
 
 }
 
@@ -438,15 +482,21 @@ WoWpoCesku_LoreKnihy["Tirisfal Glades"] = [[• Arthas: Rise of the Lich King �
 • Tirisfal a Strážci – jméno kraje nesl i tajný řád Strážců Tirisfalu (Guardians of Tirisfal), jehož posledním členem byl Medivh. Řád se tu kdysi scházel.
 
 • SPOILER (Wrath of the Lich King) – nový mor lékárníků jednoho dne zasáhne u Wrathgate Hordu i Alianci najednou. Za zradou stojí lékárník Putress a démon Varimathras.]]
-WoWpoCesku_LoreTajemstvi["Tirisfal Glades"] = [[• Ruiny Lordaeronu – nad vchodem do Undercity stojí trosky trůnního sálu. Zastav se v něm – tady zemřel král Terenas.
+WoWpoCesku_LoreTajemstvi["Tirisfal Glades"] = [[• Ruiny Lordaeronu – nad vchodem do Undercity stojí trosky trůnního sálu. Tady zemřel král Terenas rukou svého syna.
 
-• Scarlet Monastery – na severovýchodním okraji kraje leží klášter Šarlatových se čtyřmi křídly (hřbitov, knihovna, zbrojnice, katedrála). Patří k nejoblíbenějším dungeonům klasického WoW.
+• Scarlet Monastery – na severovýchodním okraji kraje leží klášter Šarlatových se čtyřmi křídly: hřbitov, knihovna, zbrojnice a katedrála.
 
-• Vzácní nepřátelé – v klasickém Tirisfalu se objevují například Bayne, Ressan the Needler a Fellicent's Shade.
+• Agamand Mills – opuštěný mlýn rodu Agamandů. Nemrtví členové rodiny tu stále bloudí a questy o nich vyprávějí rodinnou tragédii.
 
-• Agamand Mills – opuštěný mlýn rodu Agamandů. Jejich nemrtví členové rodiny tu stále bloudí a quest o nich vypráví drobnou rodinnou tragédii.
+• Lékárníci v Undercity – Royal Apothecary Society vyvíjí „lék“ proti Pohromě. Kdo pozorně čte jejich questy, pozná, že to žádný lék není.
 
-• Lékárníci v Undercity – projdi se kolem jejich stolů. Kdo pozorně čte questy Royal Apothecary Society, pozná, že ten „lék“ není pro nikoho dobrý.]]
+• Noví vzácní ve WoW Forever: Blightsculler, Coldrasp (vlk, dá se ochočit), Decrepit Harvester a The Condemned One.
+
+• Vzácní (classic data): Lost Soul, Farmer Solliden, Tormented Spirit, Bayne, Muad, Ressan the Needler (ochočitelný), Deeb, Fellicent's Shade, Sri'skulk (ochočitelný) a Krethis Shadowspinner (ochočitelný). Levely 6–15.
+
+• Brill – hostinec Gallows' End Tavern je jediné místo, kde se ti nemrtvý barman usměje.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Silverpine Forest"] = {
     title = "Silverpine Forest",
@@ -463,15 +513,21 @@ WoWpoCesku_LoreKnihy["Silverpine Forest"] = [[• Arugal a worgeni – arcimág 
 • Pyrewood Village – SPOILER: obyvatelé vesnice jsou za denního světla normální lidé, ale v noci se mění ve worgeny. Je to první náznak, že prokletí se šíří.
 
 • SPOILER (Cataclysm) – prokletí worgenů nakonec zasáhne celý Gilneas včetně krále Genna Greymana. Gilneas se pak vrátí do Aliance a worgeni se stanou hratelnou rasou.]]
-WoWpoCesku_LoreTajemstvi["Silverpine Forest"] = [[• Shadowfang Keep – hrad na kopci uprostřed lesa je dungeon. Na konci čeká Arugal a cestou potkáš i barona Silverlaina a Commandera Springvala.
+WoWpoCesku_LoreTajemstvi["Silverpine Forest"] = [[• Shadowfang Keep – hrad na kopci uprostřed lesa je dungeon. Cestou potkáš barona Silverlaina a Commandera Springvala, na konci čeká arcimág Arugal.
 
-• Greymane Wall – dojdi na jih až k obrovské zdi. Přes ni se v klasickém WoW nedalo dostat a hráči léta spekulovali, co je za ní.
+• Greymane Wall – na jihu les uzavírá obrovská zeď Gilneasu. Přes ni se v klasice nedalo dostat a hráči léta spekulovali, co je za ní.
 
-• Ambermill – vesnice dalaranských mágů na východě. Mágové tu kouzlí bez dovolení Forsaken a jejich věž je plná zajímavých kouzelných předmětů.
+• Pyrewood Village – vesnice, jejíž obyvatelé se v noci mění ve worgeny. Přijď za tmy a uvidíš.
 
-• Vzácní nepřátelé – v klasickém Silverpine se objevují například Old Vicejaw, Snarlmane, Gorefang a Krethis Shadowspinner.
+• Ambermill – vesnice dalaranských mágů, kteří tu kouzlí bez dovolení Forsaken.
 
-• Fenris Isle – ostrov na jezeře se zničenou pevností. Kdo se tam vydá, najde pozůstatky Thule Ravenclaw a jeho kultu.]]
+• Fenris Isle – ostrov na jezeře se zničenou pevností, kde sídlí Thule Ravenclaw a jeho kult.
+
+• Vzácní (classic data): Gorefang (vlk, 24–48 h, ochočitelný), Old Vicejaw (ochočitelný), Dalaran Spellscribe a Ravenclaw Regent.
+
+• The Sepulcher – krypta Forsaken ukrytá v lese, odkud vyrážejí Deathstalkerové.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Hillsbrad Foothills"] = {
     title = "Hillsbrad Foothills",
@@ -488,15 +544,19 @@ WoWpoCesku_LoreKnihy["Hillsbrad Foothills"] = [[• Lord of the Clans – Thrall
 • Taretha Foxton – žila se svou rodinou v Southshore a Hillsbradu. Když Thrall dobyl Durnholde, Blackmoore ji zabil a hodil Thrallovi pod nohy její hlavu. Thrall to nikdy nezapomněl.
 
 • Caverns of Time – v budoucnosti (The Burning Crusade) se hrdinové vrátí časem do Old Hillsbrad Foothills a pomohou Thrallovi utéct z Durnholde. Uvidí i mladou Tarethu a orka, který se s ní setkal.]]
-WoWpoCesku_LoreTajemstvi["Hillsbrad Foothills"] = [[• Durnholde Keep – projdi se troskami pevnosti. V jejích kobkách a na nádvoří se odehrál začátek Thrallova příběhu.
+WoWpoCesku_LoreTajemstvi["Hillsbrad Foothills"] = [[• Durnholde Keep – trosky pevnosti, kde Blackmoore věznil orky a kde vyrůstal Thrall. Dnes tu sídlí Syndikát.
 
-• Ravenholdt Manor – v horách na severu (v Alterac Mountains u hranic s Hillsbradem) je skryté sídlo lotrů. Najdou ho jen lotři, kteří se k němu dostanou přes speciální questy.
+• Southshore vs Tarren Mill – na PvP serverech bývala silnice mezi městy nejrušnější bitevní frontou klasického WoW.
 
-• Vzácní nepřátelé – v klasickém Hillsbradu se objevují Big Samras, Scargil, Lady Zephris a Ro'Bark.
+• Ravenholdt Manor – skryté sídlo lotrů v horách na severu. Najdou ho jen lotři přes speciální úkoly.
 
-• Dun Garok – opuštěná trpasličí pevnost na jihu. Kdo vleze dovnitř, pozná, proč ji trpaslíci opustili.
+• Dun Garok – opuštěná trpasličí pevnost na jihu.
 
-• Southshore vs Tarren Mill – ve hře světa PvP tu bývala nejrušnější bitevní fronta. Pokud jsi na PvP serveru, dávej pozor na silnici mezi městy.]]
+• Azurelode Mine – důl, kde se dolování zvrhlo a horníci ho přenechali nepřátelům.
+
+• Vzácní (classic data): Creepthess (pavouk, ochočitelný), Ro'Bark, Tamra Stormpike, Scargil a Lady Zephris. Levely 24–33.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Alterac Mountains"] = {
     title = "Alterac Mountains",
@@ -513,15 +573,19 @@ WoWpoCesku_LoreKnihy["Alterac Mountains"] = [[• Zrada Perenolda (Warcraft II a
 • Frostwolf klan v Alterac Valley – po vyhnání Gul'danem žil Durotanův klan v horách severně od Alteracu. Tady Thrall poprvé potkal svůj lid a starého šamana Drek'thara, který ho naučil šamanismu.
 
 • Dalaran a Antonidas – v Dalaranu žil velký arcimág Antonidas, učitel Jainy Proudmoore. Zabil ho Arthas, když přišel pro knihu kouzel Kel'Thuzada. SPOILER: Dalaran se v budoucnu (Wrath) vznese do vzduchu a odletí do Northrendu.]]
-WoWpoCesku_LoreTajemstvi["Alterac Mountains"] = [[• Alterac Valley – na severu leží legendární bitevní pole Aliance proti Hordě. Bitvy v klasickém WoW trvaly hodiny i dny.
+WoWpoCesku_LoreTajemstvi["Alterac Mountains"] = [[• Alterac Valley – na severu leží legendární bitevní pole Aliance proti Hordě. Bitvy v klasice trvaly hodiny i dny.
 
-• Ravenholdt Manor – skryté sídlo lotrů v horách. Najdou ho jen ti, kdo projdou speciálním lotrovským úkolem.
+• Ravenholdt Manor – skryté sídlo lotrů v horách. Lotrovský quest tě k němu dovede.
 
-• Strahnbrad – vesnice obsazená Syndikátem. Uvidíš, jak žije zbytek alteracké šlechty.
+• Bariéra Dalaranu – fialová kopule nad zničeným městem mágů. Zevnitř je vidět město a mágové, kteří ho opravují.
 
-• Vzácní nepřátelé – Cranky Benj, Gravis Slipknot a Lo'Grosh v klasickém Alteracu.
+• Strahnbrad – vesnice obsazená Syndikátem, zbytkem alteracké šlechty.
 
-• Bariéra Dalaranu – dojdi až k fialové kopuli. Pokud si ji pořádně prohlédneš, uvidíš uvnitř město a mágy.]]
+• Ruins of Alterac – trosky hlavního města zrádného království, dnes plné ogrů Crushridge a Syndikátu.
+
+• Vzácní (classic data): Rot Hide Bruiser, Jimmy the Bleeder, Snarlmane, Cranky Benj (ochočitelný), Araga (ochočitelný), Gravis Slipknot, Skhowl, Stone Fury, Lo'Grosh a modrý drak Narillasanz (level 44). Levely 22–44.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Arathi Highlands"] = {
     title = "Arathi Highlands",
@@ -538,15 +602,21 @@ WoWpoCesku_LoreKnihy["Arathi Highlands"] = [[• Válka trollů – před témě
 • Sedm království – po válce se Arathor rozpadl na Gilneas, Alterac, Dalaran, Kul Tiras, Lordaeron, Stromgarde a Stormwind (tehdy Azeroth). Všechna mají kořeny tady.
 
 • Anduin Lothar – poslední potomek krále Thoradina. Mohl si nárokovat trůn celého lidstva, ale místo toho bojoval za všechny jako velitel Aliance.]]
-WoWpoCesku_LoreTajemstvi["Arathi Highlands"] = [[• Circle of Binding – kamenné kruhy na kopcích. Mágové tu kdysi drželi uvězněného elementála a quest prozradí, co se stane, když kruhy poškodíš.
+WoWpoCesku_LoreTajemstvi["Arathi Highlands"] = [[• Stromgarde – ruiny města potomků Arathoru, plné ogrů a Syndikátu. Na vrcholu stojí Tower of Arathor.
 
-• Stromgarde – ruiny města jsou plné ogrů a Syndikátu. Na vrcholu stojí Tower of Arathor, odkud je výhled na celý kraj.
+• Arathi Basin – bitevní pole o pět zdrojů (kovárna, farma, důl, stáje, pila).
 
-• Arathi Basin – bitevní pole o pět zdrojů (kovárna, farma, důl, stáje, pila). Jedno z nejoblíbenějších v klasickém WoW.
+• Circle of Binding – kamenné kruhy na kopcích, kde mágové kdysi drželi uvězněné síly. Questy ti ukážou, co se stane, když se kruhy poruší.
 
-• Vzácní nepřátelé – v klasice Foulbelly, Ruul Onestone, Kovork, Nimar the Slayer a Molok the Crusher.
+• Witherbark Village – trollí vesnice na východě plná vúdú magie.
 
-• Witherbark Village – trollí vesnice na východě. Uvnitř najdeš zdroj jejich vúdú magie.]]
+• Thandol Span – na jihu kraje most do Wetlands, který Dark Ironové poškodili.
+
+• Faldir's Cove – pirátská zátoka na jihozápadním pobřeží.
+
+• Vzácní (classic data): Big Samras (ochočitelný), Singer, Kovork, Nimar the Slayer, Darbel Montrose, Molok the Crusher, Ruul Onestone, Geomancer Flintdagger, Zalas Witherbark a Foulbelly. Levely 27–42.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Wetlands"] = {
     title = "Wetlands",
@@ -563,15 +633,21 @@ WoWpoCesku_LoreKnihy["Wetlands"] = [[• Day of the Dragon – ork Nekros Skullc
 • Rhonin a Vereesa – po tomto dobrodružství se Rhonin s Vereesou Windrunner, sestrou Sylvanas, vzali. SPOILER: Rhonin později vede Dalaran.
 
 • Thandol Span – most přes rokli byl dříve celý. Dark Ironové ho při útoku vyhodili do vzduchu a dodnes je jeho část zničená.]]
-WoWpoCesku_LoreTajemstvi["Wetlands"] = [[• Grim Batol – vchod do hory je v klasickém WoW zavřený. Hráči léta věděli, že je tam něco velkého. SPOILER: v Cataclysm se Grim Batol stal dungeonem.
+WoWpoCesku_LoreTajemstvi["Wetlands"] = [[• Nightveiled Rotheap (novinka WoW Forever) – nový vzácný mob (level 31–32). Padá z něj Rotheap Innards, které vyměníš za prsten Malignant Root.
 
-• Dragonmaw Gates – brány na východě. Kdo se dostane hluboko, uvidí, jak blízko je Grim Batol.
+• Wetlands Excavation Site (novinka WoW Forever) – nový dungeon pro levely 24–29.
 
-• Vzácní nepřátelé – v klasice Gnawbone, Leech Widow, Ma'ruk Wyrmscale a Mirelow.
+• Grim Batol – vchod do hory je v klasice zavřený. Tady klan Dragonmaw kdysi držel dračí královnu Alexstraszu.
 
-• Baradin Bay a Menethil – z přístavu Menethil plují lodě do Theramore na Kalimdoru.
+• Menethil Harbor – lodě plují do Theramore a do Auberdine.
 
-• Thelgen Rock – jeskyně plná pavouků, troggů a jezírek. Badatelé tu hledají artefakty.]]
+• Thandol Span – most přes rokli, jehož část Dark Ironové vyhodili do vzduchu.
+
+• Thelgen Rock – jeskyně plná pavouků, troggů a jezírek.
+
+• Vzácní (classic data): Ma'ruk Wyrmscale, Gnawbone, Leech Widow (ochočitelná), Mirelow, Garneg Charskull, Dragonmaw Battlemaster, Sludginn, Razormaw Matriarch (ochočitelná) a Prince Nazjak (level 41). Levely 23–41.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Loch Modan"] = {
     title = "Loch Modan",
@@ -588,15 +664,19 @@ WoWpoCesku_LoreKnihy["Loch Modan"] = [[• Hráz Stonewrought Dam – trpaslíci
 • Původ trpaslíků – Explorers' League v Loch Modan vede výzkum, který vyvrcholí v Uldamanu (Badlands). Disky Norgannona tam prozradí, že trpaslíci jsou potomci earthen, služebníků titánů.
 
 • Brann Bronzebeard – slavný badatel a Magniho bratr kdysi začal své výpravy právě odsud.]]
-WoWpoCesku_LoreTajemstvi["Loch Modan"] = [[• Vrchol hráze – vyjdi nahoru na Stonewrought Dam. Výhled na jezero patří k nejhezčím v Khaz Modanu.
+WoWpoCesku_LoreTajemstvi["Loch Modan"] = [[• Stonewrought Dam – vyjdi nahoru na hráz. Výhled na jezero patří k nejhezčím v Khaz Modanu.
 
-• Vzácní nepřátelé – v klasice Lord Condar, Large Loch Crocolisk, Magosh a Shanda the Spinner.
+• Valley of Kings – průsmyk z Dun Morogh hlídají obrovské sochy trpasličích králů.
 
-• Ironband's Excavation Site – výkop Explorers' League. Najdeš tu artefakty i troggy, kteří vylezli z hlubin.
+• Farstrider Lodge – lovecká chata u jezera, kde se scházejí lovci.
 
-• Mo'grosh Stronghold – ogří pevnost na severovýchodě. Kdo se tam odváží, najde Mo'grosh Shamany.
+• Ironband's Excavation Site – výkop Explorers' League s artefakty i troggy.
 
-• Stonesplinter Valley – údolí troggů na jihu, odkud vede cesta do Badlands.]]
+• Mo'grosh Stronghold – ogří pevnost na severovýchodě.
+
+• Vzácní (classic data): Lord Condar (ochočitelný), Emogg the Crusher, Shanda the Spinner (ochočitelná), Magosh, Boss Galgosh a Large Loch Crocolisk (ochočitelný). Levely 15–22.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Redridge Mountains"] = {
     title = "Redridge Mountains",
@@ -613,15 +693,19 @@ WoWpoCesku_LoreKnihy["Redridge Mountains"] = [[• První válka – po otevřen
 • Klan Blackrock – pod náčelníkem Blackhandem vedl Hordu v První válce. Jeho potomci dnes sídlí v Blackrock Spire a do Redridge posílají své oddíly.
 
 • Lakeshire a Stormwind – město trpí stejným problémem jako Westfall: šlechta ve Stormwindu se o pohraničí nestará.]]
-WoWpoCesku_LoreTajemstvi["Redridge Mountains"] = [[• Stonewatch Keep – pevnost na východě obsazená orky Blackrock. Kdo se dostane nahoru, uvidí celé údolí.
+WoWpoCesku_LoreTajemstvi["Redridge Mountains"] = [[• Lakeshire – městečko na jezeře s mostem. Kuchařka v hostinci má quest na slavný Redridge Goulash.
 
-• Tower of Ilgalar – věž zrádného mága Ilgalara na severu kraje. Questy z Lakeshire tě pošlou zjistit, co v ní dělá.
+• Stonewatch Keep – pevnost na východě obsazená orky Blackrock.
 
-• Vzácní nepřátelé – v klasice Kazon, Ribchaser, Rohh the Silent a Squiddic.
+• Tower of Ilgalar – věž zrádného mága Ilgalara na severu kraje.
 
-• Rybaření v Lakeshire – jezero je skvělé na rybaření a v hostinci ti rádi uvaří.
+• Render's Valley – údolí na jihovýchodě, kde Redridge sousedí s Burning Steppes.
 
-• Render's Valley – údolí na jihovýchodě, kde se kraj stýká s Burning Steppes. Odtud se dívá ohnivé peklo.]]
+• Alther's Mill – dřevařský mlýn na severu kraje, kolem kterého se potulují nepřátelé.
+
+• Vzácní (classic data): Ribchaser, Snarlflare, Squiddic, Seeker Aqualon, Chatter (ochočitelný), Boulderheart, Rohh the Silent a Kazon. Levely 17–27.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Duskwood"] = {
     title = "Duskwood",
@@ -640,15 +724,19 @@ WoWpoCesku_LoreKnihy["Duskwood"] = [[• Stitches – nekromant Abercrombie, kte
 • Worgeni v Duskwood – SPOILER: jsou propojeni s Arugalovým kultem ze Silverpine. Kult pomalu šíří prokletí na jih.
 
 • Karazhan – Medivhova věž v Deadwind Pass je nedaleko. Temnota lesa je její stín.]]
-WoWpoCesku_LoreTajemstvi["Duskwood"] = [[• Příběh Stalvana Mistmantla – dlouhá řada questů, která začíná v Darkshire a vede tě přes Westfall, Elwynn i Stormwind. Na konci odhalíš temné tajemství, které se v Duskwood skrývalo celé roky.
+WoWpoCesku_LoreTajemstvi["Duskwood"] = [[• Stitches – nekromant Abercrombie, který žije v chatrči na západě lesa, sešil obří zrůdu z mrtvol. Když ji pustí, vydá se po silnici do Darkshire a stráže ji musí zastavit.
 
-• Roland's Doom – opuštěný důl na severu, kde se ztratili horníci.
+• Příběh Stalvana Mistmantla – dlouhá řada questů začínající v Darkshire tě provede přes Westfall, Elwynn i Stormwind a odhalí temné tajemství.
 
-• Vzácní nepřátelé – v klasice Naraxis, Lord Malathrom, Commander Felstrom, Fenros a Lupos.
+• Morbent Fel – nekromant na hřbitově Raven Hill. Bez speciální zbraně Morbent's Bane na něj nestačíš.
 
-• Abercrombieho chatrč – na západě lesa. Vypadá jako chalupa milého starce, ale stopy kolem napoví, co dělá.
+• Twilight Grove – háj na severu, kde se objevují zelení draci posedlí Noční můrou (Emeriss, Lethon, Taerar nebo Ysondre).
 
-• Karazhanský stín – na jihovýchodě začíná Deadwind Pass. Dojdi tam a uvidíš věž, která za všechno může.]]
+• Roland's Doom – opuštěný důl na severu.
+
+• Vzácní (classic data): Naraxis (ochočitelný), Commander Felstrom, Fenros, Nefaru, Lord Malathrom a vlk Lupos (ochočitelný). Levely 23–34.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Stranglethorn Vale"] = {
     title = "Stranglethorn Vale",
@@ -665,17 +753,19 @@ WoWpoCesku_LoreKnihy["Stranglethorn Vale"] = [[• Říše Gurubashi – trollov
 • Zul'Gurub – kněží Atal'ai se Hakkara snaží znovu vyvolat. SPOILER: v klasickém WoW se Hakkar vrátil v Zul'Gurub, velkém raidu v severovýchodní části džungle.
 
 • Hemet Nesingwary – lovec s legendárními úlovky. Jméno je odkaz na Ernesta Hemingwaye a jeho lovecké knihy. Jeho questy na zabití desítek tygrů jsou proslulé.]]
-WoWpoCesku_LoreTajemstvi["Stranglethorn Vale"] = [[• Green Hills of Stranglethorn – stránky knihy Hemeta Nesingwaryho jsou rozházené po celé džungli. Kdo posbírá všechny kapitoly, dá dohromady knihu. Název je odkaz na Hemingwayovy „Zelené pahorky africké“.
+WoWpoCesku_LoreTajemstvi["Stranglethorn Vale"] = [[• Green Hills of Stranglethorn – stránky knihy Hemeta Nesingwaryho jsou rozházené po celé džungli. Kdo posbírá všechny kapitoly, složí knihu. Název odkazuje na Hemingwayovy „Zelené pahorky africké“.
 
-• Gurubashi Arena – každé tři hodiny se v aréně objeví truhla s pokladem a všichni, kdo jsou uvnitř, o ni bojují. Kdo ji otevře, vyhraje.
+• Gurubashi Arena – každé tři hodiny se v aréně objeví truhla s pokladem a všichni uvnitř o ni bojují.
 
-• Zul'Gurub – vchod do trollího chrámu na severovýchodě. Raid pro dvacet hráčů s bohem Hakkarem na konci.
+• Zul'Gurub – trollí chrám na severovýchodě, raid pro 20 hráčů s bohem Hakkarem.
 
-• King Bangalash – bílý tygr na severu, „král tygrů“. Jeden z nejtěžších lovů pro Nesingwaryho.
+• King Bangalash – bílý tygr, „král tygrů“, vrchol Nesingwaryho lovu.
 
-• Mosh'Ogg Ogre Mound – ogří pevnost s králem ogrů. Questy z Booty Bay tě sem pošlou na vraždu.
+• Booty Bay – vchod vede tlamou obří žraločí lebky. Piráti Bloodsail Buccaneers a goblinský kartel spolu vedou válku.
 
-• Vzácní nepřátelé – Mosh'Ogg Butcher, Roloch, Gluggle, Kurmokk a Lord Sakrasis.]]
+• Vzácní (classic data): Gluggle, Roloch, Kurmokk (ochočitelný), Verifonix, Mosh'Ogg Butcher (objevuje se každých asi 15 minut), Rippa, Lord Sakrasis a Scale Belly. Levely 37–45.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 -------------------------------------------------------------------------------
 -- Eastern Kingdoms – Plaguelands, Hinterlands a jih
@@ -696,15 +786,19 @@ WoWpoCesku_LoreKnihy["The Hinterlands"] = [[• Válka trollů – Amani kdysi o
 • Wildhammeři – po Válce tří kladiv odešli z Grim Batolu, když ho prokleli Dark Ironové. Usadili se v Hinterlands a z divokých gryfů si udělali věrné druhy. Za Druhé války bojoval jejich gryfí jezdec Kurdran Wildhammer v čele Aliance.
 
 • Zul'jin – legendární trollí náčelník Amani, který za Druhé války vedl trolly v Hordě. SPOILER: v budoucnu (The Burning Crusade) ho najdeš v Zul'Aman, kde se mstí elfům.]]
-WoWpoCesku_LoreTajemstvi["The Hinterlands"] = [[• Jintha'Alor – obří trollí pevnost na jihovýchodě. Až nahoře sídlí Vile Priestess Hexx a trollí kněží, kteří uctívají Hakkara.
+WoWpoCesku_LoreTajemstvi["The Hinterlands"] = [[• Jintha'Alor – obří trollí pevnost na jihovýchodě, kde sídlí kněží Hakkara.
 
-• Seradane – v jihovýchodní části kraje stojí jeden ze čtyř velkých stromů snu, kde se v klasickém WoW objevuje zlý zelený drak (Emeriss, Lethon, Taerar nebo Ysondre).
+• Seradane – jeden ze čtyř stromů snu, kde se objevuje zlý zelený drak.
 
-• Vzácní nepřátelé – v klasice Grimungous, Jalinde Summerdrake (vzácný drak), Mith'rethis the Enchanter a Zul'arek Hatefowler.
+• Aerie Peak – domov trpaslíků Wildhammer a jejich gryfů.
 
-• The Altar of Zul – trollí oltář na kopci. Kdo se tam dostane, najde uctívače, kteří se snaží probudit staré bohy.
+• Quel'Danil Lodge – lovecká chata vznešených elfů, kteří tu stále bojují s trolly Amani.
 
-• Gryfí hnízda – v Aerie Peak se můžeš podívat, jak Wildhammeři své gryfy krmí a cvičí.]]
+• OOX-09/HL – v kraji najdeš porouchaného robotického kuřete. Kdo ho doprovodí (spolu s dalšími dvěma v Tanaris a Feralas), dostane od gnóma v Booty Bay vlastního mechanického kuřete.
+
+• Vzácní (classic data): Old Cliff Jumper (ochočitelný), Zul'arek Hatefowler, Razortalon, Witherheart the Stalker, Retherokk the Berserker, Jalinde Summerdrake (drak), The Reak, Grimungous, Ironback (ochočitelný) a Mith'rethis the Enchanter. Levely 42–52.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Western Plaguelands"] = {
     title = "Western Plaguelands",
@@ -721,15 +815,19 @@ WoWpoCesku_LoreKnihy["Western Plaguelands"] = [[• Andorhal a Kel'Thuzad – ar
 • Rod Barovů – šlechtici z Caer Darrow prodali svůj hrad Kultu výměnou za nesmrtelnost. Teď jsou z nich nemrtví učitelé v Scholomance.
 
 • Uther Lightbringer – první paladin a velitel Rytířů Stříbrné ruky. Arthas ho zabil, když se postavil proti jeho šílenství. Uther's Tomb stojí na jihu kraje a jeho duch tam promlouvá k těm, kdo přijdou s úctou.]]
-WoWpoCesku_LoreTajemstvi["Western Plaguelands"] = [[• Uther's Tomb – hrobka Uthera Lightbringera na jihu kraje. Ve questu pro paladiny a v řadě „The Lightbringer“ se s ním setkáš.
+WoWpoCesku_LoreTajemstvi["Western Plaguelands"] = [[• Uther's Tomb – hrobka Uthera Lightbringera na jihu kraje.
 
-• Scholomance – dungeon pod Caer Darrow. Na konci čeká Darkmaster Gandling, ředitel školy.
+• Scholomance – škola nekromancie pod Caer Darrow. Na konci Darkmaster Gandling.
 
-• Sorrow Hill – hřbitov Lordaeronu u Uther's Tomb. Jsou tu jména hrdinů, kteří padli.
+• Farmy kolem Andorhalu – Felstone Field, Dalson's Tears a Gahrron's Withering mají každá svůj tragický příběh. V Dalson's Tears najdi deník.
 
-• Farmy kolem Andorhalu – Felstone Field, Dalson's Tears a Gahrron's Withering mají každá svůj tragický rodinný příběh. V Dalson's Tears najdi deník a pochopíš, co se stalo s rodinou Dalsonových.
+• Andorhal – město, kde Kel'Thuzad rozšířil mor přes obilí.
 
-• Vzácní nepřátelé – v klasice Foreman Jerris, Lord Maldazzar a Foulmane.]]
+• Sada Rider of the Plaguelands (novinka WoW Forever) – 2 kusy: +5 % rychlosti jízdy v obou Plaguelands, 3 kusy: šance při útoku způsobit 140 temného poškození. Kusy se v betě zatím nenašly.
+
+• Vzácní (classic data): Foulmane, Lord Maldazzar, Foreman Marcrid, Putridius, Scarlet Smith, Scarlet Executioner, Scarlet Judge, Scarlet Interrogator, Foreman Jerris, The Husk a Scarlet High Clerist. Levely 52–63.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Eastern Plaguelands"] = {
     title = "Eastern Plaguelands",
@@ -748,15 +846,21 @@ WoWpoCesku_LoreKnihy["Eastern Plaguelands"] = [[• Vyčištění Stratholme (Wa
 • Tirion Fordring – paladin, který byl vyhnán z řádu za to, že chránil orka Eitrigga. Žije jako poustevník v chatrči u jezera v tomto kraji. SPOILER: Tirion později vede Argent Crusade proti Lich Kingovi.
 
 • Naxxramas – SPOILER: létající nekropole je posledním raidem klasického WoW. Na konci čeká Kel'Thuzad.]]
-WoWpoCesku_LoreTajemstvi["Eastern Plaguelands"] = [[• Tirion Fordring – u jezera v západní části kraje stojí chatrč muže, který vypadá jako obyčejný starý rybář. Promluv s ním. Jeho questová řada „Redemption“ je jedna z nejkrásnějších v klasickém WoW.
+WoWpoCesku_LoreTajemstvi["Eastern Plaguelands"] = [[• Tirion Fordring – v chatrči u jezera žije muž, který vypadá jako starý rybář. Jeho questová řada Redemption je jedna z nejkrásnějších v klasice.
 
-• Stratholme – dungeon na severu, rozdělený na živou a nemrtvou část. Na konci jedné čeká Baron Rivendare, kterému padá kůň Deathcharger (velmi vzácně).
+• Stratholme – dungeon rozdělený na živou a nemrtvou část. Z barona Rivendara vzácně padá kůň Deathcharger.
 
-• Terrorweb Tunnel – tunel plný pavouků, kterým se dostaneš na sever.
+• Darrowshire – řada questů o bitvě u Darrowshire ti dovolí znovu prožít bitvu, ve které vesnice padla. Dojemný příběh o dívce Pamele.
 
-• Darrowshire – zničená vesnice na jihu. Řada questů „The Battle of Darrowshire“ ti dovolí znovu prožít bitvu, ve které vesnice padla. Dojemný příběh o dívce Pamele a její panence.
+• Naxxramas – létající nekropole nad krajem, poslední raid klasiky.
 
-• Vzácní nepřátelé – v klasice Duggan Wildhammer, Hed'mush the Rotting, Deathspeaker Selendre, Zul'Brin Warpbranch a Ranger Lord Hawkspear.]]
+• Light's Hope Chapel – jediné bezpečné místo v kraji, kde se scházejí hrdinové obou frakcí.
+
+• Sada Rider of the Plaguelands platí i tady (viz Western Plaguelands).
+
+• Vzácní (classic data): Duggan Wildhammer, Deathspeaker Selendre, Gish the Unmoving, Hed'mush the Rotting, Lord Darkscythe, Warlord Thresh'jin, High General Abbendis, Zul'Brin Warpbranch a Ranger Lord Hawkspear. Levely 55–60.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Badlands"] = {
     title = "Badlands",
@@ -773,15 +877,19 @@ WoWpoCesku_LoreKnihy["Badlands"] = [[• Disky Norgannona – v Uldamanu leží 
 • Ironaya – kamenná strážkyně Uldamanu, kterou postavili titáni. Hrdinové ji musí probudit, aby se dostali k diskům.
 
 • Draci z Lethlor Ravine – tady sídlí černí a rudí draci, kteří se navzájem nesnášejí. Rudí jsou spojenci Alexstraszy, černí slouží Deathwingovi.]]
-WoWpoCesku_LoreTajemstvi["Badlands"] = [[• Uldaman – dungeon s kamennými golemy, troggy a Archaedasem na konci. Tady se dozvíš, odkud pochází tvoje rasa – pokud jsi trpaslík.
+WoWpoCesku_LoreTajemstvi["Badlands"] = [[• Uldaman – trezor titánů s kamennými golemy a Archaedasem na konci. Disky Norgannona tu prozradí původ trpaslíků.
 
-• Kosti Lethlor Ravine – obří kostra draka v rokli. Za ní hnízdí draci.
+• Lethlor Ravine – rokle s obří dračí kostrou, kde hnízdí draci.
 
-• Vzácní nepřátelé – v klasice Rumbler, Siege Golem, Zaricotl a Broken Tooth (vzácný kočkovitý pet pro lovce s nejrychlejším útokem v klasice).
+• Kargath – orčí pevnost pojmenovaná po Kargathu Bladefistovi, náčelníkovi klanu Shattered Hand.
 
-• Angor Fortress – pevnost Dark Ironů. Kdo ji prozkoumá, najde jejich plány.
+• Broken Tooth – vzácný kočkovitý mob, kterého si lovci v klasice ochočovali kvůli nejrychlejšímu útoku.
 
-• Kargath – orčí pevnost pojmenovaná po Kargath Bladefistovi, náčelníkovi klanu Shattered Hand.]]
+• 7:XT – vzácný mechanický robot. Jedno z nejzvláštnějších jmen ve hře.
+
+• Vzácní (classic data): War Golem, Broken Tooth (ochočitelný), Digmaster Shovelphlange, Shadowforge Commander, Siege Golem, 7:XT, Anathemus, Rumbler a Zaricotl (ochočitelný, level 55). Levely 36–55.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Searing Gorge"] = {
     title = "Searing Gorge",
@@ -798,15 +906,17 @@ WoWpoCesku_LoreKnihy["Searing Gorge"] = [[• Vyvolání Ragnarose – na konci 
 • Blackrock Mountain – hora je dnes rozdělená: dole Dark Ironové a Ragnaros (Molten Core), nahoře orkové klanu Blackrock a drak Nefarian (Blackwing Lair).
 
 • Thorium Brotherhood – trpaslíci, kteří se vzepřeli Ragnarosovi a Dark Ironskému císaři.]]
-WoWpoCesku_LoreTajemstvi["Searing Gorge"] = [[• Vstup do Blackrock Mountain – dojdi na jih k obřímu řetězovému mostu. Uvnitř hory jsou čtyři dungeony a dva raidy najednou.
+WoWpoCesku_LoreTajemstvi["Searing Gorge"] = [[• Vstup do Blackrock Mountain – na jihu vede řetězový most do hory, kde jsou dungeony Blackrock Depths a Blackrock Spire a raidy Molten Core a Blackwing Lair.
 
-• Thorium Point – reputace s Thorium Brotherhood odemkne slavné recepty, například na Sulfuron Hammer.
+• Franclorn Forgewright – uvnitř hory se zjevuje duch trpasličího stavitele. Jeho quest Dark Iron Legacy tě dovede ke klíči Shadowforge Key.
 
-• Vzácní nepřátelé – v klasice Faulty War Golem, Highlord Mastrogonde, Slave Master Blackheart a Smoldar.
+• Thorium Point – reputace s Thorium Brotherhood odemkne slavné recepty.
 
-• Otroci v The Cauldron – Dark Ironové v dole drží zajaté horníky. Kdo je osvobodí, získá spojence.
+• The Cauldron – obrovský důl, kde Dark Ironové nutí otroky kopat rudu.
 
-• Klíč do Blackrock Depths – questová řada tady tě dovede k vlastnímu klíči do věznice v hoře (Shadowforge Key).]]
+• Vzácní (classic data): Faulty War Golem, Shleipnarr, Rekk'tilac (ochočitelný), Scald, Slave Master Blackheart, Smoldar a Highlord Mastrogonde. Levely 46–51.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Burning Steppes"] = {
     title = "Burning Steppes",
@@ -823,15 +933,19 @@ WoWpoCesku_LoreKnihy["Burning Steppes"] = [[• Blackhand – náčelník klanu 
 • Marshal Windsor – hrdina Aliance, který byl zajat v Blackrock. SPOILER: jeho osvobození vede k odhalení Lady Prestor jako dračice Onyxie ve Stormwindu.
 
 • Nefarian – Deathwingův syn, který v Blackwing Lair provádí experimenty na dracích a vytváří chromatické draky ze všech barev.]]
-WoWpoCesku_LoreTajemstvi["Burning Steppes"] = [[• Blackrock Spire – horní část hory je dungeon (Lower a Upper Blackrock Spire). Na vrcholu je Blackwing Lair, raid Nefariana.
+WoWpoCesku_LoreTajemstvi["Burning Steppes"] = [[• Blackrock Spire a Blackwing Lair – horní část hory: dungeon a raid draka Nefariana.
 
-• Dreadmaul Rock – ogří pevnost na skále. Výhled na kraj je odtud dech beroucí.
+• Marshal Windsor – questová řada od Marshala Maxwella v Morgan's Vigil vede až k odhalení lady Prestor jako dračice Onyxie ve Stormwindu.
 
-• Vzácní nepřátelé – v klasice Gorgon'och, Hahk'Zor, Terrorspark, Volchan a Deathmaw.
+• Dreadmaul Rock – ogří pevnost na skále s výhledem na celý kraj.
 
-• Ruins of Thaurissan – trosky starého Dark Ironského města, kde ještě vidíš sochy jeho slávy.
+• Ruins of Thaurissan – trosky starého města Dark Ironů.
 
-• Morgan's Vigil – tady začíná řada questů od Marshala Maxwella, která pokračuje dál do hory.]]
+• Scarshield Quartermaster – vzácný mob, který se objevuje každých 10–15 minut. Hledej ho v okolí Blackrock Spire.
+
+• Vzácní (classic data): The Behemoth, Deathmaw (ochočitelný), Gorgon'och, Hahk'Zor, Scarshield Quartermaster, Terrorspark, Malfunctioning Reaver, Thauris Balgarr, Gruklash, Hematos a Volchan. Levely 50–60.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Swamp of Sorrows"] = {
     title = "Swamp of Sorrows",
@@ -848,15 +962,19 @@ WoWpoCesku_LoreKnihy["Swamp of Sorrows"] = [[• Zkáza chrámu – když se tro
 • SPOILER – v dlouhé questové řadě k bránám Ahn'Qiraj se Eranikus objeví v Moonglade, posedlý Noční můrou. Po bitvě, které se účastní i Tyrande a Remulos, se z ní nakonec vymaní.
 
 • Lost Ones – draenei, kteří přišli z Draenoru. Patří k nejstarším stopám, že draenei vůbec existují.]]
-WoWpoCesku_LoreTajemstvi["Swamp of Sorrows"] = [[• Sunken Temple – dungeon pod hladinou. Na konci čeká zelený drak Eranikus a avatar Hakkara.
+WoWpoCesku_LoreTajemstvi["Swamp of Sorrows"] = [[• Sunken Temple – potopený chrám Atal'Hakkar s avatarem Hakkara a zeleným drakem Eranikem.
 
-• Misty Reed Strand – pobřeží na jihovýchodě s nagy a mořskými obry.
+• Fallen Hero of the Horde – u silnice blízko Stonardu stojí duch padlého hrdiny Hordy. Jeho questy vyprávějí příběh, který vede až do Blasted Lands.
 
-• Vzácní nepřátelé – v klasice Lord Captain Wyrmak, Lost One Chieftain, Molt Thorn a Fingat.
+• Galen's Fall – tábor, kde doprovodíš Galena Goodwarda do bezpečí.
 
-• Pool of Tears – jezero s chrámem uprostřed. Ve vodě vidíš vrcholky věží potopeného chrámu.
+• Itharius – zelený drak, který hlídá okolí potopeného chrámu.
 
-• Fallow Sanctuary – úkryt Lost Ones, kde se dozvíš víc o jejich osudu.]]
+• Fallow Sanctuary – úkryt Lost Ones, zbloudilých draenei.
+
+• Vzácní (classic data): Lost One Cook, Lost One Chieftain, Molt Thorn, Fingat, Gilmorian, Lord Captain Wyrmak, Jade, Veyzhak the Cannibal a Zekkis. Levely 37–48.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Blasted Lands"] = {
     title = "Blasted Lands",
@@ -873,15 +991,19 @@ WoWpoCesku_LoreKnihy["Blasted Lands"] = [[• Otevření portálu (Rise of the H
 • Uzavření portálu – po Druhé válce Aliance portál zničila. Pak ho šaman Ner'zhul znovu otevřel a odvedl orky zpátky na Draenor. Draenor se při tom roztrhal na kusy – a stal se z něj Outland.
 
 • SPOILER (The Burning Crusade) – Temný portál se znovu otevře a hrdinové jím projdou do Outlandu.]]
-WoWpoCesku_LoreTajemstvi["Blasted Lands"] = [[• Temný portál – dojdi k bráně a podívej se zblízka. V klasickém WoW byl neaktivní a hráči spekulovali, kdy se otevře.
+WoWpoCesku_LoreTajemstvi["Blasted Lands"] = [[• Temný portál – v klasice neaktivní brána, kterou orkové přišli na Azeroth.
 
-• Altar of Storms – podle legend jeden z oltářů, kde Gul'dan tvořil první rytíře smrti z duší svých čarodějů a těl padlých stormwindských rytířů.
+• Lord Kazzak – v The Tainted Scar na severozápadě sídlí obří démon, world boss klasického WoW.
 
-• Vzácní nepřátelé – v klasice Akubar the Seer, Clack the Reaver, Deatheye a Ravage.
+• Nethergarde Keep – mágové tu hlídají portál. Bloodmage Lynnore a Bloodmage Drazial ti za suroviny z kraje (třeba Snickerfang Jowls) udělají silné elixíry.
 
-• Nethergarde Keep – mágové tu mají questy na sběr kostí a krve. Odměnou jsou elixíry.
+• Altar of Storms – oltář spojený s Gul'danovými rytíři smrti.
 
-• Dreadmaul Hold – ogří pevnost blízko portálu.]]
+• Dreadmaul Hold – ogří pevnost blízko portálu.
+
+• Vzácní (classic data): Mojo the Twisted, Deatheye, Grunter (ochočitelný), Ravage (ochočitelný), Akubar the Seer a Magronos the Unyielding. Levely 48–56.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Deadwind Pass"] = {
     title = "Deadwind Pass",
@@ -898,13 +1020,19 @@ WoWpoCesku_LoreKnihy["Deadwind Pass"] = [[• The Last Guardian – Khadgar, mla
 • Aegwynn – Medivhova matka, předchozí Strážkyně, kdysi porazila Sargerase. Netušila, že duch démona se ukryl v jejím synovi.
 
 • SPOILER (The Burning Crusade) – Karazhan se stane raidem pro deset hráčů. Uvidíš hostiny duchů, divadlo, šachy a samotného Medivhova démona.]]
-WoWpoCesku_LoreTajemstvi["Deadwind Pass"] = [[• Karazhan – v klasickém WoW byla věž zavřená. Pod ní jsou krypty, které hráči léta zkoumali a hledali tajné chodby – a spekulovali, co skrývají.
+WoWpoCesku_LoreTajemstvi["Deadwind Pass"] = [[• Karazhan – v klasice byla věž zavřená. Pod ní jsou krypty, které hráči léta prozkoumávali a hledali tajné chodby.
 
-• Ariden's Camp – tábor tajemného Aridena, Medivhova služebníka, na jihu kraje.
+• Ariden's Camp – tábor tajemného Aridena na jihu kraje.
 
-• Vzácní nepřátelé – v Deadwind Pass téměř žádné rarity nejsou, jen ponuří ogrové a duchové.
+• Grosh'gok Compound – ogří tábor v horách.
 
-• Jezero pod Karazhanem – na jihu je jezero, odkud je vidět věž v celé své výšce. Nejlepší místo pro screenshot.]]
+• Deadman's Crossing – rozcestí, kde začínají cesty do Duskwoodu i Swamp of Sorrows.
+
+• Jezero pod Karazhanem – nejlepší místo, odkud je vidět věž v celé výšce.
+
+• Žádní vzácní mobové tu nejsou – jen duchové a ticho.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 -------------------------------------------------------------------------------
 -- Kalimdor – střed a sever
@@ -971,15 +1099,21 @@ WoWpoCesku_LoreKnihy["Darkshore"] = [[• Highborne a jejich duchové – po Vel
 • Twilight's Hammer – kult, který uctívá Staré bohy a chce zničení světa. SPOILER: v budoucnu (Cataclysm) se kult spojí s Deathwingem.
 
 • SPOILER (Cataclysm a Battle for Azeroth) – Darkshore bude zničen kataklyzmatem a později vypálen Hordou při válce o Teldrassil.]]
-WoWpoCesku_LoreTajemstvi["Darkshore"] = [[• Prospector Remtravel – gnómský badatel, který tvrdí, že našel něco úžasného. Jeho questy tě provedou kolem ruin a zakončí to vtipným překvapením.
+WoWpoCesku_LoreTajemstvi["Darkshore"] = [[• Baron Marinous (novinka WoW Forever) – nový elitní vzácný mob, kterého se dá vyvolat (zhruba 59, 22). Padají z něj úlomky, ze kterých se skládá Mathystral Amulet na jeho vyvolání.
 
-• Grove of the Ancients – háj, kde odpočívají Ancients, živé stromy. Je to tiché a krásné místo.
+• For Love Eternal – druid Cerellean Whiteclaw v Auberdine truchlí pro svou lásku Anayu Dawnrunner, která zahynula při zkáze Ameth'Aran za Války starověku. Její duch v ruinách stále bloudí – osvoboď ho a přines Cerelleanovi její přívěsek. Smutný milostný příběh starý deset tisíc let (v pozdějších verzích WoW zmizel).
 
-• Vzácní nepřátelé – v klasice Lady Moongazer, Lady Vespira, Lord Sinslayer, Licillin a Firecaller Radison.
+• Prospector Remtravel – gnómský badatel, který tvrdí, že našel něco úžasného. Jeho řada končí překvapením.
 
-• Ztroskotané lodě – podél pobřeží najdeš vraky. Některé ukrývají truhly a příběhy.
+• Tower of Althalaxx – věž, kde kult Twilight's Hammer provádí rituály.
 
-• Cliffspring Falls – vodopád na severu s jeskyní nag.]]
+• Grove of the Ancients – háj, kde odpočívají Ancients, živé stromy.
+
+• Cliffspring Falls – vodopád na severu s jeskyní nag.
+
+• Vzácní (classic data): Shadowclaw (ochočitelný), Licillin, Lord Sinslayer, Carnivous the Breaker, Flagglemurk the Cruel, Lady Moongazer, Firecaller Radison, Strider Clutchmother (ochočitelná) a Lady Vespira. Levely 13–22.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Ashenvale"] = {
     title = "Ashenvale",
@@ -996,15 +1130,19 @@ WoWpoCesku_LoreKnihy["Ashenvale"] = [[• Smrt Cenaria (Warcraft III) – orkov�
 • Smrt Mannorotha – Thrall a Jaina Groma osvobodili. Grom Mannorotha zabil v Demon Fall Canyon a sám zemřel. Je to místo, kde Horda získala svobodu.
 
 • War of the Ancients – Ashenvale je zbytkem pravěkého lesa, který obklopoval Studnu věčnosti. Mnohé ruiny pamatují Azsharu.]]
-WoWpoCesku_LoreTajemstvi["Ashenvale"] = [[• Demon Fall Canyon – kaňon, kde Grom zabil Mannorotha. Na dně stále leží jeho obří zbroj.
+WoWpoCesku_LoreTajemstvi["Ashenvale"] = [[• Varo'then's Ghost – vzácný duch (level 48) kapitána Varo'thena, velitele stráží královny Azshary z doby Války starověku. Jeho přítomnost v Ashenvale je přímým odkazem na knihy War of the Ancients.
 
-• Warsong Gulch – bitevní pole o vlajky mezi elfy a orky, na hranici s Barrens.
+• Demon Fall Canyon – kaňon, kde Grom Hellscream zabil Mannorotha a sám zemřel. Na dně leží Mannorothova obří zbroj.
 
-• Blackfathom Deeps – dungeon na Zoram Strand. Na konci čeká Aku'mai, obří hydra Starých bohů.
+• Warsong Gulch – bitevní pole o vlajky mezi elfy a orky.
 
-• Vzácní nepřátelé – v klasice Ursol'lok, Branch Snapper, Terrowulf Packlord, Mists a Akkrilus.
+• Blackfathom Deeps – dungeon na Zoram Strand, kde kult Twilight's Hammer uctívá Staré bohy. Na konci Aku'mai.
 
-• Lake Falathim – malé jezero s ostrůvkem a ruinou. Krásné místo na rybaření.]]
+• Raynewood Retreat – obydlí dryád a Cenariových dětí.
+
+• Vzácní (classic data): Apothecary Falthis, Lady Vespia, Mist Howler (ochočitelný), Mugglefin, Branch Snapper, Rorgish Jowl, Akkrilus, Eck'alom, Oakpaw, Terrowulf Packlord, Ursol'lok (ochočitelný), Prince Raze a Varo'then's Ghost. Levely 22–48.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Stonetalon Mountains"] = {
     title = "Stonetalon Mountains",
@@ -1021,15 +1159,21 @@ WoWpoCesku_LoreKnihy["Stonetalon Mountains"] = [[• Medivh jako prorok (Warcraf
 • Venture Company – goblinská obchodní společnost, která ničí přírodu za zisk. Patří k nejstarším nepřátelům v klasickém WoW.
 
 • SPOILER (Cataclysm) – Stonetalon zasáhne bomba Hordy a Windshear Crag shoří.]]
-WoWpoCesku_LoreTajemstvi["Stonetalon Mountains"] = [[• Stonetalon Peak – nejvyšší místo kraje. Výhled odsud je krásný a druidové tu mají svůj háj.
+WoWpoCesku_LoreTajemstvi["Stonetalon Mountains"] = [[• Sada Blessing of Kalimdor (novinka WoW Forever) – sada ze vzácných mobů z Barrens dává +5 % rychlosti i tady ve Stonetalonu.
 
-• Talondeep Path – tunel pod horami, který vede z Ashenvale do Stonetalonu.
+• Nové předměty ve Forever: z Taskmaster Whipfang padá dýka Whipfang's Skinsearer, z Foreman Rigger kroužková helma Foreman's Helm.
 
-• Vzácní nepřátelé – v klasice Pridewing Patriarch, Foreman Rigger a Taskmaster Whipfang.
+• Stonetalon Peak – nejvyšší místo kraje s hájem druidů. Kdysi tu Orákulum radilo Thrallovi.
 
-• Windshear Mine – důl Venture Company, kde najdeš důkazy jejich bezohlednosti.
+• Talondeep Path – tunel pod horami z Ashenvale do Stonetalonu.
 
-• Charred Vale – vyhořelé údolí, kde zuří ohniví elementálové.]]
+• Windshear Crag – lesy, které kácí Venture Company.
+
+• Malaka'jin – trollí vesnička Hordy na jihu kraje.
+
+• Vzácní (classic data): Sister Rathtalon, Taskmaster Whipfang, Foreman Rigger, Pridewing Patriarch, Sentinel Amarassan, Sorrow Wing, Sister Riven, Brother Ravenoak, Vengeful Ancient a Nal'taszar. Levely 19–30.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Thousand Needles"] = {
     title = "Thousand Needles",
@@ -1046,15 +1190,17 @@ WoWpoCesku_LoreKnihy["Thousand Needles"] = [[• Grimtotem – kmen taurenů, kt
 • Razorfen Downs – kančí lidé tu spolupracují s Pohromou. Lich Amnennar the Coldbringer se je snaží převést na nemrtvé.
 
 • SPOILER (Cataclysm) – Thousand Needles zaplaví voda a kaňon se promění v jezero s ostrovy.]]
-WoWpoCesku_LoreTajemstvi["Thousand Needles"] = [[• Mirage Raceway – sledování závodů gnómů a goblinů je vtipné. Questy ti dovolí pomoct jednomu z týmů.
+WoWpoCesku_LoreTajemstvi["Thousand Needles"] = [[• Mirage Raceway – na solném jezeře Shimmering Flats spolu závodí gnómové a goblini. Questy ti dovolí pomoct jednomu z týmů.
 
-• Razorfen Downs – dungeon na severu, na hranici s Barrens.
+• Freewind Post – tauren osada na vrcholcích jehel s provazovými mosty. Nejlepší výhled v kraji.
 
-• Vzácní nepřátelé – v klasice Achellios the Banished a Ironeye the Invincible.
+• Razorfen Downs – dungeon na severu, kde lich Amnennar the Coldbringer převádí kančí lidi k Pohromě.
 
-• Highperch – hnízdiště wyvern na západě. Odvaha je potřeba.
+• Highperch – hnízdiště wyvern na západě.
 
-• Splithoof Crag – kentauří pevnost na vrcholcích.]]
+• Vzácní (classic data): Gibblesnik, Achellios the Banished, Heartrazor, Vile Sting (ochočitelný), Silithid Ravager a Ironeye the Invincible. Levely 28–37.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Desolace"] = {
     title = "Desolace",
@@ -1070,16 +1216,20 @@ WoWpoCesku_LoreKnihy["Desolace"] = [[• Zrození kentaurů – Zaetar, syn Cena
 
 • Maraudon – hluboké jeskyně plné krystalů a zkažené přírody. Theradras je na konci dungeonu.
 
-• Rexxar – v klasickém WoW se po silnici Desolace potuluje Rexxar, poloviční ork a poloviční ogr se svým medvědem Mishou. Je to hrdina z Warcraftu III (The Frozen Throne).]]
-WoWpoCesku_LoreTajemstvi["Desolace"] = [[• Kodo Roundup – goblin Smeed Scrabblescrew ti dá kouzlo na zkrocení umírajících kodo. Vtipný a trochu smutný quest.
+• Rexxar – v klasickém WoW se po silnici Desolace potuluje Rexxar, poloviční ork a poloviční ogr se svou medvědicí Mishou. Je to hrdina z Warcraftu III (The Frozen Throne).]]
+WoWpoCesku_LoreTajemstvi["Desolace"] = [[• Kodo Graveyard – goblin Smeed Scrabblescrew ti dá kouzlo na zkrocení umírajících kodo (Kodo Roundup). Vtipný a trochu smutný quest.
 
-• Rexxar – najdeš ho na silnici. Je to legendární postava Hordy.
+• Maraudon – jeskyně, kde princezna Theradras truchlí za Zaetarem. Fialová a oranžová cesta vedou ke stejnému cíli.
 
-• Maraudon – dungeon s krystaly a kentaury. Fialová a oranžová část vedou na stejné místo.
+• Kentauří klany – Gelkis a Magram spolu válčí a ty si můžeš vybrat stranu. Reputace u jednoho klanu ti udělá nepřítele z druhého.
 
-• Vzácní nepřátelé – v klasice Hissperak a Prince Kellen.
+• Rexxar – po silnici mezi Stonetalonem a Feralasem se potuluje poloviční ork a ogr Rexxar s medvědicí Mishou, hrdina z Warcraft III. Pro Hordu je součástí řady questů The Champion of the Horde, která vede k Onyxii.
 
-• Mannoroc Coven – démonický kráter na jihu. Dál odtud se nedostaneš živý.]]
+• Mannoroc Coven – démonický kráter na jihu.
+
+• Vzácní (classic data): Giggler (ochočitelný), Accursed Slitherblade, Hissperak, Kaskk a Cursed Centaur. Levely 34–43.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Dustwallow Marsh"] = {
     title = "Dustwallow Marsh",
@@ -1100,13 +1250,17 @@ WoWpoCesku_LoreKnihy["Dustwallow Marsh"] = [[• Cycle of Hatred – kniha o tom
 • SPOILER (Mists of Pandaria) – Theramore zničí Horda pod Garroshem bombou many.]]
 WoWpoCesku_LoreTajemstvi["Dustwallow Marsh"] = [[• Onyxia's Lair – raid na jihu. Slavná hláška „Many whelps! Handle it!“ pochází odtud.
 
-• Shady Rest Inn – vyhořelý hostinec na cestě. Za jeho zkázou je zajímavý příběh.
+• The Missing Diplomat – dlouhá řada questů, která začíná ve Stormwindu a vede přes Theramore. Pátráš po zmizelém diplomatovi a narazíš na zradu.
 
-• Vzácní nepřátelé – v klasice Tethis, Ogg'marr a Lord Angler.
+• Shady Rest Inn – vyhořelý hostinec na cestě. Za jeho zkázou je příběh, který odhalí questy v okolí.
 
-• Witch Hill – kopec s čarodějnicemi na severu. Domy tu jsou prázdné a za mlhou se ozývají hlasy.
+• Alcaz Island – ostrov u pobřeží Theramore. Ve WoW Forever tu má vzniknout nový dungeon Alcaz Prison (levely 48–53), který navazuje na příběh Defias.
 
-• Theramore Isle – Jaina v Theramore má pro hráče Aliance questy. Promluv si s ní.]]
+• Witch Hill – kopec s čarodějnicemi a opuštěným sídlem Swamplight Manor na severu.
+
+• Vzácní (classic data): Drogoth the Roamer, Burgle Eye, Dart (ochočitelný), Ripscale (ochočitelný), Hayoc (ochočitelný), Oozeworm, The Rot, Lord Angler a Brimgore. Levely 37–45.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Feralas"] = {
     title = "Feralas",
@@ -1123,15 +1277,19 @@ WoWpoCesku_LoreKnihy["Feralas"] = [[• Eldre'Thalas – po Velkém rozpoltění
 • Spojení s shen'dorei – jiní Highborne se podle Forever dostali do nebe. Dire Maul je kanonický příklad Highborne, kteří zůstali na zemi.
 
 • Isle of Dread – ostrov u pobřeží, kde žijí chiméry Chimaerok a jeden ze čtyř stromů snu.]]
-WoWpoCesku_LoreTajemstvi["Feralas"] = [[• Dire Maul – dungeon se třemi křídly. V severní části můžeš „projít“ bez zabití stráží a získat poklad od krále ogrů.
+WoWpoCesku_LoreTajemstvi["Feralas"] = [[• Dire Maul – ruiny elfího města Eldre'Thalas se třemi křídly. V severní části můžeš projít bez zabití stráží („tribute run“) a získat poklad od krále ogrů.
+
+• OOX-22/FE – porouchané robotické kuře v kraji. Spolu s dalšími dvěma (Tanaris a Hinterlands) tě dovede k mechanickému kuřeti jako mazlíčkovi.
+
+• Dream Bough a Isle of Dread – jeden ze čtyř stromů snu a ostrov chimér Chimaerok.
 
 • Twin Colossals – obří sochy uprostřed lesa.
 
-• Dream Bough – jeden ze čtyř stromů snu, kde se objevuje zlý zelený drak.
+• Feathermoon Stronghold – elfí pevnost na ostrově, sídlo Shandris Feathermoon.
 
-• Vzácní nepřátelé – v klasice Old Grizzlegut, Lady Szallah a Arash-ethis.
+• Vzácní (classic data): Snarler (ochočitelný), Old Grizzlegut (ochočitelný), Gnarl Leafbrother, Diamond Head, Lady Szallah, Qirot, Antilus the Soarer, Bloodroar the Stalker a Arash-ethis (ochočitelný). Levely 42–49.
 
-• Feathermoon Stronghold – ostrov s elfí pevností. Výhled na moře je krásný.]]
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Azshara"] = {
     title = "Azshara",
@@ -1148,15 +1306,19 @@ WoWpoCesku_LoreKnihy["Azshara"] = [[• Královna Azshara – před deseti tisí
 • SPOILER (Battle for Azeroth) – Azshara se vrátí a hrdinové s ní budou bojovat v Nazjatar.
 
 • Azuregos – modrý drak, který chrání magické artefakty. V klasice je to world boss.]]
-WoWpoCesku_LoreTajemstvi["Azshara"] = [[• Azuregos – world boss. Pokud ho najdeš, raději zavolej přátele.
+WoWpoCesku_LoreTajemstvi["Azshara"] = [[• Azuregos – obří modrý drak, world boss klasického WoW. Když ho najdeš, zavolej přátele.
 
-• Ruiny Eldarath – kdo se tu projde, najde sochy a nápisy Highborne.
+• Duke Hydraxis – na ostrově u východního pobřeží sídlí vodní elementál, který posílá hrdiny proti Ragnarosovým služebníkům (příprava na Molten Core).
 
-• Bay of Storms – zátoka s ruinami, kde se kdysi rozkládal okraj Studny věčnosti.
+• Kim'jael – goblin v kraji, který ztratil své vybavení. Quest Kim'jael Indeed! je drobná komedie.
 
-• Vzácní nepřátelé – v klasice Monnos the Elder, Magister Hawkhelm a Avalanchion.
+• Ruins of Eldarath – sochy a nápisy Highborne.
 
-• Timbermaw Hold – furbolgové Timbermaw na severu jsou neutrální a dávají reputaci.]]
+• Bay of Storms – zátoka, kde kdysi ležel okraj Studny věčnosti.
+
+• Vzácní (classic data): The Evalcharr, Gatekeeper Rageroar, Antilos, General Fangferror, Lady Sesspira, Magister Hawkhelm, Master Feardred, Scalebeard a Monnos the Elder. Levely 48–54.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Moonglade"] = {
     title = "Moonglade",
@@ -1175,13 +1337,17 @@ WoWpoCesku_LoreKnihy["Moonglade"] = [[• Malfurion ztracený ve snu – Malfuri
 • Lunar Festival – každý rok o Lunárním festivalu se v Moonglade slaví Elune a předkové.]]
 WoWpoCesku_LoreTajemstvi["Moonglade"] = [[• Druidský teleport – druidové mají kouzlo, které je okamžitě přenese do Moonglade.
 
-• Lunar Festival – při festivalu přicházejí do Moonglade hráči obou frakcí. Lze tu najít „Elders“ po celém světě.
+• Lunar Festival – při festivalu přicházejí do Moonglade hráči obou frakcí a po celém světě se hledají Elders.
 
 • Shrine of Remulos – svatyně Remula na severu údolí.
 
-• Stormrage Barrow Dens – v klasice jsou zavřené. Jen druidové tam mají přístup v některých questech.
+• Stormrage Barrow Dens – podzemí, kde druidové spí ve Smaragdovém snu. Odpočívá tu i Malfurion.
 
-• Jezero Elune'ara – posvátné jezero uprostřed údolí.]]
+• Lake Elune'ara – posvátné jezero uprostřed údolí.
+
+• Žádní vzácní mobové tu nejsou – Moonglade je místo míru.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 -------------------------------------------------------------------------------
 -- Kalimdor – jih a sever
@@ -1202,17 +1368,19 @@ WoWpoCesku_LoreKnihy["Tanaris"] = [[• Bronzoví draci – Nozdormu dostal od t
 • Zul'Farrak – trollové Sandfury uctívají boha Gahz'rillu, obří hydru. Jejich město je jedno z mála trollích měst, které dodnes stojí.
 
 • SPOILER (The Burning Crusade a Cataclysm) – Caverns of Time se otevřou a hrdinové se vrátí do minulosti: k Thrallovu útěku, k Temnému portálu, na Hyjal i ke Stratholme. Na jihu se otevře Uldum.]]
-WoWpoCesku_LoreTajemstvi["Tanaris"] = [[• Uldum – na jihu pouště stojí obrovská zeď se zavřenou branou titánů. V klasice byla neprostupná a hráči léta pátrali, co je za ní.
+WoWpoCesku_LoreTajemstvi["Tanaris"] = [[• OOX-17/TN – porouchané robotické kuře v poušti. Doprovoď ho domů a spolu s dalšími dvěma (Feralas a Hinterlands) získáš od Oglethorpa Obnoticuse v Booty Bay mechanické kuře.
 
-• Zul'Farrak – dungeon trollů. V něm můžeš gongem přivolat obří hydru Gahz'rillu.
+• Tooga – ztracená želva, kterou doprovodíš k její družce. Pomalá, ale roztomilá.
 
-• Caverns of Time – vchod do jeskyní. V klasice zavřený, jen draci tě sledovali.
+• Uldum – na jihu stojí obrovská zeď se zavřenou branou titánů. V klasice byla neprostupná.
 
-• Steamwheedle Port – menší goblinský přístav s pirátskými questy.
+• Zul'Farrak – trollí město, kde gongem přivoláš obří hydru Gahz'rillu.
 
-• Gadgetzan Bank a aukce – goblini mají neutrální aukci. Obchodníci z obou frakcí se tu setkávají.
+• Caverns of Time – jeskyně bronzových draků, v klasice zavřené.
 
-• Vzácní nepřátelé – v klasice Omgorn the Lost a Cyclok the Mad.]]
+• Vzácní (classic data): Murderous Blisterpaw (ochočitelný), Warleader Krazzilak, Greater Firebird (ochočitelný), Kregg Keelhaul a Haarka the Ravenous. Levely 43–50.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Un'Goro Crater"] = {
     title = "Un'Goro Crater",
@@ -1229,17 +1397,19 @@ WoWpoCesku_LoreKnihy["Un'Goro Crater"] = [[• Titáni a Un'Goro – titáni vyt
 • Silithidi z jihu – hmyzí bytosti z Silithusu se šíří do Un'Goro. Za nimi stojí Qiraji a Starý bůh C'Thun.
 
 • SPOILER (Cataclysm) – Un'Goro souvisí s Uldumem: obě jsou zařízení titánů.]]
-WoWpoCesku_LoreTajemstvi["Un'Goro Crater"] = [[• Linken – na severu žije podivný „chlapec“ jménem Linken s mečem a štítem. Je to odkaz na Linka ze Zeldy! V questech se dokonce objeví „It's dangerous to go alone“ a jeho meč a bumerang.
+WoWpoCesku_LoreTajemstvi["Un'Goro Crater"] = [[• Linken – na severu žije podivný „chlapec“ s mečem a štítem. Je to odkaz na Linka ze Zeldy – v questech padne i hláška „It's dangerous to go alone“.
 
-• A-Me 01 – v kráteru najdeš robota, kterého doprovázíš do bezpečí. Jeho dialogy jsou vtipné.
+• King Mosh – obrovský devilsaurus (level 60), vzácný a velmi nebezpečný.
 
-• Ringo – gnóm, který se ztratil a potřebuje pomoct. Musíš ho polévat vodou, aby neusnul.
+• A-Me 01 – robot, kterého doprovázíš do bezpečí.
 
-• Devilsauři – obří tyranosauři. Kůže devilsaurů je v klasice velmi cenná.
+• Ringo – ztracený tvor, kterého musíš cestou polévat vodou, aby neusnul.
 
-• Golakka Hot Springs – horké prameny na západě.
+• Krystaly a pylony – J.D. Collie v Marshal's Refuge zkoumá energetické krystaly a pylony titánů.
 
-• Krystaly pylonů – sbírej krystaly a objev, co dělají. Řada questů s J.D. Collie.]]
+• Vzácní (classic data): Jin'Zallah the Sandbringer, Cyclok the Mad, Omgorn the Lost, Ravasaur Matriarch, Soriid the Devourer, Uhk'loc (ochočitelný), Clutchmother Zavas, Gruff a King Mosh. Levely 46–60.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Silithus"] = {
     title = "Silithus",
@@ -1256,15 +1426,19 @@ WoWpoCesku_LoreKnihy["Silithus"] = [[• Válka pohyblivých písků (War of the
 • Scepter of the Shifting Sands – žezlo, kterým lze zeď otevřít. Anachronos z bronzových draků ho střeží.
 
 • SPOILER – v klasickém WoW se Ahn'Qiraj otevřel velkou událostí, kdy celý server sbíral suroviny a jeden hráč udeřil do gongu.]]
-WoWpoCesku_LoreTajemstvi["Silithus"] = [[• Gong na Scarab Wall – kdo udeří do gongu (po dlouhé questové řadě), otevře brány Ahn'Qiraj pro celý server.
+WoWpoCesku_LoreTajemstvi["Silithus"] = [[• Gong na Scarab Wall – po dlouhé řadě questů může jeden hráč udeřit do gongu a otevřít brány Ahn'Qiraj pro celý server.
 
-• Ahn'Qiraj – dva raidy: Ruins of Ahn'Qiraj (20 hráčů) a Temple of Ahn'Qiraj (40 hráčů) s C'Thunem na konci.
+• Thunderfury – legendární meč, jehož části padají v Molten Core, se dokončuje tady: Highlord Demitrian tě pošle vyvolat a porazit prince Thunderaana.
 
-• Twilight's Hammer – kultisté vyvolávají elementální pány. Kdo nasbírá jejich artefakty, může vyvolat elementály a bojovat s nimi.
+• Twilight's Hammer – kultisté vyvolávají elementální pány. S jejich artefakty můžeš vyvolat elementály a bojovat s nimi.
 
-• Hive'Ashi, Hive'Zora, Hive'Regal – úly silithidů. Kdo se dostane dovnitř, uvidí jejich vajíčka.
+• Hive'Ashi, Hive'Zora, Hive'Regal – úly silithidů.
 
-• Thunderfury – legendární meč, jehož části padají v Molten Core, se dokončuje právě tady: Highlord Demitrian v Silithu tě pošle vyvolat a porazit prince Thunderaana, pána větru.]]
+• Twilight Lord Everun – vzácný kultista, který se objevuje často (15–45 min).
+
+• Vzácní (classic data): Krellack (ochočitelný), Gretheer (ochočitelný), Rex Ashil, Grubthor, Huricanian, Zora, Lapress, Twilight Lord Everun a Setis. Levely 56–61.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Felwood"] = {
     title = "Felwood",
@@ -1281,15 +1455,19 @@ WoWpoCesku_LoreKnihy["Felwood"] = [[• Illidan a Lebka Gul'dana (Warcraft III) 
 • Zkáza lesa – Lebka Gul'dana a démoni po bitvě o Hyjal les prokleli.
 
 • Shadow Council – tajná rada čarodějů, kterou kdysi vedl Gul'dan. Pořád existuje a slouží Legii.]]
-WoWpoCesku_LoreTajemstvi["Felwood"] = [[• Songflowers – zkažené květiny, které můžeš očistit a získat silný buff „Songflower Serenade“. V klasice jsou slavné mezi raidery.
+WoWpoCesku_LoreTajemstvi["Felwood"] = [[• Songflowers – zkažené květiny, které můžeš očistit a získat silný buff Songflower Serenade.
 
-• Whipper Root Tubers a Night Dragon's Breath – rostliny, které tě vyléčí. Najdeš je u zkažených stromů.
+• Whipper Root Tubers a Night Dragon's Breath – léčivé rostliny u zkažených stromů.
 
-• Irontree Woods – les na severu, kde si Timbermaw vypěstovali tvrdé stromy.
+• Rescue From Jaedenar – v Shadow Hold je uvězněná elfka Arko'narin. Kdo ji osvobodí, dozví se, co Shadow Council chystá.
 
-• Jaedenar – kdo projde, setká se s Shadow Council.
+• Jaedenar a Shadow Hold – svatyně obsazená čaroději Shadow Council.
 
-• Vzácní nepřátelé – v klasice Olm the Wise, Ragepaw a Mongress.]]
+• Emerald Sanctuary – útočiště druidů, kteří se snaží les vyléčit.
+
+• Vzácní (classic data): Death Howl (ochočitelný), Mongress (ochočitelný), Ragepaw, The Ongar, Olm the Wise (ochočitelný), Alshirr Banebreath, Dessecus a Immolatus. Levely 49–56.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Winterspring"] = {
     title = "Winterspring",
@@ -1306,15 +1484,19 @@ WoWpoCesku_LoreKnihy["Winterspring"] = [[• Bitva o Hyjal (Warcraft III) – na
 • Lake Kel'Theril – ruiny u jezera pamatují Highborne, kteří tu žili po Velkém rozpoltění, než odpluli na východ.
 
 • Modří draci – Malygos, aspekt magie, je jejich vůdce. Jeho draci hlídají artefakty v Mazthoril.]]
-WoWpoCesku_LoreTajemstvi["Winterspring"] = [[• Frostsaber Rock – noční elfové s Rivern Frostwind ti dají quest na zkrocení sněhového levharta. Odměnou je vzácný mount (v klasice).
+WoWpoCesku_LoreTajemstvi["Winterspring"] = [[• Frostsaber Rock – noční elfové s Rivern Frostwind cvičí sněhové levharty. Za reputaci získáš vzácný mount.
 
-• Mazthoril – jeskyně modrých draků. Kdo projde jejich zkouškou, získá důležitý předmět pro další questy.
+• Mazthoril – jeskyně modrých draků. Runa hluboko uvnitř tě přenese na vrchol hory k dračici Haleh, ochránkyni doupěte.
 
-• Darkwhisper Gorge – rokle na jihu, kde sídlí démoni. Odtud vede cesta na Hyjal.
+• Darkwhisper Gorge – rokle s démony na jihu kraje, odkud vede cesta na Hyjal.
 
-• Shy-Rotam – vzácný sněhový levhart, kterého vyvoláš speciálním questem.
+• Everlook – goblinské městečko, kde se potkávají obě frakce.
 
-• Vzácní nepřátelé – v klasice Rak'shiri, Grizzle Snowpaw a Lady Hederine.]]
+• Lake Kel'Theril – ruiny u jezera pamatují Highborne.
+
+• Vzácní (classic data): Mezzir the Howler, General Colbatann, Rak'shiri (ochočitelný), Azurous, Grizzle Snowpaw, Kashoch the Reaver a Lady Hederine. Levely 55–61.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Ve Forever se většina vzácných mobů zatím nepotvrdila – když nějakého potkáš, napiš mi.]]
 
 -- města a podoblasti nových oblastí
 for k, v in pairs({
