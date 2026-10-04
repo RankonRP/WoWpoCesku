@@ -680,6 +680,7 @@ local function countKeys(t) local n = 0; for _ in pairs(t or {}) do n = n + 1 en
 
 -- Pečetě fungují jako achievementy: každá má popisek, ikonu a body; při získání vyjede banner.
 local IC = "Interface\\Icons\\"
+local PIC = "Interface\\AddOns\\WoWpoCesku\\Textures\\Pecete\\"   -- obrázky pečetí (tools/pecete-obrazky.js)
 local RAIDS = { ["Molten Core"] = true, ["Onyxia's Lair"] = true, ["Blackwing Lair"] = true, ["Zul'Gurub"] = true,
     ["Ruins of Ahn'Qiraj"] = true, ["Ahn'Qiraj Temple"] = true, ["Naxxramas"] = true }
 
@@ -691,20 +692,20 @@ end
 
 -- série za počet: { id, ikona, co se počítá, popisek, stupně { počet, název, body } }
 local SERIES = {
-    { id = "rare", icon = IC .. "Ability_Hunter_SniperShot", what = "vzácných mobů",
+    { id = "rare", icon = IC .. "Ability_Hunter_SniperShot", image = PIC .. "lovec", what = "vzácných mobů",
       desc = function(n) return n == 1 and "Uviď svého prvního vzácného moba." or ("Uviď %d různých vzácných mobů."):format(n) end,
       steps = { { 1, "Stopař", 5 }, { 10, "Lovec vzácností", 10 }, { 25, "Mistr lovu", 25 }, { 50, "Legenda Bestiáře", 50 } } },
-    { id = "zone", icon = IC .. "Ability_Mount_RidingHorse", what = "oblastí",
+    { id = "zone", icon = IC .. "Ability_Mount_RidingHorse", image = PIC .. "cestovatel", what = "oblastí",
       desc = function(n) return ("Navštiv %d oblastí Azerothu."):format(n) end,
       steps = { { 5, "Tulák", 5 }, { 15, "Cestovatel", 10 }, { 30, "Poutník Azerothu", 25 }, { 42, "Kartograf Azerothu", 50 } } },
-    { id = "mista", icon = IC .. "INV_Misc_Spyglass_02", what = "míst",
+    { id = "mista", icon = IC .. "INV_Misc_Spyglass_02", image = PIC .. "objevitel", what = "míst",
       desc = function(n) return ("Objev celkem %d míst z Poutníkova deníku."):format(n) end,
       steps = { { 25, "Objevitel", 5 }, { 100, "Zvěd", 10 }, { 200, "Znalec všech cest", 25 } } },
-    { id = "dung", icon = IC .. "INV_Sword_04", what = "dungeonů",
+    { id = "dung", icon = IC .. "INV_Sword_04", image = PIC .. "hrdina", what = "dungeonů",
       desc = function(n) return n == 1 and "Vyčisti svůj první dungeon – poraz v něm všechny bosse."
           or ("Vyčisti %d různých dungeonů nebo raidů."):format(n) end,
       steps = { { 1, "Hrdina", 10 }, { 5, "Ochránce Azerothu", 10 }, { 10, "Postrach temnot", 25 }, { 20, "Legenda dungeonů", 50 } } },
-    { id = "read", icon = IC .. "INV_Misc_Book_09", what = "kapitol kroniky",
+    { id = "read", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "kapitol kroniky",
       desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
 }
@@ -718,7 +719,7 @@ local function sealList()
         local n = 0
         for _, p in ipairs(places) do if placeVisited(p) then n = n + 1 end end
         counts.mista = counts.mista + n
-        out[#out + 1] = { id = "poutnik:" .. zone, name = "Průzkumník – " .. zone, icon = IC .. "INV_Misc_Map_01",
+        out[#out + 1] = { id = "poutnik:" .. zone, name = "Průzkumník – " .. zone, icon = IC .. "INV_Misc_Map_01", image = PIC .. "pruzkumnik",
             desc = "Navštiv všechna místa Poutníkova deníku v oblasti " .. zone .. ".",
             points = 10, have = n, need = #places, what = "míst", group = "oblast", key = zone }
     end
@@ -729,13 +730,14 @@ local function sealList()
         local raid = RAIDS[dung]
         out[#out + 1] = { id = "dobyvatel:" .. dung, name = "Dobyvatel – " .. dung,
             icon = IC .. (raid and "INV_Misc_Head_Dragon_01" or "INV_Misc_Bone_HumanSkull_01"),
+            image = PIC .. (raid and "raid" or "dobyvatel"),
             desc = "Poraz všechny bosse " .. (raid and "v raidu " or "v dungeonu ") .. dung .. ".",
             points = raid and 25 or 10, have = n, need = total, what = "bossů", group = "dungeon", key = dung }
     end
     for _, ser in ipairs(SERIES) do
         local c = counts[ser.id] or 0
         for _, st in ipairs(ser.steps) do
-            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, points = st[3],
+            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = ser.image, points = st[3],
                 have = math.min(c, st[1]), need = st[1], what = ser.what, group = "obecne", series = ser.id }
         end
     end
@@ -790,7 +792,16 @@ local function showNextBanner()
     banner.title:SetText(("Pečeť získána!  ·  %d bodů"):format(s.points or 0))
     banner.name:SetText(s.name)
     banner.text:SetText(s.desc or "")
-    banner.icon:SetTexture(s.icon)
+    if s.image then
+        banner.wax:SetTexture(s.image)
+        banner.wax:SetVertexColor(1, 1, 1)
+        banner.icon:Hide()
+    else
+        banner.wax:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
+        banner.wax:SetVertexColor(0.86, 0.20, 0.13)
+        banner.icon:SetTexture(s.icon)
+        banner.icon:Show()
+    end
     pcall(PlaySound, 888, "Master")
     banner.anim:Stop()
     banner.anim:Play()

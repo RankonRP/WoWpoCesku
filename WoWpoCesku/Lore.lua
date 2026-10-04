@@ -216,8 +216,15 @@ local function fillSeal(c, s, width)
     c.desc:SetAlpha(s.got and 0.9 or 0.7)
     local pts = (s.points and s.points > 0) and ("  ·  %d bodů"):format(s.points) or ""
     c.icon:SetTexture(s.icon or "Interface\\Icons\\INV_Misc_QuestionMark")
+    -- vlastní obrázek pečeti (ChatGPT → tools/pecete-obrazky.js); bez něj vosk + herní ikona
+    local img = s.image
+    c.rim:SetTexture(img or "Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
+    c.rim:SetDesaturated(img ~= nil and not s.got)
+    c.rim:SetAlpha((img and not s.got) and 0.8 or 1)
+    c.icon:SetShown(not img)
+    c.disc:SetShown(not img)
     if s.got then
-        c.rim:SetVertexColor(0.86, 0.20, 0.13)
+        if img then c.rim:SetVertexColor(1, 1, 1) else c.rim:SetVertexColor(0.86, 0.20, 0.13) end
         c.disc:SetVertexColor(0.55, 0.11, 0.07)
         c.icon:SetDesaturated(false)
         c.icon:SetAlpha(1)
