@@ -239,3 +239,21 @@ WoWpoCesku_Postavy = {
     ["Halaan Hawk-Eye"] = "Hraničář, který ti půjčí svůj dar a ukáže kotevní pylon v dálce.",
     ["Myriaal"] = "Shen'dorei z Thendal Grove. Dává „bonusové body“ tomu, kdo vyleká Roriana skokem z věže.",
 }
+
+-- Novinky WoW Forever (nejsou v classic datech): souřadnice na mapě oblasti v procentech (foreverchanges.pro)
+WoWpoCesku_RareMapPts = {
+    ["Elmpaw"] = { "Elwynn Forest", 81.6, 85.4, 75, 38.4 },
+    ["Ghostfang"] = { "Dun Morogh", 74.2, 63.2 },
+    ["Baron Marinous"] = { "Darkshore", 59.2, 22.6 },
+    ["Dustwind Eggtender"] = { "Durotar", 51.2, 20.6, 52.2, 24 },
+    ["Shal'ma"] = { "Durotar", 59.8, 91 },
+    ["Nightscreech"] = { "Teldrassil", 46.4, 33.6 },
+    ["Wrathvine"] = { "Teldrassil", 53.4, 70.4 },
+    ["Den'dralass"] = { "Zephras Isle", 61.2, 37.2, 56.3, 31.7 },
+    ["Fernfeather"] = { "Zephras Isle", 48, 85.4, 53.8, 78.8 },
+    ["Galemender Delanea"] = { "Zephras Isle", 62.4, 62 },
+    ["Mystmane"] = { "Zephras Isle", 60.2, 34.6 },
+    ["Slydris"] = { "Zephras Isle", 50.2, 51 },
+    ["Tel'daeor the Stormspeaker"] = { "Zephras Isle", 66, 53.8 },
+    ["The Lost One"] = { "Zephras Isle", 52, 46.4 },
+}

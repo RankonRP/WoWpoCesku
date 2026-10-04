@@ -194,6 +194,128 @@ local function placeVisited(place)
     return false
 end
 
+-------------------------------------------------------------------------------
+-- Vzácný mob na velké mapě: pulzující body tam, kde se objevuje
+-------------------------------------------------------------------------------
+local pins, pinMapID, pinName = {}, nil, nil
+
+-- světové souřadnice z databáze -> souřadnice 0..1 na mapě oblasti (pořadí os ověří samo)
+local function worldToMap(mapID, cont, x, y)
+    local function try(a, b)
+        local ok, _, pos = pcall(C_Map.GetMapPosFromWorldPos, cont, CreateVector2D(a, b), mapID)
+        if ok and pos and pos.x >= 0 and pos.x <= 1 and pos.y >= 0 and pos.y <= 1 then return pos.x, pos.y end
+    end
+    local axis = WoWpoCeskuSettings and WoWpoCeskuSettings.axis
+    if axis == "ba" then return try(y, x) end
+    if axis == "ab" then return try(x, y) end
+    local px, py = try(x, y)
+    if px then return px, py, "ab" end
+    px, py = try(y, x)
+    if px then return px, py, "ba" end
+end
+
+local function rarePoints(name, mapID)
+    local out = {}
+    local manual = WoWpoCesku_RareMapPts and WoWpoCesku_RareMapPts[name]
+    if manual then
+        for i = 2, #manual, 2 do out[#out + 1] = { manual[i] / 100, manual[i + 1] / 100 } end
+        return out
+    end
+    local w = WoWpoCesku_RareSpawns and WoWpoCesku_RareSpawns[name]
+    if not w or not mapID then return out end
+    for i = 1, #w, 3 do
+        local px, py, axis = worldToMap(mapID, w[i], w[i + 1], w[i + 2])
+        if px then
+            out[#out + 1] = { px, py }
+            if axis and WoWpoCeskuSettings then WoWpoCeskuSettings.axis = axis end
+        end
+    end
+    return out
+end
+
+local function hidePins()
+    for _, p in ipairs(pins) do p:Hide() end
+end
+
+local function placePins(points)
+    local canvas = WorldMapFrame and WorldMapFrame.ScrollContainer and WorldMapFrame.ScrollContainer.Child
+    if not canvas then return false end
+    local w, h = canvas:GetWidth(), canvas:GetHeight()
+    for i, pt in ipairs(points) do
+        local p = pins[i]
+        if not p then
+            p = CreateFrame("Frame", nil, canvas)
+            p:SetSize(30, 30)
+            p.glow = p:CreateTexture(nil, "OVERLAY", nil, 1)
+            p.glow:SetAllPoints()
+            p.glow:SetTexture("Interface\\Cooldown\\star4")
+            p.glow:SetVertexColor(1, 0.25, 0.1)
+            p.glow:SetBlendMode("ADD")
+            p.icon = p:CreateTexture(nil, "OVERLAY", nil, 2)
+            p.icon:SetSize(16, 16)
+            p.icon:SetPoint("CENTER")
+            p.icon:SetTexture("Interface\\TargetingFrame\\UI-TargetingFrame-Skull")
+            local ag = p.glow:CreateAnimationGroup()
+            ag:SetLooping("BOUNCE")
+            local a = ag:CreateAnimation("Alpha")
+            a:SetFromAlpha(1) a:SetToAlpha(0.25) a:SetDuration(0.7)
+            ag:Play()
+            p:EnableMouse(true)
+            p:SetScript("OnEnter", function(self)
+                GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                GameTooltip:AddLine(pinName or "")
+                GameTooltip:AddLine("Vzacny mob - mozne misto vyskytu (WoWpoCesku)", 1, 1, 1)
+                GameTooltip:Show()
+            end)
+            p:SetScript("OnLeave", GameTooltip_Hide)
+            pins[i] = p
+        end
+        p:SetFrameLevel(canvas:GetFrameLevel() + 2000)
+        p:ClearAllPoints()
+        p:SetPoint("CENTER", canvas, "TOPLEFT", pt[1] * w, -pt[2] * h)
+        p:Show()
+    end
+    for i = #points + 1, #pins do pins[i]:Hide() end
+    return true
+end
+
+local mapHooked
+local function hookMap()
+    if mapHooked or not WorldMapFrame then return end
+    mapHooked = true
+    -- body jen na mapě té oblasti; při změně mapy schovat / znovu ukázat
+    hooksecurefunc(WorldMapFrame, "OnMapChanged", function(self)
+        if pinMapID and self:GetMapID() == pinMapID and pinName then
+            placePins(rarePoints(pinName, pinMapID))
+        else
+            hidePins()
+        end
+    end)
+end
+
+function WoWpoCesku_ShowRareOnMap(name)
+    local mapID = WoWpoCesku_BookMapID or (C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player"))
+    local points = rarePoints(name, mapID)
+    if #points == 0 then
+        say(("pro %s nemam souradnice - zkus ho najit sam a addon si ho zapise."):format(name))
+        return
+    end
+    pinMapID, pinName = mapID, name
+    if not WorldMapFrame:IsShown() then
+        if ToggleWorldMap then ToggleWorldMap() else WorldMapFrame:Show() end
+    end
+    pcall(hookMap)
+    WorldMapFrame:SetMapID(mapID)
+    C_Timer.After(0.05, function() placePins(points) end)
+    -- herní značka (pokud ji klient umí) – ukáže i šipku u minimapy
+    pcall(function()
+        if C_Map.CanSetUserWaypointOnMap and not C_Map.CanSetUserWaypointOnMap(mapID) then return end
+        C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(mapID, points[1][1], points[1][2]))
+        if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then C_SuperTrack.SetSuperTrackedUserWaypoint(true) end
+    end)
+    say(("%s: %d mist vyskytu na mape"):format(name, #points))
+end
+
 local YES, NO = "|cff1d6b1d[x]|r ", "|cff8a7458[  ]|r "
 local GRAY = "|cff6b4d2e"
 
@@ -243,6 +365,7 @@ function WoWpoCesku_BestiarPage(key)
         return a < b
     end)
     local lines, n = {}, 0
+    local rows = {}
     for _, name in ipairs(rares) do
         local info, rec = RARE[name], S.rares[name]
         if rec then n = n + 1 end
@@ -256,11 +379,18 @@ function WoWpoCesku_BestiarPage(key)
                 .. (rec.x and (" na %.1f, %.1f"):format(rec.x, rec.y) or "")
                 .. ((rec.n or 1) > 1 and ("  (%dx)"):format(rec.n) or "") .. "|r"
         end
-        lines[#lines + 1] = line
+        local hasPts = (WoWpoCesku_RareSpawns and WoWpoCesku_RareSpawns[name]) or (WoWpoCesku_RareMapPts and WoWpoCesku_RareMapPts[name])
+        rows[#rows + 1] = {
+            text = line .. (hasPts and "" or ("  " .. GRAY .. "(místo neznámé)|r")),
+            hint = hasPts and "Klikni - ukaze se na mape" or nil,
+            onClick = function() WoWpoCesku_ShowRareOnMap(name) end,
+        }
     end
     local page = {
-        { "Bestiář", ("Viděno %d z %d vzácných mobů.\n\n"):format(n, #rares) .. table.concat(lines, "\n")
-            .. "\n\n" .. GRAY .. "Seznam je z classic dat – ve WoW Forever se mnozí teprve potvrzují. Když nějakého uvidíš, addon ho sám zapíše.|r" },
+        { "Bestiář", ("Viděno %d z %d vzácných mobů.\n\n"):format(n, #rares)
+            .. "|cff801f0dKlikni na moba a na mapě se ukáže, kde se objevuje.|r",
+            rows = rows,
+            after = GRAY .. "Seznam je z classic dat – ve WoW Forever se mnozí teprve potvrzují. Když nějakého uvidíš, addon ho sám zapíše.|r" },
     }
     if #extra > 0 then
         table.sort(extra)

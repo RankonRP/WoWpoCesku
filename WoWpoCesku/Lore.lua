@@ -134,8 +134,31 @@ local TABS = {
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
+-- klikací řádek (třeba vzácný mob v Bestiáři)
+local function rowButton(i)
+    local b = book.rowBtns[i]
+    if b then return b end
+    b = CreateFrame("Button", nil, book.content)
+    b.text = fontString(b, 13.5, INK[1], INK[2], INK[3])
+    b.text:SetPoint("TOPLEFT", 4, -2)
+    b.text:SetSpacing(2)
+    local hl = b:CreateTexture(nil, "HIGHLIGHT")
+    hl:SetAllPoints()
+    hl:SetColorTexture(RED[1], RED[2], RED[3], 0.12)
+    b:SetScript("OnClick", function(self) if self.onClick then self.onClick() end end)
+    b:SetScript("OnEnter", function(self)
+        if not self.hint then return end
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(self.hint, 1, 1, 1)
+        GameTooltip:Show()
+    end)
+    b:SetScript("OnLeave", GameTooltip_Hide)
+    book.rowBtns[i] = b
+    return b
+end
+
 local function renderPage(chapters)
-    local y = 0
+    local y, nRows = 0, 0
     for i, ch in ipairs(chapters) do
         local h, p, o = book.heads[i], book.paras[i], book.orns[i]
         if not h then
@@ -166,7 +189,32 @@ local function renderPage(chapters)
         p:SetText(ch[2])
         p:Show()
         y = y + p:GetStringHeight() + 16
+        for _, row in ipairs(ch.rows or {}) do
+            nRows = nRows + 1
+            local b = rowButton(nRows)
+            b.text:SetWidth(W - 30)
+            b.text:SetText(row.text)
+            b.onClick, b.hint = row.onClick, row.hint
+            b:ClearAllPoints()
+            b:SetPoint("TOPLEFT", 0, -y)
+            b:SetSize(W - 20, b.text:GetStringHeight() + 6)
+            b:Show()
+            y = y + b.text:GetStringHeight() + 7
+        end
+        if ch.rows and ch.after then
+            nRows = nRows + 1
+            local b = rowButton(nRows)
+            b.text:SetWidth(W - 30)
+            b.text:SetText(ch.after)
+            b.onClick, b.hint = nil, nil
+            b:ClearAllPoints()
+            b:SetPoint("TOPLEFT", 0, -(y + 8))
+            b:SetSize(W - 20, b.text:GetStringHeight() + 6)
+            b:Show()
+            y = y + b.text:GetStringHeight() + 24
+        end
     end
+    for i = nRows + 1, #book.rowBtns do book.rowBtns[i]:Hide() end
     for i = #chapters + 1, #book.heads do
         book.heads[i]:Hide(); book.paras[i]:Hide(); book.orns[i]:Hide()
     end
@@ -189,6 +237,7 @@ end
 
 local function fillBook(key, mapID)
     bookKey = key
+    WoWpoCesku_BookMapID = mapID
     local L = WoWpoCesku_Lore[key]
     book.title:SetText(L.title)
     book.tag:SetText(L.tag)
@@ -323,7 +372,7 @@ local function createBook()
     book.content = CreateFrame("Frame", nil, book.sf)
     book.content:SetSize(W - 20, 10)
     book.sf:SetScrollChild(book.content)
-    book.heads, book.paras, book.orns = {}, {}, {}
+    book.heads, book.paras, book.orns, book.rowBtns = {}, {}, {}, {}
 
     local foot = ornament(book, 120)
     foot:SetPoint("BOTTOM", 0, 30)
