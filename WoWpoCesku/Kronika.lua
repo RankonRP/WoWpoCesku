@@ -338,18 +338,23 @@ local function placePins(points)
     return true
 end
 
+-- POZOR: herní mapu addon sám neotvírá ani nepřepíná (ToggleWorldMap, SetMapID,
+-- C_Map.ClearUserWaypoint). Taint se pak přenese na herní body mapy a v boji
+-- hra blokuje Button:SetPassThroughButtons(). Lebky jen přikreslíme, až hráč
+-- mapu otevře sám.
 local mapHooked
+local function refreshPins()
+    if pinMapID and pinName and WorldMapFrame:IsShown() and WorldMapFrame:GetMapID() == pinMapID then
+        placePins(rarePoints(pinName, pinMapID))
+    else
+        hidePins()
+    end
+end
 local function hookMap()
     if mapHooked or not WorldMapFrame then return end
     mapHooked = true
-    -- body jen na mapě té oblasti; při změně mapy schovat / znovu ukázat
-    hooksecurefunc(WorldMapFrame, "OnMapChanged", function(self)
-        if pinMapID and self:GetMapID() == pinMapID and pinName then
-            placePins(rarePoints(pinName, pinMapID))
-        else
-            hidePins()
-        end
-    end)
+    hooksecurefunc(WorldMapFrame, "OnMapChanged", function() refreshPins() end)
+    WorldMapFrame:HookScript("OnShow", function() C_Timer.After(0, refreshPins) end)
 end
 
 function WoWpoCesku_ShowRareOnMap(name)
@@ -360,15 +365,13 @@ function WoWpoCesku_ShowRareOnMap(name)
         return
     end
     pinMapID, pinName = mapID, name
-    if not WorldMapFrame:IsShown() then
-        if ToggleWorldMap then ToggleWorldMap() else WorldMapFrame:Show() end
-    end
     pcall(hookMap)
-    WorldMapFrame:SetMapID(mapID)
-    C_Timer.After(0.05, function() placePins(points) end)
-    -- případnou starou herní značku (animovaný ping) smazat
-    pcall(function() if C_Map.ClearUserWaypoint then C_Map.ClearUserWaypoint() end end)
-    say(("%s: %d mist vyskytu na mape"):format(name, #points))
+    if WorldMapFrame:IsShown() then
+        refreshPins()
+        say(("%s: %d mist vyskytu na mape"):format(name, #points))
+    else
+        say(("%s: %d mist vyskytu - otevri mapu (M), lebky jsou vyznacene."):format(name, #points))
+    end
 end
 
 local GRAY = "|cff6b4d2e"
