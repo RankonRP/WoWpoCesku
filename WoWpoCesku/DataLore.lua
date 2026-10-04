@@ -600,10 +600,27 @@ WoWpoCesku_Lore["Hillsbrad Foothills"] = {
     title = "Hillsbrad Foothills",
     tag = "Zelené kopce, kde Thrall kdysi vybojoval svobodu – a kde se dnes válčí o každý statek.",
     ch = {
-        { "Kraj sadů a rybníků", [[Hillsbrad Foothills jsou mírné zelené kopce s jabloňovými sady, farmami a jezery na jihu bývalého Lordaeronu. Hlavním lidským městem je Southshore u moře, kde se schází Aliance. Horda drží Tarren Mill, vesnici obsazenou Forsaken na východě kraje.]] },
-        { "Durnholde", [[Nad krajem se tyčí trosky pevnosti Durnholde Keep. Tady Aedelas Blackmoore věznil orky a tady vyrůstal malý Thrall jako gladiátor. Když Thrall utekl a osvobodil své lidi, vrátil se a pevnost dobyl. Dnes v ruinách sídlí Syndikát (Syndicate) – zločinecká organizace bývalé šlechty z Alteracu.]] },
-        { "Southshore a Tarren Mill", [[Mezi Southshore a Tarren Millem panuje neustálé napětí. Aliance i Horda tu bojují o každou farmu a v klasickém WoW byla cesta mezi nimi místem nekonečných bitev hráčů – legendárních „Tarren Mill vs Southshore“ šarvátek, na které se vzpomíná dodnes.]] },
-        { "Hrozby", [[Syndikát přepadává poutníky a ovládá farmy. V horách řádí yetiové a trollové z Alteracu, na pobřeží murlokové. V Azurelode Mine se dolování zvrhlo a v sadech straší nemrtví.]] },
+        { "Kraj sadů a rybníků", [[Hillsbrad Foothills jsou mírné zelené kopce s jabloňovými sady, farmami a jezery na jihu bývalého Lordaeronu. Na pobřeží leží Southshore, hlavní město Aliance v kraji, na severovýchodě Tarren Mill, které drží Forsaken. Nad krajem se tyčí trosky pevnosti Durnholde Keep.]] },
+
+        { "Uprchlíci ze Stormwindu", [[Po První válce, kdy orkové vypálili Stormwind, připluli do Lordaeronu tisíce uprchlíků. Část z nich se usadila právě tady a založila městečko Southshore. Ve Druhé válce se pak Hillsbrad stal bojištěm – Aliance a Horda tu bojovaly o Durnholde, Tarren Mill i farmy Hillsbrad Fields.]] },
+
+        { "Durnholde a internační tábory", [[Po Druhé válce skončili poražení orkové v lidských internačních táborech. Pevnost Durnholde Keep, kde vládl Aedelas Blackmoore, byla jedním z center tohoto systému. Tady vyrůstal malý Thrall jako otrok a gladiátor a tady mu jediná laskavá duše, dívka Taretha Foxton, pomohla utéct.
+
+Když Thrall později osvobodil své lidi, vrátil se a pevnost dobyl. Dnes jsou z Durnholde trosky, ve kterých se usadil Syndikát.]] },
+
+        { "Útěk Hordy", [[Za Třetí války se Hillsbrad znovu zapsal do historie. Thrall tu shromažďoval orkské klany, aby s novou Hordou opustil kontinent. Orkové se potají vplížili do Southshore a ukradli lodě, se kterými pak odpluli na Kalimdor.]] },
+
+        { "Forsaken v Tarren Millu", [[Po Třetí válce si Forsaken vzali Tarren Mill jako svou nejjižnější pevnost. Velí jí High Executor Darthalia a jejím cílem je vyhnat lidi z kraje. V řadě questů Battle of Hillsbrad posílá hrdiny Hordy proti farmářům na Hillsbrad Fields – farmářům Rayovi a Getzovi –, proti dolu Azurelode Mine, který zásobuje Alianci železem, a nakonec proti trpasličí pevnosti Dun Garok, jejíž vojáci pod velením kapitána Ironhilla chrání lidi.
+
+Southshore zastupuje magistrát Henry Maleb, který se snaží udržet městečko pohromadě, zatímco se nemrtví sousedé přibližují.]] },
+
+        { "Třístranný boj", [[Hillsbrad je kraj, kde se bojuje ze tří stran. Aliance drží Southshore, Forsaken Tarren Mill a Syndikát – zločinecká organizace bývalé šlechty z Alteracu – ovládá trosky Durnholde a přepadává poutníky.
+
+V horách navíc řádí yetiové a trollové, na pobřeží murlokové a v dolech ti, kdo se tam usadili po odchodu horníků.]] },
+
+        { "Zajímavosti", [[V klasickém WoW byla silnice mezi Southshore a Tarren Millem na PvP serverech místem nekonečných bitev hráčů. Legendární šarvátky „Tarren Mill vs Southshore“ si pamatuje každý, kdo tehdy hrál.
+
+Kdo se projde mezi troskami Durnholde, stojí na místě, kde začal Thrallův příběh – a s ním i příběh celé nové Hordy.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Hillsbrad Foothills"] = [[• Lord of the Clans – Thrall vyrůstal v Durnholde a jako gladiátor bojoval v aréně pro zábavu Blackmoora. Taretha Foxton, mladá služebná, mu potají psala dopisy a nakonec mu pomohla utéct.
@@ -683,10 +700,31 @@ WoWpoCesku_Lore["Wetlands"] = {
     title = "Wetlands",
     tag = "Bažiny plné krokodýlů, raptorů a trpaslíků, kteří tu už nechtějí být.",
     ch = {
-        { "Brána na sever", [[Wetlands jsou deštivé bažiny a mokřady na severní hranici trpasličí říše Khaz Modan. Je to jediná suchozemská cesta mezi Ironforge a severními královstvími. Proto tu trpaslíci postavili most Thandol Span a přístav Menethil Harbor, odkud plují lodě do Theramore na Kalimdoru a do Auberdine.]] },
-        { "Grim Batol", [[Na východě se tyčí hora Grim Batol, kdysi pevnost Wildhammerů. Na konci Války tří kladiv ji Dark Ironové proklely a Wildhammeři horu opustili. Za Druhé války tu klan Dragonmaw držel v zajetí dračí královnu Alexstraszu a nutil její děti bojovat za Hordu.]] },
-        { "Kdo tu žije", [[Menethil Harbor je malé lidské městečko na pobřeží. Trpaslíci z Ironforge mají hlídky podél silnice a ve Whelgar's Excavation Site kopou badatelé Explorers' League. Dragonmaw orkové stále drží několik pevností na východě.]] },
-        { "Hrozby", [[Klan Dragonmaw, murlokové, raptoři, krokodýli (crocolisk) a gnollové z Mosshide. V ruinách Dun Modr sídlí Dark Ironové a v jeskyních se skrývají draci.]] },
+        { "Brána na sever", [[Wetlands jsou deštivé bažiny a mokřady na severní hranici trpasličí říše Khaz Modan. Je to jediná suchozemská cesta mezi Ironforge a severními královstvími. Na západě leží přístav Menethil Harbor, na severu most Thandol Span do Arathi a na východě se tyčí hora Grim Batol.]] },
+
+        { "Thandol Span a Wildhammeři", [[Po Válce tří kladiv, která roztrhla trpasličí národ, se Wildhammeři usadili v hoře Grim Batol. Po pokusech Dark Ironů o útok ale většina z nich odešla na sever do Hinterlands a někteří do Northeronu.
+
+Trpaslíci z Ironforge chtěli se svými bratranci dál udržovat vztahy a obchod, a tak postavili obrovský most Thandol Span přes rokli na severu. Dodnes je to jediná cesta mezi Khaz Modanem a severem – i když jeho část Dark Ironové vyhodili do vzduchu.]] },
+
+        { "Druhá válka", [[Ve Druhé válce postavil Orgrim Doomhammer svou invazní flotilu na malém ostrově v zátoce Baradin Bay. Klan Dragonmaw se usadil v Grim Batolu a držel tam v zajetí rudou dračí královnu Alexstraszu. Její děti nutil bojovat za Hordu jako válečné draky.
+
+Okupace kraj těžce poškodila. Zvěře ubylo, krajina zpustla a stopy té doby jsou tu vidět dodnes.]] },
+
+        { "Menethil Harbor", [[Po vítězství Aliance byl Doomhammerův přístav přestavěn na lidské městečko a pojmenován Menethil Harbor na počest krále Lordaeronu Terenase Menethila II. Lodě odtud plují do Theramore na Kalimdoru a do Auberdine.
+
+V Menethil Harbor posílá Captain Stoutfist mladé dobrodruhy proti zbytkům klanu Dragonmaw. Městečko je malé, vlhké a obklopené bažinami – ale pro Alianci je to nepostradatelný přístav.]] },
+
+        { "Dun Modr a Dark Ironové", [[Na severu kraje stojí trpasličí pevnost Dun Modr, kterou obléhají Dark Ironové. Trpaslík Rhag Garmason by ji rád získal zpět. Dark Ironští čarodějové, jako Balgaras the Foul, ničí v kraji, co mohou.
+
+Dark Ironové jsou ve Wetlands připomínkou toho, že trpasličí spor z Války tří kladiv nikdy úplně neskončil.]] },
+
+        { "Hrozby", [[Zbytky klanu Dragonmaw táboří v Dun Algaz na jihu a ohrožují důležitou cestu mezi Loch Modan a Menethil Harbor – kdo tudy chce projet, musí proběhnout „Algaz Gauntlet“. Na jihu žijí gnollové z kmene Mosshide a bažiny jsou plné murloků.
+
+V ruinách Ironbeard's Tomb na severozápadě se usadili slizy a po celém kraji číhají krokodýli (crocolisk) a raptoři.]] },
+
+        { "Grim Batol", [[Hora Grim Batol na východě je v klasickém WoW zavřená. Kdysi pevnost Wildhammerů, pak vězení dračí královny Alexstraszy – a jak ukazuje román Day of the Dragon, i místo, kde ji mág Rhonin s pomocí přátel osvobodil.
+
+Kdo se podívá z bažin k hoře, uvidí jen temnou siluetu. Co se v ní skrývá dnes, se dozvědí až budoucí hrdinové.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Wetlands"] = [[• Day of the Dragon – ork Nekros Skullcrusher držel Alexstraszu v Grim Batol pomocí artefaktu Demon Soul. Mág Rhonin (později velký hrdina) se tam vydal sám, s pomocí trpaslíků, elfky Vereesy a draka Korialstrasze, a Alexstraszu osvobodil. Deathwing se mezitím pokusil ukrást dračí vejce.
@@ -804,10 +842,31 @@ WoWpoCesku_Lore["Duskwood"] = {
     title = "Duskwood",
     tag = "Les věčného soumraku, kde se z hrobů zvedají mrtví a v noci vyjí worgeni.",
     ch = {
-        { "Les, který potemněl", [[Duskwood býval zelený les plný farem a vesnic – prý se mu kdysi říkalo Brightwood. Pak do něj vstoupila temná síla a les potemněl. Teď je tu věčný soumrak, hřbitovy plné nemrtvých a vlci s rudýma očima.]] },
-        { "Darkshire", [[Hlavním městem je Darkshire, ponuré městečko s hlídkou Night Watch. Lidé tu žijí ve strachu, ale nevzdávají se. Ve městě najdeš hrobníky, kouzelníky i vdovy po vojácích.]] },
-        { "Proč les potemněl", [[Za temnotou stojí Medivh. Jeho sídlo Karazhan leží hned za horami v Deadwind Pass a jeho zlo prosáklo do okolí. A na severu, v Twilight Grove, se objevili zelení draci, kteří se chovají podivně – jako by je ovládal zlý sen. Nekromanti využili zkázy a začali oživovat mrtvé ze hřbitova Raven Hill.]] },
-        { "Hrozby", [[Nemrtví, kostlivci, ghúlové, worgeni, gnollové a nekromanti. V horách sídlí Defiasové a v lesích pavouci velcí jako koně. A pak je tu Stitches – obrovská zrůda sešitá z mrtvol.]] },
+        { "Les věčného soumraku", [[Duskwood je temný les jižně od Elwynn Forest. Stromy tu mají zkroucené, trnité větve, slunce sem skoro neproniká a nad krajem visí věčné šero. Na východě leží městečko Darkshire, na západě ruiny Raven Hill se hřbitovem, na severu háj Twilight Grove a za horami na východě začíná průsmyk Deadwind Pass s věží Karazhan.]] },
+
+        { "Brightwood", [[Kdysi se tomuto lesu říkalo Brightwood a byl jižní částí Elwynn Forest. Podle legend tu kdysi – asi čtyři a půl tisíce let před otevřením Temného portálu – zasadil druid Fandral Staghelm kouzelnou větev ze Světového stromu Nordrassil. Vyrostl z ní Velký strom v Twilight Grove, který propojuje svět se Smaragdovým snem.
+
+Když se rozpadlo Arathorské císařství a vzniklo království Stormwind, i tenhle kraj vzkvétal díky úrodným statkům. Vyrostla tu dvě velká městečka – Grand Hamlet a Raven Hill.]] },
+
+        { "Prokletí", [[V První válce kraj pustošily orkské nájezdy. Skutečnou zkázu ale přinesla smrt čaroděje Medivha. Když Medivh v nedaleké věži Karazhan zemřel, uvolnila se démonická energie, která proměnila krásný les v prokletou, trnitou divočinu. Pavouci zmutovali a narostli do obludných rozměrů a nad lesem se rozhostil soumrak, který už nikdy nezmizel.
+
+Od té doby se kraji říká Duskwood – Les soumraku. Lidé, kteří tu zůstali, žijí ve strachu, ale nevzdávají se.]] },
+
+        { "Darkshire a Night Watch", [[Hlavním městem je Darkshire, kdysi útulná lesní vesnice, která doslova upadla do temných časů. Okolní lesy jsou plné zla, které zahaluje kraj neustálou tmou. Lidé tu žijí ve strachu, ale drží pohromadě.
+
+Městečko chrání Night Watch – místní domobrana pod velením Commander Althea Ebonlocke, která přísahala chránit obyvatele Darkshire. Bojují proti nemrtvým, worgenům, pavoukům i ogrům a hledají každého dobrodruha, který je ochoten pomoct.]] },
+
+        { "Raven Hill a mrtví", [[Na západě leží Raven Hill – kdysi jedno z největších městeček kraje, dnes ruiny. Na hřbitově Raven Hill Cemetery vstávají mrtví z hrobů. Za nákazou stojí nekromant Morbent Fel, který mrtvé oživuje a posílá je proti živým.
+
+Rodina Svena Yorgena žila na statku Yorgen Farmstead a Sven touží po pomstě. Kolem hřbitova se potulují kostlivci, ghúlové a zombie – a kdo se tam vydá za tmy, riskuje, že se k nim přidá.]] },
+
+        { "Hrozby", [[V lesích žijí worgeni – vlkodlaci, o jejichž původu se v klasickém Duskwoodu mnoho neví. Pozdější příběhy je spojují s artefaktem Scythe of Elune, který se našel v dole Roland's Doom. V horách na jihu sídlí ogrové ve Vul'Gol Ogre Mound a obří pavouci číhají v korunách stromů.
+
+V kraji se usadili i Defiasové. A pak je tu Stitches – obrovská zrůda sešitá z mrtvol, o které si vyprávějí všichni v Darkshire.]] },
+
+        { "Twilight Grove", [[Na severu kraje leží Twilight Grove s Velkým stromem, který propojuje svět se Smaragdovým snem. V klasickém WoW se tu objevují zelení draci – Emeriss, Lethon, Taerar nebo Ysondre – posedlí Smaragdovou noční můrou. Kdysi strážci snu, dnes nebezpeční world bossové.
+
+Duskwood je kraj, kde se setkává zlo Karazhanu, zkáza ze Smaragdového snu a obyčejný lidský strach. A přesto v něm lidé dál žijí – a to je možná ta nejodvážnější věc v celém lese.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Duskwood"] = [[• Stitches – nekromant Abercrombie, který žije v chatrči v lese, sešil obří zrůdu z těl mrtvých. SPOILER: když ji pustí, vydá se po silnici do Darkshire a strážníci ji musí zastavit. Je to jeden z nejpamátnějších questů klasického WoW.
@@ -1209,10 +1268,31 @@ WoWpoCesku_Lore["Ashenvale"] = {
     title = "Ashenvale",
     tag = "Prastarý les nočních elfů, kde Horda kácí stromy a kde zemřel polobůh.",
     ch = {
-        { "Les, který pamatuje", [[Ashenvale je hustý, věčně soumračný les fialových a modrých stromů na severu Kalimdoru. Pro noční elfy je posvátný. Ve stínu stromů jsou měsíční studny, ruiny a háje, kde žijí dryády a Ancients.]] },
-        { "Astranaar a Splintertree", [[Astranaar je elfí osada na ostrově v jezeře Mystral. Horda má Splintertree Post na východě a Warsong Lumber Camp, kde orkové kácejí stromy – což elfové považují za válečný zločin.]] },
-        { "Srdce lesa", [[Raynewood Retreat je obydlí dryád a Cenariových dětí. V hlubinách lesa, na pobřeží Zoram Strand, leží Blackfathom Deeps, chrám, kde Twilight's Hammer uctívá Staré bohy.]] },
-        { "Hrozby", [[Satyrové, furbolgové Thistlefur a Foulweald, démoni, nagové, kultisté a orkové z Warsongu.]] },
+        { "Les, který pamatuje", [[Ashenvale je hustý, věčně soumračný les fialových a modrých stromů na severu Kalimdoru. Na západě ho omývá moře u pobřeží Zoram Strand, na východě přechází v zkažené lesy Felwoodu a na jihu v savanu Barrens. Ve stínu stromů jsou měsíční studny, ruiny a háje, kde žijí dryády a Ancients.]] },
+
+        { "Domov Kaldorei", [[Ashenvale je prastarou domovinou nočních elfů. Po Velkém rozpoltění světa tu noční elfové po staletí znovu budovali svou civilizaci. Les je zbytkem pravěkých hvozdů, které kdysi obklopovaly Studnu věčnosti, a mnohé ruiny pamatují dobu královny Azshary.
+
+Po dlouhá tisíciletí bděly nad lesem Sentinely, zatímco arcidruid Malfurion a jeho druidové spali ve Smaragdovém snu. Ashenvale byl klidný, tichý a posvátný – dokud nepřišla Třetí válka.]] },
+
+        { "Třetí válka", [[Za Třetí války začali les kácet goblini pod vedením Neeloca Greedyfingerse. Pak dorazil klan Warsong Groma Hellscreama, najal si gobliny a těžbu dřeva rozšířil. Polobůh Cenarius se postavil na obranu lesa – a Grom, posilněný krví démona Mannorotha, ho zabil.
+
+Pak přišla Plamenná legie. Z nebe padali pekelníci a lesem táhly tisíce nemrtvých a démonů. Pán hrůzy Tichondrius pomocí Lebky Gul'dana zkazil východní lesy a proměnil je ve Felwood. A v kaňonu Demon Fall Canyon nakonec Grom, osvobozený Thrallem, zabil Mannorotha a sám zemřel.]] },
+
+        { "Aliance v lese", [[Noční elfové dodnes drží několik pevností. Hlavním městem je Astranaar, odkud se řídí obrana lesa, na západě stojí Maestra's Post a v lese jsou Raynewood Retreat, Silverwind Refuge a svatyně Shrine of Aessina.
+
+V Astranaaru se Raene Wolfrunner snaží očistit zkázu, která zasáhla místní furbolgy. Druid Delgren the Purifier v Maestra's Post sleduje temný kult Dark Strand, který se usadil v ruinách Ordil'Aran.]] },
+
+        { "Horda v lese", [[Horda si na východě lesa postavila Splintertree Post a na západním pobřeží menší tábor Zoram'gar Outpost. Orkové z klanu Warsong dál kácejí stromy ve Warsong Lumber Camp – a noční elfové to považují za válečný zločin.
+
+Pro orky je dřevo z Ashenvale nutností: Durotar je vyprahlý a bez stromů. Pro elfy je každý pokácený strom ranou do posvátného lesa. Mír mezi nimi je tu nemožný.]] },
+
+        { "Válka o les", [[Mezi Silverwing Sentinels nočních elfů a Warsong Outriders Hordy se vede neustálá válka, která vyvrcholila v Warsong Gulch – bitevním poli o vlajky na hranici s Barrens.
+
+A to nejsou jediní nepřátelé. V ruinách sídlí satyrové, furbolgové z kmenů Thistlefur a Foulweald se zkazili, v lese řádí démoni a na pobřeží Zoram Strand leží potopený chrám Blackfathom Deeps, kde kult Twilight's Hammer uctívá Staré bohy.]] },
+
+        { "Zajímavosti", [[Demon Fall Canyon je místem, kde Horda získala svobodu – Grom tu porazil démona, který jeho lid zotročil. Pro noční elfy je to ale také místo, kde zemřel jejich polobůh.
+
+Ashenvale je les, který pamatuje víc než kterékoli jiné místo na Kalimdoru. A každý strom tu má svůj příběh.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Ashenvale"] = [[• Smrt Cenaria (Warcraft III) – orkové pod Gromem Hellscreamem začali kácet stromy. Polobůh Cenarius se postavil na obranu lesa. Grom vypil krev Mannorotha a Cenaria zabil.
@@ -1234,10 +1314,27 @@ WoWpoCesku_Lore["Stonetalon Mountains"] = {
     title = "Stonetalon Mountains",
     tag = "Hory, kde goblini kácejí lesy a kde Thrall našel svého proroka.",
     ch = {
-        { "Kamenné hory", [[Stonetalon Mountains jsou vysoké, skalnaté hory západně od Barrens. Na vrcholcích leží zelené údolí Stonetalon Peak, posvátné pro druidy, a na jihozápadě vyhořelé údolí Charred Vale.]] },
-        { "Kdo tu žije", [[Horda má Sun Rock Retreat, tauren osadu ve skalách. Noční elfové drží Stonetalon Peak. Venture Company tu kácí lesy ve Windshear Crag a ničí krajinu tak rychle, jak jen mohou.]] },
-        { "Orákulum", [[Na vrcholu hory čekalo Orákulum – tajemný prorok, který vedl Thralla i Jainu na Kalimdor. Byl to Medivh, který se vrátil z mrtvých, aby napravil své chyby.]] },
-        { "Hrozby", [[Venture Company, harpyje, kentauři Kolkar, elementálové a obří pavouci.]] },
+        { "Kamenné hory", [[Stonetalon Mountains jsou vysoké, skalnaté hory západně od Barrens. Na severu nad nimi čnějí vrcholky Stonetalon Peak, na jihozápadě leží vyhořelé údolí Charred Vale a na východě vede tunel Talondeep Path do Ashenvale.]] },
+
+        { "Posvátný vrchol", [[Stonetalon Peak byl odedávna posvátným místem pro noční elfy i taureny. V jeskyních pod vrcholem prý sídlilo Orákulum – bytost, která vidí nitky osudu.
+
+Taureni na vrcholcích hor zapalovali velké ohně na počest boha slunce An'she a nosili na nejvyšší štíty hořící totemy. Tak vzniklo jejich hlavní sídlo v horách – Sun Rock Retreat.]] },
+
+        { "Thrall, Cairne a Orákulum", [[Za Třetí války se tu setkaly osudy Hordy i Aliance. Cairne Bloodhoof řekl Thrallovi, že Orákulum hledá ve Stonetalon Peak. Když zvědové hlásili, že lidé opevnili průsmyk k vrcholu, Cairne přislíbil taureny Hordě a poradil Thrallovi získat pomoc divokých wyvern.
+
+Harpyje ale wyverny zotročily a kentauři s harpyjemi zkazili fontánu požehnanou Elune. Thrall a Cairne wyverny osvobodili a s pomocí Glyph of Purification fontánu očistili. Uvnitř hory pak Cairne našel kouzelný kámen, který rozsvítil éterický most k Orákulu. V jeskyních se nakonec spojily Horda i Aliance – a Orákulum se ukázalo jako Medivh, který se vrátil, aby je varoval před Plamennou legií.]] },
+
+        { "Sun Rock Retreat", [[Sun Rock Retreat je tauren osada ve skalách, kde žijí šamani, lovci a obchodníci Hordy. Taureni tu slyší, jak duchové hor naříkají nad ničením, které jim kraj přináší – a posílají dobrodruhy, aby s tím něco udělali.]] },
+
+        { "Venture Company", [[Největší ránu horám zasadili goblini z Venture Company. Jejich těžba dřeva zpustošila krajinu kolem Windshear Crag – kde dřív stál les, dnes trčí pařezy, stroje a goblinské tábory. Pro taureny i noční elfy je to zločin proti přírodě, pro gobliny jen výdělek.]] },
+
+        { "Kdo tu ještě žije", [[Noční elfové drží osady na Stonetalon Peak a trollové Darkspear si na jihu postavili vesničku Malaka'jin. Ve Greatwood Vale se usadil klan Grimtotem, který nesouhlasí se spojenectvím taurenů s Hordou.
+
+V Charred Vale žijí černí draci a ohniví elementálové a v horách řádí harpyje a kentauři. Kdo chce projít horami bezpečně, musí znát cesty.]] },
+
+        { "Zajímavosti", [[Stonetalon je kraj, kde se z nepřátel stali spojenci – alespoň na chvíli. Orákulum tu svedlo dohromady Thralla, Jainu i noční elfy, aby společně porazili Plamennou legii u hory Hyjal.
+
+Kdo vystoupá na Stonetalon Peak, stojí na místě, kde se rozhodl osud celého Kalimdoru.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Stonetalon Mountains"] = [[• Medivh jako prorok (Warcraft III) – po smrti se Medivh vrátil jako prorok v podobě havrana. Varoval lidi i orky před Plamennou legií a vedl je na Kalimdor. Na hoře Hyjal pak spolu bojovali proti Archimondovi.
@@ -1263,10 +1360,29 @@ WoWpoCesku_Lore["Thousand Needles"] = {
     title = "Thousand Needles",
     tag = "Kaňon tisíce skalních jehel, kde taureni žijí na vrcholcích a goblini pořádají závody.",
     ch = {
-        { "Kaňon jehel", [[Thousand Needles je obrovský kaňon plný vysokých skalních pilířů – jehel – na jihu Barrens. Na vrcholcích jehel žijí taureni a ptáci, dole se prohánějí kentauři a ještěři.]] },
-        { "Freewind Post", [[Taureni z Freewind Post žijí na vrcholcích jehel, propojených provazovými mosty. Je to jedno z nejkrásnějších míst Hordy – a nejlepší místo na výhled.]] },
-        { "Shimmering Flats", [[Na východě je vyschlé solné jezero Shimmering Flats, kde goblini a gnómové pořádají závody na Mirage Raceway. Soupeří, kdo má rychlejší auto.]] },
-        { "Hrozby", [[Kentauři Galak, Grimtotem taureni, harpyje, štíři a quilboar z Razorfen Downs.]] },
+        { "Kaňon jehel", [[Thousand Needles je obrovský kaňon plný vysokých skalních pilířů – jehel – na jihu Barrens. Na vrcholcích jehel žijí taureni a ptáci, dole na dně kaňonu se prohánějí kentauři. Na jihovýchodě se kaňon otevírá do zářivě bílé solné pláně Shimmering Flats.]] },
+
+        { "Řeka, která zmizela", [[Před Velkým rozpoltěním světa tu tekla řeka. Jehly z pískovce jsou dílem staletí proudící vody, která skálu pomalu obrušovala. Když se svět roztrhl, jezero na východě vyschlo a z jeho dna zbyla solná pláň Shimmering Flats.
+
+Dnes je kaňon suchý, ale tvary skal pořád připomínají, kudy kdysi proudila voda.]] },
+
+        { "Taureni na jehlách", [[Taureni si postavili Freewind Post na vysokých stolových horách a jehly propojili provazovými mosty. Je to jedno z nejkrásnějších míst Hordy – a nejlepší místo na výhled. S podporou Hordy se tu brání kentaurům i klanu Grimtotem.
+
+Cliffwatcher Longhorn ve Freewind Post hledá pomoc v boji proti zlému klanu Grimtotem, který odmítá spojenectví s Hordou a chce si vládnout sám.]] },
+
+        { "Kentauři", [[Dno kaňonu hlídají kentauři z kmenů Galak a Splithoof. Ovládají místa jako Splithoof Crag a Camp E'thok a kvůli nim je cesta po dně kaňonu nebezpečná pro každého, kdo nechodí po mostech nahoře.]] },
+
+        { "Shimmering Flats", [[Na solné pláni Shimmering Flats leží slavná závodní dráha Mirage Raceway. Gnómové a goblini tu spolu závodí v raketových autech, aby se jednou provždy rozhodlo, kdo je lepší inženýr. Gnóm Kravel Koalbeard sázkami na závody zbohatl a posílá dobrodruhy shánět věci, které mu přinesou další výhru. Pozzik zase shání všechno, co jeho závodní tým potřebuje.
+
+Goblini navíc ve Scorched Basin těží ropu. Shimmering Flats jsou jedním z nejveselejších míst Kalimdoru – pokud zrovna nic nevybuchne.]] },
+
+        { "Hrozby", [[Na západě, v Highperch, hnízdí wyverny, které napadají poutníky. V Roguefeather Den sídlí harpyje a na severu, na hranici s Barrens, leží Razorfen Downs, kde kančí lidé propadli Pohromě.
+
+Kaňon je krásný, ale nebezpečný – každý krok po dně může být ten poslední.]] },
+
+        { "Zajímavosti", [[Thousand Needles je kraj, kde se setkává tauren duchovnost, kentauří divokost a goblinský smysl pro podnikání. Ze Freewind Post je vidět celý kaňon – a v dálce na jihovýchodě i bílá pláň, kde se ženou raketová auta.
+
+Kdo zná budoucnost, ví, že kaňon jednou znovu zaplaví voda.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Thousand Needles"] = [[• Grimtotem – kmen taurenů, kteří odmítají spojenectví s Hordou. Vede je Magatha Grimtotem z Thunder Bluff. Chtějí, aby taureni byli samostatní – a sami chtějí vládnout Mulgore.
