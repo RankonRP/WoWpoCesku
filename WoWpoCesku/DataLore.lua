@@ -320,19 +320,38 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Pokud ve Forever najde�
 
 • Northshire – vinice kolem kláštera obsadili Defiasové. Už první kroky hrdiny tak vedou k tomu, co bude Bratrstvo provádět po celém království.]],
 
-["Westfall"] = [[• Deadmines – pod ruinami Moonbrooku leží jeden z nejslavnějších dungeonů celého WoW. Na konci čeká Edwin VanCleef a jeho válečná loď ukrytá v obrovské jeskyni. Kdo tam byl, nezapomene.
+["Westfall"] = [[• Bratrstvo Defias – celý příběh – řada questů The Defias Brotherhood začíná u Gryana Stoutmantla na Sentinel Hill. Pošle tě až do Redridge za informátorem Wileym do hostince v Lakeshire, pak po stopě defiasského posla (Defias Messenger), který běhá po cestách Westfallu, a nakonec doprovázíš zrádce Defias Traitor do Moonbrooku, kde ti ukáže skrýš Bratrstva. Konec je v Deadmines u Edwina VanCleefa.
 
-• Kapitán Grayson – v majáku na jihozápadním pobřeží straší duch starého kapitána. Je přátelský a má pro dobrodruhy úkol.
+• Dopis, který VanCleef nestihl poslat – z VanCleefa padá An Unsent Letter adresovaný Barosu Alexstonovi, stavitelům Stormwindu. Odstartuje další questy ve Stormwindu a vede ke stopám, které míří až ke královskému dvoru. V pozdějších verzích WoW dopis zmizel – je to kousek příběhu, který zůstal jen v klasice.
 
-• Old Murk-Eye – vzácný starý murlok, který se potuluje po pobřeží. Murloci ho prý poslouchají jako náčelníka.
+• Deadmines – vchod je v domě v Moonbrooku. Uvnitř: goblinský inženýr Sneed se svým Shredderem, tauren první důstojník Mr. Smite, který v boji mění zbraně, murlok kuchař Cookie a kapitán Greenskin. Na konci obrovská jeskyně s válečnou lodí Defias Juggernaut.
 
-• Defiasský posel – po cestách Westfallu občas běží posel Bratrstva Defias. Kdo ho zastaví, dozví se, co Bratrstvo chystá.
+• Kapitán Grayson – duch pirátského kapitána v majáku Westfall Lighthouse na pobřeží Longshore. Jeho loď ztroskotala na skalách za bezměsíčné noci, když maják nesvítil. Od té doby se dívá, jak murloci pod vedením Old Murk-Eye útočí na maják – zabili i rodinu strážce. Teď hlídá plamen, aby nikdo nedopadl jako on. Questy: Keeper of the Flame, The Coast Isn't Clear, The Coastal Menace (ta poslední je právě na Old Murk-Eye).
 
-• Vzácní nepřátelé – v klasickém Westfallu se objevuje například gnoll Sergeant Brashclaw.
+• Westfallský guláš a Saldeanovi – Salma Saldean ti uvaří Westfall Stew, když jí doneseš maso supů, rypáky kanců Goretusk, oči murloků a okru. Na stejné farmě farmář Saldean bojuje se zbláznivšími se strašáky Harvest Watcher. A Verna Furlbrow u rozbitého vozu potřebuje ovesy pro svého starého koně – quest Poor Old Blanchy.
 
-• Moonbrook – zpustlé město, kdysi srdce Westfallu. Projdi se jeho ulicemi a uvidíš, jak rychle může kraj zaniknout, když se o něj nikdo nestará.
+• Vzácní nepřátelé (classic data):
+  – Slark (murlok) – lovec na severu kraje, padá z něj Slarkskin nebo Coral Claymore
+  – Vultros (sup) – lovec si ho může ochočit
+  – Master Digger (kobold) – vzadu v Jangolode Mine, 1,5–2,5 h
+  – Leprithus (ghúl) – objevuje se jen v noci, 4–6 h
+  – Foe Reaper 4000 (strašák Harvest Golem) – 4–6 h, ve Forever ho průvodci doporučují: může padat Large Rucksack (taška)
+  – Sergeant Brashclaw (gnoll) – 2–3 h
+  – Brack (murlok) – 2–3 h
+  Ve Forever se zatím většina nepotvrdila – když nějakého potkáš, je to objev.
 
-• Westfallský guláš – recept od Verny Furlbrowové se z ruky do ruky dostane až k Salmě Saldeanové. Drobný příběh o tom, že i v těžkých časech lidé drží při sobě.]],
+• Novinky ve WoW Forever (podle průvodců k becie):
+  – Vaření tu dává smysl: kančí a murločí maso je všude a vařené jídlo ve Forever dává staty a po deseti vteřinách jídla i +5 % zkušeností za zabití.
+  – Campsites – tábořiště v otevřeném světě s buffy, opravami a stanicemi profesí.
+  – Příběh Defias pokračuje dál: nový dungeon Alcaz Prison (levely 48–53) má navazovat na příběh Bratrstva a mluví se o souvislosti s králem Varianem. Zatím jde spíš o pověsti.
+
+• Moonbrook – zpustlé město, kdysi srdce Westfallu. Kdysi se tu žilo, dnes jsou ulice plné Defiasů.
+
+• Jangolode Mine a Gold Coast Quarry – doly, kde kopou koboldi i Defiasové. V Jangolode hledej Master Diggera.
+
+• Dust Devils – po polích se točí prachové víry. Jsou to živí elementálové – dávej pozor, ať tě neodfouknou.
+
+Zdroj: Warcraft Wiki, Wowhead (classic), games.gg a foreverdb.net. Pokud ve Forever najdeš něco jinak, napiš mi.]],
 
 ["Dun Morogh"] = [[• Deeprun Tram – z Tinker Town v Ironforge jezdí gnómská podzemní dráha až do Stormwindu. Vede pod mořem, takže cestou vidíš skleněnými stěnami ryby a vodu.
 
