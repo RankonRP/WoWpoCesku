@@ -94,7 +94,7 @@ end
 
 -- tlačítko „Zaměřit“ (jako NPCScan): bezpečné tlačítko s makrem /targetexact – jen mimo boj
 local targetBtn
-local function setupTargetButton(name)
+local function setupTargetButton(name, w, h)
     -- v boji se bezpečné tlačítko nesmí měnit ani schovat (hra by to zablokovala)
     if InCombatLockdown() then return false end
     if not targetBtn then
@@ -113,8 +113,11 @@ local function setupTargetButton(name)
         targetBtn:SetScript("OnLeave", GameTooltip_Hide)
     end
     targetBtn:SetAttribute("macrotext", "/targetexact " .. name)
+    -- vlastní pozice (stejné místo jako cedulka), NE přichycení k cedulce –
+    -- jinak by se cedulka stala chráněnou a její změny v boji hra blokuje
     targetBtn:ClearAllPoints()
-    targetBtn:SetAllPoints(alert)
+    targetBtn:SetPoint("TOP", UIParent, "TOP", 0, -110)
+    targetBtn:SetSize(w, h)
     targetBtn:Show()
     return true
 end
@@ -144,9 +147,9 @@ local function showAlert(name, info, rec)
     alert.title:SetText("Vzácný mob: " .. name)
     alert.text:SetText(rareNote(name, info, rec))
     fitFrame(alert, 340)
-    local canTarget = setupTargetButton(name)
-    alert.hint:SetText(canTarget and "Klikni a zaměříš ho" or "V boji ho addon zaměřit nemůže")
     alert:SetHeight(alert:GetHeight() + 16)
+    local canTarget = setupTargetButton(name, 340, alert:GetHeight())
+    alert.hint:SetText(canTarget and "Klikni a zaměříš ho" or "V boji ho addon zaměřit nemůže")
     alert.anim:Stop()
     alert.anim:Play()
 end
@@ -587,6 +590,8 @@ ev:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
 pcall(ev.RegisterEvent, ev, "VIGNETTES_UPDATED")
 pcall(ev.RegisterEvent, ev, "VIGNETTE_MINIMAP_UPDATED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
+ev:RegisterEvent("ADDON_ACTION_BLOCKED")
+ev:RegisterEvent("ADDON_ACTION_FORBIDDEN")
 pcall(ev.RegisterEvent, ev, "ENCOUNTER_END")
 pcall(ev.RegisterEvent, ev, "COMBAT_LOG_EVENT_UNFILTERED")
 ev:SetScript("OnEvent", function(_, event, unit, ...)
@@ -607,6 +612,15 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
         if IsInInstance and IsInInstance() and CombatLogGetCurrentEventInfo then
             local ok, _, sub, _, _, _, _, _, _, destName = pcall(CombatLogGetCurrentEventInfo)
             if ok and (sub == "UNIT_DIED" or sub == "PARTY_KILL") then pcall(markBoss, destName) end
+        end
+    elseif event == "ADDON_ACTION_BLOCKED" or event == "ADDON_ACTION_FORBIDDEN" then
+        -- unit = název addonu, ... = funkce, kterou hra zablokovala – ať víme, co opravit
+        local func = ...
+        if unit == "WoWpoCesku" then
+            say(("hra zablokovala akci: %s (napis to prosim autorovi)"):format(tostring(func)))
+            local S = seen()
+            S.blocked = S.blocked or {}
+            S.blocked[#S.blocked + 1] = date("%d.%m. %H:%M ") .. tostring(func)
         end
     elseif event == "PLAYER_REGEN_ENABLED" then
         if not (alert and alert:IsShown()) then hideTargetButton() end
