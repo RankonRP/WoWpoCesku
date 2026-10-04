@@ -207,12 +207,37 @@ local function sealCard(i)
     c:EnableMouse(true)
     c:SetScript("OnEnter", function(self)
         if not self.detail then return end
-        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-        GameTooltip:AddLine(" ")
-        GameTooltip:Show()
-        if WoWpoCesku_ShowNote then WoWpoCesku_ShowNote(GameTooltip, self.detailTitle or "", self.detail) end
+        -- vlastní pergamenové okénko vedle pečeti (bez herního tooltipu – ten by zůstal prázdný)
+        local tip = book.sealTip
+        if not tip then
+            tip = CreateFrame("Frame", nil, book, "BackdropTemplate")
+            tip:SetFrameStrata("TOOLTIP")
+            tip:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+                edgeSize = 14, insets = { left = 3, right = 3, top = 3, bottom = 3 } })
+            tip:SetBackdropColor(0.91, 0.84, 0.66, 1)
+            tip:SetBackdropBorderColor(0.45, 0.30, 0.16, 1)
+            local bg = tip:CreateTexture(nil, "BACKGROUND", nil, 1)
+            bg:SetPoint("TOPLEFT", 3, -3)
+            bg:SetPoint("BOTTOMRIGHT", -3, 3)
+            bg:SetTexture(PARCHMENT)
+            tip.title = fontString(tip, 13, RED[1], RED[2], RED[3])
+            tip.title:SetPoint("TOPLEFT", 10, -8)
+            tip.text = fontString(tip, 12, INK[1], INK[2], INK[3])
+            tip.text:SetPoint("TOPLEFT", tip.title, "BOTTOMLEFT", 0, -4)
+            tip.text:SetSpacing(2)
+            tip:SetClampedToScreen(true)
+            book.sealTip = tip
+        end
+        tip.title:SetWidth(240)
+        tip.text:SetWidth(240)
+        tip.title:SetText(self.detailTitle or "")
+        tip.text:SetText(self.detail)
+        tip:SetSize(260, tip.title:GetStringHeight() + tip.text:GetStringHeight() + 22)
+        tip:ClearAllPoints()
+        tip:SetPoint("LEFT", self.rim, "RIGHT", 4, 0)
+        tip:Show()
     end)
-    c:SetScript("OnLeave", GameTooltip_Hide)
+    c:SetScript("OnLeave", function() if book.sealTip then book.sealTip:Hide() end end)
     book.sealCards[i] = c
     return c
 end
