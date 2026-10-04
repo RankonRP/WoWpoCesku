@@ -283,7 +283,14 @@ WoWpoCesku_LoreTajemstvi["Blackrock Spire"] = [[• Do horní části potřebuje
 D["Dire Maul"] = {
     title = "Dire Maul", tag = "Ruiny elfího města Eldre'Thalas ve Feralas (levely 55–60).",
     ch = {
-        { "Příběh", [[Eldre'Thalas bylo městem Highborne, kteří přežili Velké rozpoltění. Aby si udrželi magii, uvěznili démona Immol'thara a čerpali z něj sílu. Dnes je město rozdělené mezi ogry, satyry a poslední Highborne.]] },
+        { "Eldre'Thalas", [[Eldre'Thalas postavila před dvanácti tisíci lety tajná sekta čarodějů nočních elfů, aby chránila tajemství magie královny Azshary. Když přišlo Velké rozpoltění, princ Tortheldrin a jeho věrní seslali ochranné kouzlo, které město před zkázou uchránilo.
+
+Highborne v městě sloužila mocná skupina mágů Shen'dralar. Jedna z nich, Millicent Serene, vytvořila Fruit of Fertility – kouzelnou révu plnou ochranné a růstové síly, která živila celé město.]] },
+        { "Immol'thar", [[Odříznutí od Studny věčnosti uvěznili Highborne démona Immol'thara a jeho sílu čerpali skrze pět kouzelných pylonů, aby si udrželi nesmrtelnost. Když asi 1200 let před otevřením Temného portálu začala energie docházet, Tortheldrin pobil mnoho svých lidí – aby na přeživší zbylo víc démonické moci.]] },
+        { "Tři části města", [[Dnes je Dire Maul rozdělený na tři části. Ve východní Warpwood Quarter proměnil satyr Alzzin the Wildshaper kouzelnou révu ve zkaženou Felvine. Najdeš tu i skřítka Pusillina, který má u sebe Crescent Key, a zkaženého Ancienta Tendrise Warpwooda.
+
+V západní části Capital Gardens straší duchové Highborne a je tu vězení Immol'thara, Illyanna Ravenoak, Magister Kalendris a princ Tortheldrin. Severní Gordok Commons obsadili ogrové pod vedením krále Gordoka.]] },
+        { "Tribute run", [[V severní části se dá projít, aniž bys zabil stráže – a pak ti král ogrů dá poklad. Tomu se říká „tribute run“ a patří k nejzábavnějším věcem klasického WoW. V knihovně Shen'dralar najdeš knihy (librams), které vylepší tvou výstroj.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Dire Maul"] = [[• Pusillin – skřítek, kterého honíš celým východním křídlem. Má u sebe Crescent Key.
@@ -293,7 +300,16 @@ WoWpoCesku_LoreTajemstvi["Dire Maul"] = [[• Pusillin – skřítek, kterého h
 D["Scholomance"] = {
     title = "Scholomance", tag = "Škola nekromancie pod Caer Darrow (levely 58–60).",
     ch = {
-        { "Příběh", [[Rod Barovů prodal svůj hrad Kultu zatracených. Pod ním vznikla Scholomance, kde se učí noví nekromanti Pohromy pod vedením Darkmastera Gandlinga.]] },
+        { "Škola nekromancie", [[Scholomance, Škola nekromancie, leží v kryptách pod Caer Darrow ve Western Plaguelands. Po Druhé válce byl hrad šlechtického rodu Barovů obnoven – ale postupně propadl temnotě. Samotné jméno znamená „škola magie“.]] },
+        { "Úmluva Barovů", [[Aristokratičtí Barovové chtěli své bohatství a moc udržet i po smrti, a tak uzavřeli zlověstnou smlouvu s Kel'Thuzadem, vůdcem Kultu zatracených. Z jejich přepychového sídla se stala akademie nekromancie, kde se kultisté učili temné magii.
+
+Před plánovanou návštěvou Uthera Lightbringera vypustila škola na Caer Darrow ničivý mor. Hrad zchátral, zaplnili ho nemrtví a služebnictvo se stalo pokusnými objekty pro výzkum moru.]] },
+        { "Kdo tu vládne", [[Ředitelem školy je Darkmaster Gandling a místo pro Pohromu spravuje lich Ras Frostwhisper. Sami Barovové – Lord Alexei Barov a Lady Illucia Barov – se proměnili v nemrtvé zrůdy.
+
+Dalšími bossy jsou Kirtonos the Herald, kterého přivolá Blood of Innocents, Jandice Barov, Rattlegore, Marduk Blackpool, Vectus, Instructor Malicia, Doctor Theolen Krastinov, Lorekeeper Polkelt a The Ravenian.]] },
+        { "Zajímavosti", [[Do školy potřebuješ Skeleton Key. Darkmaster Gandling při souboji teleportuje hráče do zamčených místností.
+
+Během vývoje WoW se dungeonu skoro půl roku interně říkalo „keep micro dungeon“, než mu Chris Metzen dal jméno Scholomance.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Scholomance"] = [[• Do školy potřebuješ Skeleton Key.
@@ -302,7 +318,14 @@ WoWpoCesku_LoreTajemstvi["Scholomance"] = [[• Do školy potřebuješ Skeleton 
 D["Stratholme"] = {
     title = "Stratholme", tag = "Prokleté město, kde Arthas začal svou cestu do temnoty (levely 58–60).",
     ch = {
-        { "Příběh", [[Tady Arthas nechal vyvraždit obyvatele, aby se nestali nemrtvými. Dnes je město rozdělené: v živé části drží Šarlatoví, v nemrtvé vládne baron Rivendare.]] },
+        { "Vyčištění", [[Princ Arthas zjistil, že Stratholme je nakažené morem skrze otrávené obilí. Nařídil vyvraždit celé obyvatelstvo. Město zachvátil oheň a ulicemi se valil popel a jiskry. Tady Arthas udělal první velký krok do temnoty.]] },
+        { "Nemrtvá část", [[Ve východní části města vládne Pohromě rytíř smrti Baron Rivendare. Nad morem zamořenými lesy kousek odsud se vznáší Naxxramas, nekropole Kel'Thuzada.
+
+V nemrtvé části čekají Magistrate Barthilas, Nerub'enkan, Baroness Anastari, Maleki the Pallid a Ramstein the Gorger, než se hrdinové dostanou k baronovi. Z barona vzácně padá kůň Deathcharger.]] },
+        { "Živá část", [[V západní části drží Šarlatoví. Vede je Grand Crusader Saidan Dathrohan – SPOILER: ve skutečnosti pán hrůzy Balnazzar, který se za něj vydává.
+
+Cestou potkáš The Unforgiven, Timmyho the Cruel, Cannon Master Willeyho a Archivist Galforda. Poštovními klíči se dá přivolat Postmaster Malown.]] },
+        { "Baron run", [[Když se hrdinové dostanou k baronovi do 45 minut, zachrání Ysidu Harmon, kterou Pohroma drží v zajetí. Tomuto závodu s časem se říká „baron run“ a hráči klasiky ho znají nazpaměť.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Stratholme"] = [[• Baron run: když se dostaneš k baronovi do 45 minut, zachráníš Ysidu Harmon.
@@ -312,7 +335,12 @@ WoWpoCesku_LoreTajemstvi["Stratholme"] = [[• Baron run: když se dostaneš k b
 D["Molten Core"] = {
     title = "Molten Core", tag = "Ohnivé srdce hory – raid pro 40 hráčů s Ragnarosem na konci.",
     ch = {
-        { "Příběh", [[Hluboko pod Blackrock Mountain sídlí Ragnaros, pán ohně, kterého vyvolal Thaurissan na konci Války tří kladiv. Jeho služebníci tu hlídají cestu k jeho trůnu.]] },
+        { "Vyvolání", [[Ragnaros byl vyvolán za Války tří kladiv, asi 230 let před otevřením Temného portálu. Čaroděj Thaurissan se snažil získat kouzelnou zbraň, aby vyhrál trpasličí občanskou válku. Jeho zuřivost nad smrtí manželky způsobila, že kouzlo prorazilo až do Firelands – a vtáhlo pána ohně na Azeroth. Ragnarosův prudký příchod vyvolal výbuchy, které roztříštily hory Redridge.]] },
+        { "Brána do Firelands", [[Molten Core je brána z Firelands, říše ohně, na Azeroth. Hořící jezero tu slouží jako trhlina mezi světy, kterou mohou procházet elementálové. Ragnaros tu zůstal uvězněný, zotročil Dark Irony a velí ohnivým silám.]] },
+        { "Ragnarosovi služebníci", [[Majordomo Executus je Ragnarosovým hlavním poručíkem – jediným, kdo dokáže pána ohně probudit. Dalšími strážci jsou Lucifron, Magmadar, Gehennas, Garr, Baron Geddon, Shazzrah, Sulfuron Harbinger a Golemagg the Incinerator.
+
+Vodní elementálové Hydraxian Waterlords hledají dobrodruhy, kteří ohnivou hrozbu zastaví. Runy, které přivolávají Majordoma, je potřeba uhasit pomocí Aqual Quintessence.]] },
+        { "Legendy", [[V Molten Core padají dvě legendární zbraně: Sulfuras, Hand of Ragnaros a části meče Thunderfury, Blessed Blade of the Windseeker. Ragnarosovo „BY FIRE BE PURGED!“ a „TOO SOON!“ zná každý hráč klasiky.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Molten Core"] = [[• Runy u bossů je třeba uhasit pomocí Aqual Quintessence od Duka Hydraxise (Azshara).
@@ -322,7 +350,12 @@ WoWpoCesku_LoreTajemstvi["Molten Core"] = [[• Runy u bossů je třeba uhasit p
 D["Onyxia's Lair"] = {
     title = "Onyxia's Lair", tag = "Doupě černé dračice v Dustwallow Marsh – raid pro 40 hráčů.",
     ch = {
-        { "Příběh", [[Onyxia, dcera Deathwinga, se ve Stormwindu vydává za lady Prestor. Ve svém doupěti v Dustwallow Marsh na ni hrdinové čekají v pravé podobě.]] },
+        { "Matka černých draků", [[Onyxia, dcera Deathwinga a sestra Nefariana, je matkou černého dračího rodu. Pod jménem lady Katrana Prestor manipulovala politikou Stormwindu, dokud ji neodhalil Marshal Windsor.]] },
+        { "Doupě", [[Doupě leží v bažinách Wyrmbog v Dustwallow Marsh. Vchod je vytesaný tak, aby připomínal tlamu samotné dračí matky, a cesta dovnitř je lemovaná lávou.]] },
+        { "Cesta k Onyxii", [[V klasickém WoW potřebovali hráči Aliance amulet Drakefire Amulet, který získali v řadě questů Great Masquerade, začínající u Marshala Windsora. Hráči Hordy prošli řadou questů s Rexxarem a Warlord's Command.
+
+Souboj má tři fáze – na zemi, ve vzduchu s mláďaty a znovu na zemi. Slavné jsou ohnivý dech Deep Breath a nahrávka „Many whelps! Handle it!“.]] },
+        { "Trofej", [[Hlava Onyxie se po vítězství pověsí u bran Stormwindu (nebo Orgrimmaru) a dá všem kolem buff Rallying Cry of the Dragonslayer. Z Onyxie padají i helmy sady Tier 2.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Onyxia's Lair"] = [[• Slavná nahrávka „Many whelps! Handle it!“ a „50 DKP minus!“ pochází odtud.
@@ -332,7 +365,12 @@ WoWpoCesku_LoreTajemstvi["Onyxia's Lair"] = [[• Slavná nahrávka „Many whel
 D["Blackwing Lair"] = {
     title = "Blackwing Lair", tag = "Laboratoř Nefariana na vrcholu Blackrock Spire – raid pro 40 hráčů.",
     ch = {
-        { "Příběh", [[Nefarian, syn Deathwinga, tu vytváří chromatické draky ze všech dračích rodů. Jeho zajatcem je i rudý drak Vaelastrasz, kterého Nefarian zkazil.]] },
+        { "Nefarianův plán", [[Nefarian, nejstarší syn Deathwinga, chtěl rozdrtit Ragnarose, svého soupeře o horu Blackrock, a posílit černý dračí rod. Experimentoval proto s krví všech dračích rodů, aby vytvořil nepřemožitelné válečníky – chromatický dračí rod, což se nepodařilo ani jeho otci.]] },
+        { "Laboratoř", [[V doupěti kombinuje vejce a krev různých dračích rodů a pracuje s dračími kostmi. Celé Blackwing Lair je jedním obrovským chovným programem.
+
+Razorgore the Untamed hlídá dračí vejce, drakonid Broodlord Lashlayer střeží potlačovací komory a chromatičtí draci Firemaw, Ebonroc a Flamegor jsou pokusy z Crimson Laboratories. Chromaggus je Nefarianův nejúspěšnější výtvor.]] },
+        { "Vaelastrasz", [[Vaelastrasz je rudý drak, kterého Nefarian zajal a zkazil. Na začátku souboje dá hráčům Essence of the Red a pak sesílá Burning Adrenaline, která je po chvíli zabije. Je to smutný souboj s dobrým drakem, kterého Nefarian donutil bojovat.]] },
+        { "Nefarian", [[Na konci čeká Nefarian, který se v Blackrock Spire vydává za lorda Victora Nefaria. Pro vstup do doupěte potřebovali hráči quest Blackhand's Command a proti Nefarianovu ohni plášť Onyxia Scale Cloak.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Blackwing Lair"] = [[• Vaelastrasz vám na začátku dá Essence of the Red a během boje sesílá na hráče Burning Adrenaline, která je po chvíli zabije. Smutný souboj s dobrým drakem, kterého Nefarian donutil bojovat.
@@ -341,7 +379,12 @@ WoWpoCesku_LoreTajemstvi["Blackwing Lair"] = [[• Vaelastrasz vám na začátku
 D["Zul'Gurub"] = {
     title = "Zul'Gurub", tag = "Hlavní město trollů Gurubashi ve Stranglethorn – raid pro 20 hráčů.",
     ch = {
-        { "Příběh", [[Kněží Hakkara vyvolali krvavého boha zpět na Azeroth. Jeho velekněží, kteří získali sílu zvířecích bohů, mu slouží v srdci džungle.]] },
+        { "Hlavní město Gurubashi", [[Zul'Gurub na severovýchodě Stranglethorn byl před tisíci lety hlavním městem říše Gurubashi, kde civilizace džunglových trollů dosáhla vrcholu.]] },
+        { "Hakkar", [[Kněží Atal'ai kdysi vyvolali Hakkara Soulflayera, prastarého krvavého boha. Rozpoutali tím občanskou válku a říše se zhroutila. Vyhnaní kněží uprchli na sever a postavili chrám Atal'Hakkar ve Swamp of Sorrows.]] },
+        { "Návrat krvavého boha", [[Teď se Hakkar vrací. Jin'do the Hexxer zotročil v dávném hlavním městě velekněze, aby dokončil Hakkarovo vyvolání. Pět šampionů – každý s mocí prastarého zvířecího boha loa: netopýra (Jeklik), hada (Venoxis), pavouka (Mar'li), tygra (Thekal) a pantera (Arlokk) – podlehlo vlivu boha a začalo ho krmit svou silou.
+
+Trollové Zandalari se se svými spojenci vydali město dobýt, aby Hakkarovu plnou manifestaci zastavili. Ve městě čeká i Bloodlord Mandokir, Gahz'ranka, kterého lze vylovit rybařením, a náhodný boss Edge of Madness.]] },
+        { "Zajímavosti", [[Z Mandokira padá Swift Razzashi Raptor a z Thekala Swift Zulian Tiger – vzácné mounty. A Hakkar v roce 2005 nechtěně rozšířil „krvavý mor“ (Corrupted Blood) po celých serverech – slavná chyba, kterou dokonce studovali vědci zabývající se epidemiemi.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Zul'Gurub"] = [[• Z Mandokira padá Swift Razzashi Raptor a z Thekala Swift Zulian Tiger – vzácné mounty.
@@ -350,7 +393,12 @@ WoWpoCesku_LoreTajemstvi["Zul'Gurub"] = [[• Z Mandokira padá Swift Razzashi R
 D["Ruins of Ahn'Qiraj"] = {
     title = "Ruins of Ahn'Qiraj", tag = "Vnější ruiny pevnosti Qiraji v Silithu – raid pro 20 hráčů.",
     ch = {
-        { "Příběh", [[Po otevření Scarab Wall vede Cenarion Circle útok do ruin. Qiraji tu hlídají cestu k chrámu, kde spí Starý bůh C'Thun.]] },
+        { "Qiraji", [[Qiraji jsou prastará hmyzí rasa, uvězněná za kouzelnými bariérami asi před tisíci lety. Ve Válce pohyblivých písků je noční elfové spolu se čtyřmi dračími rody zahnali do jejich pevnostního města a uzavřeli tam.]] },
+        { "Otevření brány", [[Když se objevily důkazy, že starodávná pečeť povoluje, začal Cenarion Circle koordinovat boj proti obnovené hrozbě Qiraji. Bronzový drak Anachronos pomohl dobrodruhům otevřít Scarab Wall a smrtelné rasy pak zahnaly Qiraji zpět do ruin.
+
+V ruinách bojuje po boku hrdinů lidský generál Lieutenant General Andorov.]] },
+        { "Bossové", [[Šest hlavních nepřátel představuje různé části velení Qiraji: písečný požírač Kurinnaxx, vojevůdce General Rajaxx se svými důstojníky, obsidiánový ničitel Moam, silithidský kolos Buru the Gorger, vosí královna Ayamiss the Hunter a nakonec Ossirian the Unscarred.]] },
+        { "Odměny", [[Reputace u Cenarion Circle rozhoduje o přístupu k odměnám z questů. Ossiriana oslabíte krystaly, které se objevují po místnosti.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Ruins of Ahn'Qiraj"] = [[• Ossiriana oslabíte krystaly, které se objevují po místnosti.
@@ -359,7 +407,12 @@ WoWpoCesku_LoreTajemstvi["Ruins of Ahn'Qiraj"] = [[• Ossiriana oslabíte kryst
 D["Ahn'Qiraj Temple"] = {
     title = "Temple of Ahn'Qiraj", tag = "Chrám, kde spí Starý bůh C'Thun – raid pro 40 hráčů.",
     ch = {
-        { "Příběh", [[Uvnitř chrámu vládnou císaři Vek'lor a Vek'nilash a pod nimi spí C'Thun, Starý bůh, který stojí za silithidy i Qiraji.]] },
+        { "C'Thun", [[Po tisících letech spánku se Starý bůh C'Thun probudil a rychle obnovuje svou sílu. Je posledním a největším nepřítelem chrámu – a stojí za silithidy i Qiraji.]] },
+        { "Císaři", [[Uvnitř chrámu vládnou říši Qiraji císaři Vek'lor a Vek'nilash. Asi tisíc let od Války pohyblivých písků byli uvězněni ve svém chrámu, sotva zadržovaní kouzelnou bariérou.]] },
+        { "Bossové", [[U bran chrámu stráží The Prophet Skeram. V podzemí úlu čekají Silithid Royalty – Lord Kri, Princess Yauj a Vem. Dalšími nepřáteli jsou Battleguard Sartura, Fankriss the Unyielding, Viscidus, kterého je potřeba zmrazit a rozbít, Princess Huhuran a Ouro.
+
+C'Thun hráčům šeptá do hlavy – zprávy jako „You will die.“ se objevují v chatu.]] },
+        { "Brány Ahn'Qiraj", [[Chrám se otevřel až poté, co hráči znovu sestavili Scepter of the Shifting Sands a celý server sbíral suroviny pro válečné úsilí. Hráč, který udeřil do gongu, získal titul Scarab Lord – jedno z nejprestižnějších ocenění v historii WoW.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Ahn'Qiraj Temple"] = [[• C'Thun vám šeptá do hlavy („You will die.“) – zprávy se objevují v chatu.
@@ -370,7 +423,12 @@ A["Ahn'Qiraj"] = "Ahn'Qiraj Temple"
 D["Naxxramas"] = {
     title = "Naxxramas", tag = "Létající nekropole Kel'Thuzada – poslední raid klasiky (40 hráčů).",
     ch = {
-        { "Příběh", [[Nad Eastern Plaguelands se vznáší Naxxramas, citadela Pohromy. Vládne jí lich Kel'Thuzad, který odsud řídí nemrtvé armády Lich Kinga.]] },
+        { "Nekropole", [[Naxxramas byl původně prastarý podzemní zikkurat nerubianů. Síly Lich Kinga vedené Anub'arakem ho proměnily v létající nekropoli pod velením Kel'Thuzada, který odsud založil Kult zatracených v Lordaeronu. Dnes se vznáší nad Eastern Plaguelands.]] },
+        { "Čtyři křídla", [[V pavoučím křídle čekají Anub'Rekhan, Grand Widow Faerlina a Maexxna. V morovém Noth the Plaguebringer, Heigan the Unclean a Loatheb. Ve vojenském Instructor Razuvious, Gothik the Harvester a Čtyři jezdci – v klasické verzi Highlord Mograine, Thane Korth'azz, Lady Blaumeux a Sir Zeliek. V konstrukčním Patchwerk, Grobbulus, Gluth a Thaddius s pomocníky Feugenem a Stalaggem.]] },
+        { "Sapphiron a Kel'Thuzad", [[Doupě mrazivého draka (Frostwyrm Lair) hlídají nemrtvý drak Sapphiron a sám Kel'Thuzad. Je to poslední souboj klasického WoW. SPOILER: Kel'Thuzad po porážce uteče do Northrendu.]] },
+        { "Vstup", [[Argent Dawn objevila kouzelné maskování, kterým lze obejít ochranné bariéry runového portálu do nekropole – a tak mohou hrdinové na pevnost zaútočit.
+
+Heiganův „tanec“ a Thaddiovo rozdělení na plus a minus náboj patří k nejslavnějším soubojům celé historie WoW.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Naxxramas"] = [[• Heiganův „tanec“ – utíkání před výbuchy v rytmu, noční můra mnoha raidů.
