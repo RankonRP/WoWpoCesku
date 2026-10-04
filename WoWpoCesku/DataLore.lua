@@ -277,17 +277,36 @@ WoWpoCesku_LoreTajemstvi = {
 
 • Red Rocks – posvátné pohřebiště na severovýchodě. Projdi se tu potichu – je to jedno z nejkrásnějších a nejtišších míst Kalimdoru.]],
 
-["Durotar"] = [[• Ragefire Chasm – pod samotným Orgrimmarem, v Cleft of Shadow, se otevírá lávová jeskyně plná kultistů a troggů. Je to první dungeon Hordy a důkaz, že nepřítel číhá i pod nohama válečného náčelníka.
+["Durotar"] = [[• Líní peoni (Valley of Trials) – Foreman Thazz'ril ti dá obušek Foreman's Blackjack a pošle tě budit peony, kteří spí pod stromy místo práce. Po ráně zabrblají třeba „Ow! OK, I'll get back to work“ a jdou zase sekat dřevo. Peoni se točí v kruhu – spí, sekají, nosí dřevo – takže na spáče musíš občas chvíli počkat.
 
-• Cleft of Shadow – temná rokle v Orgrimmaru, kde sídlí čarodějové a lotři. Kdo ji navštíví poprvé, pozná, že ne všichni orkové se zcela rozloučili s temnými silami.
+• Skrytí nepřátelé – v klasické verzi začíná u samotného Thralla řada questů Hidden Enemies. Najdeš u kultistů Burning Blade ve Skull Rock odznak Lieutenant's Insignia a postupně odhalíš, že kult není samostatný: Thrall ti řekne, že skutečným nepřítelem je Shadow Council. Řada vede až k Ragefire Chasm a v pozdějších verzích WoW byla odstraněna – je to kousek lore, který existuje jen v klasice.
 
-• Vzácní nepřátelé – v klasickém Durotaru se objevují například Warlord Kolkanis (náčelník Razormane), Watch Commander Zalaphil v Tiragarde Keep a štír Death Flayer. Kdo je potká, ať si dá pozor.
+• Ragefire Chasm – lávová jeskyně přímo pod Orgrimmarem, vchod je v Cleft of Shadow. První dungeon Hordy, plný troggů a kultistů Searing Blade.
 
-• Tiragarde Keep – v kamenné pevnosti lidí z Kul Tiras se dá najít víc, než se zdá: jejich důstojníci nosí věci, o které má Horda zájem.
+• Cleft of Shadow – temná rokle v Orgrimmaru, kde sídlí čarodějové, lotři a pochybní obchodníci. Pro město, které se zřeklo démonů, je to dost podezřelá čtvrť.
 
-• Echo Isles – ostrovy u pobřeží, které trollové Darkspear opustili. Čaroděj Zalazane tu svými kouzly drží v zajetí část jejich lidu – připomínka, že ne každá válka je velká.
+• Tiragarde Keep – bílá kamenná pevnost Kul Tiras, která v rudém Durotaru vypadá úplně nepatřičně. Velí jí Lieutenant Benedict, který tu po smrti admirála Proudmoora vede jeho válku dál. Kdo prohledá pevnost, najde rozkazy admirála Proudmoora (Admiral Proudmoore's Orders) – a jejich obsah zajímá samotného Thralla.
 
-• Zeppelíny – u Orgrimmaru stojí věž, odkud odlétají goblinské vzducholodě do Undercity a Stranglethorn Vale. Cesta vzduchem je zážitek sám o sobě.]],
+• Echo Isles – ostrovy na jihu, odkud čaroděj Zalazane vyhnal Darkspear trolly. Svou magií ovládá část jejich lidu. Vol'jin a Master Gadrin v Sen'jin Village hledají někoho, kdo se mu postaví.
+
+• Vzácní nepřátelé (podle classic dat, s respawnem):
+  – Geolord Mottle (9) – quilboar geomancer, 1–2 h
+  – Warlord Kolkanis (9) – kentaur z Kolkar Crag, 1–2 h. Ve Forever už potvrzený!
+  – Watch Commander Zalaphil (9) – velitel stráže v Tiragarde Keep, 5–8 h
+  – Captain Flat Tusk (11, elite) – 5–8 h
+  – Death Flayer (11) – štír u Southfury Watershed, 1,5–2,5 h, lovec si ho může ochočit
+  – Felweaver Scornn (11, elite) – kultista Burning Blade, 1,5–2,5 h
+  – Dishu (13) – hyena, 5–8 h, dá se ochočit
+  – Rathorian (15) – 1,5–2,5 h
+  Ve Forever se zatím většina z nich nepotvrdila – pokud nějakého potkáš, je to malý objev.
+
+• Proč zrovna Durotar – orkové si vybrali drsnou, vyprahlou zemi úmyslně, jako pokání za svou krvavou minulost. Kraj byl původně součástí Barrens a vládli tu kančí lidé Razormane, dokud je Horda za Třetí války nevyhnala na západ.
+
+• Obchod s Theramore – dokud mír držel, orkové posílali přebytky úrody lidem do Theramore a dostávali za ně ryby. Na drsné Hordě je to nečekaně mírumilovný detail.
+
+• Zeppelíny – u Orgrimmaru stojí věž, odkud odlétají goblinské vzducholodě do Undercity a Stranglethorn Vale. Kdo nemá rád výšky, ať se nedívá dolů.
+
+Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net. Pokud ve Forever najdeš něco jinak, napiš mi.]],
 
 ["Elwynn Forest"] = [[• Hogger – nejslavnější gnoll celého Warcraftu. Vede gnolly v jihozápadních lesích (Forest's Edge) a stráže na něj vypsaly odměnu. Mnoho hrdinů na něj při prvním setkání nestačilo – a hráči si z toho dělají legraci dodnes.
 
@@ -878,7 +897,7 @@ WoWpoCesku_Lore["The Barrens"] = {
     ch = {
         { "Savana", [[The Barrens jsou obrovská vyprahlá savana uprostřed Kalimdoru. Žlutá tráva, akácie, termitiště a ojedinělé oázy – a mezi nimi stáda zeber, žiraf a kodo. Je to největší kraj klasického WoW a pro mnoho hráčů Hordy první opravdová cesta do světa.]] },
         { "Crossroads a Ratchet", [[Uprostřed kraje stojí The Crossroads, orkská pevnost na křižovatce cest z Orgrimmaru, Mulgore a jihu. Na pobřeží leží Ratchet, goblinský přístav, odkud pluje loď do Booty Bay. Na jihu mají taureni Camp Taurajo.]] },
-        { "Oázy a Wailing Caverns", [[Oázy vznikly díky druidovi Naralexovi, který chtěl savanu znovu zazelenat silou Smaragdového snu. Ve Wailing Caverns se ale jeho sen proměnil v noční můru a z jeskyní se šíří zkažená příroda. Jeho žáci, Druidové Fangu, se z dobrých léčitelů stali zlými.]] },
+        { "Oázy a Wailing Caverns", [[Oázy napájí voda z puklin u Wailing Caverns. Druid Naralex chtěl silou Smaragdového snu celou savanu znovu zazelenat – kdysi tu totiž byl les, který zničila válka a Velké rozpoltění. Ve Wailing Caverns se ale jeho sen proměnil v noční můru a z jeskyní se šíří zkažená příroda. Jeho žáci, Druidové Fangu, se z dobrých léčitelů stali zlými.]] },
         { "Hrozby", [[Kentauři Kolkar, kančí lidé quilboar z Razorfen, harpyje, Venture Company, Bael'dunští trpaslíci a lidé z Northwatch Hold, kteří se připravují k útoku na Hordu.]] },
     },
 }
@@ -887,15 +906,36 @@ WoWpoCesku_LoreKnihy["The Barrens"] = [[• Thrallova cesta (Warcraft III) – o
 • Quilboar a Agamaggan – kančí lidé uctívají poloboha Agamaggana, obřího kance, který zemřel za Války starověku. Z jeho trnitých kořenů vyrostly Razorfen Kraul a Razorfen Downs.
 
 • Northwatch Hold – pevnost lidí z Kul Tiras, kteří přišli s admirálem Proudmoorem. Po jeho smrti zůstali a dál bojují proti Hordě.]]
-WoWpoCesku_LoreTajemstvi["The Barrens"] = [[• Kde je Mankrikova žena? – ork Mankrik v Crossroads tě prosí, abys našel jeho ženu Olgru. Hráči ji hledali tak dlouho a marně, že se z otázky „Where is Mankrik's wife?“ stal legendární vtip barrenského chatu. (Nápověda: hledej mezi kentaury na jihu.)
+WoWpoCesku_LoreTajemstvi["The Barrens"] = [[• Kde je Mankrikova žena? – ork Mankrik v Crossroads tě v questu Lost in Battle prosí, abys našel jeho ženu Olgru. Spolu bojovali s kančími lidmi Bristleback a v boji se rozdělili. Hráči ji hledali tak dlouho, že se z otázky „Where is Mankrik's wife?“ stal jeden z nejstarších memů v historii her.
+  Nápověda (spoiler): z Crossroads jdi na jih přes most u stezky z Lushwater Oasis. Na západní straně uvidíš dvě chatrče – před jednou z nich leží Beaten Corpse (zhruba 49, 50). Olgra už nežije.
+  Do budoucna: v Cataclysm Mankrik Olgru konečně pohřbí a v Hearthstone má vlastní legendární kartu s popiskem, že svou noční můru prožívá znovu pokaždé, když vznikne nová postava Hordy.
 
-• Barrens chat – kanál General v Barrens byl proslulý nekonečnými hloupými debatami. Chuck Norris vtipy, hádky a otázky na Mankrikovu ženu.
+• Sada „Blessing of Kalimdor“ (novinka WoW Forever) – vzácní mobové tu padají kusy sady (plášť, prsten, náhrdelník). Už dva kusy dají +5 % rychlosti pohybu v Barrens a Stonetalon Mountains. Padají z Humar the Pridelord, Swiftmane a Takk the Leaper – proto se je vyplatí lovit.
 
-• Wailing Caverns – dungeon na jihozápadě od Crossroads. Na konci můžeš probudit Naralexe z noční můry.
+• Humar the Pridelord – černý lev, který odpočívá pod velkým stromem severně od Ratchetu. Kdysi měl jedinečný vzhled a lovci po něm toužili jako po vzácném mazlíčkovi.
 
-• Lakota'mani – šedý obří kodo, vzácný a velmi silný. Dále Humar the Pridelord, Rocklance a Ishamuhale.
+• Swiftmane – neuvěřitelně rychlá zebra (zhevra) severně od Ratchetu. Neběhá náhodně – kdo zjistí jeho trasu, chytí ho.
 
-• Field of Giants – na jihu leží obří kosti a fosilie. Badatelé tu hledají pozůstatky pravěkých tvorů.]]
+• Ishamuhale – na kopci nad Ratchetem stojí mrtvý strom. Zabij zhevru a použij u stromu její tělo – přivoláš tak vzácného raptora Ishamuhale.
+
+• Lakota'mani – obří šedý kodo u chatrčí jižně od rokle, která protíná Barrens od západu na východ. Z něj padá Hoof of Lakota'mani.
+
+• Další vzácní (classic data, ve skupinách – vždy se objeví jen jeden ze skupiny):
+  – Dishu, Elder Mystic Razorsnout, Brokespear, Stonearm
+  – Takk the Leaper, Gesharahan, Rocklance, Swiftmane
+  – Trigore the Lasher, Boahn, Engineer Whirleygig, Foreman Grills
+  – Humar the Pridelord, Rathorian, Sister Rathtalon, Sludge Anomaly
+  Brokespear má zlomené kopí a Rocklance kopí celé – Blizzard se s jmény moc netrápil.
+
+• Wailing Caverns – dungeon jihozápadně od Crossroads. Naralexovi žáci, Druidové Fangu, propadli Smaragdové noční můře a z jeskyní se šíří zmutovaní „deviate“ tvorové. Na konci můžeš s Disciple of Naralex probudit Naralexe.
+
+• Barrens chat – kanál General v Barrens byl proslulý nekonečnými hloupými debatami, vtipy o Chucku Norrisovi a otázkami na Mankrikovu ženu.
+
+• Ratchet – neutrální goblinský přístav. Loď odtud pluje do Booty Bay a v přístavu se potkávají obě frakce.
+
+• Field of Giants – na jihu leží obří kosti a fosilie, které zkoumají badatelé.
+
+Zdroj: Warcraft Wiki, Wowhead (classic), wowclassicforever.info a foreverdb.net. Ve Forever se zatím většina vzácných mobů nepotvrdila – pokud nějakého potkáš, napiš mi.]]
 
 WoWpoCesku_Lore["Darkshore"] = {
     title = "Darkshore",
