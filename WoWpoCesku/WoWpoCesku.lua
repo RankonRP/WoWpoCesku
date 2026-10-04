@@ -851,6 +851,9 @@ local function buildOptions()
     addCheck(right, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
         function() return WoWpoCeskuSettings.mapPlaces ~= false end,
         function(on) WoWpoCeskuSettings.mapPlaces = on end)
+    addCheck(right, "Oznamovat nové pečetě guildě", "Do chatu guildy napíše, jakou pečeť jsi získal",
+        function() return WoWpoCeskuSettings.sealGuild == true end,
+        function(on) WoWpoCeskuSettings.sealGuild = on end)
 
     -- pravý sloupec: panel s překladem
     addSection(right, "Panel s překladem")

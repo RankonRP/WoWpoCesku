@@ -203,6 +203,16 @@ local function sealCard(i)
     c.bar:SetHeight(5)
     c.bar:SetPoint("LEFT", c.barBg, "LEFT")
     c.bar:SetColorTexture(RED[1], RED[2], RED[3], 0.8)
+    -- najetí myší: co ještě chybí (místa, bossové) nebo nápověda
+    c:EnableMouse(true)
+    c:SetScript("OnEnter", function(self)
+        if not self.detail then return end
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(" ")
+        GameTooltip:Show()
+        if WoWpoCesku_ShowNote then WoWpoCesku_ShowNote(GameTooltip, self.detailTitle or "", self.detail) end
+    end)
+    c:SetScript("OnLeave", GameTooltip_Hide)
     book.sealCards[i] = c
     return c
 end
@@ -213,18 +223,23 @@ local function fillSeal(c, s, width)
     c.status:SetWidth(width - 12)
     c.name:SetText(s.name)
     c.desc:SetText(s.desc or "")
-    c.desc:SetAlpha(s.got and 0.9 or 0.7)
+    c.desc:SetAlpha(s.got and 0.9 or (s.dim and 0.5 or 0.7))
     local pts = (s.points and s.points > 0) and ("  ·  %d bodů"):format(s.points) or ""
     c.icon:SetTexture(s.icon or "Interface\\Icons\\INV_Misc_QuestionMark")
     -- vlastní obrázek pečeti (ChatGPT → tools/pecete-obrazky.js); bez něj vosk + herní ikona
     local img = s.image
     c.rim:SetTexture(img or "Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
-    c.rim:SetDesaturated(img ~= nil and not s.got)
-    c.rim:SetAlpha((img and not s.got) and 0.8 or 1)
     c.icon:SetShown(not img)
     c.disc:SetShown(not img)
+    if img and WoWpoCesku_TintSeal then
+        WoWpoCesku_TintSeal(c.rim, s, s.got)
+        c.rim:SetAlpha(s.got and 1 or (s.dim and 0.45 or 0.8))
+    end
+    -- detail po najetí myší
+    c.detail = (not s.got) and (s.detail or (s.hidden and s.desc)) or nil
+    c.detailTitle = s.hidden and "Nápověda" or "Co ještě chybí"
     if s.got then
-        if img then c.rim:SetVertexColor(1, 1, 1) else c.rim:SetVertexColor(0.86, 0.20, 0.13) end
+        if not img then c.rim:SetVertexColor(0.86, 0.20, 0.13) end
         c.disc:SetVertexColor(0.55, 0.11, 0.07)
         c.icon:SetDesaturated(false)
         c.icon:SetAlpha(1)
@@ -232,16 +247,21 @@ local function fillSeal(c, s, width)
         c.status:SetText("získáno " .. date("%d.%m.%Y", s.got) .. (s.by and (" – " .. s.by) or "") .. pts)
         c.barBg:Hide(); c.bar:Hide()
     else
-        c.rim:SetVertexColor(0.80, 0.72, 0.57)
+        if not img then c.rim:SetVertexColor(0.80, 0.72, 0.57) end
         c.disc:SetVertexColor(0.66, 0.58, 0.44)
         c.icon:SetDesaturated(true)
         c.icon:SetAlpha(0.55)
-        c.name:SetTextColor(INK[1], INK[2], INK[3], 0.75)
-        c.status:SetText(("%d z %d %s"):format(s.have, s.need, s.what) .. pts)
-        c.barBg:Show()
-        local f = (s.need > 0) and math.min(1, s.have / s.need) or 0
-        c.bar:SetWidth(math.max(1, 100 * f))
-        c.bar:SetShown(f > 0)
+        c.name:SetTextColor(INK[1], INK[2], INK[3], s.dim and 0.5 or 0.75)
+        if s.statusText then
+            c.status:SetText(s.statusText .. pts)
+            c.barBg:Hide(); c.bar:Hide()
+        else
+            c.status:SetText(("%d z %d %s"):format(s.have, s.need, s.what or "") .. pts)
+            c.barBg:Show()
+            local f = (s.need > 0) and math.min(1, s.have / s.need) or 0
+            c.bar:SetWidth(math.max(1, 100 * f))
+            c.bar:SetShown(f > 0)
+        end
     end
 end
 

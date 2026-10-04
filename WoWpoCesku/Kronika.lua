@@ -71,6 +71,7 @@ local function showNote(tt, title, text)
     fitFrame(n, math.max(260, tt:GetWidth()))
     n:Show()
 end
+WoWpoCesku_ShowNote = showNote
 
 -------------------------------------------------------------------------------
 -- Vzácní mobové: seznam z classic dat (foreverdb) – "Jméno|level|t" (t = lovec ochočí)
@@ -710,42 +711,106 @@ local SERIES = {
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
 }
 
--- všechny pečetě: { id, name, desc, icon, points, have, need, what, group, key, series }
+-- splněný quest (classic API i novější C_QuestLog)
+local function questDone(id)
+    local f = (C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted) or IsQuestFlaggedCompleted
+    if not f then return false end
+    local ok, r = pcall(f, id)
+    return ok and r == true
+end
+
+local function myFaction()
+    local ok, f = pcall(UnitFactionGroup, "player")
+    if ok and (f == "Alliance" or f == "Horde") then return f end
+end
+
+local FACTION = {
+    A = { key = "Alliance", label = "|cff1d4fa0Aliance|r", only = "jen pro Alianci" },
+    H = { key = "Horde", label = "|cff9a1c14Horda|r", only = "jen pro Hordu" },
+}
+
+-- hodnost kronikáře podle bodů pečetí
+local RANKS = { { 0, "Učedník" }, { 50, "Písař" }, { 150, "Kronikář" }, { 300, "Strážce kroniky" },
+    { 600, "Mistr kronikář" }, { 1000, "Legenda Azerothu" } }
+local function rankOf(pts)
+    local cur, nxt = RANKS[1], nil
+    for i, r in ipairs(RANKS) do
+        if pts >= r[1] then cur, nxt = r, RANKS[i + 1] end
+    end
+    return cur[2], nxt
+end
+
+-- všechny pečetě: { id, name, desc, icon, image, points, have, need, what, group, key, series,
+--                   gold, hidden, faction, detail (co chybí) }
 local function sealList()
     local S = seen()
     local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0 }
     for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then counts.zone = counts.zone + 1 end end
     for zone, places in pairs(WoWpoCesku_Objevy or {}) do
-        local n = 0
-        for _, p in ipairs(places) do if placeVisited(p) then n = n + 1 end end
+        local n, missing = 0, {}
+        for _, p in ipairs(places) do
+            if placeVisited(p) then n = n + 1 else missing[#missing + 1] = "• " .. p end
+        end
         counts.mista = counts.mista + n
         out[#out + 1] = { id = "poutnik:" .. zone, name = "Průzkumník – " .. zone, icon = IC .. "INV_Misc_Map_01", image = PIC .. "pruzkumnik",
             desc = "Navštiv všechna místa Poutníkova deníku v oblasti " .. zone .. ".",
-            points = 10, have = n, need = #places, what = "míst", group = "oblast", key = zone }
+            points = 10, have = n, need = #places, what = "míst", group = "oblast", key = zone,
+            detail = #missing > 0 and ("Ještě neobjeveno:\n" .. table.concat(missing, "\n")) or nil }
     end
     for dung, list in pairs(WoWpoCesku_DungeonBosses or {}) do
         local total = bossTotal(list)
-        local n = math.min(countKeys(S.bosses and S.bosses[dung]), total)
+        local killed = (S.bosses and S.bosses[dung]) or {}
+        local missing = {}
+        for _, b in ipairs(list) do if b[1] and not killed[b[1]] then missing[#missing + 1] = "• " .. b[1] end end
+        local n = math.min(countKeys(killed), total)
         if total > 0 and n >= total then counts.dung = counts.dung + 1 end
         local raid = RAIDS[dung]
         out[#out + 1] = { id = "dobyvatel:" .. dung, name = "Dobyvatel – " .. dung,
             icon = IC .. (raid and "INV_Misc_Head_Dragon_01" or "INV_Misc_Bone_HumanSkull_01"),
-            image = PIC .. (raid and "raid" or "dobyvatel"),
+            image = PIC .. (raid and "raid" or "dobyvatel"), gold = raid,
             desc = "Poraz všechny bosse " .. (raid and "v raidu " or "v dungeonu ") .. dung .. ".",
-            points = raid and 25 or 10, have = n, need = total, what = "bossů", group = "dungeon", key = dung }
+            points = raid and 25 or 10, have = n, need = total, what = "bossů", group = "dungeon", key = dung,
+            detail = #missing > 0 and ("Ještě nepadli:\n" .. table.concat(missing, "\n")) or nil }
     end
     for _, ser in ipairs(SERIES) do
         local c = counts[ser.id] or 0
-        for _, st in ipairs(ser.steps) do
+        for i, st in ipairs(ser.steps) do
             out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = ser.image, points = st[3],
-                have = math.min(c, st[1]), need = st[1], what = ser.what, group = "obecne", series = ser.id }
+                have = math.min(c, st[1]), need = st[1], what = ser.what, group = "obecne", series = ser.id,
+                gold = (i == #ser.steps) }
         end
+    end
+    -- Legendy Azerothu: slavné questové příběhy (frakční jen pro svou frakci)
+    for _, L in ipairs(WoWpoCesku_SealLegends or {}) do
+        local done = false
+        for _, q in ipairs(L.q) do if questDone(q) then done = true break end end
+        out[#out + 1] = { id = "legenda:" .. L.id, name = L.name, desc = L.desc, icon = IC .. "INV_Misc_Book_11",
+            image = PIC .. "ctenar", gold = L.gold, points = L.pts or 10, have = done and 1 or 0, need = 1,
+            group = "legenda", faction = L.f }
+    end
+    -- skryté pečetě: potkat postavu nebo navštívit místo
+    local met = S.met or {}
+    for _, H in ipairs(WoWpoCesku_SealHidden or {}) do
+        local done = (H.npc and met[H.npc] ~= nil) or (H.misto and placeVisited(H.misto)) or false
+        out[#out + 1] = { id = "skryta:" .. H.id, name = H.name, desc = H.desc, hint = H.hint,
+            icon = IC .. "INV_Misc_QuestionMark", image = PIC .. "objevitel", points = H.pts or 10,
+            have = done and 1 or 0, need = 1, group = "skryta", hidden = true }
     end
     return out
 end
 
 -- banner „Pečeť získána!“ (jako achievement ve hře); víc pečetí najednou jde postupně
 local banner, bannerQueue = nil, {}
+local function tintSeal(tex, s, got)
+    -- obrázek pečeti: rudý vosk; vzácná = zlatý, skrytá = černý; nezískaná = vybledlá
+    tex:SetDesaturated((not got) or s.gold or s.hidden or false)
+    if not got then tex:SetVertexColor(0.80, 0.72, 0.57)
+    elseif s.gold then tex:SetVertexColor(1.0, 0.80, 0.36)
+    elseif s.hidden then tex:SetVertexColor(0.50, 0.50, 0.58)
+    else tex:SetVertexColor(1, 1, 1) end
+end
+WoWpoCesku_TintSeal = tintSeal
+
 local function showNextBanner()
     local s = table.remove(bannerQueue, 1)
     if not s then return end
@@ -757,12 +822,6 @@ local function showNextBanner()
         banner.wax = banner:CreateTexture(nil, "ARTWORK", nil, 2)
         banner.wax:SetSize(78, 78)
         banner.wax:SetPoint("LEFT", 6, 0)
-        banner.wax:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
-        banner.wax:SetVertexColor(0.86, 0.20, 0.13)
-        banner.icon = banner:CreateTexture(nil, "OVERLAY")
-        banner.icon:SetSize(40, 40)
-        banner.icon:SetPoint("CENTER", banner.wax)
-        pcall(banner.icon.SetMask, banner.icon, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
         banner.title:ClearAllPoints()
         banner.title:SetPoint("TOPLEFT", banner.wax, "TOPRIGHT", 6, -8)
         banner.title:SetFont(FONT, 11, "")
@@ -789,19 +848,12 @@ local function showNextBanner()
             if WoWpoCesku_ShowLore then WoWpoCesku_ShowLore("pecete") end
         end)
     end
-    banner.title:SetText(("Pečeť získána!  ·  %d bodů"):format(s.points or 0))
+    local kind = s.hidden and "Skrytá pečeť odhalena!" or (s.gold and "Vzácná pečeť získána!" or "Pečeť získána!")
+    banner.title:SetText(("%s  ·  %d bodů"):format(kind, s.points or 0))
     banner.name:SetText(s.name)
     banner.text:SetText(s.desc or "")
-    if s.image then
-        banner.wax:SetTexture(s.image)
-        banner.wax:SetVertexColor(1, 1, 1)
-        banner.icon:Hide()
-    else
-        banner.wax:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pecet")
-        banner.wax:SetVertexColor(0.86, 0.20, 0.13)
-        banner.icon:SetTexture(s.icon)
-        banner.icon:Show()
-    end
+    banner.wax:SetTexture(s.image)
+    tintSeal(banner.wax, s, true)
     pcall(PlaySound, 888, "Master")
     banner.anim:Stop()
     banner.anim:Play()
@@ -813,12 +865,16 @@ local function charName()
     if ok and type(name) == "string" and name ~= "" and not secret(name) then return name end
 end
 
+local SEAL_VERSION = 2   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
+
 checkSeals = function()
     local S = seen()
-    local first = S.seals == nil
+    local silent = S.seals == nil or (S.sealVer or 1) < SEAL_VERSION
     S.seals = S.seals or {}
     S.sealBy = S.sealBy or {}
+    S.sealVer = SEAL_VERSION
     local me = charName()
+    local fac = myFaction()
     -- pečetě z doby, kdy se jméno nezapisovalo, připadnou postavě, která se přihlásí první
     if me then
         for id in pairs(S.seals) do
@@ -827,17 +883,23 @@ checkSeals = function()
     end
     local new = {}
     for _, s in ipairs(sealList()) do
-        if s.need > 0 and s.have >= s.need and not S.seals[s.id] then
+        local allowed = not s.faction or (fac and FACTION[s.faction].key == fac)
+        if allowed and s.need > 0 and s.have >= s.need and not S.seals[s.id] then
             S.seals[s.id] = time()
             S.sealBy[s.id] = me
             new[#new + 1] = s
         end
     end
-    -- napoprvé (postup z doby před pečetěmi) jen tiše zapsat
-    if first or #new == 0 then return end
+    if silent or #new == 0 then return end
     for i = 1, #new do
         say("nova pecet: " .. ascii(new[i].name))
         if i <= 5 then bannerQueue[#bannerQueue + 1] = new[i] end
+    end
+    -- volitelně oznámit guildě (v nastavení, výchozí vypnuto)
+    if WoWpoCeskuSettings and WoWpoCeskuSettings.sealGuild and IsInGuild and IsInGuild() then
+        local msg = "[WoWpoCesku] ziskal(a) jsem pecet: " .. ascii(new[1].name)
+        if #new > 1 then msg = msg .. (" (a dalsich %d)"):format(#new - 1) end
+        pcall(SendChatMessage, msg, "GUILD")
     end
     if not (banner and banner:IsShown()) then showNextBanner() end
 end
@@ -850,21 +912,44 @@ end
 
 WoWpoCesku_CheckSeals = function() pcall(checkSeals) end
 
+-- skryté pečetě: potkané postavy (zaměření, najetí myší, jmenovka)
+local HIDDEN_NPC = {}
+for _, H in ipairs(WoWpoCesku_SealHidden or {}) do if H.npc then HIDDEN_NPC[H.npc] = true end end
+local function metUnit(unit)
+    local ok, name = pcall(UnitName, unit)
+    if not ok or type(name) ~= "string" or secret(name) or not HIDDEN_NPC[name] then return end
+    local S = seen()
+    S.met = S.met or {}
+    if S.met[name] then return end
+    S.met[name] = time()
+    C_Timer.After(1, function() pcall(checkSeals) end)
+end
+
 -- záložka Pečetě: mřížka voskových pečetí (vykresluje Lore.lua)
 function WoWpoCesku_PecetePage(key)
     pcall(checkSeals)
     local S = seen()
     local all = sealList()
     local got, total, pts, ptsAll, mine = 0, 0, 0, 0, 0
-    local me = charName()
+    local me, fac = charName(), myFaction()
     for _, s in ipairs(all) do
         total, ptsAll = total + 1, ptsAll + s.points
         s.got = S.seals and S.seals[s.id]
         s.by = S.sealBy and S.sealBy[s.id]
         if s.got then got, pts = got + 1, pts + s.points end
         if s.got and me and s.by == me then mine = mine + 1 end
+        -- úpravy pro zobrazení
+        if s.faction then
+            local F = FACTION[s.faction]
+            s.desc = F.label .. " – " .. s.desc
+            if not s.got and fac and F.key ~= fac then s.statusText, s.dim = F.only, true end
+        end
+        if s.group == "legenda" and not s.got and not s.statusText then s.statusText = "zatím nesplněno" end
+        if s.hidden and not s.got then
+            s.name, s.desc, s.statusText = "? ? ?", s.hint, "skrytá pečeť"
+        end
     end
-    local here, general, zones, dungs = {}, {}, {}, {}
+    local here, general, zones, dungs, legends, hidden = {}, {}, {}, {}, {}, {}
     local nextShown = {}
     local byName = function(a, b) return a.name < b.name end
     for _, s in ipairs(all) do
@@ -876,6 +961,10 @@ function WoWpoCesku_PecetePage(key)
                 general[#general + 1] = s
                 if not s.got then nextShown[s.series] = true end
             end
+        elseif s.group == "legenda" then
+            legends[#legends + 1] = s
+        elseif s.group == "skryta" then
+            hidden[#hidden + 1] = s
         elseif s.got or s.have > 0 then
             local list = s.group == "oblast" and zones or dungs
             list[#list + 1] = s
@@ -883,18 +972,30 @@ function WoWpoCesku_PecetePage(key)
     end
     table.sort(zones, byName)
     table.sort(dungs, byName)
+    -- legendy: získané první, pak tvoje frakce, nakonec druhá frakce
+    table.sort(legends, function(a, b)
+        local ka = a.got and 0 or (a.dim and 2 or 1)
+        local kb = b.got and 0 or (b.dim and 2 or 1)
+        if ka ~= kb then return ka < kb end
+        return a.name < b.name
+    end)
+    table.sort(hidden, function(a, b) return (a.got and 0 or 1) < (b.got and 0 or 1) end)
+    local rank, nxt = rankOf(pts)
     local page = {
-        { "Pečetě kronikáře", ("Získáno |cff801f0d%d|r z %d pečetí  ·  body pečetí: |cff801f0d%d|r z %d"):format(got, total, pts, ptsAll)
+        { "Pečetě kronikáře", ("Hodnost: |cff801f0d%s|r%s\n"):format(rank,
+                nxt and ("  ·  do hodnosti %s chybí %d bodů"):format(nxt[2], nxt[1] - pts) or "")
+            .. ("Získáno |cff801f0d%d|r z %d pečetí  ·  body: |cff801f0d%d|r z %d"):format(got, total, pts, ptsAll)
             .. (me and ("\nZ toho získala postava %s: |cff801f0d%d|r."):format(me, mine) or "")
-            .. "\nPečetě jsou společné pro všechny tvoje postavy – u každé vidíš, kdo ji získal."
-            .. " Splň, co je napsané pod pečetí, a sama se vtiskne do kroniky.",
+            .. "\nPečetě jsou společné pro všechny tvoje postavy. Najeď myší na pečeť a uvidíš, co ještě chybí.",
             seals = here },
+        { "Legendy Azerothu", "Slavné příběhy klasického WoW. Některé zvládne jen Aliance, jiné jen Horda.", seals = legends },
+        { "Skryté pečetě", "Tajemství, která se odhalí, až na ně narazíš.", seals = hidden },
         { "Hrdinské pečetě", "Za lov vzácných mobů, cestování, objevování, dungeony a čtení kroniky.", seals = general },
         { "Oblasti", #zones > 0 and "Rozpracované a dokončené oblasti."
             or "Zatím žádná – projdi místa Poutníkova deníku a pečeť oblasti se začne plnit.", seals = zones },
         { "Dungeony a raidy", #dungs > 0 and "Rozpracované a dokončené dungeony."
             or "Zatím žádný – poraz bosse v dungeonu a pečeť se začne plnit.", seals = dungs,
-          after = GRAY .. "Pečetě se zapisují samy. Postup z doby před touto verzí se počítá také.|r" },
+          after = GRAY .. "Pečetě se zapisují samy. Zlatý vosk = vzácná pečeť, černý = skrytá.|r" },
     }
     return page
 end
@@ -992,6 +1093,7 @@ pcall(ev.RegisterEvent, ev, "VIGNETTES_UPDATED")
 pcall(ev.RegisterEvent, ev, "VIGNETTE_MINIMAP_UPDATED")
 ev:RegisterEvent("PLAYER_REGEN_ENABLED")
 pcall(ev.RegisterEvent, ev, "ENCOUNTER_END")
+pcall(ev.RegisterEvent, ev, "QUEST_TURNED_IN")
 -- POZOR: COMBAT_LOG_EVENT_UNFILTERED ve WoW Forever addony registrovat nesmí (hra hlásí zakázanou akci)
 ev:SetScript("OnEvent", function(_, event, unit, ...)
     if event == "PLAYER_LOGIN" then
@@ -1003,12 +1105,17 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
         if unit == "Blizzard_WorldMap" then pcall(hookMap) end
     elseif event == "NAME_PLATE_UNIT_ADDED" then
         pcall(checkRare, unit)
+        pcall(metUnit, unit)
     elseif event == "PLAYER_TARGET_CHANGED" then
         pcall(checkRare, "target")
+        pcall(metUnit, "target")
     elseif event == "UPDATE_MOUSEOVER_UNIT" then
         pcall(checkRare, "mouseover")
+        pcall(metUnit, "mouseover")
     elseif event == "VIGNETTES_UPDATED" or event == "VIGNETTE_MINIMAP_UPDATED" then
         pcall(checkVignettes)
+    elseif event == "QUEST_TURNED_IN" then
+        C_Timer.After(2, function() pcall(checkSeals) end)
     elseif event == "ENCOUNTER_END" then
         local encName, _, _, success = ...   -- unit = encounterID
         if success == 1 then pcall(markBoss, encName) end
