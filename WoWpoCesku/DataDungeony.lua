@@ -149,7 +149,16 @@ WoWpoCesku_LoreTajemstvi["Razorfen Kraul"] = [[• Uvnitř je uvězněný Willix
 D["Scarlet Monastery"] = {
     title = "Scarlet Monastery", tag = "Klášter Šarlatového křižáckého řádu v Tirisfalu – čtyři křídla (levely 26–45).",
     ch = {
-        { "Příběh", [[Šarlatový křižácký řád vznikl z rytířů, kteří přežili Pohromu – a z jejich zuřivosti. Každého, kdo není jako oni, považují za nemrtvého nebo zrádce. Klášter je jejich pevností.]] },
+        { "Bašta kněží", [[Scarlet Monastery na severovýchodě Tirisfalu byl kdysi pyšnou baštou kněžstva Lordaeronu – centrem učenosti a osvícení. Mladý Alexandros Mograine tu strávil měsíce výcviku.]] },
+        { "Zrod Šarlatových", [[Po Třetí válce vedl lord Alexandros Mograine zbytky Rytířů Stříbrné ruky do kláštera a udělal z něj obrannou základnu proti Pohromě. Z jeho křížové výpravy se později oddělily dvě frakce: nemilosrdný Šarlatový křižácký řád a Argent Dawn.
+
+Šarlatoví považují každého nemrtvého za zrůdu a každého, kdo s nimi nesouhlasí, za zrádce. Klášter je dnes jejich pevností. Kdysi tu Brigitte Abbendis a Maxwell Tyrosus dokonce vedli spor o osud trolla Zabry Hexxe, který se z knih kláštera naučil Světlu – Alexandros ho nakonec ušetřil.]] },
+        { "Čtyři křídla", [[Klášter má čtyři křídla. Na hřbitově (Graveyard) vládnou Interrogator Vishas a Bloodmage Thalnos. V knihovně (Library) Houndmaster Loksey a Arcanist Doan, u kterého najdeš Scarlet Key. Ve zbrojnici (Armory) čeká šampion Herod a v katedrále (Cathedral) High Inquisitor Fairbanks, Scarlet Commander Mograine a High Inquisitor Whitemane.
+
+Když hrdinové porazí Mograina, přiběhne Whitemane a vzkřísí ho slavným „Arise, my champion!“.]] },
+        { "Temná tajemství", [[Za Šarlatovými stojí víc, než si sami přiznávají. SPOILER: jejich vrchní velitel Grand Crusader Saidan Dathrohan je ve skutečnosti démon Balnazzar.
+
+A Renault Mograine, syn Alexandrose, svého otce kdysi zradil. Podle legendy ho za tu zradu nakonec v kapli kláštera popravil otcův duch skrze meč Ashbringer.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Scarlet Monastery"] = [[• Do zbrojnice a katedrály potřebuješ Scarlet Key z knihovny.
@@ -159,7 +168,12 @@ WoWpoCesku_LoreTajemstvi["Scarlet Monastery"] = [[• Do zbrojnice a katedrály 
 D["Razorfen Downs"] = {
     title = "Razorfen Downs", tag = "Kančí lidé v područí Pohromy, na hranici Barrens (levely 35–45).",
     ch = {
-        { "Příběh", [[Lich Amnennar the Coldbringer převádí kančí lidi na stranu Pohromy. Drak Belnistrasz z bronzového rodu chce jeho rituál zastavit.]] },
+        { "Hlavní město kančích lidí", [[Razorfen Downs na hranici Barrens a Thousand Needles bylo dávným hlavním městem kančích lidí (quilboar) – posvátným místem v trnech poloboha Agamaggana.]] },
+        { "Pohroma v trnech", [[Po Třetí válce dobyl Razorfen Downs lich Amnennar the Coldbringer se silami Pohromy. Kančí lidé svedli zoufalý boj, aby své milované město získali zpět dřív, než Amnennar rozšíří svou moc po celých Barrens.
+
+Kmen Death's Head, nejvyšší kněží kančích lidí, se zkazil a dnes slouží Pohromě. Kančí lidé v Downs jsou nakažení morem a zajímají vězně.]] },
+        { "Belnistrasz", [[Mezi vězni je i drak Belnistrasz. Chce zastavit Amnennarův vliv a zničit modlu, skrze kterou lich působí. V questu Extinguishing the Idol ho hrdinové musí bránit před vlnami nepřátel, zatímco modlu ruší.]] },
+        { "Bossové", [[Cestou potkáš obřího pavouka Tuten'kashe, kterého přivolá gong (jméno je odkazem na Tutanchamona), Mordreshe Fire Eye v části Bone Pile, nenasytného Gluttona, vzácně Ragglesnouta a Plaguemaw the Rotting. Na konci čeká sám Amnennar. Jeho fylaktérium ale zůstalo celé – a lich se tak může jednou vrátit.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Razorfen Downs"] = [[• Quest Extinguishing the Idol – braňte Belnistrasze, zatímco ruší modlu.
@@ -168,7 +182,14 @@ WoWpoCesku_LoreTajemstvi["Razorfen Downs"] = [[• Quest Extinguishing the Idol 
 D["Uldaman"] = {
     title = "Uldaman", tag = "Trezor titánů v Badlands, kde se skrývá původ trpaslíků (levely 35–47).",
     ch = {
-        { "Příběh", [[Uldaman postavili titáni. Trpaslíci z Explorers' League tu hledají Disky Norgannona, které prozrazují, že trpaslíci pocházejí z kamenných earthen. Dark Ironové a troggové jim jdou po krku.]] },
+        { "Trezor titánů", [[Uldaman je obrovský prastarý trezor, který postavili strážci titánů. Leží v Badlands a ukrývá jedno z největších tajemství trpaslíků.]] },
+        { "Probuzení troggů", [[Explorers' League tu při prvních vykopávkách nechtěně probudila troggy, kteří pak zaplavili okolní kraje – mimo jiné i Gnomeregan. O vykopávky se zajímají i Dark Ironové pod vedením Galganna Firehammera, kteří tu hledají artefakty titánů.]] },
+        { "Disky Norgannona", [[V hloubi trezoru leží Disky Norgannona – obrovské artefakty titánů, které zaznamenávají tajemství stvoření trpaslíků. Trezor skrývá i spící earthen, kamenné bytosti, ze kterých se po probuzení stali trpaslíci.
+
+Disky střeží kamenná obryně Ironaya, která pomáhala Uldaman rozšiřovat, a nejhlubší komnaty hlídá Archaedas, myslící strážce z kamene.]] },
+        { "Ztracení Vikingové", [[V Uldamanu potkáš i tři ztracené trpaslíky – Baeloga, Erica „The Swift“ a Olafa. Je to odkaz na hru The Lost Vikings od Blizzardu.
+
+Dalšími bossy jsou Revelosh, trogg Grimlok, Obsidian Sentinel a Ancient Stone Keeper. Questy tě pošlou pro Staff of Prehistoria, Power Stones a Platinum Discs.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Uldaman"] = [[• Baelog, Eric a Olaf jsou odkaz na hru The Lost Vikings od Blizzardu!
@@ -177,7 +198,12 @@ WoWpoCesku_LoreTajemstvi["Uldaman"] = [[• Baelog, Eric a Olaf jsou odkaz na hr
 D["Zul'Farrak"] = {
     title = "Zul'Farrak", tag = "Trollí město v poušti Tanaris (levely 44–54).",
     ch = {
-        { "Příběh", [[Trollové Sandfury přežili v poušti díky kruté magii a uctívání hydry Gahz'rilla. Drží zajatce a připravují rituály.]] },
+        { "Město písečných trollů", [[Zul'Farrak je město trollů Sandfury na severozápadě Tanaris. Kmen Sandfury se po Velkém rozpoltění, kdy se džungle změnila v poušť, za tisíce let přizpůsobil životu v písku a stali se z nich písečtí trollové.]] },
+        { "Gahz'rilla", [[V posvátném jezírku spí Gahz'rilla – prastará hydra, kterou trollové uctívají jako poloboha. Kdo ji probudí, toho čeká zkáza. Probudit ji lze kladivem Mallet of Zul'Farrak u gongu.]] },
+        { "Vládci města", [[Městu vládne náčelník Ukorz Sandscalp se svým pomocníkem Ruuzlu. Dalšími bossy jsou Theka the Martyr, čaroděj Witch Doctor Zum'rah s kostlivci, Antu'sul se svými baziliškami, Hydromancer Velratha a nemrtvý troll Nekrum Gutchewer se Shadowpriestem Sezz'zizem.]] },
+        { "Bitva na pyramidě", [[Ve městě uvízla skupina žoldnéřů z Gadgetzanu – Sergeant Bly, Raven, trpaslík Murta Grimgut, ork Oro Eyegouge a goblin Weegli Blastfuse. Když je hrdinové osvobodí z klece, společně odrážejí na schodech pyramidy vlny trollů. Je to jedna z nejslavnějších bitev klasických dungeonů.
+
+Questy tě pošlou pro skarabeové krunýře, Tiaru Tiara of the Deep a součásti Divino-matic Rod.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Zul'Farrak"] = [[• Slavná bitva na schodech: osvoboď Sergeanta Blye a jeho druhy z klece a pak společně odrážejte vlny trollů.
@@ -186,7 +212,12 @@ WoWpoCesku_LoreTajemstvi["Zul'Farrak"] = [[• Slavná bitva na schodech: osvobo
 D["Maraudon"] = {
     title = "Maraudon", tag = "Jeskyně Theradras a Zaetara v Desolace (levely 46–55).",
     ch = {
-        { "Příběh", [[Zaetar, syn Cenaria, a princezna země Theradras měli děti – kentaury, kteří otce zabili. Theradras ho pohřbila v Maraudonu a dodnes tu truchlí. Její žal zkazil celé jeskyně.]] },
+        { "Jeskyně v Desolace", [[Maraudon leží v Valley of Spears v Desolace. Je rozdělený na tři části, do kterých vedou různé portály: Wicked Grotto (fialová část), Foulspore Cavern (oranžová část) a Earth Song Falls (vnitřní část).]] },
+        { "Hrob Zaetara", [[Podle legendy stvořili kentaury Zaetar, syn Cenaria, a princezna země Theradras. Krátce po svém zrození kentauři svého otce zavraždili. Truchlící Theradras uvěznila Zaetarova ducha v Maraudonu – a kraj zkazil vliv Starých bohů.
+
+Kentauři z kmene Maraudine toto posvátné místo hlídají, zatímco kmen Magram se vlivu Theradras staví na odpor.]] },
+        { "Bossové", [[Ve Wicked Grotto čeká goblin Tinkerer Gizlock, satyr Lord Vyletongue, agent Plamenné legie, a Celebras the Cursed, Zaetarův potomek. Vzácně se tu objevuje Meshlok the Harvester. Ve Foulspore Cavern žijí Noxxion a Razorlash. V Earth Song Falls čeká horský obr Landslide, obří krokodýl Rotgrip a nakonec Princess Theradras.]] },
+        { "Vykoupení", [[Duch Zaetara dává quest Corruption in Maraudon a vykoupený Celebras the Redeemed quest The Scepter of Celebras – žezlo otevře portál, který zkrátí cestu dovnitř. Po porážce Theradras se Zaetarův duch konečně může rozloučit.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Maraudon"] = [[• Scepter of Celebras otevře portál, který zkrátí cestu dovnitř.
@@ -195,7 +226,16 @@ WoWpoCesku_LoreTajemstvi["Maraudon"] = [[• Scepter of Celebras otevře portál
 D["Sunken Temple"] = {
     title = "Sunken Temple", tag = "Potopený chrám Atal'Hakkar v Swamp of Sorrows (levely 50–56).",
     ch = {
-        { "Příběh", [[Kněží Atal'ai chtěli vyvolat krvavého boha Hakkara. Ysera chrám potopila do bažiny a drak Eranikus ho hlídá – jenže jeho mysl ovládla Noční můra.]] },
+        { "Chrám Atal'ai", [[Atal'ai byli mocnou sektou kněží, kteří se pokusili vzkřísit Hakkara Soulflayera, svého krvavého boha. Po porážce v občanské válce říše Gurubashi uprchli na sever do Swamp of Sorrows a postavili chrám Atal'Hakkar jako ohnisko svých temných rituálů.]] },
+        { "Ysera", [[Dračí aspekt Ysera jejich plány odhalila a chrám potopila pod bažinu, aby vyvolání zabránila. Na stráž postavila zelené draky, kteří brání každému vstupu.
+
+Strážci ale podlehli Smaragdové noční můře. Dreamscythe a Weaver hlídají vnější komnatu, Hazzas a Morphaz komnatu posledního souboje – a všechny je ovládla Noční můra stejně jako jejich vůdce Eranika.]] },
+        { "Kněží Atal'ai", [[Kult vede Jammal'an the Prophet, který dokáže ovládnout mysl hrdinů, a jeho nemrtvý poručík Ogom the Wretched. Nad jámou Pit of Sacrifice stojí na balkonech šest trollích kněží a dokud nepadnou, Jammal'an je nezranitelný.
+
+V jámě Pit of Refuse je potřeba aktivovat hadí sochy ve správném pořadí, aby se objevil Atal'alarion, zlověstný troll.]] },
+        { "Avatar a Eranikus", [[S předmětem Egg of Hakkar z questu The Blood God Hakkar mohou hrdinové v komnatě Sanctum of the Fallen God přivolat Avatara Hakkara.
+
+Na konci čeká Shade of Eranikus – kdysi vznešený zelený drak, kterého Noční můra dohnala k šílenství. Je to poslední a největší výzva chrámu.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Sunken Temple"] = [[• Šest trollích kněží na balkonech je třeba porazit, aby se otevřela cesta.
@@ -206,7 +246,18 @@ A["Temple of Atal'Hakkar"] = "Sunken Temple"
 D["Blackrock Depths"] = {
     title = "Blackrock Depths", tag = "Podzemní říše Dark Ironů pod Blackrock Mountain (levely 52–60).",
     ch = {
-        { "Příběh", [[Hluboko pod horou leží město Shadowforge, sídlo Dark Ironů a jejich císaře Dagrana Thaurissana. Vládne mu ale Ragnaros, pán ohně, kterého kdysi vyvolal jeho předek. Ve městě je i princezna Moira, dcera krále Magniho.]] },
+        { "Shadowforge City", [[Blackrock Depths jsou nejhlubší částí hory Blackrock, kde vládnou Dark Ironové. Jejich město Shadowforge City navrhl stavitel Franclorn Forgewright.
+
+Po Válce tří kladiv Dark Ironové pošetile vyvolali Ragnarose, pána ohně – a od té doby mu musí sloužit.]] },
+        { "Císař a princezna", [[Městu vládne císař Dagran Thaurissan, ale vždy jen jako služebník Ragnarose. Dark Ironové unesli princeznu Moiru Bronzebeard, dceru krále Magniho. Moira ale odmítá záchranu – čeká totiž císařovo dítě, dědice trůnu. To hodně komplikuje plány Aliance.
+
+Marshal Windsor vede výpravy Aliance a trpaslík Kharan Mighthammer hrdinům vypráví, co se s Moirou stalo.]] },
+        { "Grim Guzzler", [[Uprostřed dungeonu je hospoda Grim Guzzler – neutrální místo, kde působí hostinský Plugger Spazzring, Hurley Blackbreath a Ribbly Screwspigot. Lokhtos Darkbargainer tu obchoduje pro Thorium Brotherhood a prodává slavné recepty.
+
+Hospoda je slavná i tím, co se stane, když někdo ukradne pivo Dark Iron Ale.]] },
+        { "Vojsko a oheň", [[Vojsku velí General Angerforge a Golem Lord Argelmach se svými golemy. V aréně Ring of Law se bojuje podle tajemných zvyků Dark Ironů. Ambassador Flamelash zastupuje ve městě ohnivé elementály.
+
+Shadowforge Key otevře velkou část dungeonu a quest Attunement to the Core dá hrdinům přístup do Molten Core, kde sídlí sám Ragnaros.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Blackrock Depths"] = [[• Grim Guzzler – hospoda uprostřed dungeonu. Ukradni pivo Dark Iron Ale a uvidíš, co se stane.
@@ -216,7 +267,14 @@ WoWpoCesku_LoreTajemstvi["Blackrock Depths"] = [[• Grim Guzzler – hospoda up
 D["Blackrock Spire"] = {
     title = "Blackrock Spire", tag = "Pevnost klanu Blackrock a černých draků v hoře (levely 55–60).",
     ch = {
-        { "Příběh", [[Horní část hory drží orkové klanu Blackrock pod Warchiefem Rendem Blackhandem. Za nimi stojí černý drak Nefarian a jeho generál Drakkisath.]] },
+        { "Pevnost Dark Ironů", [[Blackrock Spire byl pevností Dark Ironů, kterou navrhl mistr stavitel Franclorn Forgewright. Za První války si v ní Shadow Council zřídil tajné útočiště.
+
+Když přišla Horda, Dark Ironové pod vládou Ragnarose jí dovolili, aby si z Blackrock Spire udělala své nové velitelství.]] },
+        { "Vládci hory", [[V Blackrock Spire postupně vládli Blackhand, vůdce Staré Hordy, pak Orgrim Doomhammer a dnes Rend Blackhand, válečný náčelník Temné Hordy (Dark Horde). Horní patra ale ovládl černý drak Nefarian, který si nechává říkat lord Victor Nefarius.]] },
+        { "Dolní část", [[V dolní části (Lower Blackrock Spire) sídlí síly Temné Hordy – orkové, ogrové a trollové. Bossy jsou Highlord Omokk, Shadow Hunter Vosh'gajin, War Master Voone, pavoučice Mother Smolderweb, Urok Doomhowl, Quartermaster Zigris, Halycon, Gizrul the Slavener a Overlord Wyrmthalak.]] },
+        { "Horní část", [[Horní část (Upper Blackrock Spire) ovládá Nefarianův dračí rod. Čekají tu Pyroguard Emberseer, Solakar Flamewreath, Goraluk Anvilcrack, Warchief Rend Blackhand se svým drakem Gythem, The Beast a General Drakkisath.
+
+Do horní části potřebuješ pečeť Seal of Ascension. Kdo chce dál do Blackwing Lair, potřebuje Blackhand's Command.]] },
     },
 }
 WoWpoCesku_LoreTajemstvi["Blackrock Spire"] = [[• Do horní části potřebuješ pečeť Seal of Ascension.

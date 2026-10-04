@@ -311,7 +311,7 @@ WoWpoCesku_LoreKnihy = {
 
 • Původ trpaslíků – v Uldamanu jsou ukryty disky titánů, které prozrazují, že trpaslíci pocházejí z earthen, kamenných služebníků titánů, jejichž kamenná těla se kletbou masa (Curse of Flesh) postupně proměnila v živé maso. Proto mají trpaslíci kámen tak rádi.
 
-• Princezna Moira – Magniho dcera zmizela. SPOILER: unesl ji Dagran Thaurissan, císař Dark Ironů, a vzal si ji za ženu. Magni posílá hrdiny do Blackrock Depths, aby ji „zachránili“ – jenže Moira vůbec nechce být zachráněna.
+• Princezna Moira – Magniho dcera zmizela. SPOILER: unesl ji Dagran Thaurissan, císař Dark Ironů, a vzal si ji za ženu. Magni posílá hrdiny do Blackrock Depths, aby ji „zachránili“ – jenže Moira vůbec nechce být zachráněna – čeká totiž Dagranovo dítě, dědice trůnu.
 
 • Gnomeregan – zrádce Sicco Thermaplugg byl poradcem krále gnómů Gelbina Mekkatorqua. Radil vypustit do města jedovaté záření a pak se prohlásil králem toho, co zbylo.
 
