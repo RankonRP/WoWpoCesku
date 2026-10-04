@@ -92,25 +92,93 @@ local function rareNote(name, info, rec)
     return table.concat(parts, " ")
 end
 
+-- tlačítko „Zaměřit“ (jako NPCScan): bezpečné tlačítko s makrem /targetexact – jen mimo boj
+local targetBtn
+local function setupTargetButton(name)
+    if InCombatLockdown() then
+        if targetBtn then targetBtn:Hide() end
+        return false
+    end
+    if not targetBtn then
+        targetBtn = CreateFrame("Button", "WoWpoCeskuRareTarget", UIParent, "SecureActionButtonTemplate")
+        targetBtn:SetFrameStrata("HIGH")
+        targetBtn:RegisterForClicks("AnyUp", "AnyDown")
+        targetBtn:SetAttribute("type", "macro")
+        local hl = targetBtn:CreateTexture(nil, "HIGHLIGHT")
+        hl:SetAllPoints()
+        hl:SetColorTexture(RED[1], RED[2], RED[3], 0.12)
+        targetBtn:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+            GameTooltip:AddLine("Klikni = zamerit vzacneho moba")
+            GameTooltip:Show()
+        end)
+        targetBtn:SetScript("OnLeave", GameTooltip_Hide)
+    end
+    targetBtn:SetAttribute("macrotext", "/targetexact " .. name)
+    targetBtn:ClearAllPoints()
+    targetBtn:SetAllPoints(alert)
+    targetBtn:Show()
+    return true
+end
+
+local function hideTargetButton()
+    if targetBtn and not InCombatLockdown() then targetBtn:Hide() end
+end
+
 local function showAlert(name, info, rec)
     if not alert then
         alert = parchmentFrame("WoWpoCeskuRareAlert", UIParent, "HIGH")
         alert:SetPoint("TOP", 0, -110)
         alert:EnableMouse(false)
+        alert.hint = alert:CreateFontString(nil, "OVERLAY")
+        alert.hint:SetFont(FONT, 11, "")
+        alert.hint:SetTextColor(RED[1], RED[2], RED[3])
+        alert.hint:SetPoint("TOPLEFT", alert.text, "BOTTOMLEFT", 0, -4)
         local anim = alert:CreateAnimationGroup()
         local hold = anim:CreateAnimation("Alpha")
-        hold:SetFromAlpha(1) hold:SetToAlpha(1) hold:SetDuration(6) hold:SetOrder(1)
+        hold:SetFromAlpha(1) hold:SetToAlpha(1) hold:SetDuration(12) hold:SetOrder(1)
         local out = anim:CreateAnimation("Alpha")
         out:SetFromAlpha(1) out:SetToAlpha(0) out:SetDuration(1.5) out:SetOrder(2)
         anim:SetScript("OnPlay", function() alert:Show(); alert:SetAlpha(1) end)
-        anim:SetScript("OnFinished", function() alert:Hide() end)
+        anim:SetScript("OnFinished", function() alert:Hide(); hideTargetButton() end)
         alert.anim = anim
     end
     alert.title:SetText("Vzácný mob: " .. name)
     alert.text:SetText(rareNote(name, info, rec))
     fitFrame(alert, 340)
+    local canTarget = setupTargetButton(name)
+    alert.hint:SetText(canTarget and "Klikni a zaměříš ho" or "V boji ho addon zaměřit nemůže")
+    alert:SetHeight(alert:GetHeight() + 16)
     alert.anim:Stop()
     alert.anim:Play()
+end
+
+-- společné hlášení: zápis do deníku + upozornění (nejvýš jednou za 5 minut na stejného)
+local function reportRare(name, cls, lvl, x, y)
+    local info = RARE[name]
+    local S = seen()
+    local rec = S.rares[name] or { n = 0 }
+    local now = time()
+    if not rec.t or now - rec.t > 300 then rec.n = (rec.n or 0) + 1 end
+    rec.t = now
+    rec.z = zoneKey()
+    if x then rec.x, rec.y = x, y else rec.x, rec.y = playerPos() end
+    rec.c = cls or rec.c
+    if lvl then rec.l = lvl end
+    rec.new = (info == nil) or nil
+    S.rares[name] = rec
+
+    if lastAlert[name] and GetTime() - lastAlert[name] < 300 then return end
+    lastAlert[name] = GetTime()
+    PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959, "Master")
+    if FlashClientIcon then pcall(FlashClientIcon) end
+    -- velký nápis uprostřed obrazovky (písmo hry neumí č/ř – bez diakritiky)
+    if RaidNotice_AddMessage and RaidWarningFrame then
+        pcall(RaidNotice_AddMessage, RaidWarningFrame, "VZACNY MOB: " .. name,
+            ChatTypeInfo and ChatTypeInfo["RAID_WARNING"] or { r = 1, g = 0.3, b = 0.1 })
+    end
+    showAlert(name, info, rec)
+    say(("vzacny mob: %s%s"):format(name, rec.x and (" (%.1f, %.1f)"):format(rec.x, rec.y) or ""))
 end
 
 local function checkRare(unit)
@@ -119,31 +187,31 @@ local function checkRare(unit)
     if not okN or not name or secret(name) then return end
     local okC, cls = pcall(UnitClassification, unit)
     if not okC or secret(cls) then cls = nil end
-    local info = RARE[name]
-    if not info and cls ~= "rare" and cls ~= "rareelite" then return end
+    if not RARE[name] and cls ~= "rare" and cls ~= "rareelite" then return end
     local okP, isPlayer = pcall(UnitIsPlayer, unit)
     if okP and isPlayer == true then return end
-
-    -- deník: kde a kdy
-    local S = seen()
-    local rec = S.rares[name] or { n = 0 }
-    local now = time()
-    if not rec.t or now - rec.t > 300 then rec.n = (rec.n or 0) + 1 end
-    rec.t = now
-    rec.z = zoneKey()
-    rec.x, rec.y = playerPos()
-    rec.c = cls
     local okL, lvl = pcall(UnitLevel, unit)
-    if okL and not secret(lvl) then rec.l = lvl end
-    rec.new = (info == nil) or nil
-    S.rares[name] = rec
+    reportRare(name, cls, (okL and not secret(lvl)) and lvl or nil)
+end
 
-    -- upozornění nejvýš jednou za 5 minut na stejného
-    if lastAlert[name] and GetTime() - lastAlert[name] < 300 then return end
-    lastAlert[name] = GetTime()
-    PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959, "Master")
-    showAlert(name, info, rec)
-    say(("vzacny mob: %s%s"):format(name, rec.x and (" (%.1f, %.1f)"):format(rec.x, rec.y) or ""))
+-- ikony vzácných mobů na minimapě (vignettes) – dosah větší než jmenovky
+local function checkVignettes()
+    if not WoWpoCeskuSettings or WoWpoCeskuSettings.rareAlert == false then return end
+    if not (C_VignetteInfo and C_VignetteInfo.GetVignettes) then return end
+    local mapID = C_Map.GetBestMapForUnit and C_Map.GetBestMapForUnit("player")
+    for _, guid in ipairs(C_VignetteInfo.GetVignettes() or {}) do
+        local info = C_VignetteInfo.GetVignetteInfo(guid)
+        local name = info and info.name
+        if name and not secret(name) then
+            local atlas = info.atlasName or ""
+            if RARE[name] or atlas:find("Rare") or atlas:find("VignetteKill") then
+                local x, y
+                local pos = mapID and C_VignetteInfo.GetVignettePosition and C_VignetteInfo.GetVignettePosition(guid, mapID)
+                if pos then x, y = math.floor(pos.x * 1000 + 0.5) / 10, math.floor(pos.y * 1000 + 0.5) / 10 end
+                reportRare(name, nil, nil, x, y)
+            end
+        end
+    end
 end
 
 -- /czq vzacni [vyp|zap]
@@ -473,6 +541,9 @@ ev:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 ev:RegisterEvent("NAME_PLATE_UNIT_ADDED")
 ev:RegisterEvent("PLAYER_TARGET_CHANGED")
 ev:RegisterEvent("UPDATE_MOUSEOVER_UNIT")
+pcall(ev.RegisterEvent, ev, "VIGNETTES_UPDATED")
+pcall(ev.RegisterEvent, ev, "VIGNETTE_MINIMAP_UPDATED")
+ev:RegisterEvent("PLAYER_REGEN_ENABLED")
 ev:SetScript("OnEvent", function(_, event, unit)
     if event == "PLAYER_LOGIN" then
         pcall(hookTooltip)
@@ -482,6 +553,10 @@ ev:SetScript("OnEvent", function(_, event, unit)
         pcall(checkRare, "target")
     elseif event == "UPDATE_MOUSEOVER_UNIT" then
         pcall(checkRare, "mouseover")
+    elseif event == "VIGNETTES_UPDATED" or event == "VIGNETTE_MINIMAP_UPDATED" then
+        pcall(checkVignettes)
+    elseif event == "PLAYER_REGEN_ENABLED" then
+        if not (alert and alert:IsShown()) then hideTargetButton() end
     else
         C_Timer.After(1, function() pcall(recordPlace) end)
     end
