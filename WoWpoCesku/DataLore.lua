@@ -1704,10 +1704,25 @@ WoWpoCesku_Lore["Feralas"] = {
     title = "Feralas",
     tag = "Deštný prales obrů, kde se v ruinách elfího města skrývá prastará magie.",
     ch = {
-        { "Prales", [[Feralas je zelený deštný prales s obřími stromy na jihozápadě Kalimdoru. Pršelo tu vždycky a prší pořád. V hloubi lesa jsou ruiny elfích měst a dvě obří sochy, Twin Colossals.]] },
-        { "Kdo tu žije", [[Aliance drží Feathermoon Stronghold na ostrově u pobřeží. Horda má Camp Mojache, tauren tábor ve vnitrozemí. Grimtotem a ogři Gordunni žijí v lesích.]] },
-        { "Dire Maul", [[Uprostřed lesa leží Dire Maul – ruiny Eldre'Thalas, města Highborne, kteří přežili Velké rozpoltění. Uvnitř je ještě několik Highborne naživu a drží uvězněného démona.]] },
-        { "Hrozby", [[Ogři Gordunni, Grimtotem, yetiové, obří hydry, satyrové, nagové a Woodpaw gnollové.]] },
+        { "Prales", [[Feralas je zelený deštný prales s obřími stromy na jihozápadě Kalimdoru. Na západním pobřeží leží ostrov s pevností Feathermoon Stronghold, ve vnitrozemí tauren Camp Mojache a uprostřed lesa ruiny elfího města Eldre'Thalas, kterému se dnes říká Dire Maul.]] },
+
+        { "Eldre'Thalas", [[Feralas byl domovem civilizace Highborne, jejímž centrem bylo Eldre'Thalas – velkolepé město mágů ve službách královny Azshary. Když Studna věčnosti při Velkém rozpoltění explodovala, ztratili Highborne spojení se svým zdrojem magie.
+
+Princ Tortheldrin proto podle legendy postavil kouzelné pylony, uvěznil démona Immol'thara a začal z něj čerpat sílu. V Dire Maul dodnes žijí poslední Highborne, kteří na démonovi závisí.]] },
+
+        { "Twin Colossals", [[Velké rozpoltění roztrhalo krajinu a vytvořilo Twin Colossals – obrovské kamenné útvary, které se staly jedním z nejznámějších orientačních bodů Kalimdoru. Staré elfí ruiny po staletích chátraly a postupně je obsadili jiní.]] },
+
+        { "Feathermoon a Mojache", [[Na západním pobřeží stojí Feathermoon Stronghold, pevnost Aliance pod velením generálky Shandris Feathermoon, která bojuje s hrozbou nag. Ve vnitrozemí na východě leží Camp Mojache, hlavní osada Hordy, kde žijí taureni.]] },
+
+        { "Kdo tu ještě žije", [[V lesích žijí taureni z klanu Grimtotem, gnollové z kmene Woodpaw a ogrové z kmene Gordunni, kteří ovládají staré ruiny. V Lower Wilds na východě leží New Thalanaar a Emerald Summit.
+
+Na Dream Bough, jednom ze stromů snu, se usadil zelený drak Taerar zkažený Smaragdovou noční můrou. Najdeš tu i ruiny Ruins of Isildien.]] },
+
+        { "Hrozby", [[Ogři Gordunni, Grimtotem, yetiové, obří hydry, satyrové, nagové na pobřeží a gnollové Woodpaw. Pralesy jsou krásné, ale každý strom tu může skrývat něco, co tě chce sníst.]] },
+
+        { "Zajímavosti", [[Dire Maul je jedním z nejzajímavějších dungeonů klasického WoW – tři křídla, král ogrů, který ti za „tribute run“ dá poklad, a knihovna Highborne plná starých knih.
+
+Kdo se projde pod Twin Colossals, pochopí, jak obrovskou silou se svět při Rozpoltění trhal.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Feralas"] = [[• Eldre'Thalas – po Velkém rozpoltění se část Highborne ukryla v Eldre'Thalas. Aby udrželi svou magii, uvěznili démona Immol'thara a čerpali z něj sílu. Jejich princ Tortheldrin vládne zbytku.
@@ -1731,10 +1746,23 @@ WoWpoCesku_Lore["Azshara"] = {
     title = "Azshara",
     tag = "Podzimní pobřeží zničené královny, kde jsou ruiny, satyrové a modří draci.",
     ch = {
-        { "Věčný podzim", [[Azshara je kraj s rudými a zlatými stromy na severovýchodě Kalimdoru. Je pojmenovaná po královně Azsharé a kdysi tu stálo hlavní město Highborne. Dnes jsou tu ruiny, satyrové a nagové.]] },
-        { "Ruiny", [[Ruiny Eldarath, Temple of Zin-Malor a další stavby připomínají slávu Highborne. Moře na východě skrývá ruiny potopeného města.]] },
-        { "Kdo tu žije", [[Horda má Valormok, malý tábor. Noční elfové drží Talrendis Point. Po kraji se potuluje Azuregos, obří modrý drak.]] },
-        { "Hrozby", [[Satyrové Haldarr, nagové, harpyje, modří draci, obři a Timbermaw furbolgové.]] },
+        { "Věčný podzim", [[Azshara je kraj s rudými a zlatými stromy na severovýchodě Kalimdoru. Je pojmenovaná po královně Azshaře a kdysi tu stálo hlavní město celé říše nočních elfů. Dnes jsou tu ruiny, satyrové a nagové.]] },
+
+        { "Zin-Azshari", [[Před Velkým rozpoltěním tu stálo Zin-Azshari, velkolepé hlavní město nočních elfů a sídlo královny Azshary. Highborne z akademie Mennar tu za Války starověku použili kámen Sarcen Stone k obraně proti Plamenné legii.
+
+Když se svět při Velkém rozpoltění roztrhl, vtrhlo sem moře a ze slavného města se stal vodní hrob. Azshara a její věrní zmizeli ve vlnách – a stali se z nich nagové.]] },
+
+        { "Ruiny Highborne", [[V ruinách Eldarath stojí chrám Temple of Zin-Malor a obří modrý drak Azuregos tu hlídá artefakty Highborne. Kdysi odsud Highborne z Kel'Theril ukradli krystal Zin-Malor – a jeho rozbití je všechny proklelo.]] },
+
+        { "Kdo tu dnes žije", [[Aliance drží Talrendis Point, Horda tábor Valormok. Vysocí elfové z Quel'Thalas tu mají výpravu Thalassian Base Camp. Furbolgové Timbermaw žijí v Blackmaw Hold.
+
+Na ostrově u pobřeží sídlí vodní elementál Duke Hydraxis a v doupěti Hetaera's Clutch hnízdí královna hyder Hetaera.]] },
+
+        { "Hrozby", [[Nagové z kmene Spitelash, které sem lákají kouzelné korály, a nagové z Legash Encampment. Satyrové a démoni, modří draci a dračí služebníci a obří hydry. Azshara je krásná, ale plná dávného zla, které se nikdy úplně nevytratilo.]] },
+
+        { "Azuregos", [[Azuregos je obří modrý drak, ochránce magických artefaktů. V klasickém WoW je world boss a kdo ho najde, ať zavolá přátele. Na pobřeží stojí i památník Ravencrest Monument.]] },
+
+        { "Zajímavosti", [[Azshara je jedním z nejkrásnějších krajů Kalimdoru – věčný podzim, rudé listí a moře. Ale každá ruina tu připomíná, že tady začala zkáza, která roztrhla celý svět.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Azshara"] = [[• Královna Azshara – před deseti tisíci lety byla nejkrásnější a nejmocnější bytostí na světě. Pozvala Plamennou legii, aby jí pomohla „očistit“ svět. Když Studna explodovala, Azshara se se svými Highborne potopila do moře a stala se královnou nagů.
@@ -1750,7 +1778,7 @@ WoWpoCesku_LoreTajemstvi["Azshara"] = [[• Azuregos – obří modrý drak, wor
 
 • Ruins of Eldarath – sochy a nápisy Highborne.
 
-• Bay of Storms – zátoka, kde kdysi ležel okraj Studny věčnosti.
+• Bay of Storms – bouřlivá zátoka u pobřeží. Kdysi tu stálo hlavní město Zin-Azshari, které při Velkém rozpoltění pohltilo moře.
 
 Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
@@ -1758,10 +1786,25 @@ WoWpoCesku_Lore["Moonglade"] = {
     title = "Moonglade",
     tag = "Posvátné údolí druidů, kde se všichni setkávají v míru.",
     ch = {
-        { "Údolí míru", [[Moonglade je malé, klidné údolí na severu Kalimdoru, obklopené horami. Je posvátné pro druidy a je to neutrální území – ani Aliance, ani Horda tu nebojují.]] },
-        { "Nighthaven", [[Nighthaven je vesnice Cenarion Circle, kruhu druidů. Žijí tu noční elfové i taureni a učí se spolu. Remulos, syn Cenaria, tu bdí nad svatyní.]] },
-        { "Barrow Dens", [[Pod Moonglade leží Stormrage Barrow Dens, kde druidové spí a sní ve Smaragdovém snu. Malfurion Stormrage tu odpočívá – a nevrací se.]] },
-        { "Hrozby", [[Téměř žádné – jen občasní satyrové z Felwoodu a zlý sen, který se plíží.]] },
+        { "Údolí míru", [[Moonglade je malé, klidné údolí na severu Kalimdoru, obklopené horami. Uprostřed leží posvátné jezero Lake Elune'ara, na břehu vesnice Nighthaven a na severu svatyně Shrine of Remulos.]] },
+
+        { "Domov Cenaria", [[Za Války starověku obýval Moonglade polobůh Cenarius. Když Plamenná legie ohrožovala svět, přesvědčil Malfurion Stormrage Tyrande Whisperwind a svého bratra Illidana, aby u Cenaria v tomto klidném útočišti hledali pomoc.
+
+Po Velkém rozpoltění vyšli strážci háje a dryády z ukrytého Moonglade do světa.]] },
+
+        { "Cenarion Circle", [[Moonglade se stal posvátným místem druidů nočních elfů. Za Války satyrů tu Malfurion založil Cenarion Circle – kruh druidů, který bojoval s Druidy kosy (Druids of the Scythe).
+
+Pod Moonglade leží Barrow Dens, kde druidové po tisíciletí spali a snili ve Smaragdovém snu.]] },
+
+        { "Nighthaven", [[Po Třetí válce se Moonglade otevřel druidům všech ras. Strážcem kraje je Keeper Remulos, syn Cenaria. V Nighthaven žijí v míru noční elfové i taureni a mír tu hlídají strážci Moonglade Wardens.
+
+Rabine Saturna tu koordinuje práci druidů a druidové sem mají vlastní kouzlo, které je okamžitě přenese.]] },
+
+        { "Lunární festival", [[Moonglade je centrem Lunárního festivalu, který každý rok oslavuje probuzení poloboha Omena. Při festivalu sem přicházejí hráči obou frakcí a po celém světě se hledají Elders.]] },
+
+        { "Hrozby", [[Téměř žádné – Moonglade je místem míru. Jen občas sem zabloudí satyrové z Felwoodu.]] },
+
+        { "Zajímavosti", [[Moonglade je jedním z mála míst, kde Aliance a Horda nebojují. Kdo sem přijde, může si na chvíli odpočinout od války – a podívat se na jezero, ve kterém se zrcadlí měsíc.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Moonglade"] = [[• Malfurion ztracený ve snu – Malfurion se ponořil do Smaragdového snu a nevrátil se. SPOILER: uvěznila ho tam Noční můra. V knize Stormrage se konečně probudí.
@@ -1791,10 +1834,25 @@ WoWpoCesku_Lore["Tanaris"] = {
     title = "Tanaris",
     tag = "Písečná poušť, kde goblini prodávají vodu a draci hlídají samotný čas.",
     ch = {
-        { "Poušť", [[Tanaris je nekonečná poušť zlatého písku na jihovýchodě Kalimdoru. Duny, kaktusy, vyschlé kosti a slunce, které nepromine. Kdysi tu byla moře a lesy; dnes jen písek a ruiny.]] },
-        { "Gadgetzan", [[Uprostřed pouště stojí Gadgetzan, goblinské město kartelu Steamwheedle. Je neutrální, takže se tu potkávají hráči obou frakcí. Goblini tu čerpají vodu z hlubin a prodávají ji dráž než zlato.]] },
-        { "Caverns of Time", [[Na východě leží Caverns of Time, jeskyně bronzových draků. Jejich vládce Nozdormu hlídá tok času, aby ho nikdo nezměnil. Draci jsou tajemní a do jeskyní nikoho nepouštějí.]] },
-        { "Hrozby", [[Trollové Sandfury ze Zul'Farraku, bandité Wastewander, piráti z Lost Rigger Cove, silithidi, obří štíři, hyeny a písečné bouře.]] },
+        { "Poušť", [[Tanaris je nekonečná poušť zlatého písku na jihovýchodě Kalimdoru. Duny, kaktusy, vyschlé kosti a slunce, které nepromine. Uprostřed stojí goblinské město Gadgetzan, na severozápadě trollí Zul'Farrak, na východě Caverns of Time a na jihu zeď se zavřenou branou do Uldumu.]] },
+
+        { "Ztracená džungle", [[Tanaris byl kdysi bujnou džunglí, domovem kmenů taurenů a trollí říše Gurubashi. Velké rozpoltění z ní ale udělalo poušť. Trollí kmen Farraki tu uvízl, přizpůsobil se drsným podmínkám a stali se z něj písečtí trollové.
+
+Jejich potomci, trollové Sandfury, dodnes žijí v Zul'Farrak a uctívají obří hydru Gahz'rillu.]] },
+
+        { "Odkaz titánů", [[Na jihu pouště je vchod do prastaré země Uldum – města titánů ztraceného pod pískem. V klasickém WoW je brána zavřená a nikdo neví, co se za ní skrývá.
+
+Na východě si bronzový dračí rod zřídil v Caverns of Time svůj prastarý domov. Jejich vládce Nozdormu hlídá tok času, aby ho nikdo nezměnil.]] },
+
+        { "Gadgetzan", [[Goblini z kartelu Steamwheedle pod vedením Marina Noggenfoggera si tu zřídili dva velké přístavy – Gadgetzan a Steamwheedle Port. Gadgetzan je neutrální město, kde se potkávají obchodníci obou frakcí a kde goblini čerpají vodu z hlubin a prodávají ji dráž než zlato.]] },
+
+        { "Kdo tu ještě je", [[Obchodní cesty pouští ovládají bandité Wastewander. V zátoce Lost Rigger Cove sídlí piráti Southsea Freebooters. V doupěti Noxious Lair a v propasti Gaping Chasm se usadili silithidi a v údolí Valley of the Watchers hlídají bronzoví draci.]] },
+
+        { "Hrozby", [[Trollové Sandfury, bandité, piráti, silithidi, obří štíři, hyeny a písečné bouře. A slunce – kdo nemá vodu, ten v Tanaris dlouho nepřežije.]] },
+
+        { "Zajímavosti", [[Tanaris je plný drobných radostí: robotické kuře OOX-17/TN, které můžeš doprovodit domů, ztracená želva Tooga nebo Noggenfogger Elixir, který tě může zmenšit, zpomalit pád – nebo z tebe udělat kostlivce.
+
+Kdo zná budoucnost, ví, že Caverns of Time i brána do Uldumu se jednou otevřou.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Tanaris"] = [[• Bronzoví draci – Nozdormu dostal od titánů úkol hlídat čas. Zná budoucnost i svou vlastní smrt. SPOILER: z jeho strachu z vlastní smrti vznikne Infinite Dragonflight, draci, kteří chtějí čas změnit.
@@ -1818,10 +1876,23 @@ WoWpoCesku_Lore["Un'Goro Crater"] = {
     title = "Un'Goro Crater",
     tag = "Pravěký kráter plný dinosaurů, kde titáni kdysi zkoušeli, jak stvořit život.",
     ch = {
-        { "Ztracený svět", [[Un'Goro Crater je obrovský kráter s džunglí uprostřed pouště. Žijí tu dinosauři – devilsauři, stegodoni a pterodaktylové – a obří rostliny. Je to jako cesta do minulosti.]] },
-        { "Zahrada titánů", [[Podle legend titáni Un'Goro používali jako zahradu – laboratoř, kde zkoušeli tvořit život. Krystalové pylony, které tu stojí, jsou pozůstatky jejich zařízení.]] },
-        { "Marshal's Refuge", [[Malý tábor uprostřed kráteru, kde žijí badatelé a trosečníci, kteří tu přežili. Zkoumají krystaly a dinosaury a z jeskyně nad táborem je vidět celý kráter.]] },
-        { "Hrozby", [[Devilsauři, raptoři, silithidi, ohniví elementálové z Fire Plume Ridge, gorily a obří brouci.]] },
+        { "Ztracený svět", [[Un'Goro Crater je obrovský kráter s džunglí uprostřed pouště jižně od Tanaris a Thousand Needles. Žijí tu dinosauři – devilsauři, stegodoni a pterodaktylové – a obří rostliny. Je to jako cesta do minulosti.]] },
+
+        { "Zahrada titánů", [[Titáni, konkrétně Freya, navrhli Un'Goro jako experimentální oblast – spolu se Sholazar Basin a Vale of Eternal Blossoms. Byla to místa, kde se soustředila síla Studny věčnosti, a sloužila jako laboratoře, kde titáni zkoumali život a kde se zrodili Wild Gods.]] },
+
+        { "Pylony", [[V kráteru stojí záhadné krystalové pylony – červený, zelený, modrý a žlutý. Když je aktivuješ odpovídajícím energetickým krystalem, dají ti dočasný buff. Pylony jsou odkazem na pylony ze seriálu „Land of the Lost“ – a zároveň pozůstatkem zařízení titánů.]] },
+
+        { "Silithidi", [[Za Války pohyblivých písků se Qiraji pokusili Un'Goro dobýt, ale něco jim v tom záhadně zabránilo – nejspíš obrana titánů. Silithidi se ale v kráteru usadili v jizvě The Slithering Scar.]] },
+
+        { "Marshal's Refuge", [[Výprava vedená manželi Williden a Hol'anyee Marshalovými se pustila do průzkumu kráteru. Divoká zvěř – hlavně devilsauři a ohniví elementálové – je ale přemohla a výprava se stáhla do výšin, kde vzniklo útočiště Marshal's Refuge.
+
+Badatelé jako J.D. Collie tu zkoumají jedinečné krystaly a zvířata kráteru.]] },
+
+        { "Místa a hrozby", [[Na Fire Plume Ridge žije ohnivý elementál Blazerunner a najdeš tu i ztraceného Ringa. V kráteru jsou horké prameny Golakka Hot Springs a dehtové jámy Lakkari Tar Pits.
+
+Devilsauři, raptoři, silithidi, ohniví elementálové, gorily a obří brouci – Un'Goro je jedním z nejnebezpečnějších krajů Kalimdoru.]] },
+
+        { "Zajímavosti", [[V kráteru žije i podivný „chlapec“ Linken s mečem a štítem – odkaz na Linka ze Zeldy. A kdo v kráteru narazí na obřího devilsaura King Moshe, ať uteče.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Un'Goro Crater"] = [[• Titáni a Un'Goro – titáni vytvářeli na Azerothu život a Un'Goro byl jednou z jejich laboratoří. Pylony slouží k ovládání energií v kráteru.
@@ -1843,10 +1914,19 @@ WoWpoCesku_Lore["Silithus"] = {
     title = "Silithus",
     tag = "Poušť hmyzích bytostí, za jejichž zdí spí Starý bůh.",
     ch = {
-        { "Hmyzí poušť", [[Silithus je rudá poušť na jihu Kalimdoru, plná úlů silithidů – obřího hmyzu. Země je rozrytá, z kopců vystupují věže úlů a ve vzduchu bzučí.]] },
-        { "Cenarion Hold", [[Cenarion Circle tu má Cenarion Hold, pevnost druidů obou frakcí. Hlídají Scarab Wall – zeď, za kterou je uvězněn Ahn'Qiraj.]] },
-        { "Ahn'Qiraj", [[Za Scarab Wall leží Ahn'Qiraj, pevnost Qiraji. Jejich pánem je C'Thun, Starý bůh, který spí pod zemí. Kdysi se pokusil dobýt Kalimdor.]] },
-        { "Hrozby", [[Silithidi, Qiraji, Twilight's Hammer kultisté, elementálové a obří brouci.]] },
+        { "Hmyzí poušť", [[Silithus je rudá poušť na jihu Kalimdoru, plná úlů silithidů – obřího hmyzu. Země je rozrytá, z kopců vystupují věže úlů a ve vzduchu bzučí. Na jihu stojí zeď Scarab Wall, za kterou leží Ahn'Qiraj.]] },
+
+        { "Říše Aqir", [[Silithus byl kdysi domovem hmyzí říše Azj'Aqir. Pravěcí trollové ji nakonec rozdělili na dvě části: nerubiany na severu a Qiraji na jihu. Qiraji vládne Starý bůh C'Thun.]] },
+
+        { "Válka pohyblivých písků", [[Noční elfové pod velením mimo jiné Fandrala Staghelma tu bojovali s armádami Qiraji. Fandral v té válce ztratil svého syna Valstanna. Po porážce hmyzích armád postavili elfové Scarab Wall, aby zbytek Qiraji uzavřeli v chrámu Ahn'Qiraj. Na válce se podílel i bronzový dračí rod vedený Nozdormem.]] },
+
+        { "Cenarion Hold", [[Po válce se v Silithu natrvalo usadil Cenarion Circle, aby hlídal úly silithidů. Vznikly tu osady Valor's Rest, Southwind Village (dnes zničená) a Bronzebeard Encampment. Hlavním neutrálním místem je Cenarion Hold a velitel Mar'alith vede úsilí z ruin Staghelm Point.]] },
+
+        { "Úly a kult", [[Kraj ovládají tři velké úly silithidů: Hive'Ashi, Hive'Zora a Hive'Regal. V poušti si zřídil několik táborů i kult Twilight's Hammer, který tu hledá tajemné krystaly.]] },
+
+        { "Hrozby", [[Silithidi, Qiraji, kultisté Twilight's Hammer, elementálové a obří brouci. Silithus je místo, kde se svět nejvíc blíží k probuzení Starého boha.]] },
+
+        { "Zajímavosti", [[V klasickém WoW se brány Ahn'Qiraj otevřely velkou událostí, kdy celý server sbíral suroviny a jeden hráč udeřil do gongu na Scarab Wall. Za zdí pak čekaly dva raidy a na samém konci C'Thun.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Silithus"] = [[• Válka pohyblivých písků (War of the Shifting Sands) – před tisícem let silithidi a Qiraji zaútočili na noční elfy. Fandral Staghelm vedl obranu a ztratil v ní svého syna Valstanna. Draci čtyř barev nakonec Qiraji uzavřeli za Scarab Wall.
@@ -1866,12 +1946,23 @@ Zdroj: Warcraft Wiki, Wowhead (classic) a foreverdb.net.]]
 
 WoWpoCesku_Lore["Felwood"] = {
     title = "Felwood",
-    tag = "Les otrávený démony, kde Illidan sežral lebku a stal se něčím jiným.",
+    tag = "Les otrávený démony, kde Illidan pohltil lebku a stal se něčím jiným.",
     ch = {
-        { "Zkažený les", [[Felwood býval částí Ashenvale – krásný les nočních elfů. Za Třetí války sem přišli démoni a les otrávili. Stromy jsou zkřivené, potoky zelené a vzduch je cítit sírou.]] },
-        { "Kdo tu žije", [[Aliance drží Talonbranch Glade, Horda Bloodvenom Post. Cenarion Circle má Emerald Sanctuary, kde se snaží les vyléčit. Na severu je Timbermaw Hold, tunel furbolgů do Winterspring a Moonglade.]] },
-        { "Jaedenar", [[Na jihu leží Jaedenar, opuštěná elfí svatyně, kterou obsadil Shadow Council – čarodějové, kteří slouží Plamenné legii. Uvnitř drží démona.]] },
-        { "Hrozby", [[Satyrové Jadefire, démoni, Shadow Council, zkažení furbolgové Deadwood, zkažení medvědi a vlci, slizy a jedovaté rostliny.]] },
+        { "Zkažený les", [[Felwood je zkřivený, otrávený les na severu Kalimdoru mezi Ashenvale a Winterspring. Stromy jsou zkroucené, potoky zelené a vzduch je cítit sírou. Na severu vede tunel Timbermaw Hold do Winterspring a Moonglade.]] },
+
+        { "Klidný les", [[Felwood byl kdysi klidným lesem a součástí severního Ashenvale. Starali se o něj noční elfové a chránil ho polobůh Cenarius. Byla to bujná, živá země lesů a luk, s bublajícími potoky a zpěvem ptáků.]] },
+
+        { "Třetí válka", [[Za Třetí války Plamenná legie les úmyslně zkazila. Pán hrůzy Tichondrius použil mocný čarodějnický artefakt – Lebku Gul'dana – a les zmutoval a zamořil.
+
+Illidan Stormrage pak Tichondria porazil a lebku si vzal. Vstřebal její sílu a stal se napůl démonem. Jeho bratr Malfurion ho za použití démonické moci vyhnal.]] },
+
+        { "Kdo tu žije", [[Jedinou osadou Hordy je Bloodvenom Post, Aliance drží Talonbranch Glade. Furbolgové z kmene Timbermaw žijí na severu a nezkazili se. Druidové z Cenarion Circle mají Emerald Sanctuary, odkud bojují se zkázou a démony. Druid Greta Mosshoof se tu snaží les vyčistit.]] },
+
+        { "Jaedenar a Shadow Council", [[Na jihu leží Jaedenar, opuštěná elfí svatyně, kterou obsadil Shadow Council – čarodějové, kteří slouží Plamenné legii. Vede je Lord Banehollow. V Shadow Hold drží zajatce, mezi nimi elfku Arko'narin.]] },
+
+        { "Hrozby", [[Furbolgové z Deadwood Village se zkazili, satyrové Jadefire řádí v lesích a vodopády Bloodvenom Falls i řeka Bloodvenom jsou jedovaté. Démoni, zkažení medvědi a vlci, slizy a jedovaté rostliny – Felwood zabíjí pomalu.]] },
+
+        { "Zajímavosti", [[Ani ve Felwoodu není všechno ztracené. Zkažené květiny songflowers můžeš očistit a získat silný buff a v lese rostou léčivé rostliny Whipper Root Tubers a Night Dragon's Breath. Každá očištěná rostlina je malým vítězstvím nad zkázou.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Felwood"] = [[• Illidan a Lebka Gul'dana (Warcraft III) – Illidan, vězněný deset tisíc let, byl osvobozen Tyrande. V Felwoodu našel Lebku Gul'dana, artefakt plný démonické magie, a vstřebal ji. Stal se napůl démonem, zabil démona Tichondria a byl za to Malfurionem vyhnán.
@@ -1895,10 +1986,21 @@ WoWpoCesku_Lore["Winterspring"] = {
     title = "Winterspring",
     tag = "Zasněžené údolí pod Hyjalem, kde goblini obchodují a sněhoví levharti loví.",
     ch = {
-        { "Sněžné údolí", [[Winterspring je zasněžené horské údolí na severovýchodě Kalimdoru. Sníh tu leží celý rok, jezera jsou zamrzlá a nad krajem se tyčí hora Hyjal se zničeným Světovým stromem.]] },
-        { "Everlook", [[Everlook je goblinské městečko, kde se obchoduje se vším. Je to neutrální území, takže se tu potkávají Aliance i Horda.]] },
-        { "Kdo tu žije", [[Noční elfové ve Frostsaber Rock cvičí sněhové levharty. Furbolgové Winterfall žijí v lesích. Modří draci sídlí v jeskyni Mazthoril.]] },
-        { "Hrozby", [[Furbolgové Winterfall, yetiové, chiméry, sněhoví levharti, modří draci a démoni v Darkwhisper Gorge.]] },
+        { "Sněžné údolí", [[Winterspring je zasněžené horské údolí na severovýchodě Kalimdoru. Sníh tu leží celý rok, jezera jsou zamrzlá a nad krajem se tyčí hora Hyjal se zničeným Světovým stromem. Uprostřed leží goblinské městečko Everlook.]] },
+
+        { "Modří draci", [[Před tisíci lety byl Winterspring domovem modrých draků. Žila tu i Haleh, družka dračího aspektu Malygose. Modří draci dodnes sídlí v jeskyni Mazthoril.]] },
+
+        { "Kel'Theril", [[Asi deset tisíc let před První válkou stálo u jezera Lake Kel'Theril město Highborne. Jeho obyvatelé ukradli z chrámu v Eldarath krystal Zin-Malor. Když si s jeho svůdnou mocí začali hrát, krystal se rozbil a všechny je proklel. Velké rozpoltění pak město zničilo a zůstali v něm jen přízraky.
+
+Asi sto let před První válkou se sem vypravili vysocí elfové pod vedením arcimága Maenia, aby našli střepy krystalu – a postihlo je stejné šílenství.]] },
+
+        { "Třetí válka", [[Za Třetí války tu Tyrande Whisperwind a Malfurion Stormrage bojovali s lidskými tábory, zkaženými satyry a nemrtvými. V Barrow Dens probudili Druidy drápu (Druids of the Talon). Nad krajem, na hoře Hyjal, pak proběhla poslední bitva války, ve které noční elfové obětovali Nordrassil a zničili Archimonda.]] },
+
+        { "Everlook a okolí", [[Everlook je goblinská obchodní stanice a hlavní osada kraje – neutrální, takže se tu potkávají Aliance i Horda. Noční elfové mají Starfall Village a ve Frostsaber Rock cvičí sněhové levharty.]] },
+
+        { "Hrozby", [[Furbolgové z Winterfall Village se zkazili. V roklině Darkwhisper Gorge na jihu sídlí démoni a v kraji žijí yetiové, chiméry a sněhoví levharti.]] },
+
+        { "Zajímavosti", [[Kdo stojí ve Winterspring a dívá se k hoře Hyjal, vidí místo, kde skončila Třetí válka. A v Mazthoril čeká dračice Haleh – stačí najít runu, která tě k ní přenese.]] },
     },
 }
 WoWpoCesku_LoreKnihy["Winterspring"] = [[• Bitva o Hyjal (Warcraft III) – nad Winterspring, na hoře Hyjal, se odehrála poslední bitva Třetí války. Lidé, orkové a noční elfové bojovali spolu proti Archimondovi. Noční elfové obětovali Nordrassil a Archimonde zahynul.
