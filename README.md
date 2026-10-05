@@ -37,6 +37,8 @@ Kniha, která vždy ukazuje **jen oblast nebo dungeon, kde právě jsi** – pro
 - **Tajemství** – easter eggy, skrytá místa, slavné questové příběhy a zajímavosti, které se vyplatí najít.
 - **Poutníkův deník** – zajímavá místa oblasti; navštívená se sama odškrtávají.
 - **Bestiář** – vzácní (rare) mobové oblasti. Klik na moba vyznačí lebkou na mapě (**M**), kde se může objevit.
+- **Tvůj příběh** – deník každé postavy zvlášť: kronika sama zapisuje nové oblasti a dungeony, poražené bosse, úrovně, pečetě, vzácné tvory, slavné postavy a pády v boji jako vyprávění.
+- **Zkouška kronikáře** – kvíz z lore oblasti nebo dungeonu (i se spoilery); za pět správných odpovědí pečeť Znalec.
 - **Pečetě** – úspěchy jako achievementy, s malovanými voskovými pečetěmi, body a hodností kronikáře (Učedník → Legenda Azerothu): prozkoumání oblasti, vyčištěný dungeon, vzácní mobové, cestování, čtení kroniky, **Legendy Azerothu** (slavné questové příběhy – zvlášť pro Alianci a Hordu) a **skryté pečetě** (easter eggy). Najetím myší uvidíš, co ještě chybí. Pečetě jsou společné pro účet a u každé je jméno postavy, která ji získala.
 
 K tomu:

@@ -98,7 +98,7 @@ Za údolím leží Goldshire, rušné městečko s hostincem Lion's Pride Inn, k
 
         { "Trápení kraje", [[Stormwindská armáda je z velké části daleko a stráže v Elwynnu musí zvládat čím dál víc problémů jen s hrstkou mužů. Na jihozápadě, u Forest's Edge, táboří gnollové z kmene Riverpaw pod vedením obávaného Hoggera. V dolech Fargodeep a Jasperlode se usadili koboldi se svíčkami na hlavách a na každého, kdo se přiblíží, křičí „You no take candle!“. U jezer Stone Cairn Lake a Crystal Lake si murlokové postavili vesnice a při jedné výpravě proti nim zmizeli vojáci Rolf a Malakai.
 
-Na dýňovém poli Brackwell se ukrývají Defiasové a vykrmují obrovskou prasnici jménem Princess. Rodiny Stonefieldových a Maclureových se nesnášejí, zatímco jejich děti Tommy Joe a Maybell se do sebe tajně zamilovaly. Na východě kraje stojí věž Tower of Azora, kde mág Theocritus provádí své pokusy, a za ní tábor dřevorubců Eastvale Logging Camp, kam se z Redridge stahují gnollové i vlci.]] },
+Na dýňovém poli Brackwell, které obsadili Defiasové, se vykrmuje obrovská prasnice jménem Princess. Rodiny Stonefieldových a Maclureových se nesnášejí, zatímco jejich děti Tommy Joe a Maybell se do sebe tajně zamilovaly. Na východě kraje stojí věž Tower of Azora, kde mág Theocritus provádí své pokusy, a za ní tábor dřevorubců Eastvale Logging Camp, kam se z Redridge stahují gnollové i vlci.]] },
 
         { "Zajímavosti", [[Elwynn je místo, kde lidé poznávají, že svět je větší a nebezpečnější, než se zdá z oken Stormwindu. Zprávy z kraje se často týkají věcí, o kterých šlechta ve městě nechce slyšet – a stopy Defiasů vedou až k těm, kdo by měli království chránit.
 
@@ -566,9 +566,9 @@ Mág Dalar Dawnweaver tu zkoumá Arugala a jeho worgeny. Forsaken totiž dobře 
 
         { "Pyrewood a Ambermill", [[Na úpatí kopce pod Shadowfang Keep leží Pyrewood Village. Ve dne je to obyčejná lidská vesnice – ale v noci se tu děje něco zvláštního. Kletba worgenů se šíří a obyvatelé Pyrewoodu to pocítili jako první.
 
-Na jihu kraje je Ambermill, enkláva mágů z Dalaranu. Zkoumají tu kletbu worgenů a kouzlí bez dovolení Forsaken, kteří je považují za vetřelce. Za jezerem Lordamere zakrývá zničený Dalaran kouzelná fialová kopule.]] },
+Na jihu kraje je Ambermill, enkláva mágů z Dalaranu. Forsaken je považují za vetřelce a vedou s nimi spor. Za jezerem Lordamere zakrývá zničený Dalaran kouzelná fialová kopule.]] },
 
-        { "Hrozby", [[Na ostrově Fenris Isle uprostřed jezera sídlí Thule Ravenclaw se svými nemrtvými a temným kultem. Lesy obývají gnollové z kmene Moonrage a morem nakažení gnollové Rot Hide, kteří se neustále střetávají s hlídkami Forsaken.
+        { "Hrozby", [[Na ostrově Fenris Isle uprostřed jezera sídlí v troskách pevnosti Thule Ravenclaw se svými nemrtvými. Lesy obývají gnollové z kmene Moonrage a morem nakažení gnollové Rot Hide, kteří se neustále střetávají s hlídkami Forsaken.
 
 Po pobřeží se toulají murlokové, v horách vlci a medvědi a v noci vyjí worgeni. Silverpine je les, ve kterém se nikdo necítí bezpečně – ani mrtví.]] },
 
@@ -1490,7 +1490,7 @@ V Astranaaru se Raene Wolfrunner snaží očistit zkázu, která zasáhla místn
 
 Pro orky je dřevo z Ashenvale nutností: Durotar je vyprahlý a bez stromů. Pro elfy je každý pokácený strom ranou do posvátného lesa. Mír mezi nimi je tu nemožný.]] },
 
-        { "Válka o les", [[Mezi Silverwing Sentinels nočních elfů a Warsong Outriders Hordy se vede neustálá válka, která vyvrcholila v Warsong Gulch – bitevním poli o vlajky na hranici s Barrens.
+        { "Válka o les", [[Mezi Silverwing Sentinels nočních elfů a Warsong Outriders Hordy se vede neustálá válka, která vyvrcholila ve Warsong Gulch – bitevním poli o vlajky na hranici s Barrens.
 
 A to nejsou jediní nepřátelé. V ruinách sídlí satyrové, furbolgové z kmenů Thistlefur a Foulweald se zkazili, v lese řádí démoni a na pobřeží Zoram Strand leží potopený chrám Blackfathom Deeps, kde kult Twilight's Hammer uctívá Staré bohy.]] },
 
@@ -1656,7 +1656,7 @@ WoWpoCesku_Lore["Dustwallow Marsh"] = {
     title = "Dustwallow Marsh",
     tag = "Bažina mezi Theramore a Onyxiiným doupětem, kde se Jaina snaží udržet mír.",
     ch = {
-        { "Bažiny", [[Dustwallow Marsh jsou tmavé bažiny na východním pobřeží Kalimdoru, jižně od Barrens. Mlha, kroutící se kořeny, krokodýli a žáby. Na ostrově u pobřeží stojí lidské město Theramore a na jihu, v Wyrmbogu, leží doupě černé dračice Onyxie.]] },
+        { "Bažiny", [[Dustwallow Marsh jsou tmavé bažiny na východním pobřeží Kalimdoru, jižně od Barrens. Mlha, kroutící se kořeny, krokodýli a žáby. Na ostrově u pobřeží stojí lidské město Theramore a na jihu, ve Wyrmbogu, leží doupě černé dračice Onyxie.]] },
 
         { "Theramore", [[Po bitvě u hory Hyjal založila Jaina Proudmoore na ostrově u pobřeží městský stát Theramore. Rychle se rozrostl a jeho opevnění sahalo až do bažin – stal se velkou baštou Aliance na Kalimdoru.
 

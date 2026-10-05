@@ -132,6 +132,8 @@ local TABS = {
     { id = "denik", label = "Poutníkův deník" },
     { id = "bestiar", label = "Bestiář" },
     { id = "pecete", label = "Pečetě" },
+    { id = "pribeh", label = "Tvůj příběh" },
+    { id = "zkouska", label = "Zkouška kronikáře" },
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
@@ -428,6 +430,8 @@ local function fillBook(key, mapID)
         denik = WoWpoCesku_DenikPage and WoWpoCesku_DenikPage(key) or nil,
         bestiar = WoWpoCesku_BestiarPage and WoWpoCesku_BestiarPage(key) or nil,
         pecete = WoWpoCesku_PecetePage and WoWpoCesku_PecetePage(key) or nil,
+        pribeh = WoWpoCesku_PribehPage and WoWpoCesku_PribehPage() or nil,
+        zkouska = WoWpoCesku_ZkouskaPage and WoWpoCesku_ZkouskaPage(key) or nil,
     }
     showTab(book.tab or "letopis")
 end
@@ -569,6 +573,11 @@ local function currentKeyAndMap()
         id = info.parentMapID
     end
     return resolve(currentZone()), nil
+end
+
+-- překreslí otevřenou knihu (kvíz po odpovědi)
+function WoWpoCesku_RefreshBook()
+    if book and book:IsShown() and bookKey then fillBook(bookKey, WoWpoCesku_BookMapID) end
 end
 
 function WoWpoCesku_ShowLore(tab)

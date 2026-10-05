@@ -295,8 +295,8 @@ do
 local P = WoWpoCesku_Postavy
 
 -- Durotar a Orgrimmar
-P["Gornek"] = "Ork, který v Valley of Trials vítá mladé bojovníky Hordy. Pamatuje si časy internačních táborů."
-P["Foreman Thazz'ril"] = "Předák v Valley of Trials. Dá ti obušek na líné peony, kteří spí pod stromy."
+P["Gornek"] = "Ork, který ve Valley of Trials vítá mladé bojovníky Hordy. Pamatuje si časy internačních táborů."
+P["Foreman Thazz'ril"] = "Předák ve Valley of Trials. Dá ti obušek na líné peony, kteří spí pod stromy."
 P["Master Gadrin"] = "Trollí šaman v Sen'jin Village. Chce, aby se Darkspear vrátili na Echo Isles."
 P["Gar'Thok"] = "Velitel Razor Hill, posílá mladé bojovníky proti kentaurům a lidem z Tiragarde Keep."
 P["Orgnil Soulscar"] = "Šaman v Razor Hill. Sleduje kult Burning Blade a jeho temné rituály."
@@ -417,7 +417,7 @@ P["Farmer Ray"] = "Farmář na polích Hillsbradu. Hráči Hordy na něj dostano
 P["Lord Aliden Perenolde"] = "Šlechtic z rodu zrádných králů Alteracu, dnes ve spojení se Syndikátem."
 P["Primal Torntusk"] = "Vůdce trollů Revantusk v Hinterlands."
 P["Gryphon Master Talonaxe"] = "Chovatel gryfů v Aerie Peak."
-P["Commander Ashlam Valorfist"] = "Velitel Aliance v Chillwind Camp v Western Plaguelands."
+P["Commander Ashlam Valorfist"] = "Velitel Aliance v Chillwind Camp ve Western Plaguelands."
 P["High Executor Derrington"] = "Velitel Forsaken v The Bulwark."
 P["Alchemist Arbington"] = "Alchymista v Chillwind Camp, který zkoumá mor."
 P["Highlord Taelan Fordring"] = "Syn Tiriona Fordringa, velitel Šarlatových v Hearthglen. Jeho příběh s otcem je jedním z nejsmutnějších v klasice."
@@ -607,7 +607,7 @@ WoWpoCesku_SealLegends = {
     { id = "unsent", q = { 373 }, f = "A", name = "Neodeslaný dopis", pts = 5,
       desc = "Doruč VanCleefův dopis architektovi Barosu Alexstonovi (quest The Unsent Letter)." },
     { id = "princess", q = { 88 }, f = "A", name = "Princezna musí zemřít", pts = 5,
-      desc = "Zbav Ma Stonefield obří prasnice Princess (quest Princess Must Die!)." },
+      desc = "„Zbav nás té obří prasnice!“ prosí Ma Stonefield (quest Princess Must Die!)." },
     { id = "lovers", q = { 114 }, f = "A", name = "Mladí milenci", pts = 5,
       desc = "Pomoz Maybell Maclure utéct za Tommym Joem (quest The Escape)." },
     { id = "hogger", q = { 176 }, f = "A", name = "Hoggerova hlava", pts = 5,
@@ -630,7 +630,7 @@ WoWpoCesku_SealLegends = {
     { id = "hidden", q = { 5730 }, f = "H", name = "Skrytí nepřátelé", pts = 10,
       desc = "Odhal pro Thralla, kdo stojí za kultem Burning Blade (quest Hidden Enemies)." },
     { id = "peons", q = { 5441 }, f = "H", name = "Líní peoni", pts = 5,
-      desc = "Probuď spící peony v Valley of Trials (quest Lazy Peons)." },
+      desc = "Probuď spící peony ve Valley of Trials (quest Lazy Peons)." },
     { id = "admiral", q = { 831 }, f = "H", name = "Admirálovy rozkazy", pts = 5,
       desc = "Doruč Thrallovi rozkazy admirála Proudmoora z Tiragarde Keep (quest The Admiral's Orders)." },
     { id = "mazzranache", q = { 766 }, f = "H", name = "Lov na Mazzranache", pts = 5,
@@ -664,7 +664,7 @@ WoWpoCesku_SealHidden = {
     { id = "murkeye", npc = "Old Murk-Eye", name = "Postrach pobřeží", pts = 5,
       hint = "Starý murlok, který kdysi vedl útoky na maják…", desc = "Našel(a) jsi Old Murk-Eye." },
     { id = "karazhan", misto = "Karazhan", name = "Ve stínu věže", pts = 10,
-      hint = "Prokletá věž v Deadwind Pass. Přijdi až k jejím branám…", desc = "Stál(a) jsi u brány Karazhanu." },
+      hint = "Prokletá věž v Deadwind Pass. Přijď až k jejím branám…", desc = "Stál(a) jsi u brány Karazhanu." },
     { id = "arena", misto = "Gurubashi Arena", name = "Gladiátor", pts = 5,
       hint = "Uprostřed džungle je aréna, kde se každé tři hodiny bojuje o truhlu…", desc = "Vstoupil(a) jsi do Gurubashi Arena." },
 }
@@ -733,3 +733,78 @@ do
         hint = "Jen lovci vědí, jaké to je mít po boku zvíře, které jiní jen loví…",
         desc = "Ochočil(a) sis vzácné zvíře." }
 end
+
+-- Zkouška kronikáře: otázky ke každé oblasti / dungeonu (odpovědi jsou v Kronice, i se spoilery)
+-- { otázka, SPRÁVNÁ odpověď, špatná, špatná, špatná, kde se to dočteš }
+WoWpoCesku_Kviz = {
+    ["Durotar"] = {
+        { "Po kom je pojmenován Durotar?", "Po Durotanovi, otci Thralla", "Po Orgrimu Doomhammerovi", "Po Gromu Hellscreamovi", "Po Blackhandovi", "Letopis" },
+        { "Proč si orkové vybrali právě drsný, vyprahlý Durotar?", "Jako pokání za svou krvavou minulost", "Kvůli bohatým zlatým dolům", "Daroval jim ho Cairne Bloodhoof", "Ztroskotaly tu jejich lodě", "Letopis" },
+        { "Kdo vede trolly Darkspear po smrti stařešiny Sen'jina?", "Vol'jin", "Zalazane", "Master Gadrin", "Zul'jin", "Letopis" },
+        { "Kdo ovládl ostrovy Echo Isles a zotročil část trollů?", "Šílený čaroděj Zalazane", "Mořská čarodějnice Zar'jira", "Admirál Proudmoore", "Kentauři z Kolkar Crag", "Letopis" },
+        { "Kdo velí v Tiragarde Keep po smrti admirála Proudmoora?", "Lieutenant Benedict", "Gar'Thok", "Lady Jaina Proudmoore", "Captain Grayson", "Tajemství" },
+        { "Kdo podle questové řady Hidden Enemies stojí za kultem Burning Blade?", "Shadow Council", "Scarlet Crusade", "Kult zatracených", "Bratrstvo Defias", "Tajemství" },
+        { "Kdo poslal vrahy, kteří zabili Thrallovy rodiče?", "Gul'dan", "Aedelas Blackmoore", "Admirál Proudmoore", "Grom Hellscream", "Z knih a legend" },
+        { "Kdo byl jediným laskavým člověkem v Thrallově dětství v Durnholde?", "Taretha Foxton", "Jaina Proudmoore", "Tiffin Wrynn", "Calia Menethil", "Z knih a legend" },
+    },
+    ["Mulgore"] = {
+        { "Kdo dovedl taureny do Mulgore a sjednotil jejich kmeny?", "Cairne Bloodhoof", "Magatha Grimtotem", "Hamuul Runetotem", "Náčelník Hawkwind", "Letopis" },
+        { "Před kým taureni po staletí utíkali napříč Kalimdorem?", "Před kentaury", "Před kančími lidmi", "Před orky", "Před harpyjemi", "Letopis" },
+        { "Jak se jmenují oči Matky Země – Slunce a Měsíc?", "An'she a Mu'sha", "Elune a Cenarius", "Ysera a Alexstrasza", "Ursoc a Ursol", "Letopis" },
+        { "Kdo má útočiště v tunelech u Pools of Vision pod Spirit Rise?", "Forsaken", "Trpaslíci z Bael'dunu", "Goblini z Venture Company", "Druidové Cenarion Circle", "Letopis" },
+        { "Který klan otravuje studny v Mulgore?", "Grimtotem", "Bloodhoof", "Palemane", "Windfury", "Letopis" },
+        { "Při kterém obřadu se mladý tauren pokouší zahlédnout svou cestu?", "Rite of Vision", "Rite of Strength", "Rite of Wisdom", "Velký hon", "Letopis" },
+        { "SPOILER: Kdo v budoucnu otráví zbraň, kterou Garrosh zabije Cairna?", "Magatha Grimtotem", "Baine Bloodhoof", "Hamuul Runetotem", "Vol'jin", "Z knih a legend" },
+        { "U koho se Hamuul Runetotem učil druidství?", "U Malfuriona Stormrage", "U poloboha Cenaria", "U Fandrala Staghelma", "U Keepera Remula", "Z knih a legend" },
+    },
+    ["The Barrens"] = {
+        { "Čím byly Barrens kdysi, před Velkým rozpoltěním?", "Zeleným lesem nočních elfů", "Mořským dnem", "Ledovou pustinou", "Trpasličím královstvím", "Letopis" },
+        { "Z čeho vyrostly Razorfen Kraul a Razorfen Downs?", "Z trnitých kořenů poloboha Agamaggana", "Ze semínka Světového stromu", "Z kostí obřího draka", "Z těla vlka Lo'Goshe", "Letopis" },
+        { "Kdo chtěl silou Smaragdového snu znovu zazelenat Barrens?", "Druid Naralex", "Polobůh Cenarius", "Ork Mankrik", "Hamuul Runetotem", "Letopis" },
+        { "Jak se jmenuje Mankrikova žena?", "Olgra", "Draka", "Garona", "Taretha", "Tajemství" },
+        { "Odkud pluje loď do Booty Bay?", "Z Ratchetu", "Z The Crossroads", "Z Camp Taurajo", "Z Northwatch Hold", "Letopis" },
+        { "Kdo se drží v pevnosti Northwatch Hold?", "Lidé z Kul Tiras admirála Proudmoora", "Kentauři z kmene Kolkar", "Trpaslíci z Bael Modan", "Goblini z Venture Company", "Letopis" },
+        { "Jak se říká Naralexovým žákům, které zkazila Noční můra?", "Druidové Fangu", "Strážci háje", "Kruh Rudého listí", "Synové Cenaria", "Letopis" },
+        { "Který polobůh, obří duchovní vlk, tu za Války starověku bojoval s Legií?", "Lo'Gosh", "Agamaggan", "Ursoc", "Malorne", "Letopis" },
+    },
+    ["Tirisfal Glades"] = {
+        { "Co podle legend znamená jméno Tirisfal?", "„Tyrův pád“", "„Mlhavý les“", "„Země mrtvých“", "„Stříbrná ruka“", "Letopis" },
+        { "Kdo vede Forsaken?", "Sylvanas Windrunner", "Varimathras", "Kel'Thuzad", "Nathanos Blightcaller", "Letopis" },
+        { "Kdo zabil krále Terenase v trůnním sále?", "Jeho syn Arthas", "Sylvanas Windrunner", "Kel'Thuzad", "Démon Varimathras", "Letopis" },
+        { "Kde se probouzejí noví Forsaken?", "V Deathknell", "V Brillu", "V Agamand Mills", "V Garren's Haunt", "Letopis" },
+        { "Kolik křídel má Scarlet Monastery?", "Čtyři", "Dvě", "Tři", "Šest", "Tajemství" },
+        { "Kdo byl posledním Strážcem Tirisfalu?", "Medivh", "Aegwynn", "Alodi", "Khadgar", "Z knih a legend" },
+        { "SPOILER: Kdo stojí za zradou u Wrathgate?", "Lékárník Putress a démon Varimathras", "Sylvanas a Nathanos", "Kel'Thuzad", "Garrosh Hellscream", "Z knih a legend" },
+        { "Jak se jmenuje hostinec v Brillu?", "Gallows' End Tavern", "Lion's Pride Inn", "Scarlet Raven Tavern", "Thunderbrew Distillery", "Letopis" },
+    },
+    ["Silverpine Forest"] = {
+        { "Kdo vyvolal worgeny, aby bojovali proti Pohromě?", "Arcimág Arugal", "Baron Silverlaine", "Král Genn Greymane", "Thule Ravenclaw", "Letopis" },
+        { "Komu patřil hrad, kterému se dnes říká Shadowfang Keep?", "Baronu Silverlainovi", "Králi Gennu Greymanovi", "Arcimágovi Arugalovi", "Sylvanas Windrunner", "Letopis" },
+        { "Proč dal Genn Greymane postavit obrovskou zeď?", "Odtrhl se od Aliance a uzavřel Gilneas", "Bránil se worgenům", "Chtěl zadržet Pohromu", "Nařídil mu to král Terenas", "Letopis" },
+        { "Jak se jmenuje pevnost Forsaken ukrytá v lese?", "The Sepulcher", "Deathknell", "Tarren Mill", "Fenris Keep", "Letopis" },
+        { "Co se v noci děje s obyvateli Pyrewood Village?", "Mění se ve worgeny", "Vstávají z hrobů", "Odcházejí do Dalaranu", "Usínají a nejde je probudit", "Z knih a legend" },
+        { "Kdo v The Sepulcher zkoumá Arugala a jeho worgeny?", "Mág Dalar Dawnweaver", "High Executor Hadrec", "Bethor Iceshard", "Varimathras", "Letopis" },
+        { "Kdo sídlí na ostrově Fenris Isle?", "Thule Ravenclaw", "Arcimág Arugal", "Baron Silverlaine", "Dalar Dawnweaver", "Letopis" },
+        { "SPOILER: Co se v Cataclysmu stane s Gilneasem?", "Kletba worgenů ho zasáhne a vrátí se do Aliance", "Pohltí ho moře", "Dobude ho Pohroma", "Stane se hlavním městem Forsaken", "Z knih a legend" },
+    },
+    ["Elwynn Forest"] = {
+        { "Jak se jmenuje gnoll z plakátu na nástěnce v Goldshire?", "Hogger", "Lieutenant Fangore", "Yowler", "Gruff Swiftbite", "Letopis" },
+        { "Co křičí koboldi v dolech Elwynnu?", "„You no take candle!“", "„Lok'tar ogar!“", "„For the Alliance!“", "„Time is money, friend!“", "Letopis" },
+        { "Kdo v První válce vedl rytíře Stormwindu útokem lesem do týla orků?", "Anduin Lothar", "Turalyon", "Uther Lightbringer", "Varian Wrynn", "Letopis" },
+        { "Kdo zemřel při vzpouře kameníků ve Stormwindu?", "Královna Tiffin Wrynn", "Lady Katrana Prestor", "Jaina Proudmoore", "Maybell Maclure", "Letopis" },
+        { "Jak se jmenuje obří prasnice z dýňového pole Brackwell?", "Princess", "Bessy", "Blanchy", "Daisy", "Letopis" },
+        { "Kdo provádí pokusy ve věži Tower of Azora?", "Mág Theocritus", "Čaroděj Morganth", "Medivh", "Khadgar", "Letopis" },
+        { "Kdo zabil krále Llana?", "Garona", "Blackhand", "Orgrim Doomhammer", "Gul'dan", "Z knih a legend" },
+        { "Kteří vojáci zmizeli při výpravě k murločím jezerům?", "Rolf a Malakai", "Tommy Joe a Maybell", "Lothar a Turalyon", "Danuvin a Galiaan", "Letopis" },
+    },
+    ["Westfall"] = {
+        { "Kdo vedl cech kameníků, který obnovil Stormwind?", "Edwin VanCleef", "Baros Alexston", "Gryan Stoutmantle", "Bazil Thredd", "Letopis" },
+        { "Kdo ve skutečnosti ovlivňoval šlechtu, aby kameníkům nezaplatila?", "Lady Katrana Prestor – černá dračice Onyxia", "Královna Tiffin Wrynn", "Arcibiskup Benedictus", "Bazil Thredd", "Letopis" },
+        { "Kdo založil Lidovou domobranu na Sentinel Hill?", "Gryan Stoutmantle", "Mathias Shaw", "Kapitán Danuvin", "Maršál Dughan", "Letopis" },
+        { "Kde má Bratrstvo Defias svou skrýš?", "V Deadmines pod Moonbrookem", "V Jangolode Mine", "Na Sentinel Hill", "V majáku na pobřeží", "Letopis" },
+        { "Komu byl adresován dopis, který VanCleef nikdy neodeslal?", "Architektovi Barosu Alexstonovi", "Regentovi Bolvaru Fordragonovi", "Lady Katraně Prestor", "Gryanu Stoutmantlovi", "Tajemství" },
+        { "Proč ztroskotala loď kapitána Graysona?", "Maják té noci nesvítil", "Napadli ji piráti Bloodsail", "Zničila ji bouře", "Zapálili ji Defiasové", "Letopis" },
+        { "Jak se jmenuje válečná loď, kterou Defiasové staví v Deadmines?", "Juggernaut", "Dauntless", "The Maiden's Fancy", "Proudmoore", "Letopis" },
+        { "SPOILER: Kdo v Cataclysmu obnoví Bratrstvo Defias?", "VanCleefova dcera Vanessa", "Bazil Thredd", "Mr. Smite", "Lady Katrana Prestor", "Z knih a legend" },
+    },
+}

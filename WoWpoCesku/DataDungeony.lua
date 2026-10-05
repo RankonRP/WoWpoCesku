@@ -212,7 +212,7 @@ WoWpoCesku_LoreTajemstvi["Zul'Farrak"] = [[• Slavná bitva na schodech: osvobo
 D["Maraudon"] = {
     title = "Maraudon", tag = "Jeskyně Theradras a Zaetara v Desolace (levely 46–55).",
     ch = {
-        { "Jeskyně v Desolace", [[Maraudon leží v Valley of Spears v Desolace. Je rozdělený na tři části, do kterých vedou různé portály: Wicked Grotto (fialová část), Foulspore Cavern (oranžová část) a Earth Song Falls (vnitřní část).]] },
+        { "Jeskyně v Desolace", [[Maraudon leží ve Valley of Spears v Desolace. Je rozdělený na tři části, do kterých vedou různé portály: Wicked Grotto (fialová část), Foulspore Cavern (oranžová část) a Earth Song Falls (vnitřní část).]] },
         { "Hrob Zaetara", [[Podle legendy stvořili kentaury Zaetar, syn Cenaria, a princezna země Theradras. Krátce po svém zrození kentauři svého otce zavraždili. Truchlící Theradras uvěznila Zaetarova ducha v Maraudonu – a kraj zkazil vliv Starých bohů.
 
 Kentauři z kmene Maraudine toto posvátné místo hlídají, zatímco kmen Magram se vlivu Theradras staví na odpor.]] },

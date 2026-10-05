@@ -1,2 +1,2 @@
-0.19.3
+0.20.0
 restartovat-hru

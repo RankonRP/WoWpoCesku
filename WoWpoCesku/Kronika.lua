@@ -17,6 +17,7 @@ local function seen()
 end
 local function secret(v) return issecretvalue and issecretvalue(v) end
 local checkSeals   -- Pečetě kronikáře (definováno níž)
+local journalAdd   -- Tvůj příběh – deník postavy (definováno níž)
 
 -- malé okno z pergamenu (stejný vzhled jako kronika)
 local function parchmentFrame(name, parent, strata)
@@ -189,6 +190,7 @@ local function reportRare(name, cls, lvl, x, y)
     if lvl then rec.l = lvl end
     rec.new = (info == nil) or nil
     S.rares[name] = rec
+    if journalAdd then pcall(journalAdd, "rare", name) end
     if checkSeals then C_Timer.After(3, function() pcall(checkSeals) end) end
 
     if lastAlert[name] and GetTime() - lastAlert[name] < 300 then return end
@@ -288,6 +290,14 @@ local function recordPlace()
                     if f2 ~= fk and not S.spy then S.spy = time(); new = true end
                 end
             end
+        end
+    end
+    if journalAdd and real and not secret(real) then
+        local okI, inInst = pcall(IsInInstance)
+        if okI and inInst then
+            if WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key] then pcall(journalAdd, "dungeon", key) end
+        elseif WoWpoCesku_Objevy and WoWpoCesku_Objevy[real] then
+            pcall(journalAdd, "zone", real)
         end
     end
     if new and onNewPlace then onNewPlace() end
@@ -551,6 +561,7 @@ local function markBoss(name)
             S.bosses[key] = S.bosses[key] or {}
             local first = not S.bosses[key][b[1]]
             S.bosses[key][b[1]] = time()
+            if journalAdd then pcall(journalAdd, "boss", b[1], key) end
             if first then
                 say(("Kronika: %s zapsan do Bestiare (%s)"):format(b[1], key))
                 if checkSeals then C_Timer.After(3, function() pcall(checkSeals) end) end
@@ -720,6 +731,9 @@ local SERIES = {
       desc = function(n) return n == 1 and "Vyčisti svůj první dungeon – poraz v něm všechny bosse."
           or ("Vyčisti %d různých dungeonů nebo raidů."):format(n) end,
       steps = { { 1, "Hrdina", 10 }, { 5, "Ochránce Azerothu", 10 }, { 10, "Postrach temnot", 25 }, { 20, "Legenda dungeonů", 50 } } },
+    { id = "kviz", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "složených zkoušek",
+      desc = function(n) return ("Slož Zkoušku kronikáře (5 z 5) v %d různých oblastech nebo dungeonech."):format(n) end,
+      steps = { { 3, "Žák kronikáře", 5 }, { 10, "Učenec Azerothu", 10 }, { 25, "Mudrc", 25 } } },
     { id = "read", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "kapitol kroniky",
       desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
@@ -830,7 +844,7 @@ end
 local function sealList()
     local S = seen()
     local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0,
-        level = S.maxLvl or 0, gold = math.floor((S.maxGold or 0) / 10000), riding = S.riding or 0, death = S.deaths or 0 }
+        kviz = countKeys(S.quiz), level = S.maxLvl or 0, gold = math.floor((S.maxGold or 0) / 10000), riding = S.riding or 0, death = S.deaths or 0 }
     for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then counts.zone = counts.zone + 1 end end
     for zone, places in pairs(WoWpoCesku_Objevy or {}) do
         local n, missing = 0, {}
@@ -901,6 +915,13 @@ local function sealList()
             end
         end
         out[#out + 1] = s
+    end
+    -- Zkouška kronikáře: pečeť Znalec za 5 z 5 v oblasti / dungeonu
+    for key in pairs(WoWpoCesku_Kviz or {}) do
+        local got = S.quiz and S.quiz[key]
+        out[#out + 1] = { id = "znalec:" .. key, name = "Znalec – " .. key, icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar",
+            desc = "Odpověz správně na všech pět otázek Zkoušky kronikáře: " .. key .. ".", points = 10,
+            have = got and 1 or 0, need = 1, group = "znalost", key = key, statusText = (not got) and "zkouška nesložena" or nil }
     end
     -- kontinenty: všechny oblasti
     for _, C in ipairs(WoWpoCesku_SealContinents or {}) do
@@ -1017,7 +1038,7 @@ local function charName()
     if ok and type(name) == "string" and name ~= "" and not secret(name) then return name end
 end
 
-local SEAL_VERSION = 3   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
+local SEAL_VERSION = 4   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
 
 checkSeals = function()
     local S = seen()
@@ -1045,6 +1066,7 @@ checkSeals = function()
     if silent or #new == 0 then return end
     for i = 1, #new do
         say("nova pecet: " .. ascii(new[i].name))
+        if journalAdd then pcall(journalAdd, "seal", new[i].name) end
         if i <= 5 then bannerQueue[#bannerQueue + 1] = new[i] end
     end
     -- volitelně oznámit guildě (v nastavení, výchozí vypnuto)
@@ -1077,6 +1099,7 @@ local function metUnit(unit)
     S.met = S.met or {}
     if S.met[name] then return end
     S.met[name] = time()
+    if journalAdd then pcall(journalAdd, "met", name) end
     C_Timer.After(1, function() pcall(checkSeals) end)
 end
 
@@ -1105,7 +1128,7 @@ function WoWpoCesku_PecetePage(key)
         end
     end
     local here, general, zones, dungs, legends, hidden = {}, {}, {}, {}, {}, {}
-    local postava, svet, remeslo, reputace = {}, {}, {}, {}
+    local postava, svet, remeslo, reputace, znalost = {}, {}, {}, {}, {}
     local nextShown = {}
     local byName = function(a, b) return a.name < b.name end
     for _, s in ipairs(all) do
@@ -1122,6 +1145,8 @@ function WoWpoCesku_PecetePage(key)
             legends[#legends + 1] = s
         elseif s.group == "skryta" then
             hidden[#hidden + 1] = s
+        elseif s.group == "znalost" then
+            if s.got then znalost[#znalost + 1] = s end
         elseif s.group == "svet" then
             if not s.dim or s.got then svet[#svet + 1] = s end
         elseif s.group == "remeslo" then
@@ -1159,6 +1184,8 @@ function WoWpoCesku_PecetePage(key)
         { "Řemesla", #remeslo > 0 and "Profese, které se učíš – pečeť za mistrovství na úrovni 300."
             or "Zatím žádná profese. Nauč se řemeslo a pečeť se začne plnit.", seals = remeslo },
         { "Reputace", "Nejvyšší reputace Exalted u frakcí Azerothu.", seals = reputace },
+        { "Zkouška kronikáře", #znalost > 0 and "Oblasti a dungeony, jejichž příběh znáš na výbornou."
+            or "Zatím žádná složená zkouška. Najdeš ji v záložce Zkouška kronikáře.", seals = znalost },
         { "Oblasti", #zones > 0 and "Rozpracované a dokončené oblasti."
             or "Zatím žádná – projdi místa Poutníkova deníku a pečeť oblasti se začne plnit.", seals = zones },
         { "Dungeony a raidy", #dungs > 0 and "Rozpracované a dokončené dungeony."
@@ -1166,6 +1193,224 @@ function WoWpoCesku_PecetePage(key)
           after = GRAY .. "Pečetě se zapisují samy. Zlatý vosk = vzácná pečeť, černý = skrytá.|r" },
     }
     return page
+end
+
+-------------------------------------------------------------------------------
+-- Tvůj příběh: deník každé postavy zvlášť (WoWpoCeskuSeen.journal["Jméno-Realm"])
+-------------------------------------------------------------------------------
+local function charKey()
+    local n = charName()
+    if not n then return nil end
+    local okR, realm = pcall(GetRealmName)
+    return n .. "-" .. ((okR and type(realm) == "string") and realm or ""), n
+end
+
+local function journal(create)
+    local key, name = charKey()
+    if not key then return nil end
+    local S = seen()
+    S.journal = S.journal or {}
+    local J = S.journal[key]
+    if not J and create then
+        local okS, sex = pcall(UnitSex, "player")
+        J = { name = name, sex = okS and sex or nil, list = {}, zones = {}, dungs = {}, rares = {}, bosses = {}, deaths = 0 }
+        S.journal[key] = J
+        local okL, lvl = pcall(UnitLevel, "player")
+        if okL and type(lvl) == "number" and lvl <= 2 then
+            J.list[#J.list + 1] = { t = time(), k = "start" }
+        else
+            J.list[#J.list + 1] = { t = time(), k = "older", a = okL and lvl or nil }
+        end
+    end
+    return J
+end
+
+journalAdd = function(kind, a, b)
+    local J = journal(true)
+    if not J then return end
+    if kind == "zone" then if J.zones[a] then return end J.zones[a] = time() end
+    if kind == "dungeon" then if J.dungs[a] then return end J.dungs[a] = time() end
+    if kind == "rare" then if J.rares[a] then return end J.rares[a] = time() end
+    if kind == "level" then J.levels = J.levels or {}; if J.levels[a] then return end J.levels[a] = time() end
+    if kind == "death" then J.deathLog = J.deathLog or {}; if J.deathLog[a] then return end J.deathLog[a] = time() end
+    if kind == "seal" or kind == "met" then J.once = J.once or {}; local id = kind .. ":" .. tostring(a); if J.once[id] then return end J.once[id] = time() end
+    if kind == "boss" then
+        local id = (b or "") .. ":" .. (a or "")
+        if J.bosses[id] then return end
+        J.bosses[id] = time()
+    end
+    J.list[#J.list + 1] = { t = time(), k = kind, a = a, b = b }
+    while #J.list > 300 do table.remove(J.list, 1) end
+end
+
+-- pády v boji: zápis při 1., 10., 25., 50. a 100.
+function WoWpoCesku_JournalDeath()
+    local J = journal(true)
+    if not J then return end
+    J.deaths = (J.deaths or 0) + 1
+    local n = J.deaths
+    if n == 1 or n == 10 or n == 25 or n == 50 or n == 100 then journalAdd("death", n) end
+end
+
+-- věty deníku: víc variant, vybírá se podle času zápisu (stejný zápis = vždy stejná věta)
+-- "(a)" se podle pohlaví postavy změní na "a" nebo zmizí
+local SENT = {
+    start = { "%s se poprvé probudil(a) v Azerothu. Začíná nový příběh." },
+    older = { "Ze starších zápisů: tenhle příběh se začal psát dřív, než se ho kronika naučila zapisovat. %s už byl(a) na úrovni %s." },
+    zone = { "%s poprvé vkročil(a) do oblasti %s.", "%s dorazil(a) do oblasti %s. Začíná nová kapitola.",
+        "Cesta zavedla hrdinu jménem %s do oblasti %s." },
+    dungeon = { "%s poprvé sestoupil(a) do dungeonu %s.", "%s vstoupil(a) do dungeonu %s. Ze tmy se ozývaly kroky.",
+        "Brány dungeonu se otevřely – %s vkročil(a) do %s." },
+    boss = { "%s porazil(a) bosse %s (%s).", "Skupina, ve které byl(a) %s, srazila k zemi bosse %s v dungeonu %s." },
+    level = { "%s dosáhl(a) úrovně %s.", "%s je zase o kus silnější: úroveň %s." },
+    level60 = { "%s dosáhl(a) úrovně %s – vrcholu cesty. Teď začínají opravdové legendy." },
+    seal = { "%s získal(a) pečeť %s.", "%s vtiskl(a) do kroniky novou pečeť: %s." },
+    rare = { "%s spatřil(a) vzácného tvora: %s.", "%s zahlédl(a) vzácného tvora %s. Takové štěstí nemá každý." },
+    met = { "%s potkal(a) postavu, o které se vyprávějí příběhy: %s." },
+    death1 = { "%s poprvé padl(a) v boji – ale duch se vrátil mezi živé." },
+    death = { "%s se zvedl(a) po %s. pádu. Azeroth není pro slabé." },
+}
+
+local function sentence(J, e)
+    local kind = e.k
+    if kind == "level" and tonumber(e.a) == 60 then kind = "level60" end
+    if kind == "death" and tonumber(e.a) == 1 then kind = "death1" end
+    local list = SENT[kind]
+    if not list then return nil end
+    local tpl = list[(e.t % #list) + 1]
+    local ok, s = pcall(string.format, tpl, J.name or "?", tostring(e.a or "?"), tostring(e.b or ""))
+    if not ok then s = tpl end
+    s = s:gsub("([%?!])%.", "%1")
+    if J.sex == 3 then s = s:gsub("%(a%)", "a") elseif J.sex == 2 then s = s:gsub("%(a%)", "") end
+    return s
+end
+
+-- záložka Tvůj příběh: zápisy po dnech, nejnovější nahoře
+function WoWpoCesku_PribehPage()
+    local J = journal(true)
+    if not J then return { { "Tvůj příběh", "Kronika zatím neví, kdo jsi." } } end
+    local page = {}
+    local n = #J.list
+    local first = J.list[1] and J.list[1].t
+    page[1] = { "Příběh postavy " .. (J.name or "?"),
+        ("Zápisů v kronice: %d%s. Kronika zapisuje sama: nové oblasti a dungeony, poražené bosse, úrovně, pečetě, vzácné tvory, slavné postavy i pády v boji.")
+            :format(n, first and (" · první z " .. date("%d.%m.%Y", first)) or "") }
+    local day, lines, shown = nil, {}, 0
+    local function flush()
+        if day and #lines > 0 then page[#page + 1] = { day, table.concat(lines, "\n\n") } end
+        lines = {}
+    end
+    for i = n, 1, -1 do
+        local e = J.list[i]
+        local d = date("%d.%m.%Y", e.t)
+        if d ~= day then flush(); day = d end
+        local s = sentence(J, e)
+        if s then lines[#lines + 1] = s; shown = shown + 1 end
+        if shown >= 120 then break end
+    end
+    flush()
+    return page
+end
+
+-------------------------------------------------------------------------------
+-- Zkouška kronikáře: 5 otázek z oblasti / dungeonu (WoWpoCesku_Kviz), za 5/5 pečeť Znalec
+-------------------------------------------------------------------------------
+local QUIZ_LEN = 5
+local quiz = nil   -- { key, items = { {otázka, odpovědi[4], správná index, kde} }, i, score, chosen }
+
+local function shuffle(t)
+    for i = #t, 2, -1 do
+        local j = math.random(i)
+        t[i], t[j] = t[j], t[i]
+    end
+    return t
+end
+
+local function startQuiz(key)
+    local pool = WoWpoCesku_Kviz and WoWpoCesku_Kviz[key]
+    if not pool or #pool == 0 then return end
+    local idx = {}
+    for i = 1, #pool do idx[i] = i end
+    shuffle(idx)
+    local items = {}
+    for n = 1, math.min(QUIZ_LEN, #pool) do
+        local q = pool[idx[n]]
+        local answers = shuffle({ q[2], q[3], q[4], q[5] })
+        local right
+        for i, a in ipairs(answers) do if a == q[2] then right = i end end
+        items[#items + 1] = { q[1], answers, right, q[6] }
+    end
+    quiz = { key = key, items = items, i = 1, score = 0 }
+end
+
+local function refresh()
+    if WoWpoCesku_RefreshBook then WoWpoCesku_RefreshBook() end
+end
+
+function WoWpoCesku_ZkouskaPage(key)
+    local pool = WoWpoCesku_Kviz and WoWpoCesku_Kviz[key]
+    if not pool or #pool == 0 then
+        return { { "Zkouška kronikáře", "Pro tuhle oblast zatím otázky nemám. Přibývají postupně – zkus jinou oblast nebo dungeon." } }
+    end
+    local S = seen()
+    local passed = S.quiz and S.quiz[key]
+    -- úvod
+    if not quiz or quiz.key ~= key then
+        return { { "Zkouška kronikáře",
+            ("Pět otázek z příběhu, tajemství a legend této oblasti (v zásobě %d). Odpovědi najdeš v Kronice – i se spoilery.\n%s")
+                :format(#pool, passed and ("|cff1d6b1dZkoušku jsi už složil(a) %s.|r"):format(date("%d.%m.%Y", passed))
+                    or "Za pět správných odpovědí získáš pečeť Znalec."),
+            rows = { { text = "|cff801f0d» Začít zkoušku|r", hint = "Zacit zkousku", onClick = function() startQuiz(key); refresh() end } } } }
+    end
+    -- výsledek
+    if quiz.i > #quiz.items then
+        local all = quiz.score == #quiz.items
+        local text = ("Správně %d z %d."):format(quiz.score, #quiz.items)
+        if all then
+            text = text .. "\n|cff1d6b1dVýborně! Znáš příběh této oblasti jako pravý kronikář.|r"
+        else
+            text = text .. "\nNevadí – přečti si Letopis a Tajemství a zkus to znovu. Otázky se pokaždé zamíchají."
+        end
+        return { { "Výsledek zkoušky", text,
+            rows = { { text = "|cff801f0d» Zkusit znovu|r", hint = "Zkusit znovu", onClick = function() startQuiz(key); refresh() end } } } }
+    end
+    -- otázka
+    local it = quiz.items[quiz.i]
+    local rows = {}
+    for n, a in ipairs(it[2]) do
+        local row = { text = ("%d)  %s"):format(n, a) }
+        if quiz.chosen then
+            if n == it[3] then row.text = "|cff1d6b1d" .. row.text .. "  – správně|r"
+            elseif n == quiz.chosen then row.text = "|cff801f0d" .. row.text .. "  – tvoje odpověď|r" end
+        else
+            row.hint = "Vybrat odpoved"
+            row.onClick = function()
+                quiz.chosen = n
+                if n == it[3] then quiz.score = quiz.score + 1 end
+                PlaySound(n == it[3] and (SOUNDKIT and SOUNDKIT.IG_QUEST_LIST_COMPLETE or 618) or 847)
+                refresh()
+            end
+        end
+        rows[#rows + 1] = row
+    end
+    local chapter = { ("Otázka %d z %d"):format(quiz.i, #quiz.items), it[1], rows = rows }
+    if quiz.chosen then
+        local ok = quiz.chosen == it[3]
+        local last = quiz.i == #quiz.items
+        chapter.after = (ok and "|cff1d6b1dSprávně!|r" or "|cff801f0dTo není ono.|r")
+            .. (it[4] and (GRAY .. "  Najdeš to v Kronice: " .. it[4] .. "|r") or "")
+        rows[#rows + 1] = { text = last and "|cff801f0d» Vyhodnotit|r" or "|cff801f0d» Další otázka|r", hint = "Dalsi",
+            onClick = function()
+                quiz.i, quiz.chosen = quiz.i + 1, nil
+                if quiz.i > #quiz.items and quiz.score == #quiz.items then
+                    S.quiz = S.quiz or {}
+                    if not S.quiz[key] then S.quiz[key] = time() end
+                    C_Timer.After(0.5, function() pcall(checkSeals) end)
+                end
+                refresh()
+            end }
+    end
+    return { chapter }
 end
 
 -------------------------------------------------------------------------------
@@ -1337,6 +1582,7 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
     elseif event == "PLAYER_DEAD" then
         local S = seen()
         S.deaths = (S.deaths or 0) + 1
+        if WoWpoCesku_JournalDeath then pcall(WoWpoCesku_JournalDeath) end
         scheduleStats()
     elseif event == "UNIT_PET" then
         -- ochočené zvíře má zpočátku jméno tvora: vzácný = skrytá pečeť Krotitel
@@ -1345,6 +1591,9 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
             local S = seen()
             if not S.tamed then S.tamed = time(); scheduleStats() end
         end
+    elseif event == "PLAYER_LEVEL_UP" and type(unit) == "number" and (unit % 5 == 0 or unit == 60) then
+        if journalAdd then pcall(journalAdd, "level", unit) end
+        scheduleStats()
     elseif event == "PLAYER_LEVEL_UP" or event == "PLAYER_MONEY" or event == "SKILL_LINES_CHANGED" or event == "UPDATE_FACTION" then
         scheduleStats()
     elseif event == "QUEST_TURNED_IN" then
