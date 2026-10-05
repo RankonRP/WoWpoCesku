@@ -165,6 +165,90 @@
       "popis": "mezery uvnitř značek",
       "hledat": "\\{\\s*([NCR])\\s*\\}",
       "nahradit": "{$1}"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Úú]dol(?:í|ím|ích|ím|ích) (?:cti|Cti)(?!\\p{L})",
+      "nahradit": "Valley of Honor"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Úú]dol(?:í|ím|ích) síly(?!\\p{L})",
+      "nahradit": "Valley of Strength"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Úú]dol(?:í|ím|ích) moudrosti(?!\\p{L})",
+      "nahradit": "Valley of Wisdom"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Úú]dol(?:í|ím|ích) duchů(?!\\p{L})",
+      "nahradit": "Valley of Spirits"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Úú]dol(?:í|ím|ích) hrdinů(?!\\p{L})",
+      "nahradit": "Valley of Heroes"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Oo]bchodní čtvr(?:ť|ti|tí|tě)(?!\\p{L})",
+      "nahradit": "Trade District"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Tt]rpasličí čtvr(?:ť|ti|tí|tě)(?!\\p{L})",
+      "nahradit": "Dwarven District"
+    },
+    {
+      "hledat": "(?<!\\p{L})čtvr(?:ť|ti|tí|tě) (Dwarven District|Trade District|Mage Quarter|Old Town)(?!\\p{L})",
+      "nahradit": "$1"
+    },
+    {
+      "hledat": "(?<!\\p{L})nám(?:ěstí|ěstím|ěstích) (Cathedral Square)(?!\\p{L})",
+      "nahradit": "$1"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Ss]tar(?:é|ém|ého|ým) [Mm]ěst(?:o|ě|a|em)(?!\\p{L})",
+      "nahradit": "Old Town"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Vv]elk(?:á|é|ou|ých) kovárn(?:a|y|ě|u|ou)(?!\\p{L})",
+      "nahradit": "Great Forge"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Kk]atedrál(?:a|y|e|u|ou) [Ss]větla(?!\\p{L})",
+      "nahradit": "Cathedral of Light"
+    },
+    {
+      "hledat": "(?<!\\p{L})Podměst(?:í|ím|ích)(?!\\p{L})",
+      "nahradit": "Undercity"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Hh]ořící stepi(?!\\p{L})",
+      "nahradit": "Burning Steppes"
+    },
+    {
+      "hledat": "(?<!\\p{L})Pohrom(?:a|y|ě|u|ou)(?!\\p{L})",
+      "nahradit": "Scourge"
+    },
+    {
+      "hledat": "(?<!\\p{L})Král(?:e|i|em)? Lich(?!\\p{L})",
+      "nahradit": "Lich King"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Pp]lamenn(?:á|é|ou|ých) [Ll]egi(?:e|í|i|í)(?!\\p{L})",
+      "nahradit": "Burning Legion"
+    },
+    {
+      "hledat": "(?<!\\p{L})Hořící [Ll]egi(?:e|í|i)(?!\\p{L})",
+      "nahradit": "Burning Legion"
+    },
+    {
+      "hledat": "(?<!\\p{L})[Ss]tínov(?:á|é|ou|ých) rad(?:a|y|ě|u|ou)(?!\\p{L})",
+      "nahradit": "Shadow Council"
+    },
+    {
+      "hledat": "(?<!\\p{L})Temn(?:á|é|ou) [Dd]ám(?:a|y|ě|u|ou)(?!\\p{L})",
+      "nahradit": "Dark Lady"
+    },
+    {
+      "hledat": "(?<!\\p{L})([Vv]) (Valley of)",
+      "nahradit": "$1e $2"
     }
   ],
   "staty_popis": "Názvy statů, které v textech rozhraní (talenty, kouzla) zůstávají anglicky. Před překladem Googlem se schovají a pak vrátí. Rozlišuje velká a malá písmena (energy jako obyčejné slovo zůstane).",
