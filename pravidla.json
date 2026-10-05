@@ -82,7 +82,23 @@
     "dřevěnému vlkovi": "lesnímu vlkovi",
     "dřevěným vlkům": "lesním vlkům",
     "dřevěnými vlky": "lesními vlky",
-    "dřevěných vlcích": "lesních vlcích"
+    "dřevěných vlcích": "lesních vlcích",
+    "skřet": "ork",
+    "skřeta": "orka",
+    "skřetovi": "orkovi",
+    "skřetu": "orku",
+    "skřetem": "orkem",
+    "skřeti": "orkové",
+    "skřetů": "orků",
+    "skřetům": "orkům",
+    "skřety": "orky",
+    "skřetech": "orcích",
+    "skřetími": "orčími",
+    "skřetí": "orčí",
+    "skřetích": "orčích",
+    "skřetského": "orčího",
+    "skřetský": "orčí",
+    "skřetská": "orčí"
   },
   "regexy": [
     {

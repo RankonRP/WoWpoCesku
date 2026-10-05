@@ -464,6 +464,61 @@ $form.Controls.Add($box)
 $form.Controls.Add($topBar)
 $form.Controls.Add($statusLabel)
 
+# Velké upozornění nad hrou ("HOTOVO – napiš /reload"): okno, které hře neukradne fokus
+$script:ToastOk = $false
+try {
+    Add-Type -ReferencedAssemblies System.Windows.Forms, System.Drawing -TypeDefinition @'
+using System.Windows.Forms;
+public class WpcToastForm : Form {
+    protected override bool ShowWithoutActivation { get { return true; } }
+    protected override CreateParams CreateParams {
+        get { CreateParams p = base.CreateParams; p.ExStyle |= 0x08000000 | 0x00000080; return p; }   // NOACTIVATE | TOOLWINDOW
+    }
+}
+'@
+    $script:ToastOk = $true
+} catch { }
+
+function Show-Toast([string]$title, [string]$line2, [int]$seconds = 8) {
+    if (-not $script:ToastOk) { return }
+    if ($Settings.upozorneni -eq $false) { return }
+    try {
+        if ($script:Toast) { try { $script:Toast.Close() } catch { } }
+        $t = New-Object WpcToastForm
+        $t.FormBorderStyle = "None"
+        $t.ShowInTaskbar = $false
+        $t.TopMost = $true
+        $t.StartPosition = "Manual"
+        $t.Size = New-Object Drawing.Size(560, 120)
+        $area = [Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+        $t.Location = New-Object Drawing.Point(($area.Left + [int](($area.Width - 560) / 2)), ($area.Top + [int]($area.Height * 0.22)))
+        $t.BackColor = [Drawing.Color]::FromArgb(36, 28, 18)
+        $t.Opacity = 0.96
+        $l1 = New-Object Windows.Forms.Label
+        $l1.Text = $title
+        $l1.ForeColor = [Drawing.Color]::FromArgb(255, 209, 0)
+        $l1.Font = New-Object Drawing.Font("Segoe UI", 22, [Drawing.FontStyle]::Bold)
+        $l1.TextAlign = "MiddleCenter"
+        $l1.Dock = "Top"
+        $l1.Height = 70
+        $l2 = New-Object Windows.Forms.Label
+        $l2.Text = $line2
+        $l2.ForeColor = [Drawing.Color]::FromArgb(240, 235, 220)
+        $l2.Font = New-Object Drawing.Font("Segoe UI", 12)
+        $l2.TextAlign = "MiddleCenter"
+        $l2.Dock = "Fill"
+        $t.Controls.Add($l2)
+        $t.Controls.Add($l1)
+        $tm = New-Object Windows.Forms.Timer
+        $tm.Interval = $seconds * 1000
+        $tm.Add_Tick({ param($sender, $e) $sender.Stop(); try { $script:Toast.Close() } catch { } })
+        $script:Toast = $t
+        $t.Add_FormClosed({ $tm.Stop(); $tm.Dispose() }.GetNewClosure())
+        $t.Show()
+        $tm.Start()
+    } catch { }
+}
+
 function Add-BoxText([string]$text, [Drawing.Color]$color, [float]$size = 12, [bool]$bold = $false) {
     $box.SelectionStart = $box.TextLength
     $box.SelectionColor = $color
@@ -973,6 +1028,12 @@ function Get-PayloadHash([string]$s) {
 }
 
 # Zpracuje frontu, když se některý soubor od minula změnil. Vrací počet přeložených textů.
+# Přehled fronty ze hry (za celou dobu běhu): čeká / přeloženo / selhalo
+$script:QStat = @{ pending = 0; done = 0; failed = 0 }
+function Get-QueueSummary {
+    "Fronta ze hry: čeká $($script:QStat.pending) · přeloženo $($script:QStat.done) · selhalo $($script:QStat.failed)"
+}
+
 function Invoke-GameQueue {
     $count = 0
     foreach ($f in Get-QueueFiles) {
@@ -980,16 +1041,24 @@ function Invoke-GameQueue {
         if ($script:QueueStamps[$f.FullName] -eq $stamp) { continue }
         $script:QueueStamps[$f.FullName] = $stamp
         $payloads = @(Read-QueueFile $f.FullName | Where-Object { -not $script:QueueDone.Contains((Get-PayloadHash $_)) })
-        $i = 0
+        $script:QStat.pending = $payloads.Count
+        $retry = $false
         foreach ($payload in $payloads) {
-            $i++
-            $statusLabel.Text = "Překládám texty ze hry: $i z $($payloads.Count)… (s /reload počkej na zprávu HOTOVO)"
+            $statusLabel.Text = (Get-QueueSummary) + " – s /reload počkej na HOTOVO"
             [Windows.Forms.Application]::DoEvents()
             $h = Get-PayloadHash $payload
-            # když překlad selže (limit Googlu, výpadek), vyhodí výjimku a tahle položka se zkusí znovu příště
-            if (Invoke-Quest $payload $true) { $count++ }
-            [void]$script:QueueDone.Add($h)
+            try {
+                if (Invoke-Quest $payload $true) { $count++ }
+                [void]$script:QueueDone.Add($h)
+                $script:QStat.done++
+            } catch {
+                # limit Googlu, výpadek… – jedna položka nezastaví zbytek dávky a zkusí se znovu příště
+                $script:QStat.failed++
+                $retry = $true
+            }
+            $script:QStat.pending--
         }
+        if ($retry) { $script:QueueStamps.Remove($f.FullName) }
     }
     if ($count -gt 0 -or $script:QueueDone.Count -gt 0) {
         [IO.File]::WriteAllLines($QueueDonePath, [string[]]@($script:QueueDone), $Utf8NoBom)
@@ -1261,8 +1330,11 @@ $queueTimer.Add_Tick({
     try {
         $n = Invoke-GameQueue
         if ($n -gt 0) {
-            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – HOTOVO: ze hry přeloženo $n textů. Teď ve hře napiš /reload."
+            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – HOTOVO: ze hry přeloženo $n textů. Teď ve hře napiš /reload. ($(Get-QueueSummary))"
             try { [System.Media.SystemSounds]::Asterisk.Play() } catch { }
+            Show-Toast "HOTOVO – napiš ve hře /reload" "Přeloženo $n textů ze hry. Po /reload je uvidíš česky."
+        } elseif ($script:QStat.failed -gt 0 -and $script:QStat.pending -le 0) {
+            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – některé texty se nepovedlo přeložit, zkusím je znovu. ($(Get-QueueSummary))"
         }
     } catch {
         # offline / limit Googlu / soubor se zrovna zapisuje – zkusí se to znovu (hotové položky se nezahazují)
