@@ -1,4 +1,5 @@
 -- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhrani.json.
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md
 WoWpoCesku_UI = {
 ["A strong attack that deals melee weapon damage plus {1}"]="Silný útok, který způsobí poškození zbraní na blízko plus {1}",
 ["A targeted party member is protected from all physical attacks for {1} sec, but during that time they cannot attack or use physical abilities. Players may only have one Blessing on them per Paladin at any one time. Applies Forbearance for {2} min. Cannot be cast while Forbearance is active."]="Vybraný člen skupiny je na {1} s chráněn před všemi fyzickými útoky, ale po tu dobu nemůže útočit ani používat fyzické schopnosti. Každý hráč může mít od jednoho paladina najednou jen jedno požehnání (Blessing). Způsobí Forbearance na {2} min. Nelze použít, dokud je Forbearance aktivní.",
