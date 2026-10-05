@@ -719,7 +719,7 @@ end
 -- série za počet: { id, ikona, co se počítá, popisek, stupně { počet, název, body } }
 local SERIES = {
     { id = "rare", icon = IC .. "Ability_Hunter_SniperShot", image = PIC .. "lovec", what = "vzácných mobů",
-      desc = function(n) return n == 1 and "Uviď svého prvního vzácného moba." or ("Uviď %d různých vzácných mobů."):format(n) end,
+      desc = function(n) return n == 1 and "Spatři svého prvního vzácného moba." or ("Spatři %d různých vzácných mobů."):format(n) end,
       steps = { { 1, "Stopař", 5 }, { 10, "Lovec vzácností", 10 }, { 25, "Mistr lovu", 25 }, { 50, "Legenda Bestiáře", 50 } } },
     { id = "zone", icon = IC .. "Ability_Mount_RidingHorse", image = PIC .. "cestovatel", what = "oblastí",
       desc = function(n) return ("Navštiv %d oblastí Azerothu."):format(n) end,
@@ -1258,7 +1258,7 @@ local SENT = {
     start = { "%s se poprvé probudil(a) v Azerothu. Začíná nový příběh." },
     older = { "Ze starších zápisů: tenhle příběh se začal psát dřív, než se ho kronika naučila zapisovat. %s už byl(a) na úrovni %s." },
     zone = { "%s poprvé vkročil(a) do oblasti %s.", "%s dorazil(a) do oblasti %s. Začíná nová kapitola.",
-        "Cesta zavedla hrdinu jménem %s do oblasti %s." },
+        "Cesta zavedla postavu %s do oblasti %s." },
     dungeon = { "%s poprvé sestoupil(a) do dungeonu %s.", "%s vstoupil(a) do dungeonu %s. Ze tmy se ozývaly kroky.",
         "Brány dungeonu se otevřely – %s vkročil(a) do %s." },
     boss = { "%s porazil(a) bosse %s (%s).", "Skupina, ve které byl(a) %s, srazila k zemi bosse %s v dungeonu %s." },
@@ -1281,7 +1281,7 @@ local function sentence(J, e)
     local ok, s = pcall(string.format, tpl, J.name or "?", tostring(e.a or "?"), tostring(e.b or ""))
     if not ok then s = tpl end
     s = s:gsub("([%?!])%.", "%1")
-    if J.sex == 3 then s = s:gsub("%(a%)", "a") elseif J.sex == 2 then s = s:gsub("%(a%)", "") end
+    if J.sex == 3 then s = s:gsub("%(a%)", "a") else s = s:gsub("%(a%)", "") end
     return s
 end
 

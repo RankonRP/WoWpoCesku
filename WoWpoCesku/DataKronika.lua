@@ -583,7 +583,7 @@ WoWpoCesku_SealLegends = {
       desc = "Poraz v Zul'Farraku hydru Gahz'rillu pro Wizzla Brassboltse (quest Gahz'rilla)." },
     { id = "tooga", q = { 1560 }, name = "Pomalu, ale jistě", pts = 5,
       desc = "Doprovoď v Tanaris ztracenou želvu Toogu k její družce (quest Tooga's Quest)." },
-    { id = "kodo", q = { 5561 }, name = "Kodí hřbitov", pts = 5,
+    { id = "kodo", q = { 5561 }, name = "Hřbitov kodoů", pts = 5,
       desc = "Zkroť umírající kodo v Desolace (quest Kodo Roundup)." },
     { id = "galen", q = { 1393 }, name = "Galenův útěk", pts = 5,
       desc = "Doprovoď Galena Goodwarda bažinami do bezpečí (quest Galen's Escape)." },
