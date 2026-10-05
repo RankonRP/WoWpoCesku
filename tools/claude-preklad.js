@@ -2,6 +2,8 @@
 //   node tools/claude-preklad.js seznam [max]     -> vypíše viděné questy / rozhovory / texty rozhraní,
 //                                                   které ještě nemají ruční překlad (src claude/oprava)
 //   node tools/claude-preklad.js pouzij <soubor>  -> zapíše překlady do databází (src = "claude")
+//   node tools/claude-preklad.js oznacene         -> co hráč ve hře označil tlačítkem "Nelíbí se mi" (originál + dosavadní překlad)
+//   node tools/claude-preklad.js oznacene-hotovo  -> označené, které už jsou přeložené, příště nevypisovat
 //
 // Viděné věci addon ukládá do WoWpoCeskuSeen v SavedVariables:
 //   <hra>\WTF\Account\<účet>\SavedVariables\WoWpoCesku.lua  (složka hry z nastaveni.json -> slozka_hry)
@@ -63,6 +65,70 @@ function seznam(max) {
     `${Object.keys(out.questy).length} / ${Object.keys(out.rozhovory).length} / ${Object.keys(out.rozhrani).length}`);
 }
 
+// Označení z tlačítka "Nelíbí se mi – poslat Claudovi": WoWpoCeskuSeen.flag["q:<id>" | "g:<anglický text>"] = { t, part, title }
+const DONE_FLAGS = path.join(ROOT, ".oznacene-hotovo.json");
+function readFlags() {
+  const unescape = (s) => s.replace(/\\(n|r|t|"|\\)/g, (_, c) => (c === "n" ? "\n" : c === "r" ? "\r" : c === "t" ? "\t" : c));
+  const flags = {};
+  for (const file of savedVariablesFiles()) {
+    const text = fs.readFileSync(file, "utf8");
+    const block = text.match(/^WoWpoCeskuSeen\s*=\s*\{([\s\S]*?)^\}\s*$/m);
+    if (!block) continue;
+    const fl = tableBody(block[1], "flag");
+    if (fl === null) continue;
+    for (const m of fl.matchAll(/\["((?:[^"\\]|\\.)*)"\]\s*=\s*\{([^}]*)\}/g)) {
+      const body = m[2];
+      const t = Number((body.match(/\["t"\]\s*=\s*(\d+)/) || [])[1] || 0);
+      const part = (body.match(/\["part"\]\s*=\s*"([^"]*)"/) || [])[1] || "";
+      flags[unescape(m[1])] = { t, part };
+    }
+  }
+  return flags;
+}
+function tableBody(text, key) {
+  const m = text.match(new RegExp('\\["' + key + '"\\]\\s*=\\s*\\{'));
+  if (!m) return null;
+  let i = m.index + m[0].length, depth = 1, inStr = false;
+  const start = i;
+  for (; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) { if (c === "\\") i++; else if (c === '"') inStr = false; continue; }
+    if (c === '"') inStr = true;
+    else if (c === "{") depth++;
+    else if (c === "}" && --depth === 0) return text.slice(start, i);
+  }
+  return null;
+}
+const readDoneFlags = () => { try { return JSON.parse(fs.readFileSync(DONE_FLAGS, "utf8")); } catch { return {}; } };
+
+function oznacene(markDone) {
+  const flags = readFlags(), done = readDoneFlags();
+  const db = S.readCache(), gossip = S.readGossip();
+  const out = { questy: {}, rozhovory: {} };
+  let pending = 0;
+  for (const [key, f] of Object.entries(flags)) {
+    if ((done[key] || 0) >= f.t) continue;
+    pending++;
+    if (markDone) { done[key] = f.t; continue; }
+    if (key.startsWith("q:")) {
+      const id = key.slice(2), e = db[id];
+      if (!e) { console.error("quest " + id + " není v místní databázi"); continue; }
+      out.questy[id] = { oznacena_cast: f.part || "(neuvedeno)", original: {}, dosavadni_preklad: {} };
+      for (const fld of FIELDS) {
+        if (e["en_" + fld]) out.questy[id].original[fld] = e["en_" + fld];
+        if (e[fld]) out.questy[id].dosavadni_preklad[fld] = e[fld];
+      }
+    } else if (key.startsWith("g:")) {
+      const k = S.gossipKey(key.slice(2)), g = gossip[k];
+      out.rozhovory[k] = { dosavadni_preklad: g ? g.cs : null, zdroj: g ? g.src : null };
+    }
+  }
+  if (markDone) { fs.writeFileSync(DONE_FLAGS, JSON.stringify(done)); console.log("označeno jako hotové: " + pending); return; }
+  console.log(JSON.stringify(out, null, 1));
+  console.error("označeno hráčem: " + Object.keys(flags).length + " | k přeložení: " + pending +
+    " (questů " + Object.keys(out.questy).length + ", rozhovorů " + Object.keys(out.rozhovory).length + ")");
+}
+
 function pouzij(file) {
   let data = JSON.parse(fs.readFileSync(file, "utf8").replace(/^\uFEFF/, ""));
   if (!data.questy && !data.rozhovory && !data.rozhrani) data = { questy: data };
@@ -94,4 +160,6 @@ function pouzij(file) {
 const [cmd, arg] = process.argv.slice(2);
 if (cmd === "seznam") seznam(Number(arg) || 20);
 else if (cmd === "pouzij" && arg) pouzij(arg);
-else console.log("Použití: node tools/claude-preklad.js seznam [max] | pouzij <soubor.json>");
+else if (cmd === "oznacene") oznacene(false);
+else if (cmd === "oznacene-hotovo") oznacene(true);
+else console.log("Použití: node tools/claude-preklad.js seznam [max] | pouzij <soubor.json> | oznacene | oznacene-hotovo");

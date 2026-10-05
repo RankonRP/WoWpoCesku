@@ -57,6 +57,14 @@ Pomocník každou hodinu sám zkontroluje, jestli ostatní hráči
 nepřeložili něco nového.
 
 
+PŘEKLAD SE TI NELÍBÍ
+--------------------
+V panelu s překladem klikni na "Nelíbí se mi – poslat Claudovi". Text se jen označí
+u tebe ve hře (nikam se neposílá). Až jich máš víc, napiš /reload (označení se uloží
+do souboru) a řekni Claudovi, ať přeloží označené. Příkaz /czq oznacene ukáže, kolik
+jich čeká.
+
+
 PŘÍKAZY VE HŘE
 --------------
 /czq              zapne / vypne překlad

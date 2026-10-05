@@ -168,7 +168,7 @@ title:SetJustifyH("CENTER")
 -- Režim "přeloženo": rolovací text + tlačítka dole
 local scroll = CreateFrame("ScrollFrame", "WoWpoCeskuScroll", panel, "UIPanelScrollFrameTemplate")
 scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -12)
-scroll:SetPoint("BOTTOMRIGHT", -36, 46)
+scroll:SetPoint("BOTTOMRIGHT", -36, 74)
 
 -- Když překlad nesedí na text ve hře (Forever quest změnil), jde ho přeložit znovu
 local retry = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
@@ -183,6 +183,14 @@ fix:SetSize(150, 22)
 fix:SetPoint("BOTTOMRIGHT", -20, 18)
 czButton(fix)
 fix:SetText("Opravit překlad")
+
+-- Překlad, který se hráči nelíbí: označí se pro Clauda (jen mezi hráčem a Claudem, nikam se neposílá)
+local claudeBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+claudeBtn:SetSize(316, 24)
+claudeBtn:SetPoint("BOTTOMLEFT", 20, 46)
+czButton(claudeBtn)
+claudeBtn:SetText("Nelíbí se mi – poslat Claudovi")
+claudeBtn:Hide()
 
 local content = CreateFrame("Frame", nil, scroll)
 content:SetSize(310, 10)
@@ -448,6 +456,59 @@ local function simplify(s)
     return ((s or ""):lower():gsub("[%s%p]", ""))
 end
 
+-- Označení: WoWpoCeskuSeen.flag["q:<id>"] / ["g:<anglický text>"] = { t = čas, part = ... }
+-- Hra ho zapíše při /reload nebo odhlášení; Claude si ho přečte (tools/claude-preklad.js oznacene) a přeloží ručně.
+local FLAG_MAX = 200
+local function flagKey(q)
+    if not q then return nil end
+    if q.kind == "gossip" then return "g:" .. gossipKey(q.gossip) end
+    return "q:" .. tostring(q.id)
+end
+local function flagTable()
+    WoWpoCeskuSeen = WoWpoCeskuSeen or { q = {}, g = {} }
+    WoWpoCeskuSeen.flag = WoWpoCeskuSeen.flag or {}
+    return WoWpoCeskuSeen.flag
+end
+local function flagCount()
+    local n = 0
+    for _ in pairs(flagTable()) do n = n + 1 end
+    return n
+end
+local function refreshClaude()
+    local k = flagKey(panel.quest)
+    if not k then claudeBtn:Hide() return end
+    claudeBtn:SetText(flagTable()[k] and "|cff1d6b1dOznačeno pro Clauda|r – klikni pro zrušení" or "Nelíbí se mi – poslat Claudovi")
+    claudeBtn:Show()
+end
+claudeBtn:SetScript("OnClick", function()
+    local q = panel.quest
+    local k = flagKey(q)
+    if not k then return end
+    local flags = flagTable()
+    if flags[k] then
+        flags[k] = nil
+        print("|cffffd100WoWpoCesku:|r oznaceni zruseno (celkem oznaceno: " .. flagCount() .. ")")
+    else
+        if flagCount() >= FLAG_MAX then
+            print("|cffffd100WoWpoCesku:|r uz je oznaceno " .. FLAG_MAX .. " textu - nejdriv je nech prelozit")
+            return
+        end
+        flags[k] = { t = time(), part = q.part or "", title = (q.title or ""):sub(1, 80) }
+        print("|cffffd100WoWpoCesku:|r oznaceno pro Clauda (celkem: " .. flagCount() .. "). Az jich bude vic, napis /reload a rekni Claudovi, ze ma prelozit oznacene.")
+    end
+    refreshClaude()
+end)
+claudeBtn:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:AddLine("Poslat Claudovi")
+    GameTooltip:AddLine("Oznaci tento preklad jako spatny.", 1, 1, 1)
+    GameTooltip:AddLine("Claude ho prelozi rucne, az mu to reknes", 1, 1, 1)
+    GameTooltip:AddLine("(po /reload se oznaceni ulozi do souboru).", 1, 1, 1)
+    GameTooltip:Show()
+end)
+claudeBtn:SetScript("OnLeave", GameTooltip_Hide)
+WoWpoCesku_FlagCount = flagCount
+
 local function isTranslated(q)
     local tr = WoWpoCesku_Data[q.id]
     if not tr then return false end
@@ -499,6 +560,7 @@ local function showTranslated(q)
     scroll:Show()
     retry:Show()
     fix:Show()
+    refreshClaude()
 end
 
 -- Fronta pro Pomocníka: nepřeložené texty se ukládají do WoWpoCeskuQueue (SavedVariables).
@@ -555,6 +617,7 @@ local function showCopy(q, mode)
     edit:SetCursorPosition(0)
     status:SetText("")
     scroll:Hide()
+    claudeBtn:Hide()
     retry:Hide()
     fix:Hide()
     copyFrame:Show()
@@ -583,9 +646,10 @@ local function showGossip(q)
         end)
         copyFrame:Hide()
         scroll:Show()
-        -- Opravy rozhovorů zatím Pomocník neumí
+        -- Opravy rozhovorů zatím Pomocník neumí (u rozhovorů proto zůstává jen tlačítko pro Clauda)
         retry:Hide()
         fix:Hide()
+        refreshClaude()
     else
         showCopy(q, q.book and "kniha" or "rozhovor")
     end
@@ -609,6 +673,7 @@ local function showQuest(q, source)
     if not q then return end
     markSeen(q)
     currentQuest = q
+    panel.quest = q
     panel.source = source
     placePanel(source)
     panel:Show()
@@ -1136,6 +1201,9 @@ SlashCmdList.CZQUESTS = function(msg)
         scanCommand(arg)
     elseif cmd == "lore" or cmd == "pribeh" then
         WoWpoCesku_LoreCommand(arg)
+    elseif cmd == "oznacene" then
+        local n = WoWpoCesku_FlagCount and WoWpoCesku_FlagCount() or 0
+        print("|cffffd100WoWpoCesku:|r oznaceno pro Clauda: " .. n .. (n > 0 and " - napis /reload a rekni Claudovi, ze ma prelozit oznacene" or ""))
     elseif cmd == "pecete" then
         if WoWpoCesku_SealDebug then WoWpoCesku_SealDebug() end
     elseif cmd == "vzacni" or cmd == "rare" then
