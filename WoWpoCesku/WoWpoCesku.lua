@@ -374,6 +374,25 @@ local function gossipKey(s)
     return ((s or ""):gsub("%s+", " "):gsub("^ ", ""):gsub(" $", ""))
 end
 
+-- Starší verze Pomocníka ukládala víceodstavcové rozhovory s doslovným "\r" v klíči (zpětné lomítko + r).
+-- Hra takový klíč nikdy nenajde, rozhovor zůstal nepřeložený. Proto si pro každý klíč uděláme i opravený
+-- tvar (bez "\r", s jednotnými mezerami) a hledáme napřed přesně, pak v opraveném indexu.
+local gossipIndex
+local function cleanGossip(s)
+    return ((s or ""):gsub("\\r", ""):gsub("\\t", " "):gsub("%s+", " "):gsub("^ ", ""):gsub(" $", ""))
+end
+local function gossipLookup(text)
+    local key = gossipKey(text)
+    local cs = WoWpoCesku_Gossip[key]
+    if cs then return (cs:gsub("\\r", "")) end
+    if not gossipIndex then
+        gossipIndex = {}
+        for k, v in pairs(WoWpoCesku_Gossip) do gossipIndex[cleanGossip(k)] = v end
+    end
+    cs = gossipIndex[cleanGossip(key)]
+    if cs then return (cs:gsub("\\r", "")) end
+end
+
 local function gatherGossip()
     local text = (C_GossipInfo and C_GossipInfo.GetText and C_GossipInfo.GetText()) or (GetGossipText and GetGossipText())
     if not text or text == "" then return nil end
@@ -520,7 +539,7 @@ local function cleanQueue()
             done = not text or (WoWpoCesku_UI and WoWpoCesku_UI[text] ~= nil)
         else
             local text = payload:match("##gossip\n(.*)$")
-            done = not text or WoWpoCesku_Gossip[gossipKey(text)] ~= nil
+            done = not text or gossipLookup(text) ~= nil
         end
         if done then WoWpoCeskuQueue[key] = nil end
     end
@@ -552,7 +571,7 @@ end
 local currentQuest
 
 local function showGossip(q)
-    local cs = WoWpoCesku_Gossip[gossipKey(q.gossip)]
+    local cs = gossipLookup(q.gossip)
     if cs then
         title:SetText(q.title)
         body:SetText(fromToken(cs))

@@ -194,6 +194,35 @@ function Write-GossipLua {
     [IO.File]::WriteAllText($GossipLuaPath, $sb.ToString(), $Utf8NoBom)
 }
 
+# Samoopravení: starší verze ukládala klíče s doslovným \r (hra je pak nenašla a rozhovor zůstal nepřeložený).
+# Při startu je opravíme (sloučí se duplicity, přednost má záznam s lepším zdrojem) a rovnou přegenerujeme data.
+function Repair-GossipKeys {
+    $rank = @{ oprava = 4; claude = 3; komunita = 2; lokalne = 1 }
+    $fixed = @{}
+    $changed = $false
+    foreach ($k in @($script:Gossip.Keys)) {
+        $entry = $script:Gossip[$k]
+        $nk = Get-GossipKey $k
+        if ($nk -ne $k) { $changed = $true }
+        if ($entry["cs"] -and $entry["cs"].Contains('\r')) { $entry["cs"] = $entry["cs"].Replace('\r', ''); $changed = $true }
+        $entry["en"] = $nk
+        if ($fixed.ContainsKey($nk)) {
+            $changed = $true
+            $old = $fixed[$nk]
+            $rOld = if ($rank.ContainsKey([string]$old["src"])) { $rank[[string]$old["src"]] } else { 0 }
+            $rNew = if ($rank.ContainsKey([string]$entry["src"])) { $rank[[string]$entry["src"]] } else { 0 }
+            if ($rNew -le $rOld -and $old["cs"]) { continue }
+        }
+        $fixed[$nk] = $entry
+    }
+    if ($changed) {
+        $script:Gossip = $fixed
+        Save-Gossip
+        Write-GossipLua
+    }
+}
+Repair-GossipKeys
+
 # ----------------------------------------------------------------------------
 # Překladače
 # ----------------------------------------------------------------------------
@@ -216,14 +245,25 @@ function Get-WebErrorText($err) {
 
 function Invoke-GoogleTranslate([string]$text) {
     if ([string]::IsNullOrWhiteSpace($text)) { return $text }
-    $wc = New-WebClient
-    $wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-    $resp = $wc.UploadString("https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=en&tl=cs",
-        "q=" + [Uri]::EscapeDataString($text))
-    $j = $resp | ConvertFrom-Json
-    $first = @($j)[0]
-    if ($first -is [array]) { $first = $first[0] }
-    return [string]$first
+    # Google při rychlém překládání občas odmítne dotaz (limit) – zkusíme znovu, než to vzdáme
+    $waits = @(1000, 3000, 0)
+    for ($try = 0; $try -lt $waits.Count; $try++) {
+        try {
+            $wc = New-WebClient
+            $wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+            $resp = $wc.UploadString("https://clients5.google.com/translate_a/t?client=dict-chrome-ex&sl=en&tl=cs",
+                "q=" + [Uri]::EscapeDataString($text))
+            $j = $resp | ConvertFrom-Json
+            $first = @($j)[0]
+            if ($first -is [array]) { $first = $first[0] }
+            $out = [string]$first
+            if (-not [string]::IsNullOrWhiteSpace($out)) { return $out }
+            throw "Google vrátil prázdný překlad."
+        } catch {
+            if ($try -eq $waits.Count - 1) { throw }
+            Start-Sleep -Milliseconds $waits[$try]
+        }
+    }
 }
 
 function Invoke-ClaudeTranslate($fields) {
@@ -313,7 +353,7 @@ function Invoke-Translate($fields) {
     if ($Settings.prekladac -eq "claude") { $out = Invoke-ClaudeTranslate $fields }
     else {
         $out = [ordered]@{}
-        foreach ($k in $fields.Keys) { $out[$k] = Invoke-GoogleTranslate $fields[$k] }
+        foreach ($k in $fields.Keys) { $out[$k] = Invoke-GoogleTranslate $fields[$k]; Start-Sleep -Milliseconds 250 }
     }
     foreach ($k in @($out.Keys)) { $out[$k] = Invoke-Rules $out[$k] }
     return $out
@@ -833,7 +873,7 @@ function Invoke-Gossip($q, [bool]$quiet = $false) {
         if ([int]$q.id -gt 0 -and $Settings.prispivat -and (Invoke-SbernaPost "/submit" @{ id = [int]$q.id; client = $Settings.klient_id; fields = @{ gossip = $en } })) {
             $sent = " Odesláno do společné sbírky."
         }
-        $statusLabel.Text = "Uloženo ($($script:Gossip.Count) rozhovorů). Ve hře napiš /reload.$sent"
+        $statusLabel.Text = if ($quiet) { "Uloženo ($($script:Gossip.Count) rozhovorů). Čekej, než se přeloží celá dávka…$sent" } else { "Uloženo ($($script:Gossip.Count) rozhovorů). Ve hře napiš /reload.$sent" }
         $did = $true
     }
     if (-not $quiet) { Show-Gossip $q $entry["cs"] }
@@ -841,7 +881,7 @@ function Invoke-Gossip($q, [bool]$quiet = $false) {
 }
 
 # Text rozhraní (šablona talentu…): přeložit, uložit, poslat do sběrny
-function Invoke-UiText($q) {
+function Invoke-UiText($q, [bool]$quiet = $false) {
     $en = $q.fields["ui"]
     if (-not $en) { return $false }
     $key = Get-GossipKey $en
@@ -851,7 +891,7 @@ function Invoke-UiText($q) {
     Save-Ui
     Write-UiLua
     if ($Settings.prispivat) { [void](Invoke-SbernaPost "/submit" @{ id = 1; client = $Settings.klient_id; fields = @{ ui = $key } }) }
-    $statusLabel.Text = "Uloženo ($($script:Ui.Count) textů rozhraní). Ve hře napiš /reload."
+    $statusLabel.Text = if ($quiet) { "Uloženo ($($script:Ui.Count) textů rozhraní). Čekej, než se přeloží celá dávka…" } else { "Uloženo ($($script:Ui.Count) textů rozhraní). Ve hře napiš /reload." }
     return $true
 }
 
@@ -859,7 +899,7 @@ function Invoke-Quest([string]$clip, [bool]$quiet = $false) {
     $q = ConvertFrom-Payload $clip
     if (-not $q) { return $false }
     if ($q.kind -eq "gossip") { return (Invoke-Gossip $q $quiet) }
-    if ($q.kind -eq "ui") { return (Invoke-UiText $q) }
+    if ($q.kind -eq "ui") { return (Invoke-UiText $q $quiet) }
     $did = $false
 
     $entry = $script:Cache[$q.id]
@@ -883,7 +923,7 @@ function Invoke-Quest([string]$clip, [bool]$quiet = $false) {
         Save-Cache
         Write-DataLua
         $sent = if (Send-ToSberna $q) { " Odesláno do společné sbírky." } else { "" }
-        $statusLabel.Text = "Uloženo ($($script:Cache.Count) questů). Ve hře napiš /reload.$sent"
+        $statusLabel.Text = if ($quiet) { "Uloženo ($($script:Cache.Count) questů). Čekej, než se přeloží celá dávka…$sent" } else { "Uloženo ($($script:Cache.Count) questů). Ve hře napiš /reload.$sent" }
         $did = $true
     } elseif (-not $quiet) {
         $statusLabel.Text = "Z uložených překladů. (Pokud ho addon neukazuje, napiš ve hře /reload.)"
@@ -939,9 +979,14 @@ function Invoke-GameQueue {
         $stamp = $f.LastWriteTimeUtc.Ticks
         if ($script:QueueStamps[$f.FullName] -eq $stamp) { continue }
         $script:QueueStamps[$f.FullName] = $stamp
-        foreach ($payload in Read-QueueFile $f.FullName) {
+        $payloads = @(Read-QueueFile $f.FullName | Where-Object { -not $script:QueueDone.Contains((Get-PayloadHash $_)) })
+        $i = 0
+        foreach ($payload in $payloads) {
+            $i++
+            $statusLabel.Text = "Překládám texty ze hry: $i z $($payloads.Count)… (s /reload počkej na zprávu HOTOVO)"
+            [Windows.Forms.Application]::DoEvents()
             $h = Get-PayloadHash $payload
-            if ($script:QueueDone.Contains($h)) { continue }
+            # když překlad selže (limit Googlu, výpadek), vyhodí výjimku a tahle položka se zkusí znovu příště
             if (Invoke-Quest $payload $true) { $count++ }
             [void]$script:QueueDone.Add($h)
         }
@@ -1215,10 +1260,14 @@ $queueTimer.Add_Tick({
     $script:Busy = $true
     try {
         $n = Invoke-GameQueue
-        if ($n -gt 0) { $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – ze hry přeloženo $n textů. Ve hře napiš /reload." }
+        if ($n -gt 0) {
+            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – HOTOVO: ze hry přeloženo $n textů. Teď ve hře napiš /reload."
+            try { [System.Media.SystemSounds]::Asterisk.Play() } catch { }
+        }
     } catch {
-        # offline / soubor se zrovna zapisuje – zkusí se to znovu
+        # offline / limit Googlu / soubor se zrovna zapisuje – zkusí se to znovu (hotové položky se nezahazují)
         $script:QueueStamps = @{}
+        $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – překlad se zrovna nepovedl, zkusím to znovu za chvíli."
     } finally {
         $script:Busy = $false
     }
