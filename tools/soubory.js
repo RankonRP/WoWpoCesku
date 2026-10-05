@@ -41,6 +41,7 @@ function writeCache(cache) {
 function writeDataLua(cache) {
   const out = [
     "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v preklady.json.",
+    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md",
     "WoWpoCesku_Data = {",
   ];
   for (const id of Object.keys(cache).sort((a, b) => a - b)) {
@@ -65,6 +66,7 @@ function writeGossip(gossip) {
 function writeGossipLua(gossip) {
   const out = [
     "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhovory.json.",
+    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md",
     "WoWpoCesku_Gossip = {",
   ];
   for (const k of Object.keys(gossip).sort()) {
@@ -80,6 +82,7 @@ function writeUi(ui) { writeJsonLines(UI_PATH, ui, Object.keys(ui).sort()); }
 function writeUiLua(ui) {
   const out = [
     "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhrani.json.",
+    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md",
     "WoWpoCesku_UI = {",
   ];
   for (const k of Object.keys(ui).sort()) if (ui[k].cs) out.push(`[${luaString(k)}]=${luaString(ui[k].cs)},`);

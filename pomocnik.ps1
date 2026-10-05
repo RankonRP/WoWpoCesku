@@ -85,6 +85,7 @@ function ConvertTo-LuaString([string]$s) {
 function Write-DataLua {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v preklady.json.")
+    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md")
     [void]$sb.AppendLine("WoWpoCesku_Data = {")
     foreach ($id in ($script:Cache.Keys | Sort-Object { [int]$_ })) {
         $parts = foreach ($f in $FieldOrder) {
@@ -170,6 +171,7 @@ function Save-TextDb($db, [string]$path) {
 function Write-TextLua($db, [string]$path, [string]$var, [string]$source) {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v $source.")
+    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md")
     [void]$sb.AppendLine("$var = {")
     foreach ($k in ($db.Keys | Sort-Object)) {
         $cs = $db[$k]["cs"]
@@ -185,6 +187,7 @@ function Write-UiLua { Write-TextLua $script:Ui $UiLuaPath "WoWpoCesku_UI" "rozh
 function Write-GossipLua {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhovory.json.")
+    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md")
     [void]$sb.AppendLine("WoWpoCesku_Gossip = {")
     foreach ($k in ($script:Gossip.Keys | Sort-Object)) {
         $cs = $script:Gossip[$k]["cs"]

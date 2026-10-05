@@ -1,3 +1,4 @@
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md
 -- WoWpoCesku: kde se objevují vzácní mobové (CMaNGOS classic-db, světové souřadnice: kontinent, x, y, …)
 -- Vytvořeno nástrojem tools/vzacni.js – needitovat ručně.
 WoWpoCesku_RareSpawns = {

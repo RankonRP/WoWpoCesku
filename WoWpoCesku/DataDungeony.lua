@@ -1,3 +1,4 @@
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md
 -- WoWpoCesku: Kronika Azerothu – dungeony a raidy (klíč = název instance ze hry)
 -- Stránka se otevře při vstupu do instance stejně jako u oblastí.
 

@@ -1,3 +1,4 @@
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md
 -- WoWpoCesku: příběhy oblastí (lore) česky – psáno vlastními slovy, jména míst a postav anglicky
 -- WoWpoCesku_Lore["Název oblasti v klientu"] = { title, tag (úvodní věta), ch = { { "Kapitola", [[text]] }, … } }
 -- Klíč je anglický název zóny ze hry (C_Map). WoWpoCesku_LoreAlias = podoblasti a města -> oblast s příběhem.

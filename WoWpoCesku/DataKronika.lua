@@ -1,3 +1,4 @@
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md
 -- WoWpoCesku: data pro doplňky Kroniky Azerothu (Kronika.lua)
 -- Vzácní mobové podle classic dat (foreverdb.net / CMaNGOS) a novinky WoW Forever: "Jméno|level|t" (t = lovec ochočí)
 
@@ -808,3 +809,6 @@ WoWpoCesku_Kviz = {
         { "SPOILER: Kdo v Cataclysmu obnoví Bratrstvo Defias?", "VanCleefova dcera Vanessa", "Bazil Thredd", "Mr. Smite", "Lady Katrana Prestor", "Z knih a legend" },
     },
 }
+
+-- Značka původu (pro doložení kopie): neměnit
+WoWpoCesku_Znacka = "RankonRP/WoWpoCesku | 2026 | wpc-7f3a9c1e5b2d"
