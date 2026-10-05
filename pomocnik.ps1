@@ -409,7 +409,7 @@ $form.BackColor = [Drawing.Color]::FromArgb(20, 20, 26)
 
 $statusLabel = New-Object Windows.Forms.Label
 $statusLabel.Dock = "Bottom"
-$statusLabel.Height = 28
+$statusLabel.Height = 48
 $statusLabel.Padding = New-Object Windows.Forms.Padding(8, 6, 8, 0)
 $statusLabel.ForeColor = [Drawing.Color]::FromArgb(160, 160, 170)
 $statusLabel.Font = New-Object Drawing.Font("Segoe UI", 9)
@@ -1031,7 +1031,14 @@ function Get-PayloadHash([string]$s) {
 # Přehled fronty ze hry (za celou dobu běhu): čeká / přeloženo / selhalo
 $script:QStat = @{ pending = 0; done = 0; failed = 0 }
 function Get-QueueSummary {
-    "Fronta ze hry: čeká $($script:QStat.pending) · přeloženo $($script:QStat.done) · selhalo $($script:QStat.failed)"
+    "Fronta: čeká $($script:QStat.pending) · přeloženo $($script:QStat.done) · selhalo $($script:QStat.failed)"
+}
+
+# počet textů se správným tvarem: 1 text, 2–4 texty, 5 a víc textů
+function Get-TextyTvar([int]$n) {
+    if ($n -eq 1) { return "1 text" }
+    if ($n -ge 2 -and $n -le 4) { return "$n texty" }
+    return "$n textů"
 }
 
 function Invoke-GameQueue {
@@ -1044,7 +1051,7 @@ function Invoke-GameQueue {
         $script:QStat.pending = $payloads.Count
         $retry = $false
         foreach ($payload in $payloads) {
-            $statusLabel.Text = (Get-QueueSummary) + " – s /reload počkej na HOTOVO"
+            $statusLabel.Text = "Překládám texty ze hry – s /reload počkej na HOTOVO`n" + (Get-QueueSummary)
             [Windows.Forms.Application]::DoEvents()
             $h = Get-PayloadHash $payload
             try {
@@ -1330,11 +1337,11 @@ $queueTimer.Add_Tick({
     try {
         $n = Invoke-GameQueue
         if ($n -gt 0) {
-            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – HOTOVO: ze hry přeloženo $n textů. Teď ve hře napiš /reload. ($(Get-QueueSummary))"
+            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – HOTOVO: přeloženo $(Get-TextyTvar $n). Teď ve hře napiš /reload.`n" + (Get-QueueSummary)
             try { [System.Media.SystemSounds]::Asterisk.Play() } catch { }
-            Show-Toast "HOTOVO – napiš ve hře /reload" "Přeloženo $n textů ze hry. Po /reload je uvidíš česky."
+            Show-Toast "HOTOVO – napiš ve hře /reload" "Přeloženo: $(Get-TextyTvar $n). Po /reload je uvidíš česky."
         } elseif ($script:QStat.failed -gt 0 -and $script:QStat.pending -le 0) {
-            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – některé texty se nepovedlo přeložit, zkusím je znovu. ($(Get-QueueSummary))"
+            $statusLabel.Text = "$(Get-Date -Format 'HH:mm') – některé texty se nepovedlo přeložit, zkusím je znovu.`n" + (Get-QueueSummary)
         }
     } catch {
         # offline / limit Googlu / soubor se zrovna zapisuje – zkusí se to znovu (hotové položky se nezahazují)
