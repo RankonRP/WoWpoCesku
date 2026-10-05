@@ -3,7 +3,7 @@
 Český překlad questů pro **World of Warcraft: Forever**.
 
 - Česky se ukáže zadání questu, texty při odevzdání, úkoly v přehledu, názvy questů, rozhovory s NPC i knihy a dopisy – u víc než 4000 questů hned po instalaci.
-- Nový quest, který ještě přeložený není, předáš jednou klávesou (**Ctrl+C**) malému Pomocníkovi na PC. Ten ho přeloží a pošle do společné databáze, takže ho pak mají česky všichni hráči.
+- Nový text, který ještě přeložený není (quest, rozhovor, kniha), si addon sám zapamatuje a malý Pomocník na PC ho přeloží a pošle do společné databáze, takže ho pak mají česky všichni hráči. **Ctrl+C není nutné** – jen urychlí překlad.
 - **Kronika Azerothu** – kniha na pergamenu s příběhem oblasti, kde právě jsi, česky (viz níže).
 - Nic dalšího se neinstaluje – Pomocník běží v PowerShellu, který je součástí Windows.
 
@@ -25,7 +25,8 @@
 
 - Spusť **`Spustit pomocnika.bat`** – nejlépe ještě před hrou.
 - **Přeložený quest** → český text se ukáže v panelu vedle okna questu.
-- **Nepřeložený quest** → addon text označí → zmáčkni **Ctrl+C** → překlad se hned ukáže v Pomocníkovi. Po `/reload` ho uvidíš česky i ve hře.
+- **Nepřeložený text** → nic dělat nemusíš: napiš `/reload` (nebo se odhlas), Pomocník texty ze hry sám přeloží a po zprávě **HOTOVO** napiš `/reload` znovu – a je to česky.
+- **Chceš to hned?** Zmáčkni **Ctrl+C** na označeném textu (addon ho označí sám) – překlad se ukáže hned v Pomocníkovi a po `/reload` ho uvidíš ve hře.
 - **Špatný překlad** → v panelu klikni na **Opravit překlad**, oprav text v Pomocníkovi a ulož.
 - **Ikona knihy u minimapy** → klik = Kronika Azerothu, **Ctrl+klik** = nastavení (nebo `/czq nastaveni`), pravý klik = zapnout/vypnout překlad, **Shift+klik** = načíst nové překlady.
 

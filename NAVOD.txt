@@ -104,14 +104,14 @@ může něco lišit.
 - Úkoly v přehledu: 'Zabito – Kobold Vermin: 3/10', '(splněno)'.
   Názvy nestvůr a předmětů zůstávají anglicky, aby šly ve hře najít.
 - Běžné volby v rozhovoru (obchod, let, hostinec, výcvik…) česky.
-- Knihy, dopisy a cedule: překlad v panelu, nové přeložíš přes Ctrl+C.
+- Knihy, dopisy a cedule: překlad v panelu; nové se přeloží samy po /reload (Ctrl+C je jen zkratka).
 Vše jde vypnout v nastavení (ikona knihy u minimapy).
 
 
 ROZHOVORY S NPC
 ---------------
 Když oslovíš NPC, které jen mluví (bez questu), ukáže se jeho řeč česky.
-Nepřeložený rozhovor: v panelu klikni na "Označit text" a zmáčkni Ctrl+C.
+Nepřeložený rozhovor: nic nedělej – po /reload ho Pomocník přeloží sám (počkej na zprávu HOTOVO a pak dej /reload znovu). Chceš-li to hned: v panelu klikni na "Označit text" a zmáčkni Ctrl+C.
 
 
 AKTUALIZACE
