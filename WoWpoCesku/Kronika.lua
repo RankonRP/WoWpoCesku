@@ -1420,10 +1420,12 @@ function WoWpoCesku_DungeonQuestsChapter(key)
     local list = WoWpoCesku_DungeonQuests and WoWpoCesku_DungeonQuests[key]
     if not list then return nil end
     local fac = myFaction()
-    local rows, n, total = {}, 0, 0
+    local rows, n, total, seenTitle = {}, 0, 0, {}
     for _, e in ipairs(list) do
         local id, title, lvl, minLvl, f, from, rew = e[1], e[2], e[3], e[4], e[5], e[6], e[7]
-        if not f or not fac or FACTION[f].key == fac then
+        -- stejný quest ve variantách pro obě frakce ukaž jen jednou
+        if (not f or not fac or FACTION[f].key == fac) and not seenTitle[title] then
+            seenTitle[title] = true
             total = total + 1
             local done = questDone(id)
             if done then n = n + 1 end
@@ -1431,7 +1433,11 @@ function WoWpoCesku_DungeonQuestsChapter(key)
             local text = (cz and cz ~= title) and (cz .. GRAY .. "  (" .. title .. ")|r") or title
             text = text .. GRAY .. ("  – level %d, od %d"):format(lvl, minLvl) .. "|r"
             if f then text = text .. "  " .. FACTION[f].label end
-            if from and from ~= "" then text = text .. "\n" .. GRAY .. "Dává: |r" .. from end
+            if from and from ~= "" then
+                text = text .. "\n" .. GRAY .. "Dává: |r" .. from
+            else
+                text = text .. "\n" .. GRAY .. "Začíná předmětem, který najdeš v dungeonu nebo u nepřítele.|r"
+            end
             if rew and rew ~= "" then text = text .. "\n" .. GRAY .. "Odměna: |r" .. rew end
             rows[#rows + 1] = { mark = done, text = text }
         end

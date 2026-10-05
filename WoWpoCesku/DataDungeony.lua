@@ -1098,7 +1098,7 @@ WoWpoCesku_DungeonQuests = {
     ["Naxxramas"] = {
         { 9033, "Echoes of War", 60, 60, nil, "Commander Eligor Dawnbringer", "" },
         { 9233, "Omarion's Handbook", 60, 60, nil, "", "" },
-        { 9120, "The Fall of Kel'Thuzad", 60, 60, nil, "", "Mark of the Champion, Mark of the Champion" },
+        { 9120, "The Fall of Kel'Thuzad", 60, 60, nil, "", "Mark of the Champion" },
         { 9229, "The Fate of Ramaladni", 60, 60, nil, "Korfax, Champion of the Light", "" },
         { 9232, "The Only Song I Know...", 60, 60, nil, "Craftsman Wilhelm", "Glacial Leggings, Icebane Leggings, Icy Scale Leggings, Polar Leggings" },
     },
