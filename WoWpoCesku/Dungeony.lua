@@ -324,7 +324,7 @@ local function showOnMap(p, label)
     if not uiMap then say("polohu se nepodarilo prevest na mapu (zkus /czq mapa).") return end
     local where = ("%s %.1f, %.1f"):format(zname or "?", u * 100, v * 100)
     local set = false
-    if C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
+    if settings().djWaypoint and C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
         set = pcall(function()
             if C_Map.CanSetUserWaypointOnMap and not C_Map.CanSetUserWaypointOnMap(uiMap) then error("nelze") end
             C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(uiMap, u, v))
@@ -460,7 +460,7 @@ local function showEntrance(key)
     end
     if not e then say(key .. ": vchod se na mape nepodarilo najit (klient ho nenabizi). Viz Prvodce, tam je popis cesty.") return end
     local set = false
-    if C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
+    if settings().djWaypoint and C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
         set = pcall(function()
             C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(e.uiMap, e.u, e.v))
             if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then C_SuperTrack.SetSuperTrackedUserWaypoint(true) end

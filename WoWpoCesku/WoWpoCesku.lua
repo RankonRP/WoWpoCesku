@@ -983,6 +983,9 @@ local function buildOptions()
     addCheck(right, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
         function() return WoWpoCeskuSettings.mapPlaces ~= false end,
         function(on) WoWpoCeskuSettings.mapPlaces = on end)
+    addCheck(right, "Dungeon průvodce nastaví i značku hry", "Kromě naší ikony na mapě nastaví i klasickou značku (waypoint) se šipkou",
+        function() return WoWpoCeskuSettings.djWaypoint == true end,
+        function(on) WoWpoCeskuSettings.djWaypoint = on end)
     addCheck(right, "Obrázky dungeonů z klienta hry", "Bannery v Dungeonovém deníku. Vypnuto = naše malované (po /reload)",
         function() return WoWpoCeskuSettings.djArt ~= "own" end,
         function(on) WoWpoCeskuSettings.djArt = on and "client" or "own" end)
