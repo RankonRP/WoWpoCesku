@@ -586,6 +586,15 @@ local function dungeonBestiar(key, list)
             if b[2] and b[2] ~= "" then text = text .. GRAY .. "  – " .. b[2] .. "|r" end
             local note = WoWpoCesku_PostavyNote and WoWpoCesku_PostavyNote(b[1])
             if note then text = text .. "\n" .. note end
+            local loot = WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][b[1]]
+            if loot and #loot > 0 then
+                local parts = {}
+                for i = 1, math.min(#loot, 8) do
+                    parts[#parts + 1] = (loot[i][2] >= 4 and "|cff8a2be2" or "|cff0b5cc4") .. loot[i][1] .. "|r"
+                end
+                text = text .. "\n" .. GRAY .. "Může padnout: |r" .. table.concat(parts, ", ")
+                    .. (#loot > 8 and (GRAY .. (" … a dalších %d|r"):format(#loot - 8)) or "")
+            end
             if t then text = text .. "\n" .. GRAY .. "Poražen " .. date("%d.%m. %H:%M", t) .. "|r" end
             rows[#rows + 1] = { mark = t ~= nil, text = text }
         end
