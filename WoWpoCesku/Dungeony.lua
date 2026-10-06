@@ -1057,7 +1057,7 @@ local function renderQuests(key)
             L[slot] = b
         end
         b:ClearAllPoints()
-        b:SetPoint("TOPRIGHT", L, "TOPRIGHT", x, 2)
+        b:SetPoint("TOPRIGHT", L, "TOPRIGHT", x, -4)
         setFactionIcon(b.ic, letter)
         local on = (fac == letter)
         b:SetBackdropColor(on and 0.78 or 0.40, on and 0.55 or 0.26, on and 0.30 or 0.14, on and 0.55 or 0.14)
@@ -1068,7 +1068,7 @@ local function renderQuests(key)
     end
     facButton("facA", "A", -42)
     facButton("facH", "H", -2)
-    L.y = L.y + 30
+    L.y = L.y + 22
 
     if #list == 0 then
         addText(R, "Pro tuto frakci nemám v databázi žádné questy k téhle instanci.", 13, INK)
