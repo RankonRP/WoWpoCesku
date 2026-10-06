@@ -1735,3 +1735,47 @@ function WoWpoCesku_IconTest()
     end
     f:Show()
 end
+
+-- Diagnostika vchodů: /czq vchod [text]  -> které vchody klient nabízí (API Encounter Journalu a Area POI)
+function WoWpoCesku_EntranceDebug(text)
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    local want = (text and text ~= "") and text:lower() or nil
+    say(("API: EJ.GetDungeonEntrancesForMap=%s, AreaPoi.GetAreaPOIForMap=%s"):format(
+        tostring(C_EncounterJournal and C_EncounterJournal.GetDungeonEntrancesForMap ~= nil),
+        tostring(C_AreaPoiInfo and C_AreaPoiInfo.GetAreaPOIForMap ~= nil)))
+    local mapsWith, shown = 0, 0
+    for id = 1, 3000 do
+        local ok, info = pcall(C_Map.GetMapInfo, id)
+        if ok and info and (info.mapType == 2 or info.mapType == 3) then
+            if C_EncounterJournal and C_EncounterJournal.GetDungeonEntrancesForMap then
+                local ok2, list = pcall(C_EncounterJournal.GetDungeonEntrancesForMap, id)
+                if ok2 and type(list) == "table" and #list > 0 then
+                    mapsWith = mapsWith + 1
+                    for _, e in ipairs(list) do
+                        if not want or (e.name and e.name:lower():find(want, 1, true)) then
+                            if shown < 12 then
+                                shown = shown + 1
+                                local u, v = xy(e.position)
+                                say(("EJ mapa %d '%s': %s %.1f, %.1f"):format(id, info.name or "?", tostring(e.name), (u or 0) * 100, (v or 0) * 100))
+                            end
+                        end
+                    end
+                end
+            end
+            if C_AreaPoiInfo and C_AreaPoiInfo.GetAreaPOIForMap and want then
+                local ok3, ids = pcall(C_AreaPoiInfo.GetAreaPOIForMap, id)
+                if ok3 and type(ids) == "table" then
+                    for _, pid in ipairs(ids) do
+                        local ok4, pi = pcall(C_AreaPoiInfo.GetAreaPOIInfo, id, pid)
+                        if ok4 and pi and pi.name and pi.name:lower():find(want, 1, true) and shown < 12 then
+                            shown = shown + 1
+                            local u, v = xy(pi.position)
+                            say(("POI mapa %d '%s': %s %.1f, %.1f"):format(id, info.name or "?", pi.name, (u or 0) * 100, (v or 0) * 100))
+                        end
+                    end
+                end
+            end
+        end
+    end
+    say(("map s vchody (EJ API): %d, vypsano: %d"):format(mapsWith, shown))
+end
