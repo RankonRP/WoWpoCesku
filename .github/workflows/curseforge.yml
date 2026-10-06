@@ -1,0 +1,67 @@
+name: Vydání na CurseForge
+
+# Zapnutí: v Settings > Secrets and variables > Actions > Variables přidat CF_ZAPNUTO = ano
+# a mít secret CURSEFORGE_TOKEN. Bez toho se nic nenahrává.
+# Nastavení (volitelné proměnné): CF_PRAH (výchozí 100 nových překladů = vydání hned),
+# CF_MIN_TYDEN (výchozí 1 = týdenní vydání už od 1 nového překladu).
+
+on:
+  schedule:
+    - cron: "43 */6 * * *" # každých 6 hodin kontrola prahu; týdenní vydání rozhoduje skript
+  workflow_dispatch:
+    inputs:
+      vynutit:
+        description: "Vydat i bez nových překladů"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: curseforge
+  cancel-in-progress: false
+
+jobs:
+  vydani:
+    if: vars.CF_ZAPNUTO == 'ano'
+    runs-on: ubuntu-latest
+    env:
+      CF_PROJECT_ID: "1729584"
+      CF_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+      PRAH: ${{ vars.CF_PRAH || '100' }}
+      MIN_TYDEN: ${{ vars.CF_MIN_TYDEN || '1' }}
+      VYNUTIT: ${{ inputs.vynutit && '1' || '0' }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+
+      - name: Rozhodnout, jestli vydávat
+        id: rozhodnuti
+        run: node tools/curseforge-rozhodni.js
+
+      - name: Zabalit addon
+        if: steps.rozhodnuti.outputs.vydat == '1'
+        run: |
+          mkdir -p dist
+          zip -rq "dist/WoWpoCesku-${{ steps.rozhodnuti.outputs.verze }}.zip" WoWpoCesku
+
+      - name: Nahrát na CurseForge
+        if: steps.rozhodnuti.outputs.vydat == '1'
+        run: node tools/curseforge-nahraj.js "dist/WoWpoCesku-${{ steps.rozhodnuti.outputs.verze }}.zip"
+        env:
+          CHANGELOG: ${{ steps.rozhodnuti.outputs.changelog }}
+          NAZEV: ${{ steps.rozhodnuti.outputs.nazev }}
+
+      - name: Označit vydání v gitu
+        if: steps.rozhodnuti.outputs.vydat == '1'
+        run: |
+          git config user.name "wowpocesku-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git tag "${{ steps.rozhodnuti.outputs.znacka }}"
+          git push origin "${{ steps.rozhodnuti.outputs.znacka }}"
