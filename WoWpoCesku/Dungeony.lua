@@ -364,6 +364,13 @@ end
 local function showEntrance(key)
     local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
     local e = findEntrance(key)
+    if not e then
+        local o = WoWpoCesku_DungeonEntryOut and WoWpoCesku_DungeonEntryOut[key]
+        if o then
+            local uiMap, u, v, zname = locate(o[1], o[2], o[3])
+            if uiMap then e = { uiMap = uiMap, u = u, v = v, zone = zname } end
+        end
+    end
     if not e then say(key .. ": vchod se na mape nepodarilo najit (klient ho nenabizi). Viz Prvodce, tam je popis cesty.") return end
     local set = false
     if C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
@@ -675,11 +682,14 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
         b.pmodel = CreateFrame("PlayerModel", nil, b.pframe)
         b.pmodel:SetPoint("TOPLEFT", 2, -2)
         b.pmodel:SetPoint("BOTTOMRIGHT", -2, 2)
-        b.badgeBg = b:CreateTexture(nil, "OVERLAY", nil, 1)
-        b.badgeBg:SetSize(22, 13)
+        b.bframe = CreateFrame("Frame", nil, b)
+        b.bframe:SetAllPoints()
+        b.bframe:SetFrameLevel(b.pframe:GetFrameLevel() + 6)
+        b.badgeBg = b.bframe:CreateTexture(nil, "OVERLAY", nil, 1)
+        b.badgeBg:SetSize(24, 14)
         b.badgeBg:SetPoint("BOTTOMRIGHT", b.icon, "BOTTOMRIGHT", 5, -3)
         b.badgeBg:SetColorTexture(0.07, 0.04, 0.02, 0.92)
-        b.badge = text(b, 10, 1, 0.82, 0.25)
+        b.badge = text(b.bframe, 10, 1, 0.82, 0.25)
         b.badge:SetPoint("CENTER", b.badgeBg, "CENTER", 0, 0)
         b.emblem = b:CreateTexture(nil, "ARTWORK")
         b.emblem:SetSize(22, 22)

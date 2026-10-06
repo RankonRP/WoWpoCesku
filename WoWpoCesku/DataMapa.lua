@@ -446,3 +446,28 @@ WoWpoCesku_QuestPos = {
     [7492] = { { 1, 1655, -4356 }, { 1, -4398, 147 } },
     [7494] = { { 0, -8854, 743 }, { 1, -4506, 3330 } },
 }
+
+-- Venkovní vchody dungeonů (body z classic databáze, přibližné): WoWpoCesku_DungeonEntryOut[instance] = { mapa, x, y }
+WoWpoCesku_DungeonEntryOut = {
+    ["Ragefire Chasm"] = { 1, 1812, -4410 },
+    ["Wailing Caverns"] = { 1, -732, -2218 },
+    ["The Deadmines"] = { 0, -11209, 1674 },
+    ["Shadowfang Keep"] = { 0, -235, 1562 },
+    ["Blackfathom Deeps"] = { 1, 4250, 740 },
+    ["The Stockade"] = { 0, -8787, 828 },
+    ["Gnomeregan"] = { 0, -5164, 925 },
+    ["Razorfen Kraul"] = { 1, -4470, -1678 },
+    ["Scarlet Monastery"] = { 0, 2873, -764 },
+    ["Razorfen Downs"] = { 1, -4657, -2519 },
+    ["Uldaman"] = { 0, -6071, -2955 },
+    ["Maraudon"] = { 1, -1419, 2908 },
+    ["Sunken Temple"] = { 0, -10178, -3995 },
+    ["Blackrock Depths"] = { 0, -7495, -1123 },
+    ["Blackrock Spire"] = { 0, -7495, -1123 },
+    ["Dire Maul"] = { 1, -3981, 789 },
+    ["Scholomance"] = { 0, 1270, -2556 },
+    ["Stratholme"] = { 0, 3353, -3379 },
+    ["Naxxramas"] = { 0, 3120, -3725 },
+    ["Molten Core"] = { 0, -7495, -1123 },
+    ["Blackwing Lair"] = { 0, -7495, -1123 },
+}
