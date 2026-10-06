@@ -150,3 +150,55 @@ WoWpoCesku_DungeonQuests[KEY] = {
     { 96987, "Opportunistic Education", 33, 24, "H", "", "" },
     { 96988, "Source of Power", 33, 24, "H", "", "" },
 }
+
+-------------------------------------------------------------------------------
+-- Scarlet Monastery: Graveyard a Library (ve Forever dvě samostatné instance; data se odvodí z původního "Scarlet Monastery")
+-------------------------------------------------------------------------------
+do
+    local SRC = "Scarlet Monastery"
+    local WINGS = {
+        ["Scarlet Monastery: Graveyard"] = {
+            levels = "30–38", tag = "Hřbitov Šarlatového kláštera – nemrtví a křižáci",
+            bosses = { "Interrogator Vishas", "Azshir the Sleepless", "Fallen Champion", "Ironspine", "Bloodmage Thalnos" },
+            quests = { [1051] = true, [1113] = true },
+        },
+        ["Scarlet Monastery: Library"] = {
+            levels = "33–41", tag = "Knihovna Šarlatového kláštera – psovodi a mágové",
+            bosses = { "Houndmaster Loksey", "Arcanist Doan" },
+            quests = { [1160] = true, [1049] = true, [1050] = true, [1113] = true },
+        },
+    }
+    for key, w in pairs(WINGS) do
+        local want = {}
+        for _, b in ipairs(w.bosses) do want[b] = true end
+        local L = WoWpoCesku_Lore[SRC]
+        if L then
+            local copy = {}
+            for k, v in pairs(L) do copy[k] = v end
+            copy.title = key
+            copy.tag = w.tag .. " (levely " .. w.levels .. ")."
+            WoWpoCesku_Lore[key] = copy
+        end
+        WoWpoCesku_LoreTajemstvi[key] = WoWpoCesku_LoreTajemstvi[SRC]
+        if WoWpoCesku_DungeonGuide then WoWpoCesku_DungeonGuide[key] = WoWpoCesku_DungeonGuide[SRC] end
+        local function pick(tbl)
+            local t = tbl and tbl[SRC]
+            if not t then return end
+            local out = {}
+            for name, v in pairs(t) do if want[name] then out[name] = v end end
+            tbl[key] = out
+        end
+        pick(WoWpoCesku_BossNpc); pick(WoWpoCesku_BossLevel); pick(WoWpoCesku_BossLoot)
+        pick(WoWpoCesku_BossLootForever); pick(WoWpoCesku_BossLore); pick(WoWpoCesku_BossPos)
+        local bl = {}
+        for _, b in ipairs(WoWpoCesku_DungeonBosses[SRC] or {}) do if b.sekce or want[b[1]] then bl[#bl + 1] = b end end
+        WoWpoCesku_DungeonBosses[key] = bl
+        local ql = {}
+        for _, q in ipairs(WoWpoCesku_DungeonQuests[SRC] or {}) do if w.quests[q[1]] then ql[#ql + 1] = q end end
+        WoWpoCesku_DungeonQuests[key] = ql
+        for _, name in ipairs({ "WoWpoCesku_DungeonEntry", "WoWpoCesku_DungeonEntryOut" }) do
+            local t = _G[name]
+            if t and t[SRC] then t[key] = t[SRC] end
+        end
+    end
+end

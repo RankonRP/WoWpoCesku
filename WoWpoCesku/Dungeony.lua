@@ -41,7 +41,7 @@ local GREEN = "|cff1d6b1d"
 -- Skryté dungeony: Razorfen Downs, Uldaman, Zul'Farrak, Maraudon, Sunken Temple, Blackrock Depths, Blackrock Spire, Dire Maul, Scholomance, Stratholme
 -- Skryté raidy: Molten Core, Onyxia's Lair, Blackwing Lair, Zul'Gurub, Ruins of Ahn'Qiraj, Ahn'Qiraj Temple, Naxxramas
 local DUNGEONS = { "Hall of Thanes", "Ragefire Chasm", "Ruins of Lordaeron", "The Deadmines", "Wailing Caverns", "Shadowfang Keep", "Blackfathom Deeps", "Excavation Site: Wetlands", "City of Dalaran",
-    "The Stockade", "Gnomeregan", "Razorfen Kraul", "Scarlet Monastery" }
+    "The Stockade", "Gnomeregan", "Razorfen Kraul", "Scarlet Monastery: Graveyard", "Scarlet Monastery: Library" }
 local RAIDS = {}
 
 -- barva instance (banner, když ještě není malovaný obrázek)
@@ -54,7 +54,7 @@ local ACCENT = {
     ["Blackrock Spire"] = { 0.55, 0.30, 0.20 }, ["Dire Maul"] = { 0.45, 0.60, 0.35 }, ["Scholomance"] = { 0.40, 0.25, 0.50 },
     ["Stratholme"] = { 0.60, 0.30, 0.30 }, ["Molten Core"] = { 0.85, 0.40, 0.10 }, ["Onyxia's Lair"] = { 0.60, 0.20, 0.20 },
     ["Blackwing Lair"] = { 0.50, 0.15, 0.15 }, ["Zul'Gurub"] = { 0.35, 0.55, 0.25 }, ["Ruins of Ahn'Qiraj"] = { 0.70, 0.60, 0.30 },
-    ["Ahn'Qiraj Temple"] = { 0.60, 0.50, 0.30 }, ["Naxxramas"] = { 0.40, 0.60, 0.55 }, ["Ruins of Lordaeron"] = { 0.40, 0.55, 0.30 },
+    ["Ahn'Qiraj Temple"] = { 0.60, 0.50, 0.30 }, ["Naxxramas"] = { 0.40, 0.60, 0.55 }, ["Scarlet Monastery: Graveyard"] = { 0.70, 0.20, 0.20 }, ["Scarlet Monastery: Library"] = { 0.70, 0.20, 0.20 }, ["Ruins of Lordaeron"] = { 0.40, 0.55, 0.30 },
 }
 
 local TABS = {
@@ -526,7 +526,7 @@ end
 local CLIENT_ART = {
     ["Ragefire Chasm"] = "RagefireChasm", ["Wailing Caverns"] = "WailingCaverns", ["The Deadmines"] = "Deadmines",
     ["Shadowfang Keep"] = "ShadowfangKeep", ["Blackfathom Deeps"] = "BlackfathomDeeps", ["The Stockade"] = "TheStockade",
-    ["Gnomeregan"] = "Gnomeregan", ["Razorfen Kraul"] = "RazorfenKraul", ["Scarlet Monastery"] = "ScarletMonastery",
+    ["Gnomeregan"] = "Gnomeregan", ["Razorfen Kraul"] = "RazorfenKraul", ["Scarlet Monastery"] = "ScarletMonastery", ["Scarlet Monastery: Graveyard"] = "ScarletMonastery", ["Scarlet Monastery: Library"] = "ScarletMonastery",
     ["Razorfen Downs"] = "RazorfenDowns", ["Uldaman"] = "Uldaman", ["Zul'Farrak"] = "ZulFarrak", ["Maraudon"] = "Maraudon",
     ["Sunken Temple"] = "SunkenTemple", ["Blackrock Depths"] = "BlackrockDepths", ["Blackrock Spire"] = "BlackrockSpire",
     ["Dire Maul"] = "DireMaul", ["Scholomance"] = "Scholomance", ["Stratholme"] = "Stratholme", ["Molten Core"] = "MoltenCore",
@@ -537,6 +537,8 @@ local CLIENT_ART = {
 -- (jen se na něj odkazujeme, nic se nekopíruje; bez toho addonu zůstane barevná plocha nebo vlastní banner).
 -- (číselné hodnoty jsou ID souborů – načítací obrazovky Forever přímo z klienta hry)
 local EXTERNAL_ART = {
+    ["Scarlet Monastery: Graveyard"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\ScarletMonasteryGraveyardHome",
+    ["Scarlet Monastery: Library"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\ScarletMonasteryLibraryHome",
     ["Excavation Site: Wetlands"] = 7963777,
     ["City of Dalaran"] = 7963775,
     ["Ruins of Lordaeron"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\RuinsOfLordaeron",
@@ -554,6 +556,7 @@ end
 local function setBanner(frame, key, w, h)
     local slug = WoWpoCesku_DungeonArt and WoWpoCesku_DungeonArt[key]
     local clientName = CLIENT_ART[key]
+    if externalArt(key) and not slug then clientName = nil end   -- obrázek křídla z ForeverDungeonJournal, když je k dispozici
     if settings().djArt == "own" then clientName = nil end   -- v nastavení lze zvolit vlastní malované bannery
     local c = ACCENT[key] or { 0.5, 0.4, 0.3 }
     if clientName then
