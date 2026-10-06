@@ -623,17 +623,13 @@ local function addButton(c, label, onClick)
     if not b then
         b = CreateFrame("Button", nil, c, "UIPanelButtonTemplate")
         b:SetSize(200, 28)
-        b.ico = b:CreateTexture(nil, "OVERLAY")
-        b.ico:SetSize(20, 20)
-        b.ico:SetPoint("LEFT", 8, 0)
-        b.ico:SetTexture("Interface\\Icons\\INV_Misc_Map_01")
         b:SetNormalFontObject(win.fontBtn)
         b:SetHighlightFontObject(win.fontBtnOn)
         c.btns[c.nb] = b
     end
     b:ClearAllPoints()
     b:SetPoint("TOPLEFT", 0, -c.y)
-    b:SetText("     " .. label)
+    b:SetText(label)
     b:SetScript("OnClick", onClick)
     b:Show()
     c.y = c.y + 34
@@ -971,8 +967,7 @@ local function renderQuests(key)
     for _, e in ipairs(list) do if e[1] == cur then found = true end end
     if not found then cur = list[1][1]; state.quest[key] = cur end
     for _, e in ipairs(list) do
-        local cz = WoWpoCesku_Data and WoWpoCesku_Data[e[1]] and WoWpoCesku_Data[e[1]].title
-        local title = (cz and cz ~= e[2]) and cz or e[2]
+        local title = e[2]
         local emblem = (e[5] == "H" and "Interface\\Icons\\INV_BannerPVP_01") or (e[5] == "A" and "Interface\\Icons\\INV_BannerPVP_02") or nil
         addRow(L, title, ("od levelu %d"):format(e[4]), questDone(e[1]), e[1] == cur,
             function() state.quest[key] = e[1]; showDetail() end,
@@ -983,8 +978,8 @@ local function renderQuests(key)
     local id = sel[1]
     local d = WoWpoCesku_Data and WoWpoCesku_Data[id]
     local cz = d and d.title
-    addText(R, (cz and cz ~= sel[2]) and cz or sel[2], 19, RED, 2)
-    if cz and cz ~= sel[2] then addText(R, sel[2], 12, SEPIA, 4) end
+    addText(R, sel[2], 21, RED, 2, 0, nil, TITLE_FONT)
+    if cz and cz ~= sel[2] then addText(R, cz, 12, SEPIA, 4) end
     addText(R, ("Level questu %d · dostupný od levelu %d"):format(sel[3], sel[4]) .. (questDone(id) and ("  " .. GREEN .. "(splněno)|r") or ""), 12, SEPIA, 6)
     addRule(R)
     local obj = d and d.objectives
@@ -1013,7 +1008,23 @@ local function renderQuests(key)
             R.y = R.y + 4
         end
     end
-    if sel[7] and sel[7] ~= "" then
+    local rw = WoWpoCesku_QuestRewards and WoWpoCesku_QuestRewards[id]
+    if rw and (#rw.choice > 0 or #rw.fixed > 0 or (rw.money or 0) > 0) then
+        addRule(R)
+        addText(R, "Odměny", 14, RED, 4)
+        if #rw.choice > 0 then
+            addText(R, "Vyber jednu:", 12, SEPIA, 4)
+            for _, it in ipairs(rw.choice) do addItem(R, it[2], it[3], it[1]) end
+        end
+        if #rw.fixed > 0 then
+            addText(R, "Získáš:", 12, SEPIA, 4)
+            for _, it in ipairs(rw.fixed) do addItem(R, it[2], it[3], it[1]) end
+        end
+        if (rw.money or 0) > 0 then
+            local coins = GetCoinTextureString and GetCoinTextureString(rw.money) or (rw.money .. " měďáků")
+            addText(R, "Peníze: " .. coins, 13, INK, 8)
+        end
+    elseif sel[7] and sel[7] ~= "" then
         addText(R, "Odměna", 14, RED, 2)
         addText(R, sel[7], 13, INK, 10)
     end
@@ -1212,9 +1223,9 @@ local function setTabs()
     if state.tab == "mapa" and mapData(state.key) == nil then state.tab = "bossove" end
     for _, t in ipairs(win.tabs) do
         local active = (t.id == state.tab)
-        if active then t:LockHighlight() else t:UnlockHighlight() end
-        t:SetNormalFontObject(active and win.fontBtnOn or win.fontBtn)
-        if t.SetEnabled then t:SetEnabled(true) end
+        t:SetDisabledFontObject(win.fontBtnOff)
+        t:SetEnabled(not active)
+        t:SetNormalFontObject(win.fontBtn)
     end
 end
 
@@ -1297,6 +1308,7 @@ local function build()
     win.fontBack = newFont("WoWpoCeskuDJBack", 12, 1, 0.92, 0.75)
     win.fontBtn = newFont("WoWpoCeskuDJBtn", 12, 1, 0.82, 0)
     win.fontBtnOn = newFont("WoWpoCeskuDJBtnOn", 12, 1, 1, 1)
+    win.fontBtnOff = newFont("WoWpoCeskuDJBtnOff", 12, 0.62, 0.62, 0.62)
 
     local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)
@@ -1332,11 +1344,7 @@ local function build()
     entr:SetPoint("TOPRIGHT", win.banner, "TOPRIGHT", -12, -8)
     entr:SetNormalFontObject(win.fontBtn)
     entr:SetHighlightFontObject(win.fontBtnOn)
-    entr.ico = entr:CreateTexture(nil, "OVERLAY")
-    entr.ico:SetSize(20, 20)
-    entr.ico:SetPoint("LEFT", 8, 0)
-    entr.ico:SetTexture("Interface\\Icons\\INV_Misc_Map_01")
-    entr:SetText("     Zobrazit vchod")
+    entr:SetText("Zobrazit vchod")
     entr:SetScript("OnClick", function() if state.key then showEntrance(state.key) end end)
 
     win.top = CreateFrame("Frame", nil, win.detail)

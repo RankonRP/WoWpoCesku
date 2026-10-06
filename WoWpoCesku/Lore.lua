@@ -388,15 +388,20 @@ end
 
 local layoutTabs
 
+-- šedé písmo aktivní (vypnuté) záložky
+local offFont = CreateFont("WoWpoCeskuLoreBtnOff")
+offFont:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf", 12, "")
+offFont:SetTextColor(0.62, 0.62, 0.62)
+
 local function showTab(id)
     if not book.pages[id] then id = "letopis" end
     book.tab = id
     for _, t in ipairs(book.tabs) do
         local active = (t.id == id)
         t:SetShown(t.action or book.pages[t.id] ~= nil)
-        if active then t:LockHighlight() else t:UnlockHighlight() end
-        if WoWpoCeskuButtonFont then
-            t:SetNormalFontObject(active and WoWpoCeskuButtonFontHighlight or WoWpoCeskuButtonFont)
+        if not t.action then
+            if WoWpoCeskuLoreBtnOff then t:SetDisabledFontObject(WoWpoCeskuLoreBtnOff) end
+            t:SetEnabled(not active)
         end
     end
     if layoutTabs then layoutTabs() end
