@@ -1435,7 +1435,8 @@ function WoWpoCesku_DungeonQuestsChapter(key)
             text = text .. GRAY .. ("  – level %d, od %d"):format(lvl, minLvl) .. "|r"
             if f then text = text .. "  " .. FACTION[f].label end
             if from and from ~= "" then
-                text = text .. "\n" .. GRAY .. "Dává: |r" .. from
+                local place = WoWpoCesku_DungeonQuestPlaces and WoWpoCesku_DungeonQuestPlaces[id]
+                text = text .. "\n" .. GRAY .. "Dává: |r" .. from .. (place and (GRAY .. "  – " .. place .. "|r") or "")
             else
                 text = text .. "\n" .. GRAY .. "Začíná předmětem, který najdeš v dungeonu nebo u nepřítele.|r"
             end
