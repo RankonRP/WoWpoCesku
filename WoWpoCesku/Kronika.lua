@@ -1067,7 +1067,7 @@ checkSeals = function()
     for i = 1, #new do
         say("nova pecet: " .. ascii(new[i].name))
         if journalAdd then pcall(journalAdd, "seal", new[i].name) end
-        if i <= 5 then bannerQueue[#bannerQueue + 1] = new[i] end
+        if i <= 5 and not (WoWpoCeskuSettings and WoWpoCeskuSettings.sealBanner == false) then bannerQueue[#bannerQueue + 1] = new[i] end
     end
     -- volitelně oznámit guildě (v nastavení, výchozí vypnuto)
     if WoWpoCeskuSettings and WoWpoCeskuSettings.sealGuild and IsInGuild and IsInGuild() then
@@ -1226,6 +1226,7 @@ local function journal(create)
 end
 
 journalAdd = function(kind, a, b)
+    if WoWpoCeskuSettings and WoWpoCeskuSettings.journal == false then return end
     local J = journal(true)
     if not J then return end
     if kind == "zone" then if J.zones[a] then return end J.zones[a] = time() end

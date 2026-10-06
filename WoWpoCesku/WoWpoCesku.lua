@@ -797,7 +797,7 @@ events:SetScript("OnEvent", function(_, event, arg1)
         if WoWpoCeskuSettings.books ~= false then showQuest(gatherBook(), "book") end
         return
     end
-    showQuest(gatherDialog(event), "dialog")
+    if WoWpoCeskuSettings.quests ~= false then showQuest(gatherDialog(event), "dialog") end
 end)
 
 -------------------------------------------------------------------------------
@@ -836,7 +836,7 @@ end
 
 -- Rozložení: dva sloupce se sekcemi; každý sloupec si pamatuje, kde skončil (col.y)
 local COL_W = 300   -- přepočítá se podle skutečné šířky okna nastavení
-local function newColumn(x) return { x = x, y = -60 } end
+local function newColumn(x) return { x = x, y = -92 } end
 
 local function addSection(col, title)
     col.y = col.y - 6
@@ -877,11 +877,49 @@ local function addCheck(col, label, note, get, set)
     optionWidgets[#optionWidgets + 1] = cb
 end
 
+-- Předvolby: jedním klikem zapnout/vypnout celé skupiny (otevřené okno se obnoví)
+local KRONIKA_KEYS = { "loreToast", "rareAlert", "npcNotes", "itemNotes", "mapPlaces", "sealBanner", "journal" }
+function WoWpoCesku_ApplyPreset(name)
+    local st = WoWpoCeskuSettings
+    local vse = (name == "vse")
+    local rozsireny = (name ~= "questy")   -- rozhovory, knihy, přehled úkolů
+    st.enabled = true
+    st.quests = true
+    st.log = true
+    st.gossip, st.books, st.ui = rozsireny, rozsireny, rozsireny
+    st.lok = st.lok or {}
+    for _, part in ipairs(WoWpoCesku_LokParts or {}) do st.lok[part.key] = vse end
+    for _, k in ipairs(KRONIKA_KEYS) do st[k] = vse end
+    if not rozsireny and (panel.source == "gossip" or panel.source == "book") then panel:Hide() end
+    refreshOptions()
+    if minimapButton then minimapButton:SetShown(st.minimap ~= false) end
+    print("|cffffd100WoWpoCesku:|r predvolba pouzita. Zmeny v rozhrani hry se projevi po /reload.")
+end
+
 local function buildOptions()
     local head = options:CreateFontString(nil, "ARTWORK")
     head:SetFontObject(headFont)
     head:SetPoint("TOPLEFT", 16, -16)
     head:SetText("WoWpoČesku – nastavení")
+
+    local presetLabel = options:CreateFontString(nil, "ARTWORK")
+    presetLabel:SetFontObject(noteFont)
+    presetLabel:SetPoint("TOPLEFT", 20, -50)
+    presetLabel:SetText("Rychlé předvolby:")
+    local prev
+    for _, p in ipairs({ { "vse", "Vše česky" }, { "preklad", "Jen překlad" }, { "questy", "Jen questy" } }) do
+        local b = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+        b:SetSize(112, 22)
+        if prev then b:SetPoint("LEFT", prev, "RIGHT", 6, 0) else b:SetPoint("LEFT", presetLabel, "RIGHT", 10, 0) end
+        czButton(b)
+        b:SetText(p[2])
+        b:SetScript("OnClick", function() WoWpoCesku_ApplyPreset(p[1]) end)
+        prev = b
+    end
+    local presetNote = options:CreateFontString(nil, "ARTWORK")
+    presetNote:SetFontObject(noteFont)
+    presetNote:SetPoint("TOPLEFT", 20, -74)
+    presetNote:SetText("Jen překlad = questy, rozhovory, knihy a přehled úkolů. Jen questy = pouze texty questů. Vše česky = i rozhraní a Kronika.")
 
     -- dva stejně široké sloupce podle skutečné šířky okna (hra ho škáluje)
     local w = options:GetWidth()
@@ -893,6 +931,9 @@ local function buildOptions()
     addSection(left, "Překlad")
     addCheck(left, "Překlad zapnutý", nil,
         function() return WoWpoCeskuSettings.enabled end, setEnabled)
+    addCheck(left, "Překlad textu questů u NPC", "Okno s českým textem při přijetí a odevzdání questu",
+        function() return WoWpoCeskuSettings.quests ~= false end,
+        function(on) WoWpoCeskuSettings.quests = on; if not on and panel.source == "dialog" then panel:Hide() end end)
     addCheck(left, "Překlad v deníku questů (klávesa L)", nil,
         function() return WoWpoCeskuSettings.log ~= false end,
         function(on) WoWpoCeskuSettings.log = on end)
@@ -935,6 +976,12 @@ local function buildOptions()
     addCheck(right, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
         function() return WoWpoCeskuSettings.mapPlaces ~= false end,
         function(on) WoWpoCeskuSettings.mapPlaces = on end)
+    addCheck(right, "Okno při získání pečeti", "Cedulka uprostřed obrazovky; pečeť se získá i bez ní",
+        function() return WoWpoCeskuSettings.sealBanner ~= false end,
+        function(on) WoWpoCeskuSettings.sealBanner = on end)
+    addCheck(right, "Deník postavy (Tvůj příběh)", "Zapisuje, kde jsi byl, koho jsi potkal a co jsi dokázal",
+        function() return WoWpoCeskuSettings.journal ~= false end,
+        function(on) WoWpoCeskuSettings.journal = on end)
     addCheck(right, "Oznamovat nové pečetě guildě", "Do chatu guildy napíše, jakou pečeť jsi získal",
         function() return WoWpoCeskuSettings.sealGuild == true end,
         function(on) WoWpoCeskuSettings.sealGuild = on end)
@@ -1082,11 +1129,118 @@ local function createMinimapButton()
     minimapButton:SetShown(WoWpoCeskuSettings.minimap ~= false)
 end
 
+-- Úvodní okno (poprvé po instalaci, jinak /czq uvod)
+local welcome
+local function showWelcome()
+    WoWpoCeskuSettings.welcomed = 1
+    if welcome then welcome:Show() return end
+    local INK = { 0.20, 0.13, 0.07 }
+    local f = CreateFrame("Frame", "WoWpoCeskuUvod", UIParent, "BackdropTemplate")
+    welcome = f
+    f:SetSize(540, 560)
+    f:SetPoint("CENTER")
+    f:SetFrameStrata("DIALOG")
+    f:SetToplevel(true)
+    f:SetBackdrop({
+        bgFile = "Interface\\Buttons\\WHITE8x8",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 },
+    })
+    f:SetBackdropColor(0.23, 0.13, 0.07, 1)
+    local tex = f:CreateTexture(nil, "BACKGROUND", nil, 1)
+    tex:SetPoint("TOPLEFT", 11, -11)
+    tex:SetPoint("BOTTOMRIGHT", -11, 11)
+    tex:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga")
+    f:EnableMouse(true)
+    f:SetMovable(true)
+    f:SetClampedToScreen(true)
+    f:RegisterForDrag("LeftButton")
+    f:SetScript("OnDragStart", f.StartMoving)
+    f:SetScript("OnDragStop", f.StopMovingOrSizing)
+    local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+    close:SetPoint("TOPRIGHT", -4, -4)
+
+    local last
+    local function text(str, size, r, g, b, gap, justify)
+        local t = f:CreateFontString(nil, "OVERLAY")
+        t:SetFont(FONT, size, "")
+        t:SetTextColor(r, g, b)
+        t:SetWidth(490)
+        t:SetJustifyH(justify or "LEFT")
+        t:SetSpacing(2)
+        if last then t:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -(gap or 8)) else t:SetPoint("TOPLEFT", 25, -30) end
+        t:SetText(str)
+        last = t
+        return t
+    end
+    text("Vítej v WoWpoČesku", 24, 0.50, 0.12, 0.05, 0, "CENTER")
+    text("čeština pro WoW: Forever", 13, 0.42, 0.30, 0.18, 2, "CENTER")
+    text("Addon ukazuje české překlady questů, rozhovorů s NPC, knih a části rozhraní. "
+        .. "K tomu přidává Kroniku Azerothu: letopis oblastí, pečetě (jako achievementy), deník tvé postavy a zkoušku kronikáře. "
+        .. "Kniha se otevře klikem na ikonu u minimapy.", 13, INK[1], INK[2], INK[3], 16)
+    text("Nepřeložený text?", 15, 0.50, 0.12, 0.05, 16)
+    text("V balíčku jsou tisíce hotových překladů. Nový, zatím nepřeložený text zůstane anglicky a addon si ho zapamatuje. "
+        .. "Přeložit ho umí volitelný Pomocník (program pro Windows, zdarma). Najdeš ho na stránce projektu na GitHubu:",
+        13, INK[1], INK[2], INK[3], 6)
+    local url = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
+    url:SetSize(300, 22)
+    url:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 6, -8)
+    url:SetAutoFocus(false)
+    url:SetFont(FONT, 12, "")
+    local URL = "https://github.com/RankonRP/WoWpoCesku"
+    url:SetText(URL)
+    url:SetCursorPosition(0)
+    url:SetScript("OnTextChanged", function(self) if self:GetText() ~= URL then self:SetText(URL) end end)
+    url:SetScript("OnEscapePressed", url.ClearFocus)
+    local hint = f:CreateFontString(nil, "OVERLAY")
+    hint:SetFont(FONT, 11, "")
+    hint:SetTextColor(0.42, 0.30, 0.18)
+    hint:SetPoint("LEFT", url, "RIGHT", 10, 0)
+    hint:SetText("klik + Ctrl+C zkopíruje odkaz")
+    last = url
+    text("Chceš jen část češtiny?", 15, 0.50, 0.12, 0.05, 18)
+    text("Vyber předvolbu. Všechno si pak můžeš upravit v nastavení (Esc → Možnosti → AddOns, nebo Ctrl+klik na ikonu u minimapy). "
+        .. "Tento úvod otevřeš znovu příkazem /czq uvod.", 13, INK[1], INK[2], INK[3], 6)
+
+    local prev
+    for _, p in ipairs({ { "vse", "Vše česky" }, { "preklad", "Jen překlad" }, { "questy", "Jen questy" } }) do
+        local b = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        b:SetSize(150, 26)
+        if prev then b:SetPoint("LEFT", prev, "RIGHT", 8, 0) else b:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -14) end
+        czButton(b)
+        b:SetText(p[2])
+        b:SetScript("OnClick", function() WoWpoCesku_ApplyPreset(p[1]); f:Hide() end)
+        prev = b
+    end
+    local cap = f:CreateFontString(nil, "OVERLAY")
+    cap:SetFont(FONT, 11, "")
+    cap:SetTextColor(0.42, 0.30, 0.18)
+    cap:SetWidth(490)
+    cap:SetJustifyH("LEFT")
+    cap:SetSpacing(2)
+    cap:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -316, -8)
+    cap:SetText("Vše česky: i rozhraní hry a Kronika. Jen překlad: questy, rozhovory, knihy a přehled úkolů. Jen questy: pouze texty questů.")
+
+    local opt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    opt:SetSize(180, 26)
+    opt:SetPoint("BOTTOMLEFT", 25, 24)
+    czButton(opt)
+    opt:SetText("Otevřít nastavení")
+    opt:SetScript("OnClick", function() f:Hide(); openOptions() end)
+    local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    ok:SetSize(120, 26)
+    ok:SetPoint("BOTTOMRIGHT", -25, 24)
+    czButton(ok)
+    ok:SetText("Zavřít")
+    ok:SetScript("OnClick", function() f:Hide() end)
+end
+
 local setupFrame = CreateFrame("Frame")
 setupFrame:RegisterEvent("PLAYER_LOGIN")
 setupFrame:SetScript("OnEvent", function()
     registerOptions()
     createMinimapButton()
+    if not WoWpoCeskuSettings.welcomed then C_Timer.After(5, showWelcome) end
     -- Nová verze hry (patch) -> questy se mohly změnit, doporučit nový sken
     local _, build = GetBuildInfo()
     if WoWpoCeskuSettings.gameBuild and WoWpoCeskuSettings.gameBuild ~= build then
@@ -1212,6 +1366,8 @@ SlashCmdList.CZQUESTS = function(msg)
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
+    elseif cmd == "uvod" or cmd == "úvod" then
+        showWelcome()
     elseif cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
         openOptions()
     elseif cmd == "reset" then
