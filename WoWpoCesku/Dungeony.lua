@@ -1483,7 +1483,8 @@ local function build()
 
     local head = text(win, 22, RED[1], RED[2], RED[3])
     head:SetPoint("TOP", 0, -24)
-    head:SetText("Dungeon průvodce")
+    head:SetFont(TITLE_FONT, 22, "")   -- písmo hry; to nemá českou diakritiku, proto bez ů
+    head:SetText("Dungeon pruvodce")
 
     -- přehled (karty)
     win.browseSf, win.browse = newScroll(win, 30, -70, 856, 500)
