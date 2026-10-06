@@ -435,25 +435,22 @@ local function addButton(c, label, onClick)
     c.nb = c.nb + 1
     local b = c.btns[c.nb]
     if not b then
-        b = CreateFrame("Button", nil, c)
-        b:SetSize(190, 24)
-        b.bg = b:CreateTexture(nil, "BACKGROUND")
-        b.bg:SetAllPoints()
-        b.bg:SetColorTexture(0.50, 0.12, 0.05, 0.92)
-        b.ico = b:CreateTexture(nil, "ARTWORK")
-        b.ico:SetSize(18, 18)
-        b.ico:SetPoint("LEFT", 6, 0)
+        b = CreateFrame("Button", nil, c, "UIPanelButtonTemplate")
+        b:SetSize(200, 28)
+        b.ico = b:CreateTexture(nil, "OVERLAY")
+        b.ico:SetSize(20, 20)
+        b.ico:SetPoint("LEFT", 8, 0)
         b.ico:SetTexture("Interface\\Icons\\INV_Misc_Map_01")
         b:SetNormalFontObject(win.fontBtn)
-        b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+        b:SetHighlightFontObject(win.fontBtnOn)
         c.btns[c.nb] = b
     end
     b:ClearAllPoints()
     b:SetPoint("TOPLEFT", 0, -c.y)
-    b:SetText(label)
+    b:SetText("     " .. label)
     b:SetScript("OnClick", onClick)
     b:Show()
-    c.y = c.y + 30
+    c.y = c.y + 34
 end
 
 -- tenká ozdobná čára pod nadpisem
@@ -966,9 +963,9 @@ local function setTabs()
     if state.tab == "mapa" and mapData(state.key) == nil then state.tab = "bossove" end
     for _, t in ipairs(win.tabs) do
         local active = (t.id == state.tab)
-        t:SetNormalFontObject(active and win.fontActive or win.fontNormal)
-        t.bg:SetColorTexture(active and 0.80 or 0.88, active and 0.60 or 0.80, active and 0.38 or 0.62, active and 0.85 or 0.45)
-        t.under:SetShown(active)
+        if active then t:LockHighlight() else t:UnlockHighlight() end
+        t:SetNormalFontObject(active and win.fontBtnOn or win.fontBtn)
+        if t.SetEnabled then t:SetEnabled(true) end
     end
 end
 
@@ -1044,7 +1041,8 @@ local function build()
     win.fontNormal = newFont("WoWpoCeskuDJTab", 12, INK[1], INK[2], INK[3])
     win.fontActive = newFont("WoWpoCeskuDJTabOn", 12, RED[1], RED[2], RED[3])
     win.fontBack = newFont("WoWpoCeskuDJBack", 12, 1, 0.92, 0.75)
-    win.fontBtn = newFont("WoWpoCeskuDJBtn", 12, 1, 0.92, 0.75)
+    win.fontBtn = newFont("WoWpoCeskuDJBtn", 12, 1, 0.82, 0)
+    win.fontBtnOn = newFont("WoWpoCeskuDJBtnOn", 12, 1, 1, 1)
 
     local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)
@@ -1065,15 +1063,12 @@ local function build()
     win.banner:SetPoint("TOPLEFT", 30, -62)
     win.banner:SetSize(730, 88)
 
-    local back = CreateFrame("Button", nil, win.detail)
+    local back = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
     back:SetFrameLevel(win.detail:GetFrameLevel() + 7)
-    back:SetSize(96, 22)
-    back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 14, -8)
-    back.bg = back:CreateTexture(nil, "BACKGROUND")
-    back.bg:SetAllPoints()
-    back.bg:SetColorTexture(0.05, 0.03, 0.02, 0.55)
-    back:SetNormalFontObject(win.fontBack)
-    back:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+    back:SetSize(110, 26)
+    back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 12, -8)
+    back:SetNormalFontObject(win.fontBtn)
+    back:SetHighlightFontObject(win.fontBtnOn)
     back:SetText("‹ Přehled")
     back:SetScript("OnClick", function() state.view = "list"; showDetail() end)
 
@@ -1093,23 +1088,20 @@ local function build()
     local prev
     for i = #TABS, 1, -1 do
         local t = TABS[i]
-        local b = CreateFrame("Button", nil, win.detail)
-        b:SetSize(146, 28)
-        if prev then b:SetPoint("RIGHT", prev, "LEFT", -4, 0) else b:SetPoint("TOPRIGHT", -44, -152) end
-        b.bg = b:CreateTexture(nil, "BACKGROUND")
-        b.bg:SetAllPoints()
-        b.ico = b:CreateTexture(nil, "ARTWORK")
-        b.ico:SetSize(20, 20)
+        local b = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
+        b:SetSize(156, 30)
+        if prev then b:SetPoint("RIGHT", prev, "LEFT", -2, 0) else b:SetPoint("TOPRIGHT", -40, -150) end
+        b.ico = b:CreateTexture(nil, "OVERLAY")
+        b.ico:SetSize(22, 22)
         b.ico:SetPoint("LEFT", 8, 0)
         b.ico:SetTexture(t.icon)
-        b.under = b:CreateTexture(nil, "ARTWORK")
-        b.under:SetPoint("BOTTOMLEFT", 0, 0)
-        b.under:SetPoint("BOTTOMRIGHT", 0, 0)
-        b.under:SetHeight(2)
-        b.under:SetColorTexture(0.50, 0.12, 0.05, 1)
-        b:SetNormalFontObject(win.fontNormal)
-        b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
-        b:SetText("      " .. t.label)
+        b.bg = b:CreateTexture(nil, "BACKGROUND")
+        b.bg:SetSize(1, 1)
+        b.under = b:CreateTexture(nil, "BACKGROUND")
+        b.under:SetSize(1, 1)
+        b:SetNormalFontObject(win.fontBtn)
+        b:SetHighlightFontObject(win.fontBtnOn)
+        b:SetText("     " .. t.label)
         b.id = t.id
         b:SetScript("OnClick", function() state.tab = t.id; showDetail() end)
         win.tabs[#win.tabs + 1] = b
