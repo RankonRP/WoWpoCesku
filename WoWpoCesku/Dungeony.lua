@@ -109,9 +109,9 @@ local function killedBosses(key)
     return (S and S.bosses and S.bosses[key]) or {}
 end
 
-local function questList(key)
+local function questList(key, facArg)
     local out, seen = {}, {}
-    local fac = myFactionLetter()
+    local fac = facArg or myFactionLetter()
     for _, e in ipairs((WoWpoCesku_DungeonQuests and WoWpoCesku_DungeonQuests[key]) or {}) do
         local f = e[5]
         if (not f or not fac or f == fac) and not seen[e[2]] then
@@ -614,6 +614,8 @@ local function newScroll(parent, x, y, w, h)
     c.portrait = false
     c.moneyBox = false
     c.xpBox = false
+    c.facA = false
+    c.facH = false
     c.map = false
     return sf, c
 end
@@ -628,6 +630,8 @@ local function reset(c)
     if c.portrait then c.portrait:Hide() end
     if c.moneyBox then c.moneyBox:Hide() end
     if c.xpBox then c.xpBox:Hide() end
+    if c.facA then c.facA:Hide() end
+    if c.facH then c.facH:Hide() end
     if c.map then c.map:Hide() end
 end
 
@@ -1042,9 +1046,39 @@ end
 local function renderQuests(key)
     local L, R = win.left, win.right
     reset(L); reset(R)
-    local list = questList(key)
+    local fac = state.fac or myFactionLetter() or "H"
+    local list = questList(key, fac)
+
+    -- hlavička seznamu: počet a přepínač frakcí (Aliance / Horda)
+    addText(L, ("Questy  |  %d"):format(#list), 15, INK, 8, 0, 130)
+    L.y = L.y - 8
+    local function facButton(slot, letter, x)
+        local b = L[slot]
+        if not b then
+            b = CreateFrame("Button", nil, L, "BackdropTemplate")
+            b:SetSize(34, 34)
+            b:SetBackdrop(BOX)
+            b.ic = b:CreateTexture(nil, "ARTWORK")
+            b.ic:SetPoint("TOPLEFT", 3, -3)
+            b.ic:SetPoint("BOTTOMRIGHT", -3, 3)
+            L[slot] = b
+        end
+        b:ClearAllPoints()
+        b:SetPoint("TOPRIGHT", L, "TOPRIGHT", x, 2)
+        setFactionIcon(b.ic, letter)
+        local on = (fac == letter)
+        b:SetBackdropColor(on and 0.78 or 0.40, on and 0.55 or 0.26, on and 0.30 or 0.14, on and 0.55 or 0.14)
+        b:SetBackdropBorderColor(on and 0.62 or 0.42, on and 0.20 or 0.27, on and 0.10 or 0.13, 1)
+        b.ic:SetAlpha(on and 1 or 0.55)
+        b:SetScript("OnClick", function() state.fac = letter; state.quest[key] = nil; showDetail() end)
+        b:Show()
+    end
+    facButton("facA", "A", -42)
+    facButton("facH", "H", -2)
+    L.y = L.y + 30
+
     if #list == 0 then
-        addText(R, "K téhle instanci nemám v databázi žádné questy.", 13, INK)
+        addText(R, "Pro tuto frakci nemám v databázi žádné questy k téhle instanci.", 13, INK)
         return
     end
     local cur = state.quest[key]
