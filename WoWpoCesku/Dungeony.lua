@@ -34,6 +34,7 @@ local ACCENT = {
 local TABS = {
     { id = "bossove", label = "Bossové a kořist" },
     { id = "questy", label = "Questy" },
+    { id = "mapa", label = "Mapa" },
     { id = "pruvodce", label = "Průvodce" },
 }
 
@@ -109,6 +110,103 @@ local function levelText(key)
     return lv and ("Levely " .. lv) or nil
 end
 
+-------------------------------------------------------------------------------
+-- Mapa instance. Polohy bossů jsou ze serverové databáze (x, y), hra je ale kreslí podle vlastních souřadnic,
+-- proto se mapa instance hledá podle ID instance a přepočet se vybírá automaticky podle toho, kam vyjdou body.
+-- Když cokoli z toho klient neumí, záložka Mapa se vůbec nenabídne (nic se nerozbije).
+-------------------------------------------------------------------------------
+local mapIndex   -- [ID instance] = { uiMapID, ... }
+local mapCache = {}
+
+local function xy(v)
+    if not v then return nil end
+    if v.GetXY then
+        local a, b = v:GetXY()
+        return a, b
+    end
+    return v.x, v.y
+end
+
+local function buildMapIndex()
+    mapIndex = {}
+    if not (C_Map and C_Map.GetWorldPosFromMapPos and CreateVector2D) then return end
+    local wanted = {}
+    for _, bosses in pairs(WoWpoCesku_BossPos or {}) do
+        for _, p in pairs(bosses) do wanted[p[1]] = true end
+    end
+    for id = 1, 3000 do
+        local ok, cont = pcall(C_Map.GetWorldPosFromMapPos, id, CreateVector2D(0.5, 0.5))
+        if ok and cont and wanted[cont] then
+            mapIndex[cont] = mapIndex[cont] or {}
+            table.insert(mapIndex[cont], id)
+        end
+    end
+end
+
+-- čtyři možná přiřazení os; vybere se to, při kterém vyjde nejvíc bodů na mapu
+local function transforms(ax, ay, bx, by)
+    local dx, dy = bx - ax, by - ay
+    if dx == 0 or dy == 0 then return {} end
+    return {
+        function(x, y) return (x - ax) / dx, (y - ay) / dy end,
+        function(x, y) return (y - ax) / dx, (x - ay) / dy end,
+        function(x, y) return (x - ay) / dy, (y - ax) / dx end,
+        function(x, y) return (y - ay) / dy, (x - ax) / dx end,
+    }
+end
+
+local function inside(u, v) return u and v and u >= -0.03 and u <= 1.03 and v >= -0.03 and v <= 1.03 end
+
+local function mapData(key)
+    if mapCache[key] ~= nil then return mapCache[key] or nil end
+    mapCache[key] = false
+    local bosses = WoWpoCesku_BossPos and WoWpoCesku_BossPos[key]
+    if not bosses or not (C_Map and C_Map.GetMapArtLayers and C_Map.GetMapArtLayerTextures) then return nil end
+    if not mapIndex then buildMapIndex() end
+    local instanceID
+    for _, p in pairs(bosses) do instanceID = p[1] break end
+    local candidates = instanceID and mapIndex[instanceID]
+    if not candidates then return nil end
+    local pts = {}
+    for name, p in pairs(bosses) do pts[#pts + 1] = { name = name, x = p[2], y = p[3] } end
+    local entry = WoWpoCesku_DungeonEntry and WoWpoCesku_DungeonEntry[key]
+    local best
+    for _, uiMap in ipairs(candidates) do
+        local ok0, _, p0 = pcall(C_Map.GetWorldPosFromMapPos, uiMap, CreateVector2D(0, 0))
+        local ok1, _, p1 = pcall(C_Map.GetWorldPosFromMapPos, uiMap, CreateVector2D(1, 1))
+        local layers = C_Map.GetMapArtLayers(uiMap)
+        local layer = layers and layers[1]
+        if ok0 and ok1 and layer and layer.layerWidth and layer.layerWidth > 0 then
+            local ax, ay = xy(p0)
+            local bx, by = xy(p1)
+            if ax and ay and bx and by then
+                for ti, fn in ipairs(transforms(ax, ay, bx, by)) do
+                    local n = 0
+                    for _, pt in ipairs(pts) do
+                        local u, v = fn(pt.x, pt.y)
+                        if inside(u, v) then n = n + 1 end
+                    end
+                    if n > 0 and (not best or n > best.n) then
+                        best = { n = n, uiMap = uiMap, fn = fn, layer = layer, ti = ti }
+                    end
+                end
+            end
+        end
+    end
+    if not best or best.n < math.min(2, #pts) then return nil end
+    local data = { uiMap = best.uiMap, layer = best.layer, pins = {}, ti = best.ti, total = #pts }
+    for _, pt in ipairs(pts) do
+        local u, v = best.fn(pt.x, pt.y)
+        if inside(u, v) then data.pins[#data.pins + 1] = { name = pt.name, u = u, v = v } end
+    end
+    if entry and entry[1] == instanceID then
+        local u, v = best.fn(entry[2], entry[3])
+        if inside(u, v) then data.entry = { u = u, v = v } end
+    end
+    mapCache[key] = data
+    return data
+end
+
 -- plynulý přechod barvy (nový i starý způsob zápisu; když nejde ani jeden, zůstane plná plocha)
 local function gradient(tex, r, g, b, a1, a2)
     tex:SetColorTexture(r, g, b, math.max(a1, a2))
@@ -176,6 +274,7 @@ local function newScroll(parent, x, y, w, h)
     c.texts, c.items, c.rows, c.cards = {}, {}, {}, {}
     c.nt, c.ni, c.nr, c.nc, c.y = 0, 0, 0, 0, 0
     c.portrait = false
+    c.map = false
     return sf, c
 end
 
@@ -186,6 +285,7 @@ local function reset(c)
     for _, b in ipairs(c.rows) do b:Hide() end
     for _, b in ipairs(c.cards) do b:Hide() end
     if c.portrait then c.portrait:Hide() end
+    if c.map then c.map:Hide() end
 end
 
 local function addText(c, str, size, color, gap, indent, width)
@@ -476,6 +576,89 @@ local function renderQuests(key)
     addText(R, "Podle classic databáze. Ve WoW Forever se může něco lišit.", 11, SEPIA, 4)
 end
 
+local function renderMap(key)
+    local R = win.right
+    reset(win.left); reset(R)
+    local d = mapData(key)
+    if not d then addText(R, "Mapu téhle instance se nepodařilo načíst.", 13, INK) return end
+    local layer = d.layer
+    local textures = C_Map.GetMapArtLayerTextures(d.uiMap, 1)
+    local mw = R.w
+    local k = mw / layer.layerWidth
+    local mh = layer.layerHeight * k
+    if not R.map then
+        local m = CreateFrame("Frame", nil, R, "BackdropTemplate")
+        m:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
+        m:SetBackdropColor(0.12, 0.08, 0.05, 1)
+        m:SetBackdropBorderColor(0.50, 0.30, 0.16, 1)
+        m.clip = CreateFrame("Frame", nil, m)
+        m.clip:SetPoint("TOPLEFT", 2, -2)
+        m.clip:SetPoint("BOTTOMRIGHT", -2, 2)
+        m.clip:SetClipsChildren(true)
+        m.tiles, m.pins = {}, {}
+        R.map = m
+    end
+    local m = R.map
+    m:Show()
+    m:ClearAllPoints()
+    m:SetPoint("TOPLEFT", 0, 0)
+    m:SetSize(mw, mh + 4)
+    for _, t in ipairs(m.tiles) do t:Hide() end
+    for _, p in ipairs(m.pins) do p:Hide() end
+    local cols = math.ceil(layer.layerWidth / layer.tileWidth)
+    for i, fileID in ipairs(textures or {}) do
+        local t = m.tiles[i]
+        if not t then t = m.clip:CreateTexture(nil, "ARTWORK"); m.tiles[i] = t end
+        local col, row = (i - 1) % cols, math.floor((i - 1) / cols)
+        t:SetTexture(fileID)
+        t:SetSize(layer.tileWidth * k, layer.tileHeight * k)
+        t:ClearAllPoints()
+        t:SetPoint("TOPLEFT", m.clip, "TOPLEFT", col * layer.tileWidth * k, -row * layer.tileHeight * k)
+        t:Show()
+    end
+    local killed = killedBosses(key)
+    local function pin(i, u, v, label, icon, done, onClick)
+        local p = m.pins[i]
+        if not p then
+            p = CreateFrame("Button", nil, m)
+            p:SetSize(26, 26)
+            p.icon = p:CreateTexture(nil, "ARTWORK")
+            p.icon:SetAllPoints()
+            p.ring = p:CreateTexture(nil, "OVERLAY")
+            p.ring:SetPoint("BOTTOMRIGHT", 4, -4)
+            p.ring:SetSize(14, 14)
+            p.ring:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+            p:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+            m.pins[i] = p
+        end
+        p:ClearAllPoints()
+        p:SetPoint("CENTER", m, "TOPLEFT", 2 + u * (mw - 4), -(2 + v * (mh)))
+        p.icon:SetTexture(icon)
+        p.ring:SetShown(done and true or false)
+        p:SetScript("OnEnter", function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+            GameTooltip:AddLine(label)
+            if onClick then GameTooltip:AddLine("Klikni a zobrazí se kořist.", 0.8, 0.8, 0.8) end
+            GameTooltip:Show()
+        end)
+        p:SetScript("OnLeave", function() GameTooltip:Hide() end)
+        p:SetScript("OnClick", onClick)
+        p:Show()
+    end
+    local n = 0
+    if d.entry then
+        n = n + 1
+        pin(n, d.entry.u, d.entry.v, "Vchod", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_4", false, nil)
+    end
+    for _, pt in ipairs(d.pins) do
+        n = n + 1
+        pin(n, pt.u, pt.v, pt.name, "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", killed[pt.name] ~= nil,
+            function() state.boss[key] = pt.name; state.tab = "bossove"; showDetail() end)
+    end
+    R.y = mh + 12
+    addText(R, ("Značky: lebka = boss, zelená značka = poražen" .. (d.entry and ", trojúhelník = vchod" or "") .. ". Zobrazeno %d z %d bossů; polohy jsou z classic databáze a jsou přibližné."):format(#d.pins, d.total), 11, SEPIA, 4)
+end
+
 local function renderGuide(key)
     local R = win.right
     reset(win.left); reset(R)
@@ -552,6 +735,18 @@ local function renderList()
 end
 
 local function setTabs()
+    local prev
+    for i = #win.tabs, 1, -1 do
+        local t = win.tabs[i]
+        local avail = (t.id ~= "mapa") or (mapData(state.key) ~= nil)
+        t:SetShown(avail)
+        if avail then
+            t:ClearAllPoints()
+            if prev then t:SetPoint("RIGHT", prev, "LEFT", -4, 0) else t:SetPoint("TOPRIGHT", -44, -152) end
+            prev = t
+        end
+    end
+    if state.tab == "mapa" and mapData(state.key) == nil then state.tab = "bossove" end
     for _, t in ipairs(win.tabs) do
         local active = (t.id == state.tab)
         t:SetNormalFontObject(active and win.fontActive or win.fontNormal)
@@ -574,7 +769,7 @@ showDetail = function()
     win.name:SetText(key)
     win.tag:SetText(levelText(key) or "")
     setTabs()
-    local twoPane = (state.tab ~= "pruvodce")
+    local twoPane = (state.tab ~= "pruvodce" and state.tab ~= "mapa")
     win.leftSf:SetShown(twoPane)
     win.rightSf:ClearAllPoints()
     if twoPane then
@@ -589,6 +784,7 @@ showDetail = function()
     win.right:SetWidth(win.right.w)
     if state.tab == "bossove" then renderBosses(key)
     elseif state.tab == "questy" then renderQuests(key)
+    elseif state.tab == "mapa" then renderMap(key)
     else renderGuide(key) end
     win.left:SetHeight(math.max(win.left.y + 10, 10))
     win.right:SetHeight(math.max(win.right.y + 10, 10))
@@ -671,7 +867,7 @@ local function build()
     for i = #TABS, 1, -1 do
         local t = TABS[i]
         local b = CreateFrame("Button", nil, win.detail)
-        b:SetSize(150, 26)
+        b:SetSize(130, 26)
         if prev then b:SetPoint("RIGHT", prev, "LEFT", -4, 0) else b:SetPoint("TOPRIGHT", -44, -152) end
         b.bg = b:CreateTexture(nil, "BACKGROUND")
         b.bg:SetAllPoints()
@@ -713,4 +909,35 @@ function WoWpoCesku_DungeonJournal(key, tab)
     win:Show()
     win:Raise()
     showDetail()
+end
+
+-- Diagnostika mapy: /czq mapa [název instance]. Vypíše, jak se přepočet povedl; uvnitř dungeonu porovná i tvou polohu.
+function WoWpoCesku_MapDebug(key)
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    if key then
+        local want = key:lower()
+        for k in pairs(WoWpoCesku_BossPos or {}) do
+            if k:lower():find(want, 1, true) then key = k break end
+        end
+    end
+    key = key or (WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey())
+    if not (key and WoWpoCesku_BossPos and WoWpoCesku_BossPos[key]) then
+        say("mapa: tohle neni dungeon s polohami (zkus /czq mapa Deadmines nebo vstup do dungeonu).")
+        return
+    end
+    mapCache[key] = nil
+    local d = mapData(key)
+    if not d then
+        say("mapa " .. key .. ": NEPODARILO SE (klient nezna mapu instance nebo se body nevesly). Zalozka Mapa se nenabizi.")
+    else
+        say(("mapa %s: OK, uiMapID %d, prepocet c. %d, bossu na mape %d z %d%s"):format(key, d.uiMap, d.ti, #d.pins, d.total, d.entry and ", vchod ano" or ", vchod ne"))
+    end
+    if UnitPosition and C_Map and C_Map.GetBestMapForUnit then
+        local y, x = UnitPosition("player")
+        local id = C_Map.GetBestMapForUnit("player")
+        local p = id and C_Map.GetPlayerMapPosition and C_Map.GetPlayerMapPosition(id, "player")
+        local u, v
+        if p then u, v = xy(p) end
+        say(("tvoje poloha: UnitPosition %s, %s | uiMap %s | na mape %s, %s"):format(tostring(x), tostring(y), tostring(id), tostring(u), tostring(v)))
+    end
 end
