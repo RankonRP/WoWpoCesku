@@ -406,7 +406,18 @@ local function drawDJMarks()
     end
 end
 
+local function clearOldWaypoint(uiMap, u, v)
+    if settings().djWaypoint then return end
+    if not (C_Map and C_Map.GetUserWaypoint and C_Map.ClearUserWaypoint) then return end
+    local ok, wp = pcall(C_Map.GetUserWaypoint)
+    if ok and wp and wp.uiMapID == uiMap and wp.position then
+        local x, y = xy(wp.position)
+        if x and y and math.abs(x - u) < 0.03 and math.abs(y - v) < 0.03 then pcall(C_Map.ClearUserWaypoint) end
+    end
+end
+
 local function setDJMark(uiMap, u, v, label, icon, atlas, size)
+    clearOldWaypoint(uiMap, u, v)
     wipe(djMarks)
     djMarks[1] = { uiMap = uiMap, u = u, v = v, label = label, icon = icon, atlas = atlas, size = size }
     if WorldMapFrame and not djHooked then
@@ -599,6 +610,7 @@ local function newScroll(parent, x, y, w, h)
     c.texts, c.items, c.rows, c.cards, c.btns = {}, {}, {}, {}, {}
     c.nt, c.ni, c.nr, c.nc, c.nb, c.y = 0, 0, 0, 0, 0, 0
     c.portrait = false
+    c.moneyBox = false
     c.map = false
     return sf, c
 end
@@ -611,6 +623,7 @@ local function reset(c)
     for _, b in ipairs(c.rows) do b:Hide() end
     for _, b in ipairs(c.cards) do b:Hide() end
     if c.portrait then c.portrait:Hide() end
+    if c.moneyBox then c.moneyBox:Hide() end
     if c.map then c.map:Hide() end
 end
 
@@ -647,6 +660,27 @@ local function addButton(c, label, onClick)
     b:SetScript("OnClick", onClick)
     b:Show()
     c.y = c.y + 34
+end
+
+local function addMoney(c, copper)
+    if not c.moneyBox then
+        local m = CreateFrame("Frame", nil, c, "BackdropTemplate")
+        m:SetBackdrop(BOX)
+        m:SetBackdropColor(0.12, 0.08, 0.05, 0.9)
+        m:SetBackdropBorderColor(0.42, 0.27, 0.13, 1)
+        m:SetHeight(28)
+        m.t = text(m, 13, 1, 0.95, 0.80)
+        m.t:SetPoint("CENTER")
+        c.moneyBox = m
+    end
+    local m = c.moneyBox
+    m:ClearAllPoints()
+    m:SetPoint("TOPLEFT", 0, -c.y)
+    local coins = GetCoinTextureString and GetCoinTextureString(copper) or (copper .. " měďáků")
+    m.t:SetText(coins)
+    m:SetWidth(math.max(70, (m.t:GetStringWidth() or 50) + 24))
+    m:Show()
+    c.y = c.y + 36
 end
 
 -- tenká ozdobná čára pod nadpisem
@@ -704,7 +738,7 @@ local function showItemTip(self)
     GameTooltip:Show()
 end
 
-local function addItem(c, name, quality, id, confirmed)
+local function addItem(c, name, quality, id, confirmed, half)
     c.ni = c.ni + 1
     local b = c.items[c.ni]
     if not b or b.isRule then
@@ -741,18 +775,19 @@ local function addItem(c, name, quality, id, confirmed)
     quality, name = liveQ, liveName
     local qc = QCOLOR[quality] or { 0.4, 0.3, 0.2 }
     b.itemID = id
+    local colW = half and math.floor((c.w - 8) / 2) or c.w
     b:ClearAllPoints()
-    b:SetPoint("TOPLEFT", 0, -c.y)
-    b:SetWidth(c.w)
+    b:SetPoint("TOPLEFT", half and (half * (colW + 8)) or 0, -c.y)
+    b:SetWidth(colW)
     b.frame:SetBackdropBorderColor(qc[1], qc[2], qc[3], 1)
     b.icon:SetTexture(itemIcon(id))
     b.star:SetShown(confirmed and true or false)
-    b.label:SetWidth(c.w - 56)
+    b.label:SetWidth(colW - 56)
     b.label:SetText((QUALITY[quality] or "") .. name .. "|r")
-    b.kind:SetWidth(c.w - 56)
-    b.kind:SetText(itemKind(id))
+    b.kind:SetWidth(colW - 56)
+    b.kind:SetText(half and "" or itemKind(id))
     b:Show()
-    c.y = c.y + 54
+    if not half or half == 1 then c.y = c.y + 54 end
 end
 
 -------------------------------------------------------------------------------
@@ -1043,19 +1078,20 @@ local function renderQuests(key)
     local rw = WoWpoCesku_QuestRewards and WoWpoCesku_QuestRewards[id]
     if rw and (#rw.choice > 0 or #rw.fixed > 0 or (rw.money or 0) > 0) then
         addRule(R)
-        addText(R, "Odměny", 14, RED, 4)
+        addText(R, "Odměny", 17, RED, 6, 0, nil, TITLE_FONT)
+        local function tiles(list)
+            for i, it in ipairs(list) do addItem(R, it[2], it[3], it[1], false, (i - 1) % 2) end
+            if #list % 2 == 1 then R.y = R.y + 54 end
+        end
         if #rw.choice > 0 then
-            addText(R, "Vyber jednu:", 12, SEPIA, 4)
-            for _, it in ipairs(rw.choice) do addItem(R, it[2], it[3], it[1]) end
+            addText(R, "Vyber jednu odměnu:", 13, INK, 4)
+            tiles(rw.choice)
         end
         if #rw.fixed > 0 then
-            addText(R, "Získáš:", 12, SEPIA, 4)
-            for _, it in ipairs(rw.fixed) do addItem(R, it[2], it[3], it[1]) end
+            addText(R, "Získáš:", 13, INK, 4)
+            tiles(rw.fixed)
         end
-        if (rw.money or 0) > 0 then
-            local coins = GetCoinTextureString and GetCoinTextureString(rw.money) or (rw.money .. " měďáků")
-            addText(R, "Peníze: " .. coins, 13, INK, 8)
-        end
+        if (rw.money or 0) > 0 then addMoney(R, rw.money) end
     elseif sel[7] and sel[7] ~= "" then
         addText(R, "Odměna", 14, RED, 2)
         addText(R, sel[7], 13, INK, 10)
