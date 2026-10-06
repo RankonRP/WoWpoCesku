@@ -1382,6 +1382,8 @@ SlashCmdList.CZQUESTS = function(msg)
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
     elseif cmd == "dungeon" or cmd == "dungy" or cmd == "dj" then
         if WoWpoCesku_DungeonJournal then WoWpoCesku_DungeonJournal() end
+    elseif cmd == "ikony" then
+        if WoWpoCesku_IconTest then WoWpoCesku_IconTest() end
     elseif cmd == "obr3" then
         if WoWpoCesku_ArtTest3 then WoWpoCesku_ArtTest3(arg) end
     elseif cmd == "obr2" then

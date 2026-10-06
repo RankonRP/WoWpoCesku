@@ -1655,3 +1655,56 @@ function WoWpoCesku_ArtTest3(name)
     rulerWin.title:SetText("UI-EJ-LOREBG-" .. name .. " (cela textura 2:1; zluta = vodorovne procenta, tyrkysova = svisle)")
     rulerWin:Show()
 end
+
+-- Zkouška ikon vchodu: /czq ikony  (ukáže herní atlasy a textury, které by šly použít jako značka)
+local iconWin
+function WoWpoCesku_IconTest()
+    local atlases = { "Dungeon", "Raid", "dungeon", "raid", "DungeonSkull", "UI-EJ-Dungeon", "worldquest-icon-dungeon", "poi-door",
+        "Dungeon-Portal", "Portal", "MapPin-Dungeon", "dungeonentrance", "Dungeon-Entrance", "WorldMapDungeon", "Vehicle-Dungeon",
+        "poi-dungeon", "VignetteKill", "MiniMap-DeadArrow", "Warfront-NeutralHero", "campaign-icon-dungeon", "ui-ej-dungeonicon",
+        "Garr_Building-AddFollowerPlus", "poi-portal" }
+    local textures = { "Interface\\EncounterJournal\\UI-EJ-PortraitIcon", "Interface\\Minimap\\ObjectIcons",
+        "Interface\\EncounterJournal\\UI-EJ-Icons", "Interface\\EncounterJournal\\UI-EJ-Buttons", "Interface\\Icons\\INV_Misc_Gear_01",
+        "Interface\\Minimap\\POIIcons", "Interface\\WorldMap\\UI-World-Icon" }
+    local items = {}
+    for _, a in ipairs(atlases) do
+        local ok = C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(a)
+        items[#items + 1] = { kind = "a", name = a, ok = ok and true or false }
+    end
+    for _, t in ipairs(textures) do items[#items + 1] = { kind = "t", name = t, ok = true } end
+    if not iconWin then
+        local f = CreateFrame("Frame", "WoWpoCeskuIkony", UIParent, "BackdropTemplate")
+        f:SetSize(1000, 460)
+        f:SetPoint("CENTER")
+        f:SetFrameStrata("DIALOG")
+        f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdropColor(0.6, 0.5, 0.3, 1)
+        f:EnableMouse(true); f:SetMovable(true); f:RegisterForDrag("LeftButton")
+        f:SetScript("OnDragStart", f.StartMoving); f:SetScript("OnDragStop", f.StopMovingOrSizing)
+        local c = CreateFrame("Button", nil, f, "UIPanelCloseButton"); c:SetPoint("TOPRIGHT", -6, -6)
+        f.items = {}
+        iconWin = f
+    end
+    local f = iconWin
+    for _, it in ipairs(f.items) do it.tex:Hide(); it.label:Hide() end
+    for i, it in ipairs(items) do
+        local t = f.items[i]
+        if not t then
+            t = { tex = f:CreateTexture(nil, "ARTWORK"), label = f:CreateFontString(nil, "OVERLAY") }
+            t.label:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf", 10, "")
+            f.items[i] = t
+        end
+        local col, row = (i - 1) % 6, math.floor((i - 1) / 6)
+        t.tex:ClearAllPoints()
+        t.tex:SetPoint("TOPLEFT", 26 + col * 160, -34 - row * 84)
+        t.tex:SetSize(48, 48)
+        if it.kind == "a" and it.ok then t.tex:SetAtlas(it.name) elseif it.kind == "t" then t.tex:SetTexture(it.name) else t.tex:SetTexture("") end
+        t.tex:Show()
+        t.label:ClearAllPoints()
+        t.label:SetPoint("TOPLEFT", t.tex, "BOTTOMLEFT", 0, -2)
+        t.label:SetWidth(152)
+        t.label:SetText((it.kind == "a" and (it.ok and "atlas: " or "(neni) ") or "tex: ") .. it.name:gsub("^Interface\\", ""))
+        t.label:Show()
+    end
+    f:Show()
+end
