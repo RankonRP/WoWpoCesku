@@ -269,20 +269,29 @@ local function unit(ti, z, x, y)
     return (y - z.ay) / dy, (x - z.ax) / dx
 end
 
+local function norm(n) return ((n or ""):lower():gsub("[^a-z]", "")) end
+
+-- Nejmenší zóna, do které bod padne při daném přiřazení os
+local function zoneAt(ti, map, x, y)
+    local pick
+    for _, z in ipairs(zoneMaps(map)) do
+        local u, v = unit(ti, z, x, y)
+        if u >= 0 and u <= 1 and v >= 0 and v <= 1 and (not pick or z.area < pick.area) then pick = z end
+    end
+    return pick
+end
+
+-- Přiřazení os se vybere podle bodů, jejichž zóna je známá (Durotar musí vyjít v Durotaru atd.)
 local function zoneFit()
     if zoneFitCache then return zoneFitCache.ti, zoneFitCache.best, zoneFitCache.total end
     local counts, total = { 0, 0, 0, 0 }, 0
-    for _, q in pairs(WoWpoCesku_QuestPos or {}) do
-        for k = 1, 2 do
-            local p = q[k]
-            if p then
-                total = total + 1
-                for ti = 1, 4 do
-                    for _, z in ipairs(zoneMaps(p[1])) do
-                        local u, v = unit(ti, z, p[2], p[3])
-                        if inside(u, v) and u >= 0 and u <= 1 and v >= 0 and v <= 1 then counts[ti] = counts[ti] + 1 break end
-                    end
-                end
+    for _, p in ipairs(WoWpoCesku_ZoneProbe or {}) do
+        total = total + 1
+        for ti = 1, 4 do
+            local z = zoneAt(ti, p[1], p[2], p[3])
+            if z then
+                local a, b = norm(z.name), p[4]
+                if a == b or a:find(b, 1, true) or b:find(a, 1, true) then counts[ti] = counts[ti] + 1 end
             end
         end
     end
@@ -322,10 +331,9 @@ local function showOnMap(p, label)
     if settings().djOpenMap ~= false and not (InCombatLockdown and InCombatLockdown()) then
         -- mapu otevíráme přes securecall a jen mimo boj; kdyby hra hlásila ADDON_ACTION_BLOCKED, jde vypnout v nastavení
         opened = pcall(function()
-            if OpenWorldMap then
-                securecall(OpenWorldMap, uiMap)
-            elseif WorldMapFrame then
-                securecall(ShowUIPanel, WorldMapFrame)
+            if OpenWorldMap then securecall(OpenWorldMap, uiMap) end
+            if WorldMapFrame then
+                if not WorldMapFrame:IsShown() then securecall(ShowUIPanel, WorldMapFrame) end
                 if WorldMapFrame.SetMapID then securecall(WorldMapFrame.SetMapID, WorldMapFrame, uiMap) end
             end
         end)
@@ -392,6 +400,7 @@ local function setDJMark(uiMap, u, v, label, icon)
         WorldMapFrame:HookScript("OnShow", function() C_Timer.After(0.1, drawDJMarks) end)
     end
     C_Timer.After(0.3, drawDJMarks)
+    C_Timer.After(1, drawDJMarks)
 end
 
 local entranceCache = {}
@@ -440,8 +449,11 @@ local function showEntrance(key)
     local opened = false
     if settings().djOpenMap ~= false and not (InCombatLockdown and InCombatLockdown()) then
         opened = pcall(function()
-            if OpenWorldMap then securecall(OpenWorldMap, e.uiMap)
-            elseif WorldMapFrame then securecall(ShowUIPanel, WorldMapFrame); if WorldMapFrame.SetMapID then securecall(WorldMapFrame.SetMapID, WorldMapFrame, e.uiMap) end end
+            if OpenWorldMap then securecall(OpenWorldMap, e.uiMap) end
+            if WorldMapFrame then
+                if not WorldMapFrame:IsShown() then securecall(ShowUIPanel, WorldMapFrame) end
+                if WorldMapFrame.SetMapID then securecall(WorldMapFrame.SetMapID, WorldMapFrame, e.uiMap) end
+            end
         end)
     end
     setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Spell_Arcane_PortalOrgrimmar")
@@ -1400,7 +1412,7 @@ function WoWpoCesku_MapDebug(key)
         return
     end
     local zti, zbest, ztotal = zoneFit()
-    say(("zony (pro tlacitko Zobrazit na mape): prepocet c. %d, %d z %d bodu padlo do nejake zony"):format(zti or 0, zbest or 0, ztotal or 0))
+    say(("zony (pro tlacitka na mape): prepocet c. %d, %d z %d sond spravne"):format(zti or 0, zbest or 0, ztotal or 0))
     mapCache[key] = nil
     local d = mapData(key)
     if not d then
