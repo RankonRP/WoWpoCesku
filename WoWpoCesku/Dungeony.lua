@@ -530,8 +530,22 @@ local CLIENT_ART = {
     ["Razorfen Downs"] = "RazorfenDowns", ["Uldaman"] = "Uldaman", ["Zul'Farrak"] = "ZulFarrak", ["Maraudon"] = "Maraudon",
     ["Sunken Temple"] = "SunkenTemple", ["Blackrock Depths"] = "BlackrockDepths", ["Blackrock Spire"] = "BlackrockSpire",
     ["Dire Maul"] = "DireMaul", ["Scholomance"] = "Scholomance", ["Stratholme"] = "Stratholme", ["Molten Core"] = "MoltenCore",
-    ["Blackwing Lair"] = "BlackwingLair", ["Zul'Gurub"] = "ZulGurub", ["Ruins of Ahn'Qiraj"] = "RuinsofAhnQiraj",  ["Ruins of Lordaeron"] = "RuinsofLordaeron", ["Naxxramas"] = "Naxxramas",
+    ["Blackwing Lair"] = "BlackwingLair", ["Zul'Gurub"] = "ZulGurub", ["Ruins of Ahn'Qiraj"] = "RuinsofAhnQiraj", ["Naxxramas"] = "Naxxramas",
 }
+
+-- Nové dungeony Forever nemají obrázek v klientu; když má hráč nainstalovaný ForeverDungeonJournal, použijeme jeho obrázek
+-- (jen se na něj odkazujeme, nic se nekopíruje; bez toho addonu zůstane barevná plocha nebo vlastní banner).
+local EXTERNAL_ART = {
+    ["Ruins of Lordaeron"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\RuinsOfLordaeron",
+    ["Hall of Thanes"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\HallOfThanes",
+}
+
+local function externalArt(key)
+    local p = EXTERNAL_ART[key]
+    if not p then return nil end
+    local loaded = C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("ForeverDungeonJournal")
+    return loaded and p or nil
+end
 
 local function setBanner(frame, key, w, h)
     local slug = WoWpoCesku_DungeonArt and WoWpoCesku_DungeonArt[key]
@@ -549,6 +563,18 @@ local function setBanner(frame, key, w, h)
         else
             local cut = (1 - want / have) / 2 * (u1 - u0)
             frame.art:SetTexCoord(u0 + cut, u1 - cut, v0, v1)
+        end
+        frame.art:SetVertexColor(1, 1, 1, 1)
+        frame.art:Show()
+    elseif externalArt(key) and not slug then
+        frame.art:SetTexture(externalArt(key))
+        local want, have = w / h, 2   -- textura 1024×512
+        if want > have then
+            local cut = (1 - have / want) / 2
+            frame.art:SetTexCoord(0, 1, 0.12 + cut * 0.76, 0.88 - cut * 0.76)
+        else
+            local cut = (1 - want / have) / 2
+            frame.art:SetTexCoord(cut, 1 - cut, 0, 1)
         end
         frame.art:SetVertexColor(1, 1, 1, 1)
         frame.art:Show()
