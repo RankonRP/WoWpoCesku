@@ -1137,7 +1137,7 @@ local function showWelcome()
     local INK = { 0.20, 0.13, 0.07 }
     local f = CreateFrame("Frame", "WoWpoCeskuUvod", UIParent, "BackdropTemplate")
     welcome = f
-    f:SetSize(540, 560)
+    f:SetSize(540, 520)
     f:SetPoint("CENTER")
     f:SetFrameStrata("DIALOG")
     f:SetToplevel(true)
@@ -1199,7 +1199,7 @@ local function showWelcome()
     hint:SetText("klik + Ctrl+C zkopíruje odkaz")
     last = url
     text("Chceš jen část češtiny?", 15, 0.50, 0.12, 0.05, 18)
-    text("Vyber předvolbu. Všechno si pak můžeš upravit v nastavení (Esc → Možnosti → AddOns, nebo Ctrl+klik na ikonu u minimapy). "
+    text("Vyber předvolbu. Všechno si pak můžeš upravit v nastavení (Esc > Možnosti > AddOns, nebo Ctrl+klik na ikonu u minimapy). "
         .. "Tento úvod otevřeš znovu příkazem /czq uvod.", 13, INK[1], INK[2], INK[3], 6)
 
     local prev
