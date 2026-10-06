@@ -202,3 +202,11 @@ do
         end
     end
 end
+
+-- Vchody nových dungeonů Forever přímo v mapě světa: { uiMapID, x, y (0–1), název zóny }
+WoWpoCesku_DungeonEntryMap = {
+    ["Ruins of Lordaeron"] = { 1420, 0.634, 0.674, "Tirisfal Glades" },
+    ["Hall of Thanes"] = { 1455, 0.435, 0.520, "Ironforge" },
+    ["Excavation Site: Wetlands"] = { 1437, 0.477, 0.562, "Wetlands" },
+    ["City of Dalaran"] = { 1416, 0.085, 0.593, "Alterac Mountains" },
+}

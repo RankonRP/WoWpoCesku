@@ -466,6 +466,10 @@ local function showEntrance(key)
     local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
     local e = findEntrance(key)
     if not e then
+        local m = WoWpoCesku_DungeonEntryMap and WoWpoCesku_DungeonEntryMap[key]
+        if m then e = { uiMap = m[1], u = m[2], v = m[3], zone = m[4] } end
+    end
+    if not e then
         local o = WoWpoCesku_DungeonEntryOut and WoWpoCesku_DungeonEntryOut[key]
         if o then
             local uiMap, u, v, zname = locate(o[1], o[2], o[3])
