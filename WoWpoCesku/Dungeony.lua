@@ -1237,3 +1237,24 @@ function WoWpoCesku_MapDebug(key)
         say(("tvoje poloha: UnitPosition %s, %s | uiMap %s | na mape %s, %s"):format(tostring(x), tostring(y), tostring(id), tostring(u), tostring(v)))
     end
 end
+
+-- Diagnostika map instance: /czq mapa2 <název> vypíše všechny mapy klienta, jejichž jméno obsahuje hledaný text.
+function WoWpoCesku_MapList(text)
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    if not (text and text ~= "" and C_Map and C_Map.GetMapInfo) then say("pouziti: /czq mapa2 deadmines") return end
+    local want, n = text:lower(), 0
+    for id = 1, 3500 do
+        local ok, info = pcall(C_Map.GetMapInfo, id)
+        if ok and info and info.name and info.name:lower():find(want, 1, true) then
+            n = n + 1
+            local wp = "-"
+            if C_Map.GetWorldPosFromMapPos and CreateVector2D then
+                local ok2, inst, pos = pcall(C_Map.GetWorldPosFromMapPos, id, CreateVector2D(0.5, 0.5))
+                if ok2 and inst then wp = ("svet %s [%s, %s]"):format(tostring(inst), tostring(pos and select(1, xy(pos))), tostring(pos and select(2, xy(pos)))) end
+            end
+            local layers = C_Map.GetMapArtLayers and C_Map.GetMapArtLayers(id)
+            say(("uiMap %d '%s' typ %s, rodic %s, vrstev %s, %s"):format(id, info.name, tostring(info.mapType), tostring(info.parentMapID), tostring(layers and #layers or 0), wp))
+        end
+    end
+    if n == 0 then say("zadna mapa se jmenem obsahujicim '" .. text .. "'") end
+end

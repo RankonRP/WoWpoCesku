@@ -1379,6 +1379,8 @@ SlashCmdList.CZQUESTS = function(msg)
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
     elseif cmd == "dungeon" or cmd == "dungy" or cmd == "dj" then
         if WoWpoCesku_DungeonJournal then WoWpoCesku_DungeonJournal() end
+    elseif cmd == "mapa2" then
+        if WoWpoCesku_MapList then WoWpoCesku_MapList(arg) end
     elseif cmd == "mapa" then
         if WoWpoCesku_MapDebug then WoWpoCesku_MapDebug(arg ~= "" and arg or nil) end
     elseif cmd == "uvod" or cmd == "úvod" then
