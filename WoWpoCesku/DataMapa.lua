@@ -512,3 +512,11 @@ WoWpoCesku_ZoneProbe = {
     { 0, 1729, -1602, "westernplaguelands" },
     { 1, 7654, -2233, "moonglade" },
 }
+
+-- Směrové sondy pro rozpoznání os: { mapa, x1, y1, x2, y2, znaménko posunu doprava, znaménko posunu dolů }
+WoWpoCesku_ZoneDir = {
+    { 0, -10624, 1097, -10987, 1543, -1, 1 },   -- Westfall: Moonbrook je JZ od Sentinel Hill
+    { 0, 2259, 290, 1844, 1590, -1, 0 },   -- Tirisfal: Deathknell je Z od Brill
+    { 0, -9449, 68, -8921, -119, 1, -1 },   -- Elwynn: Northshire je SV od Goldshire
+    { 1, 327, -4707, 1629, -4373, -1, -1 },   -- Durotar: Orgrimmar je SZ od Razor Hill
+}

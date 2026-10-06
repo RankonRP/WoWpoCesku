@@ -281,17 +281,20 @@ local function zoneAt(ti, map, x, y)
     return pick
 end
 
--- Přiřazení os se vybere podle bodů, jejichž zóna je známá (Durotar musí vyjít v Durotaru atd.)
+-- Přiřazení os se vybere podle směrů: např. Moonbrook leží jihozápadně od Sentinel Hill. Prohozené osy nebo
+-- obrácený směr tu vyjdou špatně (u středů zón by to nebylo poznat).
 local function zoneFit()
     if zoneFitCache then return zoneFitCache.ti, zoneFitCache.best, zoneFitCache.total end
     local counts, total = { 0, 0, 0, 0 }, 0
-    for _, p in ipairs(WoWpoCesku_ZoneProbe or {}) do
-        total = total + 1
+    for _, d in ipairs(WoWpoCesku_ZoneDir or {}) do
+        total = total + 2
         for ti = 1, 4 do
-            local z = zoneAt(ti, p[1], p[2], p[3])
+            local z = zoneAt(ti, d[1], d[2], d[3])
             if z then
-                local a, b = norm(z.name), p[4]
-                if a == b or a:find(b, 1, true) or b:find(a, 1, true) then counts[ti] = counts[ti] + 1 end
+                local u1, v1 = unit(ti, z, d[2], d[3])
+                local u2, v2 = unit(ti, z, d[4], d[5])
+                if (u2 - u1) * d[6] > 0 then counts[ti] = counts[ti] + 1 end
+                if (v2 - v1) * d[7] > 0 then counts[ti] = counts[ti] + 1 end
             end
         end
     end
@@ -1412,7 +1415,7 @@ function WoWpoCesku_MapDebug(key)
         return
     end
     local zti, zbest, ztotal = zoneFit()
-    say(("zony (pro tlacitka na mape): prepocet c. %d, %d z %d sond spravne"):format(zti or 0, zbest or 0, ztotal or 0))
+    say(("zony (pro tlacitka na mape): prepocet c. %d, %d z %d smerovych kontrol spravne"):format(zti or 0, zbest or 0, ztotal or 0))
     mapCache[key] = nil
     local d = mapData(key)
     if not d then
