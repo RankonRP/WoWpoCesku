@@ -389,6 +389,16 @@ local function showEntrance(key)
     say(("vchod %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
+local BOX = { bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 }
+local function boxFrame(parent, level)
+    local f = CreateFrame("Frame", nil, parent, "BackdropTemplate")
+    f:SetBackdrop(BOX)
+    f:SetBackdropColor(0.40, 0.26, 0.14, 0.16)
+    f:SetBackdropBorderColor(0.42, 0.27, 0.13, 0.9)
+    if level then f:SetFrameLevel(level) end
+    return f
+end
+
 -- plynulý přechod barvy (nový i starý způsob zápisu; když nejde ani jeden, zůstane plná plocha)
 local function gradient(tex, r, g, b, a1, a2)
     tex:SetColorTexture(r, g, b, math.max(a1, a2))
@@ -569,11 +579,13 @@ local function addItem(c, name, quality, id, confirmed)
     c.ni = c.ni + 1
     local b = c.items[c.ni]
     if not b or b.isRule then
-        b = CreateFrame("Button", nil, c)
-        b:SetHeight(40)
+        b = CreateFrame("Button", nil, c, "BackdropTemplate")
+        b:SetHeight(42)
+        b:SetBackdrop(BOX)
+        b:SetBackdropColor(0.40, 0.26, 0.14, 0.14)
+        b:SetBackdropBorderColor(0.42, 0.27, 0.13, 0.85)
         b.bg = b:CreateTexture(nil, "BACKGROUND")
-        b.bg:SetAllPoints()
-        b.bg:SetColorTexture(0.55, 0.40, 0.22, 0.14)
+        b.bg:SetSize(1, 1)
         b.frame = CreateFrame("Frame", nil, b, "BackdropTemplate")
         b.frame:SetSize(34, 34)
         b.frame:SetPoint("LEFT", 4, 0)
@@ -611,7 +623,7 @@ local function addItem(c, name, quality, id, confirmed)
     b.kind:SetWidth(c.w - 56)
     b.kind:SetText(itemKind(id))
     b:Show()
-    c.y = c.y + 44
+    c.y = c.y + 47
 end
 
 -------------------------------------------------------------------------------
@@ -651,8 +663,11 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     c.nr = c.nr + 1
     local b = c.rows[c.nr]
     if not b then
-        b = CreateFrame("Button", nil, c)
+        b = CreateFrame("Button", nil, c, "BackdropTemplate")
         b:SetHeight(44)
+        b:SetBackdrop(BOX)
+        b:SetBackdropColor(0.40, 0.26, 0.14, 0.12)
+        b:SetBackdropBorderColor(0.42, 0.27, 0.13, 0.85)
         b.sel = b:CreateTexture(nil, "BACKGROUND")
         b.sel:SetAllPoints()
         b.sel:SetColorTexture(0.78, 0.55, 0.30, 0.55)
@@ -743,9 +758,10 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     b.check:SetShown(mark and true or false)
     b.sel:SetShown(selected and true or false)
     b.accent:SetShown(selected and true or false)
+    b:SetBackdropBorderColor(selected and 0.62 or 0.42, selected and 0.20 or 0.27, selected and 0.10 or 0.13, selected and 1 or 0.85)
     b:SetScript("OnClick", onClick)
     b:Show()
-    c.y = c.y + h + 1
+    c.y = c.y + h + 4
 end
 
 -------------------------------------------------------------------------------
@@ -1074,6 +1090,10 @@ showDetail = function()
     setTabs()
     local twoPane = (state.tab ~= "pruvodce" and state.tab ~= "mapa")
     win.leftSf:SetShown(twoPane)
+    win.boxL:SetShown(twoPane)
+    win.boxR:ClearAllPoints()
+    win.boxR:SetPoint("TOPLEFT", twoPane and 328 or 24, -184)
+    win.boxR:SetSize(twoPane and 440 or 744, 372)
     win.rightSf:ClearAllPoints()
     if twoPane then
         win.rightSf:SetPoint("TOPLEFT", 336, -190)
@@ -1211,6 +1231,12 @@ local function build()
         prev = b
     end
 
+    win.boxL = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
+    win.boxL:SetPoint("TOPLEFT", 24, -184)
+    win.boxL:SetSize(284, 372)
+    win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
+    win.boxR:SetPoint("TOPLEFT", 328, -184)
+    win.boxR:SetSize(440, 372)
     win.leftSf, win.left = newScroll(win.detail, 30, -190, 270, 360)
     win.rightSf, win.right = newScroll(win.detail, 336, -190, 424, 360)
     win.right.w = 424 - 26
