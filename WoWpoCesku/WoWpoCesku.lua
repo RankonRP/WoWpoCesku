@@ -1389,6 +1389,8 @@ SlashCmdList.CZQUESTS = function(msg)
         if WoWpoCesku_LootReport then WoWpoCesku_LootReport() end
     elseif cmd == "vchod" then
         if WoWpoCesku_EntranceDebug then WoWpoCesku_EntranceDebug(arg) end
+    elseif cmd == "znacka" then
+        if WoWpoCesku_MarkDebug then WoWpoCesku_MarkDebug() end
     elseif cmd == "ikony" then
         if WoWpoCesku_IconTest then WoWpoCesku_IconTest(arg) end
     elseif cmd == "obr3" then

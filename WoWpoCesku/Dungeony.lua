@@ -1860,6 +1860,19 @@ function WoWpoCesku_ArtTest3(name)
     rulerWin:Show()
 end
 
+-- Diagnostika značky vchodu na mapě: /czq znacka (po kliknutí na Zobrazit vstup, s otevřenou mapou)
+function WoWpoCesku_MarkDebug()
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    local m = djMarks[1]
+    local canvas = WorldMapFrame and WorldMapFrame.ScrollContainer and WorldMapFrame.ScrollContainer.Child
+    say(("znacek: %d, mapa ve hre: %s, mapa znacky: %s, mapa otevrena: %s"):format(#djMarks, tostring(WorldMapFrame and WorldMapFrame:GetMapID()), tostring(m and m.uiMap), tostring(WorldMapFrame and WorldMapFrame:IsShown())))
+    if canvas then say(("platno: %.0f x %.0f, pinu: %d"):format(canvas:GetWidth(), canvas:GetHeight(), #djPins)) end
+    for i, p in ipairs(djPins) do
+        say(("pin %d: viditelny=%s velikost=%.0f alfa=%.2f uroven=%s"):format(i, tostring(p:IsShown()), p:GetWidth(), p:GetEffectiveAlpha(), tostring(p:GetFrameLevel())))
+    end
+    drawDJMarks()
+end
+
 -- Zkouška ikon vchodu: /czq ikony  (ukáže herní atlasy a textury, které by šly použít jako značka)
 local iconWin
 function WoWpoCesku_IconTest(arg)
