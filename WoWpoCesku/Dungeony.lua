@@ -1279,13 +1279,13 @@ showDetail = function()
     win.leftSf:SetShown(twoPane)
     win.boxL:SetShown(twoPane)
     win.boxR:ClearAllPoints()
-    win.boxR:SetPoint("TOPLEFT", twoPane and 324 or 24, -190)
-    win.boxR:SetSize(twoPane and 584 or 884, 368)
+    win.boxR:SetPoint("TOPLEFT", twoPane and 392 or 24, -190)
+    win.boxR:SetSize(twoPane and 516 or 884, 368)
     win.rightSf:ClearAllPoints()
     if twoPane then
-        win.rightSf:SetPoint("TOPLEFT", 340, -202)
-        win.rightSf:SetSize(536, 344)
-        win.right.w = 536 - 26
+        win.rightSf:SetPoint("TOPLEFT", 408, -202)
+        win.rightSf:SetSize(468, 344)
+        win.right.w = 468 - 26
     else
         win.rightSf:SetPoint("TOPLEFT", 36, -202)
         win.rightSf:SetSize(836, 344)
@@ -1418,13 +1418,13 @@ local function build()
 
     win.boxL = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
     win.boxL:SetPoint("TOPLEFT", 24, -190)
-    win.boxL:SetSize(284, 368)
+    win.boxL:SetSize(352, 368)
     win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxR:SetPoint("TOPLEFT", 324, -190)
-    win.boxR:SetSize(584, 368)
-    win.leftSf, win.left = newScroll(win.detail, 36, -202, 236, 344)
-    win.rightSf, win.right = newScroll(win.detail, 340, -202, 536, 344)
-    win.right.w = 536 - 26
+    win.boxR:SetPoint("TOPLEFT", 392, -190)
+    win.boxR:SetSize(516, 368)
+    win.leftSf, win.left = newScroll(win.detail, 36, -202, 304, 344)
+    win.rightSf, win.right = newScroll(win.detail, 408, -202, 468, 344)
+    win.right.w = 468 - 26
 end
 
 -------------------------------------------------------------------------------
