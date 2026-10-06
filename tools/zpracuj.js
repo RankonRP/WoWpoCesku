@@ -284,6 +284,7 @@ async function main() {
     writeUiLua(ui);
   }
   if (ODLOZIT) {
+    fs.mkdirSync(path.dirname(ODESLAT_PATH), { recursive: true });   // složka nastaveni/stav není v Gitu
     fs.writeFileSync(ODESLAT_PATH, JSON.stringify({ review: subs.review, ack: subs.ack, resolve: corr.resolve }));
     console.log(`Potvrzení odložena do .odeslat.json (ack ${subs.ack.length}, návrhy ${subs.review.length}, opravy ${corr.resolve.length}).`);
   } else {
