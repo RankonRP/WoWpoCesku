@@ -111,4 +111,47 @@ Gnomeregan padl za třetí války, když na něj z hloubek zaútočili troggové
 SPOILER: Plyn byl smrtonosnější, než čekal: během několika dní zabil zhruba osmdesát procent obyvatel a přeživší, včetně samotného Thermaplugga, zmutoval v malomocné gnómy. Šílený Thermaplugg se prohlásil za krále gnómů a vládl ozářeným ruinám se svými malomocnými gnómy a troggy. Nakonec ho porazili při operaci Gnomeregan, vojenské akci, kterou vedl Gelbin.]],
 },
 
+
+["Razorfen Kraul"] = {
+    ["Death Speaker Jargba"] = [[Duch ženy z kmene Death's Head. Při souboji s Ramtuskem bojuje po jeho boku jako zjevení a používá stínovou magii: Broken Link přerušuje duchovní vazby a Spirit Bolt střílí duchovní energií. Je součástí propojené skupiny duchů, které spojuje totem.]],
+
+    ["Overlord Ramtusk"] = [[Vojenský velitel kmene Death's Head. Je to obrovský starý quilboar s tlustou kůží plnou jizev z mnoha bitev. Vede vojáky jistým hlasem bojového veterána, protože v životě bojoval s kentaury, harpyjemi, orky i tauren.]],
+
+    ["Agathelos the Raging"] = [[Obrovský pancéřovaný kanec, dvakrát větší než běžný thunder lizard. Quilboarové uctívají kance a výjimečně velké kusy považují za „dar od Agamaggana“, svého titánského božského kance. Kmen Death's Head ho záměrně krmil netopýřím trusem z Kraulu, který ho zešílil a zvýšil mu sílu i výdrž, protože chtěl mít „mocnou zbraň, která rozdrtí každého nepřítele“. Nakonec ho zabili a nechali rozkládat v krvavých tůních, kde se z něj živí slepý lovec Groyat.]],
+
+    ["Charlga Razorflank"] = [[Elitní quilboarská šamanka, „kmotra“ (crone) kmene Razorfen. Tváří se jako představená kmene Death's Head, ale ve skutečnosti ho ovládá Amnennar the Coldbringer. Za jejího vedení quilboarové vyhnali tauren z jižních Barrens. Své lidi klamala, že potřebují krev, aby vzkřísili Agamaggana. Většinu trnité kupole v Razorfen Downs vytvořila sama a svou dceru Chugaru naučila ji udržovat. Údajně dokonce jednala s agenty Scourge. Její geomantie je výjimečná: ovládá více krystalů najednou a ty nejde zničit.
+
+SPOILER: Během událostí Warlords of Draenor ji porazili dobrodruzi vedení duchem Agamaggana, který požadoval, aby jí vyňali srdce.]],
+},
+
+["Scarlet Monastery"] = {
+    ["Bloodmage Thalnos"] = [[Kostlivý mág a miniboss hřbitova v Scarlet Monastery. Býval členem Scarlet Crusade a proslul krutými metodami, jimiž „očišťoval“ nováčky. Poté, co chytil mor nemrtvosti, se z něj stal strašlivý kostlivec, který zůstal na hřbitově kláštera a „velí přízrakům a zombifikovaným tvorům, aby napadali každého, kdo vstoupí na jeho svatokrádežné panství“. Možná byl dřív krvavým elfem, soudě podle titulu Bloodmage a složení Crusade.]],
+
+    ["Arcanist Doan"] = [[Lidský mág, rytíř Stříbrné ruky, který se později přidal ke Scarlet Crusade. Střežil Athenaeum, hlavní část knihovny v Scarlet Monastery. Za třetí války s ostatními z Rytířů Stříbrné ruky pomáhal očistit temný krystal, z něhož se stal legendární Ashbringer. Po válce se stal jedním z nejmocnějších mágů Crusade a držel klíč k operacím Scarlet po celých Plaguelands. Podle příběhu choval city k Brigitte Abbendis, o čemž svědčí stříbrná mince, kterou hodil do dalaranské fontány.]],
+
+    ["Herod"] = [[Elitní lidský válečník, jeden ze čtyř vůdců Scarlet Crusade v zbrojnici Scarlet Monastery. Nosí titul Scarlet Champion (Šampion Scarletu). Sídlí v Hall of Champions. Bojuje jako válečník: používá Cleave, Frenzy (60 % rychlejší útoky), Rushing Charge a Whirlwind, který mu dává dočasnou imunitu vůči magii. Padne mu tři předměty, které sám nosí: Herod's Shoulder, Raging Berserker's Helm a sekeru Ravager. Aliance i Horda chtějí vůdce Crusade zničit, i když z různých důvodů.]],
+
+    ["High Inquisitor Fairbanks"] = [[Lidský kněz a důvěrný rádce Highlorda Mograinea za třetí války. Byl členem Rytířů Stříbrné ruky a pomáhal očistit srdce Ashbringeru. U Stratholme viděl, jak Renault Mograine zradil otce a probodl mu Ashbringerem srdce. Přežil schován pod mrtvolami a později to ohlásil. Scarlet Crusade ho popravila za „rouhačská obvinění“ proti vůdcům. Jeho tělo odhodili do tajné komnaty v katedrále, kde se z něj stal nemrtvý. Ti, kdo mu uvěřili, odešli od Crusade a založili Argent Dawn. Jeho výpověď je zaznamenána v Libram of Ancient Kings.]],
+
+    ["Scarlet Commander Mograine"] = [[Elitní paladin, velitel vojsk Scarlet Monastery, sídlí v Crusader's Chapel. Je to Renault Mograine, syn Highlorda Alexandrose Mograinea, zakladatele řádu. Bojuje společně s Whitemane: používá Divine Shield, Hammer of Justice, Crusader Strike a Lay on Hands, ale sám se neléčí. Při útoku křičí: „Nevěřící! Musí být očištěni!“
+
+SPOILER: Renault je ten, kdo u Stratholme zradil otce a probodl ho Ashbringerem. Alexandros se pak jako duch vrátil a Ashbringerem svého zrádného syna zabil.]],
+
+    ["High Inquisitor Whitemane"] = [[Sally Whitemane byla lidská kněžka a Vrchní inkvizitorka Scarlet Crusade. Za Scourgingu Lordaeronu viděla, jak její rodina podlehla nemrtvosti, a musela ji zničit jako služebníky Scourge, což v ní vzbudilo nenávist k nemrtvým. Z katedrály Scarlet Monastery spolu s Renaultem Mograinem řídila činnost Crusade. Byli to přátelé z dětství z Southshore, kteří se oba přidali ke Crusade. Je známá nápadným oblečením a kloboukem a dokáže vzkřísit padlé bojovníky.
+
+SPOILER: Zabila ji Lilian Voss s dobrodruhy a Blades of the Anointed, které brání vzkříšení. Za invaze Legie ji Ebon Blade vzkřísil jako death knighta a stala se třetím z Four Horsemen.]],
+},
+
+["Razorfen Downs"] = {
+    ["Tuten'kash"] = [[Crypt fiend, nemrtvý netvor, který sídlí v místnosti s gongem (The Caller's Chamber).]],
+
+    ["Mordresh Fire Eye"] = [[Kostlivý boss, který sídlí v Bone Pile. O jeho minulosti zdroje mnoho neříkají.]],
+
+    ["Glutton"] = [[Abominace, ohavný netvor ze Scourge, který hlídá vstup do Spiral of Thorns.]],
+
+    ["Plaguemaw the Rotting"] = [[Nemrtvý quilboar, který se přivolává během questů. Je ukázkou toho, jak Scourge pokřivil kmen.]],
+
+    ["Amnennar the Coldbringer"] = [[Elitní lich, Vládce Razorfen Downs, který velí kmeni Death's Head: nemrtvým quilboarům spojeným s Scourge. Stvořil abominaci Tartek the Enraged, která zabila přes 1 200 quilboarů, a pak jejich těla vzkřísil, čímž vytvořil „první velkou základnu Scourge na Kalimdoru“. Po třetí válce mu Lich King přikázal rozšiřovat vliv Scourge na kontinentu. Získal si vysídlené quilboary slibem moci nad smrtí, aby se mohli bránit vetřelcům. I když ho dobrodruzi opakovaně porazili, přežívá, protože jeho phylaktérium nebylo zničeno. Dnes ho prý střeží červení draci.]],
+},
+
 }
