@@ -347,7 +347,7 @@ local function showOnMap(p, label)
 end
 
 -------------------------------------------------------------------------------
--- Zobrazit vchod: hra umí říct, kde na mapě zóny je vchod do instance (C_EncounterJournal.GetDungeonEntrancesForMap).
+-- Zobrazit vstup: hra umí říct, kde na mapě zóny je vchod do instance (C_EncounterJournal.GetDungeonEntrancesForMap).
 -------------------------------------------------------------------------------
 local djMarks = {}      -- { uiMap, u, v, label, icon }
 local djPins = {}
@@ -458,7 +458,7 @@ local function showEntrance(key)
             if uiMap then e = { uiMap = uiMap, u = u, v = v, zone = zname } end
         end
     end
-    if not e then say(key .. ": vchod se na mape nepodarilo najit (klient ho nenabizi). Viz Prvodce, tam je popis cesty.") return end
+    if not e then say(key .. ": vstup se na mape nepodarilo najit (klient ho nenabizi). Viz Prvodce, tam je popis cesty.") return end
     local set = false
     if settings().djWaypoint and C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
         set = pcall(function()
@@ -476,8 +476,8 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 36)
-    say(("vchod %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 36)
+    say(("vstup %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
 local BOX = { bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 }
@@ -1376,7 +1376,7 @@ local function build()
     entr:SetPoint("TOPRIGHT", win.banner, "TOPRIGHT", -12, -8)
     entr:SetNormalFontObject(win.fontBtn)
     entr:SetHighlightFontObject(win.fontBtnOn)
-    entr:SetText("Zobrazit vchod")
+    entr:SetText("Zobrazit vstup")
     entr:SetScript("OnClick", function() if state.key then showEntrance(state.key) end end)
 
     win.top = CreateFrame("Frame", nil, win.detail)
