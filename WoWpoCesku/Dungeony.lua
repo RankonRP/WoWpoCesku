@@ -689,16 +689,20 @@ local function renderList()
             b:SetHeight(CARD_H)
             b.banner = makeBanner(b)
             b.banner:SetAllPoints()
-            b.name = text(b, 16, 1, 0.95, 0.80)
+            b.over = CreateFrame("Frame", nil, b)
+            b.over:SetAllPoints()
+            b.over:SetFrameLevel(b:GetFrameLevel() + 5)
+            b.name = text(b.over, 16, 1, 0.95, 0.80)
             b.name:SetPoint("TOPLEFT", 14, -10)
             b.name:SetShadowOffset(1, -1)
-            b.info = text(b, 12, 0.95, 0.90, 0.80)
+            b.info = text(b.over, 12, 0.95, 0.90, 0.80)
             b.info:SetPoint("TOPLEFT", b.name, "BOTTOMLEFT", 0, -4)
             b.info:SetShadowOffset(1, -1)
-            b.prog = text(b, 11, 0.85, 0.80, 0.68)
+            b.prog = text(b.over, 11, 0.85, 0.80, 0.68)
             b.prog:SetPoint("TOPLEFT", b.info, "BOTTOMLEFT", 0, -2)
             b.prog:SetShadowOffset(1, -1)
             b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+            b:SetFrameLevel(b:GetFrameLevel() + 1)
             c.cards[c.nc] = b
         end
         b:ClearAllPoints()
@@ -736,7 +740,7 @@ end
 
 local function setTabs()
     local prev
-    for i = #win.tabs, 1, -1 do
+    for i = 1, #win.tabs do
         local t = win.tabs[i]
         local avail = (t.id ~= "mapa") or (mapData(state.key) ~= nil)
         t:SetShown(avail)
@@ -773,9 +777,9 @@ showDetail = function()
     win.leftSf:SetShown(twoPane)
     win.rightSf:ClearAllPoints()
     if twoPane then
-        win.rightSf:SetPoint("TOPLEFT", 290, -178)
-        win.rightSf:SetSize(470, 372)
-        win.right.w = 470 - 26
+        win.rightSf:SetPoint("TOPLEFT", 312, -178)
+        win.rightSf:SetSize(450, 372)
+        win.right.w = 450 - 26
     else
         win.rightSf:SetPoint("TOPLEFT", 30, -178)
         win.rightSf:SetSize(730, 372)
@@ -843,6 +847,7 @@ local function build()
     win.banner:SetSize(730, 88)
 
     local back = CreateFrame("Button", nil, win.detail)
+    back:SetFrameLevel(win.detail:GetFrameLevel() + 7)
     back:SetSize(96, 22)
     back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 14, -8)
     back.bg = back:CreateTexture(nil, "BACKGROUND")
@@ -853,11 +858,14 @@ local function build()
     back:SetText("‹ Přehled")
     back:SetScript("OnClick", function() state.view = "list"; showDetail() end)
 
-    win.name = text(win.detail, 24, 1, 0.95, 0.80)
+    win.top = CreateFrame("Frame", nil, win.detail)
+    win.top:SetAllPoints()
+    win.top:SetFrameLevel(win.detail:GetFrameLevel() + 6)
+    win.name = text(win.top, 24, 1, 0.95, 0.80)
     win.name:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 16, -36)
     win.name:SetWidth(460)
     win.name:SetShadowOffset(1, -1)
-    win.tag = text(win.detail, 12, 0.92, 0.86, 0.72)
+    win.tag = text(win.top, 12, 0.92, 0.86, 0.72)
     win.tag:SetPoint("TOPLEFT", win.name, "BOTTOMLEFT", 0, -1)
     win.tag:SetWidth(460)
     win.tag:SetShadowOffset(1, -1)
@@ -885,9 +893,9 @@ local function build()
         prev = b
     end
 
-    win.leftSf, win.left = newScroll(win.detail, 30, -178, 245, 372)
-    win.rightSf, win.right = newScroll(win.detail, 290, -178, 470, 372)
-    win.right.w = 470 - 26
+    win.leftSf, win.left = newScroll(win.detail, 30, -178, 240, 372)
+    win.rightSf, win.right = newScroll(win.detail, 312, -178, 450, 372)
+    win.right.w = 450 - 26
 end
 
 -- Otevře deník; key = instance (nepovinné), tab = záložka (nepovinné).
