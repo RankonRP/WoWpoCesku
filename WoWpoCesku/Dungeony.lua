@@ -481,6 +481,20 @@ local function showEntrance(key)
 end
 
 local BOX = { bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 }
+-- erb frakce: nejdřív atlas hry, jinak textura s výřezem (Horda červená, Aliance modrá)
+local function setFactionIcon(tex, letter)
+    local atlas = letter == "H" and { "poi-horde", "bfa-landingbutton-horde-up", "horde" } or { "poi-alliance", "bfa-landingbutton-alliance-up", "alliance" }
+    for _, a in ipairs(atlas) do
+        if C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(a) then
+            tex:SetTexCoord(0, 1, 0, 1)
+            tex:SetAtlas(a)
+            return
+        end
+    end
+    tex:SetTexture(letter == "H" and "Interface\\TargetingFrame\\UI-PVP-Horde" or "Interface\\TargetingFrame\\UI-PVP-Alliance")
+    tex:SetTexCoord(0, 0.6, 0, 0.6)
+end
+
 local function boxFrame(parent, level)
     local f = CreateFrame("Frame", nil, parent, "BackdropTemplate")
     f:SetBackdrop(BOX)
@@ -774,7 +788,7 @@ end
 -------------------------------------------------------------------------------
 -- Seznam vlevo (bossové / questy)
 -------------------------------------------------------------------------------
-local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emblem, npcID)
+local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emblem, npcID, chain)
     c.nr = c.nr + 1
     local b = c.rows[c.nr]
     if not b then
@@ -821,8 +835,12 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
         b.badgeBg:SetColorTexture(0.07, 0.04, 0.02, 0.92)
         b.badge = text(b.bframe, 10, 1, 0.82, 0.25)
         b.badge:SetPoint("CENTER", b.badgeBg, "CENTER", 0, 0)
+        b.chain = b:CreateTexture(nil, "OVERLAY")
+        b.chain:SetSize(16, 16)
+        b.chain:SetPoint("BOTTOMRIGHT", -34, 4)
+        b.chain:SetTexture("Interface\\Icons\\Spell_Frost_ChainsOfIce")
         b.emblem = b:CreateTexture(nil, "ARTWORK")
-        b.emblem:SetSize(22, 22)
+        b.emblem:SetSize(26, 26)
         b.emblem:SetPoint("RIGHT", -28, 0)
         b.label = text(b, 13, INK[1], INK[2], INK[3])
         b.label:SetPoint("TOPLEFT", 12, -6)
@@ -863,7 +881,7 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     end
     if badge then b.badge:SetText(badge) end
     b.emblem:SetShown(emblem and true or false)
-    if emblem then b.emblem:SetTexture(emblem) end
+    if emblem then setFactionIcon(b.emblem, emblem) end
     b.label:SetFont(title:find("[\128-\255]") and FONT or TITLE_FONT, 13, "")
     b.label:SetText(title)
     b.sub:SetText(sub or "")
@@ -871,6 +889,7 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     if h < (hasModel and 54 or 46) then h = hasModel and 54 or 46 end
     b:SetHeight(h)
     b.check:SetShown(mark and true or false)
+    b.chain:SetShown(chain and true or false)
     b.sel:SetShown(selected and true or false)
     b.accent:SetShown(selected and true or false)
     b:SetBackdropBorderColor(selected and 0.62 or 0.42, selected and 0.20 or 0.27, selected and 0.10 or 0.13, selected and 1 or 0.85)
@@ -968,10 +987,11 @@ local function renderQuests(key)
     if not found then cur = list[1][1]; state.quest[key] = cur end
     for _, e in ipairs(list) do
         local title = e[2]
-        local emblem = (e[5] == "H" and "Interface\\Icons\\INV_BannerPVP_01") or (e[5] == "A" and "Interface\\Icons\\INV_BannerPVP_02") or nil
+        local emblem = e[5]   -- "H" nebo "A" (nil = obě frakce)
         addRow(L, title, ("od levelu %d"):format(e[4]), questDone(e[1]), e[1] == cur,
             function() state.quest[key] = e[1]; showDetail() end,
-            "Interface\\GossipFrame\\AvailableQuestIcon", nil, emblem)
+            "Interface\\GossipFrame\\AvailableQuestIcon", nil, emblem, nil,
+            WoWpoCesku_QuestChain and WoWpoCesku_QuestChain[e[1]] ~= nil)
     end
     local sel
     for _, e in ipairs(list) do if e[1] == cur then sel = e end end
@@ -981,6 +1001,18 @@ local function renderQuests(key)
     addText(R, sel[2], 21, RED, 2, 0, nil, TITLE_FONT)
     if cz and cz ~= sel[2] then addText(R, cz, 12, SEPIA, 4) end
     addText(R, ("Level questu %d · dostupný od levelu %d"):format(sel[3], sel[4]) .. (questDone(id) and ("  " .. GREEN .. "(splněno)|r") or ""), 12, SEPIA, 6)
+    local chainInfo = WoWpoCesku_QuestChain and WoWpoCesku_QuestChain[id]
+    if chainInfo then
+        local function nameOf(qid)
+            for _, e in ipairs(WoWpoCesku_DungeonQuests and WoWpoCesku_DungeonQuests[key] or {}) do if e[1] == qid then return e[2] end end
+            local d2 = WoWpoCesku_Data and WoWpoCesku_Data[qid]
+            return d2 and (d2.en_title or d2.title) or ("quest " .. qid)
+        end
+        local parts = {}
+        if chainInfo.prev and chainInfo.prev > 0 then parts[#parts + 1] = "Vyžaduje předchozí quest: " .. nameOf(chainInfo.prev) end
+        if chainInfo.nextq and chainInfo.nextq > 0 then parts[#parts + 1] = "Pokračuje questem: " .. nameOf(chainInfo.nextq) end
+        if #parts > 0 then addText(R, "|TInterface\\Icons\\Spell_Frost_ChainsOfIce:14|t Řada questů. " .. table.concat(parts, ". ") .. ".", 12, RED, 6) end
+    end
     addRule(R)
     local obj = d and d.objectives
     if obj and obj ~= "" then
@@ -1239,7 +1271,7 @@ showDetail = function()
     end
     win.browseSf:Hide(); win.detail:Show()
     local key = state.key
-    setBanner(win.banner, key, 730, 88)
+    setBanner(win.banner, key, 870, 88)
     win.name:SetText(key)
     win.tag:SetText(levelText(key) or "")
     setTabs()
@@ -1248,16 +1280,16 @@ showDetail = function()
     win.boxL:SetShown(twoPane)
     win.boxR:ClearAllPoints()
     win.boxR:SetPoint("TOPLEFT", twoPane and 324 or 24, -190)
-    win.boxR:SetSize(twoPane and 444 or 744, 368)
+    win.boxR:SetSize(twoPane and 584 or 884, 368)
     win.rightSf:ClearAllPoints()
     if twoPane then
         win.rightSf:SetPoint("TOPLEFT", 340, -202)
-        win.rightSf:SetSize(396, 344)
-        win.right.w = 396 - 26
+        win.rightSf:SetSize(536, 344)
+        win.right.w = 536 - 26
     else
         win.rightSf:SetPoint("TOPLEFT", 36, -202)
-        win.rightSf:SetSize(696, 344)
-        win.right.w = 696 - 26
+        win.rightSf:SetSize(836, 344)
+        win.right.w = 836 - 26
     end
     win.right:SetWidth(win.right.w)
     if state.tab == "bossove" then renderBosses(key)
@@ -1280,7 +1312,7 @@ end
 -------------------------------------------------------------------------------
 local function build()
     win = CreateFrame("Frame", "WoWpoCeskuDungeony", UIParent, "BackdropTemplate")
-    win:SetSize(800, 600)
+    win:SetSize(940, 600)
     win:SetPoint("CENTER")
     win:SetFrameStrata("DIALOG")
     win:SetToplevel(true)
@@ -1318,8 +1350,8 @@ local function build()
     head:SetText("Dungeon průvodce")
 
     -- přehled (karty)
-    win.browseSf, win.browse = newScroll(win, 30, -70, 716, 500)
-    win.browse.w = 716 - 26
+    win.browseSf, win.browse = newScroll(win, 30, -70, 856, 500)
+    win.browse.w = 856 - 26
 
     -- detail
     win.detail = CreateFrame("Frame", nil, win)
@@ -1327,7 +1359,7 @@ local function build()
 
     win.banner = makeBanner(win.detail)
     win.banner:SetPoint("TOPLEFT", 30, -62)
-    win.banner:SetSize(730, 88)
+    win.banner:SetSize(870, 88)
 
     local back = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
     back:SetFrameLevel(win.detail:GetFrameLevel() + 7)
@@ -1389,10 +1421,10 @@ local function build()
     win.boxL:SetSize(284, 368)
     win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
     win.boxR:SetPoint("TOPLEFT", 324, -190)
-    win.boxR:SetSize(444, 368)
+    win.boxR:SetSize(584, 368)
     win.leftSf, win.left = newScroll(win.detail, 36, -202, 236, 344)
-    win.rightSf, win.right = newScroll(win.detail, 340, -202, 396, 344)
-    win.right.w = 396 - 26
+    win.rightSf, win.right = newScroll(win.detail, 340, -202, 536, 344)
+    win.right.w = 536 - 26
 end
 
 -------------------------------------------------------------------------------
