@@ -464,11 +464,10 @@ end
 
 local function showEntrance(key)
     local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
-    local e = findEntrance(key)
-    if not e then
-        local m = WoWpoCesku_DungeonEntryMap and WoWpoCesku_DungeonEntryMap[key]
-        if m then e = { uiMap = m[1], u = m[2], v = m[3], zone = m[4] } end
-    end
+    local e
+    local m = WoWpoCesku_DungeonEntryMap and WoWpoCesku_DungeonEntryMap[key]
+    if m then e = { uiMap = m[1], u = m[2], v = m[3], zone = m[4] } end
+    if not e then e = findEntrance(key) end
     if not e then
         local o = WoWpoCesku_DungeonEntryOut and WoWpoCesku_DungeonEntryOut[key]
         if o then
@@ -495,6 +494,11 @@ local function showEntrance(key)
         end)
     end
     setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 56)
+    C_Timer.After(1.5, function()
+        local shown = 0
+        for _, p in ipairs(djPins) do if p:IsShown() then shown = shown + 1 end end
+        say(("(diagnostika) mapa ve hre %s, mapa znacky %s, viditelnych znacek %d"):format(tostring(WorldMapFrame and WorldMapFrame:GetMapID()), tostring(e.uiMap), shown))
+    end)
     say(("vstup %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
