@@ -1832,7 +1832,7 @@ end
 
 -- Zkouška ikon vchodu: /czq ikony  (ukáže herní atlasy a textury, které by šly použít jako značka)
 local iconWin
-function WoWpoCesku_IconTest()
+function WoWpoCesku_IconTest(arg)
     local atlases = { "Dungeon", "Raid", "dungeon", "raid", "DungeonSkull", "UI-EJ-Dungeon", "worldquest-icon-dungeon", "poi-door",
         "Dungeon-Portal", "Portal", "MapPin-Dungeon", "dungeonentrance", "Dungeon-Entrance", "WorldMapDungeon", "Vehicle-Dungeon",
         "poi-dungeon", "VignetteKill", "MiniMap-DeadArrow", "Warfront-NeutralHero", "campaign-icon-dungeon", "ui-ej-dungeonicon",
@@ -1840,6 +1840,16 @@ function WoWpoCesku_IconTest()
     local textures = { "Interface\\EncounterJournal\\UI-EJ-PortraitIcon", "Interface\\Minimap\\ObjectIcons",
         "Interface\\EncounterJournal\\UI-EJ-Icons", "Interface\\EncounterJournal\\UI-EJ-Buttons", "Interface\\Icons\\INV_Misc_Gear_01",
         "Interface\\Minimap\\POIIcons", "Interface\\WorldMap\\UI-World-Icon" }
+    if arg == "frakce" then
+        atlases = { "poi-horde", "poi-alliance", "bfa-landingbutton-horde-up", "bfa-landingbutton-alliance-up", "Warfront-HordeHero", "Warfront-AllianceHero",
+            "worldquest-icon-horde", "worldquest-icon-alliance", "honorsystem-icon-prestige-1", "AllianceAssaultsMapBanner", "HordeAssaultsMapBanner",
+            "pvpqueue-sidebar-honorbar-frame", "ui-hud-unitframe-target-portraiton-pvp-horde", "charactercreate-icon-horde", "charactercreate-icon-alliance",
+            "Horde", "Alliance", "ShipMissionIcon-Treasure-Mission", "WoWLabs-hordeicon", "mission-icon-horde", "Garr_HordeHero", "PVPFrame-Icon-Horde", "PVPFrame-Icon-Alliance" }
+        textures = { "Interface\\FriendsFrame\\PlusManz-Horde", "Interface\\FriendsFrame\\PlusManz-Alliance", "Interface\\TargetingFrame\\UI-PVP-Horde",
+            "Interface\\TargetingFrame\\UI-PVP-Alliance", "Interface\\PVPFrame\\PVP-Currency-Horde", "Interface\\PVPFrame\\PVP-Currency-Alliance",
+            "Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Factions", "Interface\\Icons\\INV_BannerPVP_01", "Interface\\Icons\\INV_BannerPVP_02",
+            "Interface\\WorldStateFrame\\HordeIcon", "Interface\\WorldStateFrame\\AllianceIcon" }
+    end
     local items = {}
     for _, a in ipairs(atlases) do
         local ok = C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(a)
