@@ -1,0 +1,716 @@
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md
+-- WoWpoCesku: Dungeonový deník – samostatné okno. Přehled dungeonů a raidů, detail se záložkami
+-- Bossové a kořist / Questy / Průvodce. Otevře se příkazem /czq dungeon nebo tlačítkem v Kronice.
+-- Data: DataDungeony (bossové, questy), DataKoristi (kořist, ID příšer), DataPruvodce (průvodce, místa questů),
+-- DataObrazky (která instance má malovaný banner v Textures\Dungeony).
+
+local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
+local PARCHMENT = "Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga"
+local ART = "Interface\\AddOns\\WoWpoCesku\\Textures\\Dungeony\\"
+local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.42, 0.30, 0.18 }
+local QUALITY = { [2] = "|cff1a7a1a", [3] = "|cff0b5cc4", [4] = "|cff8a2be2" }
+local QCOLOR = { [2] = { 0.10, 0.48, 0.10 }, [3] = { 0.04, 0.36, 0.77 }, [4] = { 0.54, 0.17, 0.89 } }
+local GREEN = "|cff1d6b1d"
+
+local DUNGEONS = { "Ragefire Chasm", "Wailing Caverns", "The Deadmines", "Shadowfang Keep", "Blackfathom Deeps",
+    "The Stockade", "Gnomeregan", "Razorfen Kraul", "Scarlet Monastery", "Razorfen Downs", "Uldaman", "Zul'Farrak",
+    "Maraudon", "Sunken Temple", "Blackrock Depths", "Blackrock Spire", "Dire Maul", "Scholomance", "Stratholme" }
+local RAIDS = { "Molten Core", "Onyxia's Lair", "Blackwing Lair", "Zul'Gurub", "Ruins of Ahn'Qiraj",
+    "Ahn'Qiraj Temple", "Naxxramas" }
+
+-- barva instance (banner, když ještě není malovaný obrázek)
+local ACCENT = {
+    ["Ragefire Chasm"] = { 0.80, 0.30, 0.10 }, ["Wailing Caverns"] = { 0.20, 0.55, 0.30 }, ["The Deadmines"] = { 0.35, 0.45, 0.60 },
+    ["Shadowfang Keep"] = { 0.45, 0.35, 0.55 }, ["Blackfathom Deeps"] = { 0.20, 0.50, 0.55 }, ["The Stockade"] = { 0.50, 0.50, 0.55 },
+    ["Gnomeregan"] = { 0.75, 0.55, 0.25 }, ["Razorfen Kraul"] = { 0.50, 0.55, 0.25 }, ["Scarlet Monastery"] = { 0.70, 0.20, 0.20 },
+    ["Razorfen Downs"] = { 0.55, 0.65, 0.70 }, ["Uldaman"] = { 0.70, 0.55, 0.35 }, ["Zul'Farrak"] = { 0.65, 0.60, 0.30 },
+    ["Maraudon"] = { 0.50, 0.35, 0.60 }, ["Sunken Temple"] = { 0.30, 0.55, 0.40 }, ["Blackrock Depths"] = { 0.65, 0.30, 0.20 },
+    ["Blackrock Spire"] = { 0.55, 0.30, 0.20 }, ["Dire Maul"] = { 0.45, 0.60, 0.35 }, ["Scholomance"] = { 0.40, 0.25, 0.50 },
+    ["Stratholme"] = { 0.60, 0.30, 0.30 }, ["Molten Core"] = { 0.85, 0.40, 0.10 }, ["Onyxia's Lair"] = { 0.60, 0.20, 0.20 },
+    ["Blackwing Lair"] = { 0.50, 0.15, 0.15 }, ["Zul'Gurub"] = { 0.35, 0.55, 0.25 }, ["Ruins of Ahn'Qiraj"] = { 0.70, 0.60, 0.30 },
+    ["Ahn'Qiraj Temple"] = { 0.60, 0.50, 0.30 }, ["Naxxramas"] = { 0.40, 0.60, 0.55 },
+}
+
+local TABS = {
+    { id = "bossove", label = "Bossové a kořist" },
+    { id = "questy", label = "Questy" },
+    { id = "pruvodce", label = "Průvodce" },
+}
+
+local win
+local state = { view = "list", key = nil, tab = "bossove", boss = {}, quest = {} }
+
+-------------------------------------------------------------------------------
+-- Pomocné
+-------------------------------------------------------------------------------
+local function newFont(name, size, r, g, b)
+    local f = CreateFont(name)
+    f:SetFont(FONT, size, "")
+    f:SetTextColor(r, g, b)
+    return f
+end
+
+local function text(parent, size, r, g, b)
+    local t = parent:CreateFontString(nil, "OVERLAY")
+    t:SetFont(FONT, size, "")
+    t:SetTextColor(r, g, b)
+    t:SetJustifyH("LEFT")
+    t:SetSpacing(2)
+    return t
+end
+
+local function settings()
+    WoWpoCeskuSettings = WoWpoCeskuSettings or {}
+    return WoWpoCeskuSettings
+end
+
+local function myFactionLetter()
+    local f = UnitFactionGroup and UnitFactionGroup("player")
+    if f == "Horde" then return "H" elseif f == "Alliance" then return "A" end
+end
+
+local function questDone(id)
+    if C_QuestLog and C_QuestLog.IsQuestFlaggedCompleted then
+        local ok, v = pcall(C_QuestLog.IsQuestFlaggedCompleted, id)
+        return ok and v or false
+    end
+    return false
+end
+
+local function killedBosses(key)
+    local S = WoWpoCeskuSeen
+    return (S and S.bosses and S.bosses[key]) or {}
+end
+
+local function questList(key)
+    local out, seen = {}, {}
+    local fac = myFactionLetter()
+    for _, e in ipairs((WoWpoCesku_DungeonQuests and WoWpoCesku_DungeonQuests[key]) or {}) do
+        local f = e[5]
+        if (not f or not fac or f == fac) and not seen[e[2]] then
+            seen[e[2]] = true
+            out[#out + 1] = e
+        end
+    end
+    return out
+end
+
+local function bossList(key)
+    local out = {}
+    for _, b in ipairs((WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]) or {}) do
+        if not b.sekce then out[#out + 1] = b end
+    end
+    return out
+end
+
+local function levelText(key)
+    local L = WoWpoCesku_Lore and WoWpoCesku_Lore[key]
+    local lv = L and L.tag and L.tag:match("levely%s+([%d–%-]+)")
+    return lv and ("Levely " .. lv) or nil
+end
+
+-- plynulý přechod barvy (nový i starý způsob zápisu; když nejde ani jeden, zůstane plná plocha)
+local function gradient(tex, r, g, b, a1, a2)
+    tex:SetColorTexture(r, g, b, math.max(a1, a2))
+    if tex.SetGradient and CreateColor then
+        local ok = pcall(tex.SetGradient, tex, "HORIZONTAL", CreateColor(r, g, b, a1), CreateColor(r, g, b, a2))
+        if ok then return end
+    end
+    if tex.SetGradientAlpha then pcall(tex.SetGradientAlpha, tex, "HORIZONTAL", r, g, b, a1, r, g, b, a2) end
+end
+
+-- banner instance: malovaný obrázek, když existuje, jinak barevná plocha; w/h = poměr cílové plochy
+local function setBanner(frame, key, w, h)
+    local slug = WoWpoCesku_DungeonArt and WoWpoCesku_DungeonArt[key]
+    local c = ACCENT[key] or { 0.5, 0.4, 0.3 }
+    if slug then
+        frame.art:SetTexture(ART .. slug)
+        local want = w / h
+        local have = 8   -- textura je 512×64
+        if want < have then
+            local cut = (1 - want / have) / 2
+            frame.art:SetTexCoord(cut, 1 - cut, 0, 1)
+        else
+            frame.art:SetTexCoord(0, 1, 0, 1)
+        end
+        frame.art:SetVertexColor(1, 1, 1, 1)
+        frame.art:Show()
+    else
+        frame.art:SetColorTexture(c[1] * 0.55, c[2] * 0.55, c[3] * 0.55, 1)
+        frame.art:SetTexCoord(0, 1, 0, 1)
+        frame.art:Show()
+    end
+    gradient(frame.shade, 0.05, 0.03, 0.02, 0.78, 0.10)
+    frame.bar:SetColorTexture(c[1], c[2], c[3], 1)
+end
+
+local function makeBanner(parent)
+    local f = CreateFrame("Frame", nil, parent)
+    f.art = f:CreateTexture(nil, "BACKGROUND")
+    f.art:SetAllPoints()
+    f.shade = f:CreateTexture(nil, "BORDER")
+    f.shade:SetAllPoints()
+    f.bar = f:CreateTexture(nil, "ARTWORK")
+    f.bar:SetPoint("TOPLEFT", 0, 0)
+    f.bar:SetPoint("BOTTOMLEFT", 0, 0)
+    f.bar:SetWidth(5)
+    f.edge = f:CreateTexture(nil, "OVERLAY")
+    f.edge:SetPoint("BOTTOMLEFT", 0, 0)
+    f.edge:SetPoint("BOTTOMRIGHT", 0, 0)
+    f.edge:SetHeight(1)
+    f.edge:SetColorTexture(0.9, 0.75, 0.45, 0.7)
+    return f
+end
+
+-------------------------------------------------------------------------------
+-- Posuvné panely se samostatnými hromádkami textů, předmětů a řádků seznamu
+-------------------------------------------------------------------------------
+local function newScroll(parent, x, y, w, h)
+    local sf = CreateFrame("ScrollFrame", nil, parent, "UIPanelScrollFrameTemplate")
+    sf:SetPoint("TOPLEFT", x, y)
+    sf:SetSize(w, h)
+    local c = CreateFrame("Frame", nil, sf)
+    c.w = w - 26
+    c:SetSize(c.w, 10)
+    sf:SetScrollChild(c)
+    c.texts, c.items, c.rows, c.cards = {}, {}, {}, {}
+    c.nt, c.ni, c.nr, c.nc, c.y = 0, 0, 0, 0, 0
+    c.portrait = false
+    return sf, c
+end
+
+local function reset(c)
+    c.y, c.nt, c.ni, c.nr, c.nc = 0, 0, 0, 0, 0
+    for _, t in ipairs(c.texts) do t:Hide() end
+    for _, b in ipairs(c.items) do b:Hide() end
+    for _, b in ipairs(c.rows) do b:Hide() end
+    for _, b in ipairs(c.cards) do b:Hide() end
+    if c.portrait then c.portrait:Hide() end
+end
+
+local function addText(c, str, size, color, gap, indent, width)
+    c.nt = c.nt + 1
+    local t = c.texts[c.nt]
+    if not t then
+        t = text(c, size, 1, 1, 1)
+        c.texts[c.nt] = t
+    end
+    t:SetFont(FONT, size, "")
+    t:SetTextColor(color[1], color[2], color[3])
+    t:ClearAllPoints()
+    t:SetPoint("TOPLEFT", indent or 0, -c.y)
+    t:SetWidth(width or (c.w - (indent or 0)))
+    t:SetText(str)
+    t:Show()
+    c.y = c.y + (t:GetStringHeight() or 14) + (gap or 6)
+end
+
+-- tenká ozdobná čára pod nadpisem
+local function addRule(c)
+    c.ni = c.ni + 1
+    local b = c.items[c.ni]
+    if not b or not b.isRule then
+        b = CreateFrame("Frame", nil, c)
+        b.isRule = true
+        b.t = b:CreateTexture(nil, "ARTWORK")
+        b.t:SetAllPoints()
+        b.t:SetColorTexture(0.50, 0.12, 0.05, 0.35)
+        c.items[c.ni] = b
+    end
+    b:SetHeight(1)
+    b:ClearAllPoints()
+    b:SetPoint("TOPLEFT", 0, -c.y)
+    b:SetWidth(c.w)
+    b:Show()
+    c.y = c.y + 8
+end
+
+-------------------------------------------------------------------------------
+-- Předměty (ikona s rámečkem kvality, jméno, typ; tooltip při najetí)
+-------------------------------------------------------------------------------
+local function itemIcon(id)
+    local icon
+    if C_Item and C_Item.GetItemIconByID then
+        local ok, v = pcall(C_Item.GetItemIconByID, id)
+        if ok then icon = v end
+    end
+    if not icon and GetItemIcon then
+        local ok, v = pcall(GetItemIcon, id)
+        if ok then icon = v end
+    end
+    return icon or "Interface\\Icons\\INV_Misc_QuestionMark"
+end
+
+local function itemKind(id)
+    if not GetItemInfoInstant then return "" end
+    local ok, _, _, subType, equipLoc = pcall(GetItemInfoInstant, id)
+    if not ok then return "" end
+    local parts = {}
+    local slot = equipLoc and equipLoc ~= "" and _G[equipLoc] or nil
+    if slot then parts[#parts + 1] = slot end
+    if subType and subType ~= "" then parts[#parts + 1] = subType end
+    return table.concat(parts, ", ")
+end
+
+local function showItemTip(self)
+    if not self.itemID then return end
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    local ok = GameTooltip.SetItemByID and pcall(GameTooltip.SetItemByID, GameTooltip, self.itemID)
+    if not ok then pcall(GameTooltip.SetHyperlink, GameTooltip, "item:" .. self.itemID) end
+    GameTooltip:Show()
+end
+
+local function addItem(c, name, quality, id)
+    c.ni = c.ni + 1
+    local b = c.items[c.ni]
+    if not b or b.isRule then
+        b = CreateFrame("Button", nil, c)
+        b:SetHeight(40)
+        b.bg = b:CreateTexture(nil, "BACKGROUND")
+        b.bg:SetAllPoints()
+        b.bg:SetColorTexture(0.55, 0.40, 0.22, 0.14)
+        b.frame = CreateFrame("Frame", nil, b, "BackdropTemplate")
+        b.frame:SetSize(34, 34)
+        b.frame:SetPoint("LEFT", 4, 0)
+        b.frame:SetBackdrop({ edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
+        b.icon = b:CreateTexture(nil, "ARTWORK")
+        b.icon:SetPoint("TOPLEFT", b.frame, "TOPLEFT", 2, -2)
+        b.icon:SetPoint("BOTTOMRIGHT", b.frame, "BOTTOMRIGHT", -2, 2)
+        b.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        b.label = text(b, 13, INK[1], INK[2], INK[3])
+        b.label:SetPoint("TOPLEFT", b.frame, "TOPRIGHT", 8, -2)
+        b.kind = text(b, 11, SEPIA[1], SEPIA[2], SEPIA[3])
+        b.kind:SetPoint("TOPLEFT", b.label, "BOTTOMLEFT", 0, -1)
+        b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+        b:SetScript("OnEnter", showItemTip)
+        b:SetScript("OnLeave", function() GameTooltip:Hide() end)
+        c.items[c.ni] = b
+    end
+    local qc = QCOLOR[quality] or { 0.4, 0.3, 0.2 }
+    b.itemID = id
+    b:ClearAllPoints()
+    b:SetPoint("TOPLEFT", 0, -c.y)
+    b:SetWidth(c.w)
+    b.frame:SetBackdropBorderColor(qc[1], qc[2], qc[3], 1)
+    b.icon:SetTexture(itemIcon(id))
+    b.label:SetWidth(c.w - 56)
+    b.label:SetText((QUALITY[quality] or "") .. name .. "|r")
+    b.kind:SetWidth(c.w - 56)
+    b.kind:SetText(itemKind(id))
+    b:Show()
+    c.y = c.y + 44
+end
+
+-------------------------------------------------------------------------------
+-- 3D portrét bosse (model příšery z ID); když ho klient nepozná, zůstane prázdný rámeček
+-------------------------------------------------------------------------------
+local function showPortrait(c, npcID)
+    if not c.portrait then
+        local f = CreateFrame("Frame", nil, c, "BackdropTemplate")
+        f:SetSize(120, 150)
+        f:SetBackdrop({
+            bgFile = "Interface\\Buttons\\WHITE8x8",
+            edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2,
+        })
+        f:SetBackdropColor(0.10, 0.06, 0.04, 0.92)
+        f:SetBackdropBorderColor(0.50, 0.30, 0.16, 1)
+        f.model = CreateFrame("PlayerModel", nil, f)
+        f.model:SetPoint("TOPLEFT", 3, -3)
+        f.model:SetPoint("BOTTOMRIGHT", -3, 3)
+        c.portrait = f
+    end
+    local f = c.portrait
+    f:ClearAllPoints()
+    f:SetPoint("TOPRIGHT", c, "TOPRIGHT", 0, 0)
+    local ok = npcID and pcall(function()
+        f.model:ClearModel()
+        f.model:SetCreature(npcID)
+        if f.model.SetPortraitZoom then f.model:SetPortraitZoom(0.8) end
+    end)
+    f:SetShown(ok and true or false)
+    return ok
+end
+
+-------------------------------------------------------------------------------
+-- Seznam vlevo (bossové / questy)
+-------------------------------------------------------------------------------
+local function addRow(c, title, sub, mark, selected, onClick)
+    c.nr = c.nr + 1
+    local b = c.rows[c.nr]
+    if not b then
+        b = CreateFrame("Button", nil, c)
+        b:SetHeight(44)
+        b.sel = b:CreateTexture(nil, "BACKGROUND")
+        b.sel:SetAllPoints()
+        b.sel:SetColorTexture(0.78, 0.55, 0.30, 0.55)
+        b.accent = b:CreateTexture(nil, "ARTWORK")
+        b.accent:SetPoint("TOPLEFT", 0, 0)
+        b.accent:SetPoint("BOTTOMLEFT", 0, 0)
+        b.accent:SetWidth(4)
+        b.accent:SetColorTexture(0.50, 0.12, 0.05, 1)
+        b.line = b:CreateTexture(nil, "BORDER")
+        b.line:SetPoint("BOTTOMLEFT", 0, 0)
+        b.line:SetPoint("BOTTOMRIGHT", 0, 0)
+        b.line:SetHeight(1)
+        b.line:SetColorTexture(0.45, 0.30, 0.16, 0.35)
+        b.check = b:CreateTexture(nil, "ARTWORK")
+        b.check:SetSize(18, 18)
+        b.check:SetPoint("RIGHT", -4, 0)
+        b.check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+        b.label = text(b, 13, INK[1], INK[2], INK[3])
+        b.label:SetPoint("TOPLEFT", 12, -6)
+        b.sub = text(b, 11, SEPIA[1], SEPIA[2], SEPIA[3])
+        b.sub:SetPoint("TOPLEFT", b.label, "BOTTOMLEFT", 0, -1)
+        b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+        c.rows[c.nr] = b
+    end
+    b:ClearAllPoints()
+    b:SetPoint("TOPLEFT", 0, -c.y)
+    b:SetWidth(c.w)
+    b.label:SetWidth(c.w - 40)
+    b.sub:SetWidth(c.w - 40)
+    b.label:SetText(title)
+    b.sub:SetText(sub or "")
+    b.check:SetShown(mark and true or false)
+    b.sel:SetShown(selected and true or false)
+    b.accent:SetShown(selected and true or false)
+    b:SetScript("OnClick", onClick)
+    b:Show()
+    c.y = c.y + 45
+end
+
+-------------------------------------------------------------------------------
+-- Obsah záložek
+-------------------------------------------------------------------------------
+local showDetail
+
+local function renderBosses(key)
+    local L, R = win.left, win.right
+    reset(L); reset(R)
+    local bosses = bossList(key)
+    if #bosses == 0 then
+        addText(R, "Pro tuhle instanci zatím nemám seznam bossů.", 13, INK)
+        return
+    end
+    local killed = killedBosses(key)
+    local cur = state.boss[key]
+    local found = false
+    for _, b in ipairs(bosses) do if b[1] == cur then found = true end end
+    if not found then cur = bosses[1][1]; state.boss[key] = cur end
+    for _, b in ipairs(bosses) do
+        addRow(L, b[1], (b[2] and b[2] ~= "") and b[2] or nil, killed[b[1]] ~= nil, b[1] == cur,
+            function() state.boss[key] = b[1]; showDetail() end)
+    end
+    local sel
+    for _, b in ipairs(bosses) do if b[1] == cur then sel = b end end
+
+    -- hlavička: portrét vpravo, jméno a popis vlevo
+    local npc = WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][sel[1]]
+    local hasModel = showPortrait(R, npc)
+    local textW = hasModel and (R.w - 134) or nil
+    addText(R, sel[1], 20, RED, 2, 0, textW)
+    if sel[2] and sel[2] ~= "" then addText(R, sel[2], 12, SEPIA, 4, 0, textW) end
+    if killed[sel[1]] then addText(R, GREEN .. "Poražen " .. date("%d.%m.%Y", killed[sel[1]]) .. "|r", 12, INK, 6, 0, textW) end
+    local note = WoWpoCesku_PostavyNote and WoWpoCesku_PostavyNote(sel[1])
+    if note then addText(R, note, 12, INK, 8, 0, textW) end
+    if hasModel and R.y < 158 then R.y = 158 end
+    addRule(R)
+    local loot = WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][sel[1]]
+    if loot and #loot > 0 then
+        addText(R, "Může padnout", 14, RED, 6)
+        for _, it in ipairs(loot) do addItem(R, it[1], it[2], it[3]) end
+        addText(R, "Kořist je z classic databáze, ve WoW Forever se může lišit. Najeď myší na předmět.", 11, SEPIA, 4)
+    else
+        addText(R, "V databázi pro něj není žádné zelené, modré ani epické vybavení.", 12, SEPIA, 4)
+    end
+end
+
+local function renderQuests(key)
+    local L, R = win.left, win.right
+    reset(L); reset(R)
+    local list = questList(key)
+    if #list == 0 then
+        addText(R, "K téhle instanci nemám v databázi žádné questy.", 13, INK)
+        return
+    end
+    local cur = state.quest[key]
+    local found = false
+    for _, e in ipairs(list) do if e[1] == cur then found = true end end
+    if not found then cur = list[1][1]; state.quest[key] = cur end
+    for _, e in ipairs(list) do
+        local cz = WoWpoCesku_Data and WoWpoCesku_Data[e[1]] and WoWpoCesku_Data[e[1]].title
+        local title = (cz and cz ~= e[2]) and cz or e[2]
+        addRow(L, title, ("od levelu %d"):format(e[4]), questDone(e[1]), e[1] == cur,
+            function() state.quest[key] = e[1]; showDetail() end)
+    end
+    local sel
+    for _, e in ipairs(list) do if e[1] == cur then sel = e end end
+    local id = sel[1]
+    local d = WoWpoCesku_Data and WoWpoCesku_Data[id]
+    local cz = d and d.title
+    addText(R, (cz and cz ~= sel[2]) and cz or sel[2], 19, RED, 2)
+    if cz and cz ~= sel[2] then addText(R, sel[2], 12, SEPIA, 4) end
+    addText(R, ("Level questu %d · dostupný od levelu %d"):format(sel[3], sel[4]) .. (questDone(id) and ("  " .. GREEN .. "(splněno)|r") or ""), 12, SEPIA, 6)
+    addRule(R)
+    local obj = d and d.objectives
+    if obj and obj ~= "" then
+        addText(R, "Cíl", 14, RED, 2)
+        addText(R, obj, 13, INK, 10)
+    end
+    local place = WoWpoCesku_DungeonQuestPlaces and WoWpoCesku_DungeonQuestPlaces[id]
+    addText(R, "Začíná u", 14, RED, 2)
+    if sel[6] and sel[6] ~= "" then
+        addText(R, sel[6] .. (place and (", " .. place) or ""), 13, INK, 10)
+    else
+        addText(R, "Začíná předmětem, který najdeš v dungeonu nebo u nepřítele.", 13, INK, 10)
+    end
+    local ends = WoWpoCesku_DungeonQuestEnds and WoWpoCesku_DungeonQuestEnds[id]
+    if ends then
+        addText(R, "Odevzdává se u", 14, RED, 2)
+        addText(R, ends, 13, INK, 10)
+    end
+    if sel[7] and sel[7] ~= "" then
+        addText(R, "Odměna", 14, RED, 2)
+        addText(R, sel[7], 13, INK, 10)
+    end
+    addText(R, "Podle classic databáze. Ve WoW Forever se může něco lišit.", 11, SEPIA, 4)
+end
+
+local function renderGuide(key)
+    local R = win.right
+    reset(win.left); reset(R)
+    local g = WoWpoCesku_DungeonGuide and WoWpoCesku_DungeonGuide[key]
+    if not g then addText(R, "Průvodce pro tuhle instanci ještě není.", 13, INK) return end
+    addText(R, g, 13, INK, 10)
+    local T = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
+    if T then
+        addRule(R)
+        addText(R, "Tajemství a drobnosti", 15, RED, 6)
+        addText(R, T, 12, INK, 8)
+    end
+end
+
+-------------------------------------------------------------------------------
+-- Přehled a detail
+-------------------------------------------------------------------------------
+local function renderList()
+    local c = win.browse
+    reset(c)
+    local colW = math.floor((c.w - 12) / 2)
+    local CARD_H = 76
+    local function card(key, x, y)
+        c.nc = c.nc + 1
+        local b = c.cards[c.nc]
+        if not b then
+            b = CreateFrame("Button", nil, c)
+            b:SetHeight(CARD_H)
+            b.banner = makeBanner(b)
+            b.banner:SetAllPoints()
+            b.name = text(b, 16, 1, 0.95, 0.80)
+            b.name:SetPoint("TOPLEFT", 14, -10)
+            b.name:SetShadowOffset(1, -1)
+            b.info = text(b, 12, 0.95, 0.90, 0.80)
+            b.info:SetPoint("TOPLEFT", b.name, "BOTTOMLEFT", 0, -4)
+            b.info:SetShadowOffset(1, -1)
+            b.prog = text(b, 11, 0.85, 0.80, 0.68)
+            b.prog:SetPoint("TOPLEFT", b.info, "BOTTOMLEFT", 0, -2)
+            b.prog:SetShadowOffset(1, -1)
+            b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+            c.cards[c.nc] = b
+        end
+        b:ClearAllPoints()
+        b:SetPoint("TOPLEFT", x, -y)
+        b:SetWidth(colW)
+        b.name:SetWidth(colW - 28)
+        b.info:SetWidth(colW - 28)
+        b.prog:SetWidth(colW - 28)
+        setBanner(b.banner, key, colW, CARD_H)
+        b.name:SetText(key)
+        local bosses, quests = bossList(key), questList(key)
+        local killed, n = killedBosses(key), 0
+        for _, bs in ipairs(bosses) do if killed[bs[1]] then n = n + 1 end end
+        local lv = levelText(key)
+        b.info:SetText((lv or "") .. ((lv and #quests > 0) and " · " or "") .. (#quests > 0 and (#quests .. " questů") or ""))
+        b.prog:SetText(#bosses > 0 and ("Poraženo bossů: " .. n .. " z " .. #bosses .. ((n == #bosses) and "  ✔" or "")) or "")
+        b:SetScript("OnClick", function() state.view = "detail"; state.key = key; settings().djKey = key; showDetail() end)
+        b:Show()
+    end
+    local function section(label, list)
+        addText(c, label, 17, RED, 4)
+        addRule(c)
+        local y = c.y
+        for i, key in ipairs(list) do
+            local col = (i - 1) % 2
+            local row = math.floor((i - 1) / 2)
+            card(key, col * (colW + 12), y + row * (CARD_H + 8))
+        end
+        c.y = y + math.ceil(#list / 2) * (CARD_H + 8) + 8
+    end
+    section("Dungeony", DUNGEONS)
+    section("Raidy", RAIDS)
+    c:SetHeight(c.y + 10)
+end
+
+local function setTabs()
+    for _, t in ipairs(win.tabs) do
+        local active = (t.id == state.tab)
+        t:SetNormalFontObject(active and win.fontActive or win.fontNormal)
+        t.bg:SetColorTexture(active and 0.80 or 0.88, active and 0.60 or 0.80, active and 0.38 or 0.62, active and 0.85 or 0.45)
+        t.under:SetShown(active)
+    end
+end
+
+showDetail = function()
+    if not win then return end
+    if state.view == "list" or not state.key then
+        win.detail:Hide(); win.browseSf:Show()
+        renderList()
+        win.browseSf:SetVerticalScroll(0)
+        return
+    end
+    win.browseSf:Hide(); win.detail:Show()
+    local key = state.key
+    setBanner(win.banner, key, 730, 88)
+    win.name:SetText(key)
+    win.tag:SetText(levelText(key) or "")
+    setTabs()
+    local twoPane = (state.tab ~= "pruvodce")
+    win.leftSf:SetShown(twoPane)
+    win.rightSf:ClearAllPoints()
+    if twoPane then
+        win.rightSf:SetPoint("TOPLEFT", 290, -178)
+        win.rightSf:SetSize(470, 372)
+        win.right.w = 470 - 26
+    else
+        win.rightSf:SetPoint("TOPLEFT", 30, -178)
+        win.rightSf:SetSize(730, 372)
+        win.right.w = 730 - 26
+    end
+    win.right:SetWidth(win.right.w)
+    if state.tab == "bossove" then renderBosses(key)
+    elseif state.tab == "questy" then renderQuests(key)
+    else renderGuide(key) end
+    win.left:SetHeight(math.max(win.left.y + 10, 10))
+    win.right:SetHeight(math.max(win.right.y + 10, 10))
+    win.rightSf:SetVerticalScroll(0)
+end
+
+-------------------------------------------------------------------------------
+-- Okno
+-------------------------------------------------------------------------------
+local function build()
+    win = CreateFrame("Frame", "WoWpoCeskuDungeony", UIParent, "BackdropTemplate")
+    win:SetSize(800, 600)
+    win:SetPoint("CENTER")
+    win:SetFrameStrata("DIALOG")
+    win:SetToplevel(true)
+    win:SetBackdrop({
+        bgFile = "Interface\\Buttons\\WHITE8x8",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 },
+    })
+    win:SetBackdropColor(0.23, 0.13, 0.07, 1)
+    local tex = win:CreateTexture(nil, "BACKGROUND", nil, 1)
+    tex:SetPoint("TOPLEFT", 11, -11)
+    tex:SetPoint("BOTTOMRIGHT", -11, 11)
+    tex:SetTexture(PARCHMENT)
+    win:EnableMouse(true)
+    win:SetMovable(true)
+    win:SetClampedToScreen(true)
+    win:RegisterForDrag("LeftButton")
+    win:SetScript("OnDragStart", win.StartMoving)
+    win:SetScript("OnDragStop", win.StopMovingOrSizing)
+    win:Hide()
+    if UISpecialFrames then table.insert(UISpecialFrames, "WoWpoCeskuDungeony") end
+
+    win.fontNormal = newFont("WoWpoCeskuDJTab", 12, INK[1], INK[2], INK[3])
+    win.fontActive = newFont("WoWpoCeskuDJTabOn", 12, RED[1], RED[2], RED[3])
+    win.fontBack = newFont("WoWpoCeskuDJBack", 12, 1, 0.92, 0.75)
+
+    local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
+    close:SetPoint("TOPRIGHT", -8, -8)
+
+    local head = text(win, 22, RED[1], RED[2], RED[3])
+    head:SetPoint("TOP", 0, -24)
+    head:SetText("Dungeonový deník")
+
+    -- přehled (karty)
+    win.browseSf, win.browse = newScroll(win, 30, -70, 740, 500)
+    win.browse.w = 740 - 26
+
+    -- detail
+    win.detail = CreateFrame("Frame", nil, win)
+    win.detail:SetAllPoints()
+
+    win.banner = makeBanner(win.detail)
+    win.banner:SetPoint("TOPLEFT", 30, -62)
+    win.banner:SetSize(730, 88)
+
+    local back = CreateFrame("Button", nil, win.detail)
+    back:SetSize(96, 22)
+    back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 14, -8)
+    back.bg = back:CreateTexture(nil, "BACKGROUND")
+    back.bg:SetAllPoints()
+    back.bg:SetColorTexture(0.05, 0.03, 0.02, 0.55)
+    back:SetNormalFontObject(win.fontBack)
+    back:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+    back:SetText("‹ Přehled")
+    back:SetScript("OnClick", function() state.view = "list"; showDetail() end)
+
+    win.name = text(win.detail, 24, 1, 0.95, 0.80)
+    win.name:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 16, -36)
+    win.name:SetWidth(460)
+    win.name:SetShadowOffset(1, -1)
+    win.tag = text(win.detail, 12, 0.92, 0.86, 0.72)
+    win.tag:SetPoint("TOPLEFT", win.name, "BOTTOMLEFT", 0, -1)
+    win.tag:SetWidth(460)
+    win.tag:SetShadowOffset(1, -1)
+
+    win.tabs = {}
+    local prev
+    for i = #TABS, 1, -1 do
+        local t = TABS[i]
+        local b = CreateFrame("Button", nil, win.detail)
+        b:SetSize(150, 26)
+        if prev then b:SetPoint("RIGHT", prev, "LEFT", -4, 0) else b:SetPoint("TOPRIGHT", -44, -152) end
+        b.bg = b:CreateTexture(nil, "BACKGROUND")
+        b.bg:SetAllPoints()
+        b.under = b:CreateTexture(nil, "ARTWORK")
+        b.under:SetPoint("BOTTOMLEFT", 0, 0)
+        b.under:SetPoint("BOTTOMRIGHT", 0, 0)
+        b.under:SetHeight(2)
+        b.under:SetColorTexture(0.50, 0.12, 0.05, 1)
+        b:SetNormalFontObject(win.fontNormal)
+        b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+        b:SetText(t.label)
+        b.id = t.id
+        b:SetScript("OnClick", function() state.tab = t.id; showDetail() end)
+        win.tabs[#win.tabs + 1] = b
+        prev = b
+    end
+
+    win.leftSf, win.left = newScroll(win.detail, 30, -178, 245, 372)
+    win.rightSf, win.right = newScroll(win.detail, 290, -178, 470, 372)
+    win.right.w = 470 - 26
+end
+
+-- Otevře deník; key = instance (nepovinné), tab = záložka (nepovinné).
+-- Bez parametrů: v dungeonu se otevře jeho detail, jinde přehled; opakované volání okno zavře.
+function WoWpoCesku_DungeonJournal(key, tab)
+    if not win then build() end
+    if win:IsShown() and not key and not tab then win:Hide() return end
+    if tab then state.tab = tab end
+    if not key then
+        local zone = WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey()
+        if zone and WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[zone] then key = zone end
+    end
+    if key and WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key] then
+        state.view, state.key = "detail", key
+        settings().djKey = key
+    elseif not state.key then
+        state.view = "list"
+    end
+    win:Show()
+    win:Raise()
+    showDetail()
+end

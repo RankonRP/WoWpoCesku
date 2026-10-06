@@ -1038,7 +1038,7 @@ local function buildOptions()
     help:SetJustifyH("LEFT")
     help:SetSpacing(2)
     help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat). "
-        .. "Panel s překladem jde přetáhnout myší.\nPříkazy do chatu: /czq nastaveni, /czq stav, /czq lore, /czq vzacni")
+        .. "Panel s překladem jde přetáhnout myší.\nPříkazy do chatu: /czq nastaveni, /czq stav, /czq lore, /czq dungeon, /czq vzacni")
     content:SetHeight(math.max(-left.y, -right.y + help:GetStringHeight()) + 50)
 end
 
@@ -1374,6 +1374,8 @@ SlashCmdList.CZQUESTS = function(msg)
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
+    elseif cmd == "dungeon" or cmd == "dungy" or cmd == "dj" then
+        if WoWpoCesku_DungeonJournal then WoWpoCesku_DungeonJournal() end
     elseif cmd == "uvod" or cmd == "úvod" then
         showWelcome()
     elseif cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then

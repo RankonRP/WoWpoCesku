@@ -545,6 +545,23 @@ local function createBook()
     local close = CreateFrame("Button", nil, book, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)
 
+    -- tlačítko do Dungeonového deníku (vlastní okno s bossy, kořistí a questy)
+    local dj = CreateFrame("Button", nil, book, "UIPanelButtonTemplate")
+    dj:SetSize(170, 22)
+    dj:SetPoint("TOPLEFT", 26, -22)
+    if WoWpoCeskuButtonFont then
+        dj:SetNormalFontObject(WoWpoCeskuButtonFont)
+        dj:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
+    end
+    dj:SetText("Dungeonový deník")
+    dj:SetScript("OnClick", function()
+        if WoWpoCesku_DungeonJournal then
+            local key = bookKey
+            if not (WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]) then key = nil end
+            WoWpoCesku_DungeonJournal(key or nil)
+        end
+    end)
+
     book.sf = CreateFrame("ScrollFrame", nil, book, "UIPanelScrollFrameTemplate")
     book.content = CreateFrame("Frame", nil, book.sf)
     book.content:SetSize(W - 20, 10)
