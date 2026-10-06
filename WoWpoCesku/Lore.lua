@@ -414,6 +414,8 @@ local function fillBook(key, mapID)
     end
     WoWpoCesku_BookMapID = mapID
     local L = WoWpoCesku_Lore[key]
+    -- anglický název oblasti písmem hry; kdyby měl diakritiku, zůstane naše písmo
+    book.title:SetFont((L.title:find("[\128-\255]") and FONT) or "Fonts\\FRIZQT__.TTF", 28, "")
     book.title:SetText(L.title)
     book.tag:SetText(L.tag)
     local hasArt = drawIllustration(mapID)
