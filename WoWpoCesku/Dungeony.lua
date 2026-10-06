@@ -535,7 +535,10 @@ local CLIENT_ART = {
 
 -- Nové dungeony Forever nemají obrázek v klientu; když má hráč nainstalovaný ForeverDungeonJournal, použijeme jeho obrázek
 -- (jen se na něj odkazujeme, nic se nekopíruje; bez toho addonu zůstane barevná plocha nebo vlastní banner).
+-- (číselné hodnoty jsou ID souborů – načítací obrazovky Forever přímo z klienta hry)
 local EXTERNAL_ART = {
+    ["Excavation Site: Wetlands"] = 7963777,
+    ["City of Dalaran"] = 7963775,
     ["Ruins of Lordaeron"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\RuinsOfLordaeron",
     ["Hall of Thanes"] = "Interface\\AddOns\\ForeverDungeonJournal\\Media\\HallOfThanes",
 }
@@ -543,6 +546,7 @@ local EXTERNAL_ART = {
 local function externalArt(key)
     local p = EXTERNAL_ART[key]
     if not p then return nil end
+    if type(p) == "number" then return p end
     local loaded = C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("ForeverDungeonJournal")
     return loaded and p or nil
 end
