@@ -1422,6 +1422,7 @@ function WoWpoCesku_DungeonQuestsChapter(key)
     if not list then return nil end
     local fac = myFaction()
     local rows, n, total, seenTitle = {}, 0, 0, {}
+    local kinds = { 0, 0, 0 }
     for _, e in ipairs(list) do
         local id, title, lvl, minLvl, f, from, rew = e[1], e[2], e[3], e[4], e[5], e[6], e[7]
         -- stejný quest ve variantách pro obě frakce ukaž jen jednou
@@ -1434,18 +1435,26 @@ function WoWpoCesku_DungeonQuestsChapter(key)
             local text = (cz and cz ~= title) and (cz .. GRAY .. "  (" .. title .. ")|r") or title
             text = text .. GRAY .. ("  – level %d, od %d"):format(lvl, minLvl) .. "|r"
             if f then text = text .. "  " .. FACTION[f].label end
+            local kind = 3   -- 1 = bere se před vchodem, 2 = uvnitř dungeonu, 3 = začíná předmětem
             if from and from ~= "" then
                 local place = WoWpoCesku_DungeonQuestPlaces and WoWpoCesku_DungeonQuestPlaces[id]
+                kind = (place and place:find("^uvnitř")) and 2 or 1
                 text = text .. "\n" .. GRAY .. "Dává: |r" .. from .. (place and (GRAY .. "  – " .. place .. "|r") or "")
             else
                 text = text .. "\n" .. GRAY .. "Začíná předmětem, který najdeš v dungeonu nebo u nepřítele.|r"
             end
             if rew and rew ~= "" then text = text .. "\n" .. GRAY .. "Odměna: |r" .. rew end
-            rows[#rows + 1] = { mark = done, text = text }
+            rows[#rows + 1] = { mark = done, text = text, kind = kind, order = #rows + 1 }
+            kinds[kind] = kinds[kind] + 1
         end
     end
     if total == 0 then return nil end
-    return { "Questy k dungeonu", ("Splněno %d z %d questů. Vezmi si je dřív, než do dungeonu vyrazíš – ušetříš si cestu navíc."):format(n, total),
+    -- nejdřív questy, které se berou před vchodem, pak ty uvnitř, nakonec ty od předmětů
+    table.sort(rows, function(a, b)
+        if a.kind ~= b.kind then return a.kind < b.kind end
+        return a.order < b.order
+    end)
+    return { "Questy k dungeonu", ("Splněno %d z %d questů. Před vchodem se bere %d, uvnitř dungeonu %d, od předmětu %d. Ty z první skupiny vezmi dřív, než vyrazíš – ušetříš si cestu navíc."):format(n, total, kinds[1], kinds[2], kinds[3]),
         rows = rows,
         after = GRAY .. "Podle classic databáze (questy zařazené k dungeonu). Ve WoW Forever se může něco lišit.|r" }
 end

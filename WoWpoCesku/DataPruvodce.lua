@@ -1,12 +1,11 @@
 -- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md
--- WoWpoCesku: Průvodce dungeony – kde je vchod, jaké levely a krátké rady k bossům.
+-- WoWpoCesku: Průvodce dungeony – kde je vchod a krátké rady k bossům (úrovně záměrně neuvádíme, ty jsou v popisu oblasti).
 -- Údaje jsou z Warcraft Wiki (stránky Classic); ve WoW Forever se může něco lišit.
 -- Klíč = název instance ze hry (stejný jako v Kronice). Text se ukáže v Letopise jako kapitola „Průvodce“.
 
 WoWpoCesku_DungeonGuide = {
 
 ["Ragefire Chasm"] = [[Vchod: portál v Cleft of Shadow, hned vedle stanu Neeru Fireblade v Orgrimmaru.
-Doporučené levely: 15–21 (vstoupit jde od levelu 10). Skupina 5 hráčů.
 
 • Taragaman the Hungerer – bije nejsilněji z celé instance. Má úder, který odhodí hráče do dalších nepřátel nebo do lávy, a plošný útok Blast Wave. Drž ho tankem na místě, ať nikdo nestojí u lávy.
 • Jergosh the Invoker a Bazzalan – přímočaré souboje. Hlavní je nepřitáhnout do boje další nepřátele.
@@ -15,7 +14,6 @@ Doporučené levely: 15–21 (vstoupit jde od levelu 10). Skupina 5 hráčů.
 Ve WoW Forever se může něco lišit.]],
 
 ["Wailing Caverns"] = [[Vchod: Northern Barrens, na jih od Crossroads, na severní straně oázy Lushwater Oasis.
-Doporučené levely: 17–24. Skupina 5 hráčů.
 
 • Druidové Fangu – metají blesky, mění se v kobry, léčí se a umí uspat členy skupiny. Pozor na uspání.
 • Lady Anacondra – nejdřív zabij její doprovod, pak se soustřeď na ni.
@@ -27,7 +25,6 @@ Doporučené levely: 17–24. Skupina 5 hráčů.
 Ve WoW Forever se může něco lišit.]],
 
 ["The Deadmines"] = [[Vchod: městečko Moonbrook na jihozápadě Westfallu. Východ z dungeonu je na západě Dagger Hills u moře.
-Doporučené levely: 15–23. Skupina 5 hráčů.
 
 • Rhahk'Zor – ogr, který hodně bije a má hodně brnění. Hlídají ho dva Defias Watchmeni, zabij je první.
 • Sneed's Shredder – obří stroj je imunní vůči hoření, krvácení a omráčení. Po jeho zničení vystoupí Sneed.
@@ -40,7 +37,6 @@ Doporučené levely: 15–23. Skupina 5 hráčů.
 Ve WoW Forever se může něco lišit.]],
 
 ["Shadowfang Keep"] = [[Vchod: jih Silverpine Forest, u vesnice Pyrewood Village (zhruba 45, 68).
-Doporučené levely: 18–24 (vstoupit jde od levelu 10). Skupina 5 hráčů.
 
 • Uvnitř je sedm menších bossů a Archmage Arugal jako poslední boss.
 • Nepřátelé používají kletby. Skoro každý druh worgena má nějakou zvláštní schopnost.
@@ -49,7 +45,6 @@ Doporučené levely: 18–24 (vstoupit jde od levelu 10). Skupina 5 hráčů.
 Ve WoW Forever se může něco lišit.]],
 
 ["Blackfathom Deeps"] = [[Vchod: Zoram Strand v Ashenvale. Cesta vede schodišťovou šachtou a k ní se musí doplavat podvodním vchodem.
-Doporučené levely: 24–32 (vstoupit jde od levelu 10). Skupina 5 hráčů.
 
 • Gelihast – opatrně s murloky: na nízkých životech utíkají překvapivě rychle zpátky k ostatním murlokům a ke svému bossovi.
 • Twilight Lord Kelris – využij uzavřený vchod do místnosti. Tahej nepřátele po jednom z velké místnosti, dokud Kelris nezůstane sám.
@@ -58,7 +53,6 @@ Doporučené levely: 24–32 (vstoupit jde od levelu 10). Skupina 5 hráčů.
 Ve WoW Forever se může něco lišit.]],
 
 ["Razorfen Kraul"] = [[Vchod: Southern Barrens, na samém jihu, na západní straně.
-Doporučené levely: 29–38. Skupina 5 hráčů.
 
 • Bossové: Roogug, Aggem Thorncurse, Death Speaker Jargba, Overlord Ramtusk, Agathelos the Raging a Charlga Razorflank jako poslední.
 • Vzácní bossové: Earthcaller Halmgar a Blind Hunter. Nemusí se objevit pokaždé.
@@ -66,19 +60,164 @@ Doporučené levely: 29–38. Skupina 5 hráčů.
 Ve WoW Forever se může něco lišit.]],
 
 ["Scarlet Monastery"] = [[Vchod: severovýchodní roh Tirisfal Glades.
-Doporučené levely: zhruba 28–33. Skupina 5 hráčů.
 
 • Klášter má čtyři křídla: Graveyard, Library, Armory a Cathedral. Každé má vlastní vchod a bosse. Do Armory a Cathedral potřebuješ Scarlet Key z Library.
 
 Ve WoW Forever se může něco lišit.]],
 
 ["Razorfen Downs"] = [[Vchod: východní strana jižního okraje Barrens.
-Doporučené levely: 37–46. Skupina 5 hráčů.
 
 • Většina nepřátel je nemrtvá, takže se hodí Shackle Undead (kněz).
 • Tuten'kash – v místnosti s gongem. Nepřátelé stojí vlevo a vpravo, levou skupinu zakrývá zeď, začni raději s ní.
 • Glutton – jde ho zabít jako prvního, když v dungeonu zvolíš pravou větev.
 • Amnennar the Coldbringer – poslední boss, lich. Shackle Undead je u něj klíčové ovládání.
+
+Ve WoW Forever se může něco lišit.]],
+
+["The Stockade"] = [[Vchod: pod kanály Stormwindu, v nejsevernější části čtvrti The Canals. Skupina 5 hráčů.
+
+• Bazil Thredd – lstivý zločinec, který celou vzpouru vězňů řídí.
+• Uvnitř jsou drobní zloději, političtí vzbouřenci i vrazi. Vězňové se vzbouřili a dobrodruzi mají vzpouru potlačit.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Gnomeregan"] = [[Vchod: Dun Morogh, přibližně na souřadnicích 24, 40. Skupina 5 hráčů.
+
+Druhý, zadní vchod výtahem najdeš v Tajemstvích dungeonu.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Uldaman"] = [[Vchod: Maker's Terrace v Badlands, západně od bývalého vchodu od Loch Modanu. Skupina 5 hráčů.
+
+• Osm setkání: Revelosh, The Lost Dwarves, Ironaya, Obsidian Sentinel, Ancient Stone Keeper, Galgann Firehammer, Grimlok a jako poslední Archaedas.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Zul'Farrak"] = [[Vchod: severozápad Tanarisu, u Sandsorrow Watch. Skupina 5 hráčů.
+
+• Dungeon je téměř celý venku, takže se v něm dá používat mount.
+• Uspořádání je kruhové a závěrečného bosse (Chief Ukorz Sandscalp) jde zabít dřív než většinu minibossů.
+• Pozor na přitažení navíc: skupina se v Zul'Farraku snadno ocitne v přesile.
+• Další bossové: Gahz'rilla (hydra v posvátném jezírku), Witch Doctor Zum'rah, Nekrum Gutchewer a Shadowpriest Sezz'ziz.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Maraudon"] = [[Vchod: Valley of Spears v Desolace. Skupina 5 hráčů.
+
+• Noxxion – uprostřed boje se rozdělí na neelitní živly, které se pak zase spojí.
+• Razorlash – obyčejný boss.
+• Lord Vyletongue – má neviditelné strážce a během boje se teleportuje.
+• Celebras the Cursed – pořád vyvolává neelitní pomocníky.
+• Princess Theradras – poslední boss. Často děsí hráče nablízko a má plošný útok s velkým dosahem. Hodí se lektvary odolnosti vůči přírodě.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Sunken Temple"] = [[Vchod: Pool of Tears v Swamp of Sorrows. Doplavej přes Broken Hall a pokračuj průchody až do Hall of Masks, kde je portál do instance. Skupina 5 hráčů.
+
+• Jammal'an the Prophet – musí padnout dřív než poslední boss. Vyčisti celou místnost, jinak se do boje zapojí okolní nepřátelé. Umí obrátit členy skupiny proti sobě.
+• Wardens of the Dream – čtyři zelení draci, které musíš porazit před finále. Plivou kyselinu na víc cílů.
+• Shade of Eranikus – hlavní boss v Chamber of the Dreamer. Tank ho má držet na jedné straně. Seslání Deep Slumber omráčí na 8 vteřin, War Stomp na 4 vteřiny nablízko.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Blackrock Depths"] = [[Vchod: uvnitř Blackrock Mountain. Cesta vede přes Grinding Quarry: přejdi na středový ostrov a pokračuj dolů po cestě. Skupina 5 hráčů.
+
+• Je to největší pětičlenný dungeon ve hře. Počítej s několika hodinami čistého postupu kvůli množství nepřátel, bossů i questů.
+• High Interrogator Gerstahn (Detention Block) – poslední boss dolní části města.
+• General Angerforge, Golem Lord Argelmach a Lord Incendius – bossové vnější oblasti.
+• Emperor Dagran Thaurissan – poslední boss, sídlí ve vnitřní části.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Blackrock Spire"] = [[Vchod: horní části Blackrock Mountain v Burning Steppes.
+
+• Lower Blackrock Spire obývá Dark Horde (orkové, ogři, lesní trollové) a černé dračí hejno.
+• Upper Blackrock Spire drží elitnější síly. V původní hře k němu potřebuješ Seal of Ascension.
+• Mimo dungeon vede z horního Spire i vstup do raidu Blackwing Lair (viz tam).
+
+Ve WoW Forever se může něco lišit.]],
+
+["Dire Maul"] = [[Vchod: sever Feralasu. Dire Maul bylo kdysi město Highborne zvané Eldre'Thalas. Skupina 5 hráčů.
+
+• East (Warpwood Quarter) – vládne mu satyr Alzzin the Wildshaper. Čtvrť zarostlá šílenými rostlinami. Je nejlehčí ze tří křídel.
+• West (Capital Gardens) – duchové a kostlivci mrtvých Highborne a uvěznění démon Immol'thar.
+• North (Gordok Commons) – území ogrů. Nabízí zvláštní „tribute run“: bossy nemusíš zabít a za jejich ušetření dostaneš lepší odměnu.
+• Do severního a západního křídla se v původní hře otevírají dveře Crescent Key, který dostaneš od impa Pusillina ve východním křídle.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Scholomance"] = [[Vchod: Caer Darrow v Western Plaguelands. Potřebuješ Key to Scholomance. Skupina 5 hráčů.
+
+• Darkmaster Gandling – poslední boss. Vyvolá se, až vyčistíš všech šest místností kolem něj a porazíš miniboss uvnitř, třeba Doctor Theolen Krastinov a Instructor Malicia.
+• Ras Frostwhisper – lich, který místo ovládá.
+• Kirtonos the Herald – k vyvolání potřebuješ předmět Blood of Innocents.
+• The Ravenian – požírá žáky, kteří ukážou slabost.
+• Scholomance Occultists se mění v Dark Shades, které jsou imunní vůči fyzickému poškození. Ty musíš zabít kouzly nebo speciálními předměty.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Stratholme"] = [[Vchod: Eastern Plaguelands, severně od Plaguewood. Dungeon má dvě brány.
+
+• Main Gate – živá strana: Crusaders' Square a The Scarlet Bastion, vedou ji vůdci Scarlet Crusade.
+• Service Entrance – nemrtvá strana: Elders' Square a Slaughter Square s The Slaughter House. Vládne tu Baron Rivendare.
+• Ve městě žije obrovské množství nemrtvých, ohavností a kostlivců, proto pozor na přitažení navíc.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Molten Core"] = [[Vchod: uvnitř Blackrock Depths. Raid pro 40 hráčů.
+Přístup: splň quest Attunement to the Core u Lothose Riftwakera (od levelu 55). Pak se do Molten Core dostaneš přímo, bez cesty přes Blackrock Depths.
+
+Pořadí bossů: Lucifron, Magmadar, Gehennas, Garr, Baron Geddon, Shazzrah, Sulfuron Harbinger, Golemagg the Incinerator, Majordomo Executus a Ragnaros.
+
+• Bossové hlídají runy, které je potřeba zrušit, než se dostaneš k Majordomovi.
+• Ragnaros se vyvolá až po porážce Majordoma Executuse.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Onyxia's Lair"] = [[Vchod: Wyrmbog v Dustwallow Marsh. Raid pro 40 hráčů, jeden boss: Onyxia.
+V původní hře ses dovnitř dostal jen s Drakefire Amulet.
+
+• Onyxia používá ohnivé útoky včetně hlubokého dechu a vyvolává pomocná mláďata (whelps).
+• Vchod je vytvarovaný jako tlama matky draků a uvnitř je cesta lemovaná magmatem.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Blackwing Lair"] = [[Vchod: Upper Blackrock Spire. Raid pro 40 hráčů. Do raidu se dostaneš přes Orb of Command na konci chodby vpravo od vchodu do Upper Blackrock Spire.
+V původní hře k tomu potřebuješ quest Blackhand's Command.
+
+Pořadí bossů: Razorgore the Untamed, Vaelastrasz the Corrupt, Broodlord Lashlayer, Firemaw, Ebonroc, Flamegor, Chromaggus a Nefarian.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Zul'Gurub"] = [[Vchod: severovýchod Stranglethorn Vale. Raid pro 20 hráčů.
+
+• Příběh je o tom, jak zastavit Hakkara the Soulflayer, aby nevstoupil do světa. Mezi bossy patří High Priestess Mar'li a Jin'do the Hexxer.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Ruins of Ahn'Qiraj"] = [[Vchod: jih Silithusu, hlavní brána Ahn'Qiraj a pak doleva. Raid, původně pro 20 hráčů.
+
+Bossové: Kurinnaxx (povinný), General Rajaxx (povinný), Moam (volitelný), Buru the Gorger, Ayamiss the Hunter a poslední Ossirian the Unscarred.
+
+• Zvláštní odměny: z bossů a trash dropu skládáš tokeny pro questy Cenarion Circle. Za ně dostaneš vybavení podle povolání při reputaci Honored, Revered a Exalted.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Ahn'Qiraj Temple"] = [[Vchod: Silithus, brána Scarab Wall. Klíč k instanci není potřeba. Raid pro 40 hráčů.
+Brána se otevřela celoserverovou událostí Gates of Ahn'Qiraj.
+
+Bossové (devět): The Prophet Skeram, Silithid Royalty, Battleguard Sartura, Fankriss the Unyielding, Viscidus, Princess Huhuran, Twin Emperors (Vek'lor a Vek'nilash), Ouro a poslední C'Thun.
+
+• Obtížnost roste: první bossové jsou srovnatelní s Molten Core, ti poslední těžší než v Blackwing Lair.
+
+Ve WoW Forever se může něco lišit.]],
+
+["Naxxramas"] = [[Vchod: létající nekropole nad Plaguewood v Eastern Plaguelands. Raid pro 40 hráčů.
+Přístup: attunement přes Argent Dawn. Při reputaci Exalted je zdarma, jinak stojí zlato a materiály.
+
+Nekropole je jako velké kolo se čtyřmi křídly spojenými vnějším okruhem: Abomination (jedovatý sliz a sešití netvoři), Plague (nemoci a zkažení tvorové), Spider (nerubiané a pavouci) a Deathknight (bývalí vojáci Lordaeronu ve službách Lich Kinga). Křídla se čistí v libovolném pořadí.
+
+Po porážce všech čtyř bossů křídel se otevře Frostwyrm Lair se Sapphironem a Kel'Thuzadem.
 
 Ve WoW Forever se může něco lišit.]],
 
