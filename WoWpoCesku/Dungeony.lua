@@ -1250,3 +1250,73 @@ function WoWpoCesku_MapList(text)
     end
     if n == 0 then say("zadna mapa se jmenem obsahujicim '" .. text .. "'") end
 end
+
+-- Zkouška obrázků z klienta: /czq obr  (načítací obrazovky a obrázky Encounter Journalu; nic se nekopíruje, jen se zobrazí cesty hry)
+local previewWin
+function WoWpoCesku_ArtTest()
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    local cands = {
+        { "Glues LoadScreenRagefireChasm", "Interface\Glues\LoadingScreens\LoadScreenRagefireChasm" },
+        { "Glues LoadScreenRagefire", "Interface\Glues\LoadingScreens\LoadScreenRagefire" },
+        { "Glues LoadingScreen_RagefireChasm", "Interface\Glues\LoadingScreens\LoadingScreen_RagefireChasm" },
+        { "LoadingScreens RagefireChasm", "Interface\LoadingScreens\LoadScreenRagefireChasm" },
+        { "EJ pozadi", "Interface\EncounterJournal\UI-EJ-DungeonBG-RagefireChasm" },
+        { "EJ lore", "Interface\EncounterJournal\UI-EJ-LOREBG-RagefireChasm" },
+        { "EJ tlacitko", "Interface\EncounterJournal\UI-EJ-BOSS-RagefireChasm" },
+    }
+    -- Encounter Journal API (pokud ji klient má): obrázky instancí podle jména
+    if EJ_GetInstanceByIndex then
+        for tier = 1, 2 do
+            if EJ_SelectTier then pcall(EJ_SelectTier, tier) end
+            for i = 1, 60 do
+                local ok, id, name, _, _, button, small, _, _, loreImage = pcall(EJ_GetInstanceByIndex, i, false)
+                if not ok or not id then break end
+                if name and name:lower():find("ragefire", 1, true) then
+                    cands[#cands + 1] = { "EJ API button " .. tostring(name), button }
+                    cands[#cands + 1] = { "EJ API small", small }
+                    cands[#cands + 1] = { "EJ API lore", loreImage }
+                end
+            end
+        end
+    else
+        say("Encounter Journal API klient nema (EJ_GetInstanceByIndex).")
+    end
+    if not previewWin then
+        local f = CreateFrame("Frame", "WoWpoCeskuObrTest", UIParent, "BackdropTemplate")
+        f:SetSize(760, 560)
+        f:SetPoint("CENTER")
+        f:SetFrameStrata("DIALOG")
+        f:SetBackdrop({ bgFile = "Interface\Buttons\WHITE8x8", edgeFile = "Interface\DialogFrame\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdropColor(0.1, 0.07, 0.04, 1)
+        f:EnableMouse(true); f:SetMovable(true); f:RegisterForDrag("LeftButton")
+        f:SetScript("OnDragStart", f.StartMoving); f:SetScript("OnDragStop", f.StopMovingOrSizing)
+        local c = CreateFrame("Button", nil, f, "UIPanelCloseButton"); c:SetPoint("TOPRIGHT", -6, -6)
+        f.items = {}
+        previewWin = f
+    end
+    local f = previewWin
+    for _, it in ipairs(f.items) do it.tex:Hide(); it.label:Hide() end
+    for i, c in ipairs(cands) do
+        local it = f.items[i]
+        if not it then
+            it = {}
+            it.tex = f:CreateTexture(nil, "ARTWORK")
+            it.label = f:CreateFontString(nil, "OVERLAY")
+            it.label:SetFont("Interface\AddOns\WoWpoCesku\Fonts\cz.ttf", 10, "")
+            f.items[i] = it
+        end
+        local col, row = (i - 1) % 3, math.floor((i - 1) / 3)
+        it.tex:ClearAllPoints()
+        it.tex:SetPoint("TOPLEFT", 22 + col * 240, -30 - row * 130)
+        it.tex:SetSize(228, 100)
+        it.tex:SetTexture(c[2] or "")
+        it.tex:Show()
+        it.label:ClearAllPoints()
+        it.label:SetPoint("TOPLEFT", it.tex, "BOTTOMLEFT", 0, -2)
+        it.label:SetWidth(228)
+        it.label:SetText(c[1])
+        it.label:Show()
+    end
+    f:Show()
+    say("okno /czq obr: ukazuje obrazky z klienta; ktere jsou videt (ne cerne/zelene), pouzijeme. Pošli screenshot.")
+end
