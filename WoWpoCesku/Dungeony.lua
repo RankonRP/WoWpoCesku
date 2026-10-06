@@ -493,7 +493,7 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 56)
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\Icons\\Spell_Arcane_PortalOrgrimmar", isRaid(key) and "Raid" or "Dungeon", 56)
     C_Timer.After(1.5, function()
         local shown = 0
         for _, p in ipairs(djPins) do if p:IsShown() then shown = shown + 1 end end
