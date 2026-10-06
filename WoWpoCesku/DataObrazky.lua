@@ -3,4 +3,6 @@
 -- Soubor se generuje: node tools/dungeony-obrazky.js
 
 WoWpoCesku_DungeonArt = {
+    ["Ragefire Chasm"] = "ragefire-chasm",
+    ["Wailing Caverns"] = "wailing-caverns",
 }
