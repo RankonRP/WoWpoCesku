@@ -330,12 +330,70 @@ local function showOnMap(p, label)
             end
         end)
     end
+    setDJMark(uiMap, u, v, label, "Interface\\GossipFrame\\AvailableQuestIcon")
     say(label .. ": " .. where .. (set and " - znacka je na mape" or " (znacku nastavit nejde, souradnice jsou vyse)") .. (opened and "." or " (otevri mapu klavesou M)."))
 end
 
 -------------------------------------------------------------------------------
 -- Zobrazit vchod: hra umí říct, kde na mapě zóny je vchod do instance (C_EncounterJournal.GetDungeonEntrancesForMap).
 -------------------------------------------------------------------------------
+local djMarks = {}      -- { uiMap, u, v, label, icon }
+local djPins = {}
+local djHooked
+
+local function drawDJMarks()
+    for _, p in ipairs(djPins) do p:Hide() end
+    if #djMarks == 0 or not (WorldMapFrame and WorldMapFrame:IsShown()) then return end
+    local canvas = WorldMapFrame.ScrollContainer and WorldMapFrame.ScrollContainer.Child
+    if not canvas then return end
+    local cur = WorldMapFrame:GetMapID()
+    local w, h = canvas:GetWidth(), canvas:GetHeight()
+    local n = 0
+    for _, m in ipairs(djMarks) do
+        if m.uiMap == cur then
+            n = n + 1
+            local p = djPins[n]
+            if not p then
+                p = CreateFrame("Frame", nil, canvas)
+                p:SetSize(30, 30)
+                p.glow = p:CreateTexture(nil, "BACKGROUND")
+                p.glow:SetPoint("CENTER")
+                p.glow:SetSize(44, 44)
+                p.glow:SetTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+                p.icon = p:CreateTexture(nil, "ARTWORK")
+                p.icon:SetAllPoints()
+                p:EnableMouse(true)
+                p:SetScript("OnEnter", function(self)
+                    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+                    GameTooltip:AddLine(self.label or "")
+                    GameTooltip:AddLine("Pravé tlačítko značku odstraní.", 0.8, 0.8, 0.8)
+                    GameTooltip:Show()
+                end)
+                p:SetScript("OnLeave", function() GameTooltip:Hide() end)
+                p:SetScript("OnMouseUp", function(self, btn) if btn == "RightButton" then wipe(djMarks); drawDJMarks() end end)
+                djPins[n] = p
+            end
+            p.label = m.label
+            p.icon:SetTexture(m.icon)
+            p:SetFrameLevel(canvas:GetFrameLevel() + 1995)
+            p:ClearAllPoints()
+            p:SetPoint("CENTER", canvas, "TOPLEFT", m.u * w, -m.v * h)
+            p:Show()
+        end
+    end
+end
+
+local function setDJMark(uiMap, u, v, label, icon)
+    wipe(djMarks)
+    djMarks[1] = { uiMap = uiMap, u = u, v = v, label = label, icon = icon }
+    if WorldMapFrame and not djHooked then
+        djHooked = true
+        if WorldMapFrame.OnMapChanged then hooksecurefunc(WorldMapFrame, "OnMapChanged", function() C_Timer.After(0, drawDJMarks) end) end
+        WorldMapFrame:HookScript("OnShow", function() C_Timer.After(0.1, drawDJMarks) end)
+    end
+    C_Timer.After(0.3, drawDJMarks)
+end
+
 local entranceCache = {}
 
 local function findEntrance(key)
@@ -386,6 +444,7 @@ local function showEntrance(key)
             elseif WorldMapFrame then securecall(ShowUIPanel, WorldMapFrame); if WorldMapFrame.SetMapID then securecall(WorldMapFrame.SetMapID, WorldMapFrame, e.uiMap) end end
         end)
     end
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Spell_Arcane_PortalOrgrimmar")
     say(("vchod %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
