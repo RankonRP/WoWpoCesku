@@ -5,6 +5,7 @@
 -- DataObrazky (která instance má malovaný banner v Textures\Dungeony).
 
 local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
+local TITLE_FONT = "Fonts\\FRIZQT__.TTF"   -- písmo hry pro anglické názvy (instance, bossové); české texty mají vlastní písmo
 local PARCHMENT = "Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga"
 local ART = "Interface\\AddOns\\WoWpoCesku\\Textures\\Dungeony\\"
 local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.42, 0.30, 0.18 }
@@ -332,6 +333,55 @@ local function showOnMap(p, label)
     say(label .. ": " .. where .. (set and " - znacka je na mape" or " (znacku nastavit nejde, souradnice jsou vyse)") .. (opened and "." or " (otevri mapu klavesou M)."))
 end
 
+-------------------------------------------------------------------------------
+-- Zobrazit vchod: hra umí říct, kde na mapě zóny je vchod do instance (C_EncounterJournal.GetDungeonEntrancesForMap).
+-------------------------------------------------------------------------------
+local entranceCache = {}
+
+local function findEntrance(key)
+    if entranceCache[key] ~= nil then return entranceCache[key] or nil end
+    entranceCache[key] = false
+    if not (C_EncounterJournal and C_EncounterJournal.GetDungeonEntrancesForMap and C_Map and C_Map.GetMapInfo) then return nil end
+    local want = key:lower():gsub("^the ", "")
+    for id = 1, 3000 do
+        local ok, info = pcall(C_Map.GetMapInfo, id)
+        if ok and info and (info.mapType == 3 or info.mapType == 2) then
+            local ok2, list = pcall(C_EncounterJournal.GetDungeonEntrancesForMap, id)
+            if ok2 and type(list) == "table" then
+                for _, e in ipairs(list) do
+                    local nm = e.name and e.name:lower():gsub("^the ", "")
+                    if nm and (nm == want or nm:find(want, 1, true) or want:find(nm, 1, true)) then
+                        local u, v = xy(e.position)
+                        if u and v then entranceCache[key] = { uiMap = id, u = u, v = v, zone = info.name } return entranceCache[key] end
+                    end
+                end
+            end
+        end
+    end
+    return nil
+end
+
+local function showEntrance(key)
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    local e = findEntrance(key)
+    if not e then say(key .. ": vchod se na mape nepodarilo najit (klient ho nenabizi). Viz Prvodce, tam je popis cesty.") return end
+    local set = false
+    if C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
+        set = pcall(function()
+            C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(e.uiMap, e.u, e.v))
+            if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then C_SuperTrack.SetSuperTrackedUserWaypoint(true) end
+        end)
+    end
+    local opened = false
+    if settings().djOpenMap ~= false and not (InCombatLockdown and InCombatLockdown()) then
+        opened = pcall(function()
+            if OpenWorldMap then securecall(OpenWorldMap, e.uiMap)
+            elseif WorldMapFrame then securecall(ShowUIPanel, WorldMapFrame); if WorldMapFrame.SetMapID then securecall(WorldMapFrame.SetMapID, WorldMapFrame, e.uiMap) end end
+        end)
+    end
+    say(("vchod %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
+end
+
 -- plynulý přechod barvy (nový i starý způsob zápisu; když nejde ani jeden, zůstane plná plocha)
 local function gradient(tex, r, g, b, a1, a2)
     tex:SetColorTexture(r, g, b, math.max(a1, a2))
@@ -414,14 +464,14 @@ local function reset(c)
     if c.map then c.map:Hide() end
 end
 
-local function addText(c, str, size, color, gap, indent, width)
+local function addText(c, str, size, color, gap, indent, width, fontPath)
     c.nt = c.nt + 1
     local t = c.texts[c.nt]
     if not t then
         t = text(c, size, 1, 1, 1)
         c.texts[c.nt] = t
     end
-    t:SetFont(FONT, size, "")
+    t:SetFont(fontPath or FONT, size, "")
     t:SetTextColor(color[1], color[2], color[3])
     t:ClearAllPoints()
     t:SetPoint("TOPLEFT", indent or 0, -c.y)
@@ -590,7 +640,7 @@ end
 -------------------------------------------------------------------------------
 -- Seznam vlevo (bossové / questy)
 -------------------------------------------------------------------------------
-local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emblem)
+local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emblem, npcID)
     c.nr = c.nr + 1
     local b = c.rows[c.nr]
     if not b then
@@ -616,6 +666,15 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
         b.icon = b:CreateTexture(nil, "ARTWORK")
         b.icon:SetSize(30, 30)
         b.icon:SetPoint("LEFT", 12, 0)
+        b.pframe = CreateFrame("Frame", nil, b, "BackdropTemplate")
+        b.pframe:SetSize(40, 40)
+        b.pframe:SetPoint("LEFT", 8, 0)
+        b.pframe:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
+        b.pframe:SetBackdropColor(0.10, 0.06, 0.04, 1)
+        b.pframe:SetBackdropBorderColor(0.85, 0.65, 0.20, 1)
+        b.pmodel = CreateFrame("PlayerModel", nil, b.pframe)
+        b.pmodel:SetPoint("TOPLEFT", 2, -2)
+        b.pmodel:SetPoint("BOTTOMRIGHT", -2, 2)
         b.badgeBg = b:CreateTexture(nil, "OVERLAY", nil, 1)
         b.badgeBg:SetSize(22, 13)
         b.badgeBg:SetPoint("BOTTOMRIGHT", b.icon, "BOTTOMRIGHT", 5, -3)
@@ -635,7 +694,17 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     b:ClearAllPoints()
     b:SetPoint("TOPLEFT", 0, -c.y)
     b:SetWidth(c.w)
-    local off = icon and 52 or 12
+    local hasModel = false
+    if npcID then
+        hasModel = pcall(function()
+            b.pmodel:ClearModel()
+            b.pmodel:SetCreature(npcID)
+            if b.pmodel.SetPortraitZoom then b.pmodel:SetPortraitZoom(1) end
+        end)
+    end
+    b.pframe:SetShown(hasModel)
+    if hasModel then icon = nil end
+    local off = (icon or hasModel) and 56 or 12
     local right = emblem and 62 or 34
     b.label:ClearAllPoints()
     b.label:SetPoint("TOPLEFT", off, -6)
@@ -645,13 +714,21 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     if icon then b.icon:SetTexture(icon) end
     b.badgeBg:SetShown(badge and true or false)
     b.badge:SetShown(badge and true or false)
+    if hasModel then
+        b.badgeBg:ClearAllPoints()
+        b.badgeBg:SetPoint("BOTTOMLEFT", b.pframe, "BOTTOMLEFT", -4, -4)
+    else
+        b.badgeBg:ClearAllPoints()
+        b.badgeBg:SetPoint("BOTTOMRIGHT", b.icon, "BOTTOMRIGHT", 5, -3)
+    end
     if badge then b.badge:SetText(badge) end
     b.emblem:SetShown(emblem and true or false)
     if emblem then b.emblem:SetTexture(emblem) end
+    b.label:SetFont(title:find("[\128-\255]") and FONT or TITLE_FONT, 13, "")
     b.label:SetText(title)
     b.sub:SetText(sub or "")
     local h = 8 + (b.label:GetStringHeight() or 14) + 2 + ((sub and sub ~= "") and (b.sub:GetStringHeight() or 12) or 0) + 8
-    if h < 46 then h = 46 end
+    if h < (hasModel and 54 or 46) then h = hasModel and 54 or 46 end
     b:SetHeight(h)
     b.check:SetShown(mark and true or false)
     b.sel:SetShown(selected and true or false)
@@ -683,7 +760,8 @@ local function renderBosses(key)
         local lv = WoWpoCesku_BossLevel and WoWpoCesku_BossLevel[key] and WoWpoCesku_BossLevel[key][b[1]]
         addRow(L, b[1], (b[2] and b[2] ~= "") and b[2] or nil, killed[b[1]] ~= nil, b[1] == cur,
             function() state.boss[key] = b[1]; showDetail() end,
-            "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", lv and (lv >= 63 and "??" or tostring(lv)) or nil)
+            "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", lv and (lv >= 63 and "??" or tostring(lv)) or nil, nil,
+            WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][b[1]])
     end
     local sel
     for _, b in ipairs(bosses) do if b[1] == cur then sel = b end end
@@ -692,7 +770,7 @@ local function renderBosses(key)
     local npc = WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][sel[1]]
     local hasModel = showPortrait(R, npc)
     local textW = hasModel and (R.w - 134) or nil
-    addText(R, sel[1], 20, RED, 2, 0, textW)
+    addText(R, sel[1], 21, RED, 2, 0, textW, TITLE_FONT)
     if sel[2] and sel[2] ~= "" then addText(R, sel[2], 12, SEPIA, 4, 0, textW) end
     if killed[sel[1]] then addText(R, GREEN .. "Poražen " .. date("%d.%m.%Y", killed[sel[1]]) .. "|r", 12, INK, 6, 0, textW) end
     local note = WoWpoCesku_PostavyNote and WoWpoCesku_PostavyNote(sel[1])
@@ -902,7 +980,8 @@ local function renderList()
             b.over = CreateFrame("Frame", nil, b)
             b.over:SetAllPoints()
             b.over:SetFrameLevel(b:GetFrameLevel() + 5)
-            b.name = text(b.over, 16, 1, 0.95, 0.80)
+            b.name = text(b.over, 17, 1, 0.82, 0.25)
+            b.name:SetFont(TITLE_FONT, 17, "OUTLINE")
             b.name:SetPoint("TOPLEFT", 14, -10)
             b.name:SetShadowOffset(1, -1)
             b.info = text(b.over, 12, 0.95, 0.90, 0.80)
@@ -1072,10 +1151,24 @@ local function build()
     back:SetText("‹ Přehled")
     back:SetScript("OnClick", function() state.view = "list"; showDetail() end)
 
+    local entr = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
+    entr:SetFrameLevel(win.detail:GetFrameLevel() + 7)
+    entr:SetSize(150, 26)
+    entr:SetPoint("TOPRIGHT", win.banner, "TOPRIGHT", -12, -8)
+    entr:SetNormalFontObject(win.fontBtn)
+    entr:SetHighlightFontObject(win.fontBtnOn)
+    entr.ico = entr:CreateTexture(nil, "OVERLAY")
+    entr.ico:SetSize(20, 20)
+    entr.ico:SetPoint("LEFT", 8, 0)
+    entr.ico:SetTexture("Interface\\Icons\\INV_Misc_Map_01")
+    entr:SetText("     Zobrazit vchod")
+    entr:SetScript("OnClick", function() if state.key then showEntrance(state.key) end end)
+
     win.top = CreateFrame("Frame", nil, win.detail)
     win.top:SetAllPoints()
     win.top:SetFrameLevel(win.detail:GetFrameLevel() + 6)
-    win.name = text(win.top, 24, 1, 0.95, 0.80)
+    win.name = text(win.top, 26, 1, 0.82, 0.25)
+    win.name:SetFont(TITLE_FONT, 26, "OUTLINE")
     win.name:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 16, -36)
     win.name:SetWidth(460)
     win.name:SetShadowOffset(1, -1)
@@ -1256,13 +1349,13 @@ local previewWin
 function WoWpoCesku_ArtTest()
     local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
     local cands = {
-        { "Glues LoadScreenRagefireChasm", "Interface\Glues\LoadingScreens\LoadScreenRagefireChasm" },
-        { "Glues LoadScreenRagefire", "Interface\Glues\LoadingScreens\LoadScreenRagefire" },
-        { "Glues LoadingScreen_RagefireChasm", "Interface\Glues\LoadingScreens\LoadingScreen_RagefireChasm" },
-        { "LoadingScreens RagefireChasm", "Interface\LoadingScreens\LoadScreenRagefireChasm" },
-        { "EJ pozadi", "Interface\EncounterJournal\UI-EJ-DungeonBG-RagefireChasm" },
-        { "EJ lore", "Interface\EncounterJournal\UI-EJ-LOREBG-RagefireChasm" },
-        { "EJ tlacitko", "Interface\EncounterJournal\UI-EJ-BOSS-RagefireChasm" },
+        { "Glues LoadScreenRagefireChasm", "Interface\\Glues\\LoadingScreens\\LoadScreenRagefireChasm" },
+        { "Glues LoadScreenRagefire", "Interface\\Glues\\LoadingScreens\\LoadScreenRagefire" },
+        { "Glues LoadingScreen_RagefireChasm", "Interface\\Glues\\LoadingScreens\\LoadingScreen_RagefireChasm" },
+        { "LoadingScreens RagefireChasm", "Interface\\LoadingScreens\\LoadScreenRagefireChasm" },
+        { "EJ pozadi", "Interface\\EncounterJournal\\UI-EJ-DungeonBG-RagefireChasm" },
+        { "EJ lore", "Interface\\EncounterJournal\\UI-EJ-LOREBG-RagefireChasm" },
+        { "EJ tlacitko", "Interface\\EncounterJournal\\UI-EJ-BOSS-RagefireChasm" },
     }
     -- Encounter Journal API (pokud ji klient má): obrázky instancí podle jména
     if EJ_GetInstanceByIndex then
@@ -1286,7 +1379,7 @@ function WoWpoCesku_ArtTest()
         f:SetSize(760, 560)
         f:SetPoint("CENTER")
         f:SetFrameStrata("DIALOG")
-        f:SetBackdrop({ bgFile = "Interface\Buttons\WHITE8x8", edgeFile = "Interface\DialogFrame\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
         f:SetBackdropColor(0.1, 0.07, 0.04, 1)
         f:EnableMouse(true); f:SetMovable(true); f:RegisterForDrag("LeftButton")
         f:SetScript("OnDragStart", f.StartMoving); f:SetScript("OnDragStop", f.StopMovingOrSizing)
@@ -1302,7 +1395,7 @@ function WoWpoCesku_ArtTest()
             it = {}
             it.tex = f:CreateTexture(nil, "ARTWORK")
             it.label = f:CreateFontString(nil, "OVERLAY")
-            it.label:SetFont("Interface\AddOns\WoWpoCesku\Fonts\cz.ttf", 10, "")
+            it.label:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf", 10, "")
             f.items[i] = it
         end
         local col, row = (i - 1) % 3, math.floor((i - 1) / 3)
