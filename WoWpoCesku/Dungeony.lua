@@ -503,13 +503,15 @@ local function setBanner(frame, key, w, h)
     local c = ACCENT[key] or { 0.5, 0.4, 0.3 }
     if clientName then
         frame.art:SetTexture("Interface\\EncounterJournal\\UI-EJ-LOREBG-" .. clientName)
-        local want, have = w / h, 4   -- obrázek z klienta má zhruba poměr 4:1
+        -- obrázek leží v textuře vlevo nahoře (ověřeno /czq obr3), kolem je průhledno; bereme jen vnitřek bez rámečku
+        local u0, u1, v0, v1 = 0.055, 0.70, 0.08, 0.575
+        local want, have = w / h, ((u1 - u0) * 1024) / ((v1 - v0) * 512)   -- poměr oblasti ~2,6:1
         if want > have then
-            local cut = (1 - have / want) / 2
-            frame.art:SetTexCoord(0, 1, cut, 1 - cut)
+            local cut = (1 - have / want) / 2 * (v1 - v0)
+            frame.art:SetTexCoord(u0, u1, v0 + cut, v1 - cut)
         else
-            local cut = (1 - want / have) / 2
-            frame.art:SetTexCoord(cut, 1 - cut, 0, 1)
+            local cut = (1 - want / have) / 2 * (u1 - u0)
+            frame.art:SetTexCoord(u0 + cut, u1 - cut, v0, v1)
         end
         frame.art:SetVertexColor(1, 1, 1, 1)
         frame.art:Show()
