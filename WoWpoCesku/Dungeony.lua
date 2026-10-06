@@ -1343,7 +1343,7 @@ local function setTabs()
         t:SetShown(avail)
         if avail then
             t:ClearAllPoints()
-            if prev then t:SetPoint("RIGHT", prev, "LEFT", -8, 0) else t:SetPoint("TOPRIGHT", -40, -150) end
+            if prev then t:SetPoint("RIGHT", prev, "LEFT", -8, 0) else t:SetPoint("TOPRIGHT", -40, -158) end
             prev = t
         end
     end
@@ -1374,15 +1374,15 @@ showDetail = function()
     win.leftSf:SetShown(twoPane)
     win.boxL:SetShown(twoPane)
     win.boxR:ClearAllPoints()
-    win.boxR:SetPoint("TOPLEFT", twoPane and 392 or 24, -190)
+    win.boxR:SetPoint("TOPLEFT", twoPane and 392 or 24, -202)
     win.boxR:SetSize(twoPane and 516 or 884, 368)
     win.rightSf:ClearAllPoints()
     if twoPane then
-        win.rightSf:SetPoint("TOPLEFT", 408, -202)
+        win.rightSf:SetPoint("TOPLEFT", 408, -214)
         win.rightSf:SetSize(468, 344)
         win.right.w = 468 - 26
     else
-        win.rightSf:SetPoint("TOPLEFT", 36, -202)
+        win.rightSf:SetPoint("TOPLEFT", 36, -214)
         win.rightSf:SetSize(836, 344)
         win.right.w = 836 - 26
     end
@@ -1493,7 +1493,7 @@ local function build()
         local t = TABS[i]
         local b = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
         b:SetSize(138, 30)
-        if prev then b:SetPoint("RIGHT", prev, "LEFT", -8, 0) else b:SetPoint("TOPRIGHT", -40, -150) end
+        if prev then b:SetPoint("RIGHT", prev, "LEFT", -8, 0) else b:SetPoint("TOPRIGHT", -40, -158) end
         b.ico = b:CreateTexture(nil, "OVERLAY")
         b.ico:SetSize(22, 22)
         b.ico:SetPoint("LEFT", 8, 0)
@@ -1512,13 +1512,13 @@ local function build()
     end
 
     win.boxL = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxL:SetPoint("TOPLEFT", 24, -190)
+    win.boxL:SetPoint("TOPLEFT", 24, -202)
     win.boxL:SetSize(352, 368)
     win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxR:SetPoint("TOPLEFT", 392, -190)
+    win.boxR:SetPoint("TOPLEFT", 392, -202)
     win.boxR:SetSize(516, 368)
-    win.leftSf, win.left = newScroll(win.detail, 36, -202, 304, 344)
-    win.rightSf, win.right = newScroll(win.detail, 408, -202, 468, 344)
+    win.leftSf, win.left = newScroll(win.detail, 36, -214, 304, 344)
+    win.rightSf, win.right = newScroll(win.detail, 408, -214, 468, 344)
     win.right.w = 468 - 26
 end
 
