@@ -57,6 +57,7 @@ local ACCENT = {
 }
 
 local TABS = {
+    { id = "pribeh", label = "Příběh", icon = "Interface\\Icons\\INV_Misc_Book_09" },
     { id = "bossove", label = "Bossové a kořist", icon = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8" },
     { id = "questy", label = "Questy", icon = "Interface\\GossipFrame\\AvailableQuestIcon" },
     { id = "mapa", label = "Mapa", icon = "Interface\\Icons\\INV_Misc_Map_01" },
@@ -442,6 +443,11 @@ local function findEntrance(key)
     return nil
 end
 
+local function isRaid(key)
+    for _, r in ipairs(RAIDS) do if r == key then return true end end
+    return false
+end
+
 local function showEntrance(key)
     local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
     local e = findEntrance(key)
@@ -470,7 +476,7 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", "Dungeon", 36)
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 36)
     say(("vchod %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
@@ -916,6 +922,12 @@ local function renderBosses(key)
     if note then addText(R, note, 12, INK, 8, 0, textW) end
     if hasModel and R.y < 158 then R.y = 158 end
     addRule(R)
+    local blore = WoWpoCesku_BossLore and WoWpoCesku_BossLore[key] and WoWpoCesku_BossLore[key][sel[1]]
+    if blore then
+        addText(R, "Příběh", 14, RED, 4)
+        addText(R, blore, 13, INK, 12)
+        addRule(R)
+    end
     local loot = {}
     local seenIds = {}
     local learned = WoWpoCeskuSeen and WoWpoCeskuSeen.loot and WoWpoCeskuSeen.loot[key] and WoWpoCeskuSeen.loot[key][sel[1]]
@@ -1086,6 +1098,20 @@ local function renderMap(key)
     addText(R, ("Značky: lebka = boss, zelená značka = poražen" .. (d.entry and ", trojúhelník = vchod" or "") .. ". Zobrazeno %d z %d bossů; polohy jsou z classic databáze a jsou přibližné."):format(#d.pins, d.total), 11, SEPIA, 4)
 end
 
+local function renderStory(key)
+    local R = win.right
+    reset(win.left); reset(R)
+    local L = WoWpoCesku_Lore and WoWpoCesku_Lore[key]
+    if not L then addText(R, "Příběh téhle instance zatím nemám.", 13, INK) return end
+    if L.tag and L.tag ~= "" then addText(R, L.tag, 13, SEPIA, 10) end
+    for _, ch in ipairs(L.ch or {}) do
+        addText(R, ch[1], 15, RED, 4)
+        addText(R, ch[2], 13, INK, 12)
+    end
+    local bl = WoWpoCesku_BossLore and WoWpoCesku_BossLore[key]
+    if bl then addText(R, "Příběh jednotlivých bossů najdeš v záložce Bossové a kořist.", 11, SEPIA, 4) end
+end
+
 local function renderGuide(key)
     local R = win.right
     reset(win.left); reset(R)
@@ -1201,7 +1227,7 @@ showDetail = function()
     win.name:SetText(key)
     win.tag:SetText(levelText(key) or "")
     setTabs()
-    local twoPane = (state.tab ~= "pruvodce" and state.tab ~= "mapa")
+    local twoPane = (state.tab ~= "pruvodce" and state.tab ~= "mapa" and state.tab ~= "pribeh")
     win.leftSf:SetShown(twoPane)
     win.boxL:SetShown(twoPane)
     win.boxR:ClearAllPoints()
@@ -1221,6 +1247,7 @@ showDetail = function()
     if state.tab == "bossove" then renderBosses(key)
     elseif state.tab == "questy" then renderQuests(key)
     elseif state.tab == "mapa" then renderMap(key)
+    elseif state.tab == "pribeh" then renderStory(key)
     else renderGuide(key) end
     win.left:SetHeight(math.max(win.left.y + 10, 10))
     win.right:SetHeight(math.max(win.right.y + 10, 10))
@@ -1325,7 +1352,7 @@ local function build()
     for i = #TABS, 1, -1 do
         local t = TABS[i]
         local b = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
-        b:SetSize(156, 30)
+        b:SetSize(138, 30)
         if prev then b:SetPoint("RIGHT", prev, "LEFT", -8, 0) else b:SetPoint("TOPRIGHT", -40, -150) end
         b.ico = b:CreateTexture(nil, "OVERLAY")
         b.ico:SetSize(22, 22)

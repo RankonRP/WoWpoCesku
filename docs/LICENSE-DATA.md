@@ -5,7 +5,7 @@
 ## Čeho se licence týká
 
 - české překlady (questy, rozhovory s NPC, texty rozhraní, popisky kouzel) a jejich databáze (`data/preklady.json`, `data/rozhovory.json`, `data/rozhrani.json`, `WoWpoCesku/Data.lua`, `DataRozhovory.lua`, `DataRozhrani.lua`),
-- **Kronika Azerothu**: příběhy oblastí a dungeonů, tajemství, poznámky k postavám a předmětům, otázky Zkoušky kronikáře, popisky pečetí (`DataLore.lua`, `DataKronika.lua`, `DataDungeony.lua`, `DataPruvodce.lua`, `DataKoristi.lua`),
+- **Kronika Azerothu**: příběhy oblastí a dungeonů, tajemství, poznámky k postavám a předmětům, otázky Zkoušky kronikáře, popisky pečetí (`DataLore.lua`, `DataKronika.lua`, `DataDungeony.lua`, `DataPruvodce.lua`, `DataKoristi.lua`, `DataBossLore.lua`),
 - obrázky a textury v `WoWpoCesku/Textures/`,
 - výběr, uspořádání a údaje v seznamech vzácných mobů a míst (`DataVzacni.lua`, `DataKronika.lua`).
 
