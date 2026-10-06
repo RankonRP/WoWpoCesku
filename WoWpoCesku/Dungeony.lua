@@ -612,6 +612,7 @@ local function newScroll(parent, x, y, w, h)
     c.nt, c.ni, c.nr, c.nc, c.nb, c.y = 0, 0, 0, 0, 0, 0
     c.portrait = false
     c.moneyBox = false
+    c.xpBox = false
     c.map = false
     return sf, c
 end
@@ -625,6 +626,7 @@ local function reset(c)
     for _, b in ipairs(c.cards) do b:Hide() end
     if c.portrait then c.portrait:Hide() end
     if c.moneyBox then c.moneyBox:Hide() end
+    if c.xpBox then c.xpBox:Hide() end
     if c.map then c.map:Hide() end
 end
 
@@ -663,25 +665,52 @@ local function addButton(c, label, onClick)
     c.y = c.y + 34
 end
 
-local function addMoney(c, copper)
-    if not c.moneyBox then
+-- ikony mincí (GetCoinTextureString klient nemá)
+local function coinText(copper)
+    local g, sv, cu = math.floor(copper / 10000), math.floor((copper % 10000) / 100), copper % 100
+    local t = {}
+    if g > 0 then t[#t + 1] = g .. "|TInterface\\MoneyFrame\\UI-GoldIcon:14:14:2:0|t" end
+    if sv > 0 then t[#t + 1] = sv .. "|TInterface\\MoneyFrame\\UI-SilverIcon:14:14:2:0|t" end
+    if cu > 0 or #t == 0 then t[#t + 1] = cu .. "|TInterface\\MoneyFrame\\UI-CopperIcon:14:14:2:0|t" end
+    return table.concat(t, " ")
+end
+
+local function rewardBox(c, key, r, g, b)
+    if not c[key] then
         local m = CreateFrame("Frame", nil, c, "BackdropTemplate")
         m:SetBackdrop(BOX)
-        m:SetBackdropColor(0.12, 0.08, 0.05, 0.9)
-        m:SetBackdropBorderColor(0.42, 0.27, 0.13, 1)
-        m:SetHeight(28)
+        m:SetHeight(30)
         m.t = text(m, 13, 1, 0.95, 0.80)
         m.t:SetPoint("CENTER")
-        c.moneyBox = m
+        c[key] = m
     end
-    local m = c.moneyBox
-    m:ClearAllPoints()
-    m:SetPoint("TOPLEFT", 0, -c.y)
-    local coins = GetCoinTextureString and GetCoinTextureString(copper) or (copper .. " měďáků")
-    m.t:SetText(coins)
-    m:SetWidth(math.max(70, (m.t:GetStringWidth() or 50) + 24))
-    m:Show()
-    c.y = c.y + 36
+    local m = c[key]
+    m:SetBackdropColor(r, g, b, 0.95)
+    m:SetBackdropBorderColor(0.20, 0.12, 0.06, 1)
+    return m
+end
+
+-- řádek odznaků: XP (fialový) a peníze (tmavý), jako ve vzoru
+local function addRewardBar(c, xp, copper)
+    local x = 0
+    if xp and xp > 0 then
+        local m = rewardBox(c, "xpBox", 0.33, 0.20, 0.55)
+        m.t:SetText("XP  " .. xp)
+        m:ClearAllPoints()
+        m:SetPoint("TOPLEFT", x, -c.y)
+        m:SetWidth(math.max(90, (m.t:GetStringWidth() or 60) + 26))
+        m:Show()
+        x = x + m:GetWidth() + 8
+    end
+    if copper and copper > 0 then
+        local m = rewardBox(c, "moneyBox", 0.14, 0.10, 0.07)
+        m.t:SetText(coinText(copper))
+        m:ClearAllPoints()
+        m:SetPoint("TOPLEFT", x, -c.y)
+        m:SetWidth(math.max(64, (m.t:GetStringWidth() or 40) + 26))
+        m:Show()
+    end
+    c.y = c.y + 38
 end
 
 -- tenká ozdobná čára pod nadpisem
@@ -1079,7 +1108,7 @@ local function renderQuests(key)
     local rw = WoWpoCesku_QuestRewards and WoWpoCesku_QuestRewards[id]
     if rw and (#rw.choice > 0 or #rw.fixed > 0 or (rw.money or 0) > 0) then
         addRule(R)
-        addText(R, "Odměny", 17, RED, 6, 0, nil, TITLE_FONT)
+        addText(R, "Odměny", 17, RED, 6)
         local function tiles(list)
             for i, it in ipairs(list) do addItem(R, it[2], it[3], it[1], false, (i - 1) % 2) end
             if #list % 2 == 1 then R.y = R.y + 54 end
@@ -1092,7 +1121,8 @@ local function renderQuests(key)
             addText(R, "Získáš:", 13, INK, 4)
             tiles(rw.fixed)
         end
-        if (rw.money or 0) > 0 then addMoney(R, rw.money) end
+        local xp = WoWpoCesku_QuestXP and WoWpoCesku_QuestXP[id]
+        if (rw.money or 0) > 0 or xp then addRewardBar(R, xp, rw.money) end
     elseif sel[7] and sel[7] ~= "" then
         addText(R, "Odměna", 14, RED, 2)
         addText(R, sel[7], 13, INK, 10)
