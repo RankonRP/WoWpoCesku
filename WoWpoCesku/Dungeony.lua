@@ -1263,8 +1263,8 @@ local function build()
     head:SetText("Dungeonový deník")
 
     -- přehled (karty)
-    win.browseSf, win.browse = newScroll(win, 30, -70, 740, 500)
-    win.browse.w = 740 - 26
+    win.browseSf, win.browse = newScroll(win, 30, -70, 716, 500)
+    win.browse.w = 716 - 26
 
     -- detail
     win.detail = CreateFrame("Frame", nil, win)
