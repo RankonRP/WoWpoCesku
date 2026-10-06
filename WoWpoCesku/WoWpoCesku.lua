@@ -838,14 +838,15 @@ end
 local COL_W = 300   -- přepočítá se podle skutečné šířky okna nastavení
 local function newColumn(x) return { x = x, y = -92 } end
 
+local content   -- posuvný obsah nastavení (vznikne v buildOptions)
 local function addSection(col, title)
     col.y = col.y - 6
-    local t = options:CreateFontString(nil, "ARTWORK")
+    local t = content:CreateFontString(nil, "ARTWORK")
     t:SetFontObject(labelFont)
     t:SetTextColor(1, 0.82, 0)
     t:SetPoint("TOPLEFT", col.x, col.y)
     t:SetText(title)
-    local line = options:CreateTexture(nil, "ARTWORK")
+    local line = content:CreateTexture(nil, "ARTWORK")
     line:SetColorTexture(1, 0.82, 0, 0.35)
     line:SetPoint("TOPLEFT", col.x, col.y - 18)
     line:SetSize(COL_W, 1)
@@ -853,9 +854,9 @@ local function addSection(col, title)
 end
 
 local function addCheck(col, label, note, get, set)
-    local cb = CreateFrame("CheckButton", nil, options, "UICheckButtonTemplate")
+    local cb = CreateFrame("CheckButton", nil, content, "UICheckButtonTemplate")
     cb:SetPoint("TOPLEFT", col.x - 4, col.y + 2)
-    local text = options:CreateFontString(nil, "ARTWORK")
+    local text = content:CreateFontString(nil, "ARTWORK")
     text:SetFontObject(labelFont)
     text:SetPoint("TOPLEFT", col.x + 28, col.y - 4)
     text:SetWidth(COL_W - 32)
@@ -863,7 +864,7 @@ local function addCheck(col, label, note, get, set)
     text:SetText(label)
     local h = text:GetStringHeight() + 4
     if note then
-        local n = options:CreateFontString(nil, "ARTWORK")
+        local n = content:CreateFontString(nil, "ARTWORK")
         n:SetFontObject(noteFont)
         n:SetPoint("TOPLEFT", text, "BOTTOMLEFT", 0, -2)
         n:SetWidth(COL_W - 32)
@@ -897,18 +898,24 @@ function WoWpoCesku_ApplyPreset(name)
 end
 
 local function buildOptions()
-    local head = options:CreateFontString(nil, "ARTWORK")
+    local scroll = CreateFrame("ScrollFrame", nil, options, "UIPanelScrollFrameTemplate")
+    scroll:SetPoint("TOPLEFT", 0, -4)
+    scroll:SetPoint("BOTTOMRIGHT", -28, 4)
+    content = CreateFrame("Frame", nil, scroll)
+    content:SetSize(((options:GetWidth() or 0) > 300 and options:GetWidth() or 640) - 30, 10)
+    scroll:SetScrollChild(content)
+    local head = content:CreateFontString(nil, "ARTWORK")
     head:SetFontObject(headFont)
     head:SetPoint("TOPLEFT", 16, -16)
     head:SetText("WoWpoČesku – nastavení")
 
-    local presetLabel = options:CreateFontString(nil, "ARTWORK")
+    local presetLabel = content:CreateFontString(nil, "ARTWORK")
     presetLabel:SetFontObject(noteFont)
     presetLabel:SetPoint("TOPLEFT", 20, -50)
     presetLabel:SetText("Rychlé předvolby:")
     local prev
     for _, p in ipairs({ { "vse", "Vše česky" }, { "preklad", "Jen překlad" }, { "questy", "Jen questy" } }) do
-        local b = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+        local b = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
         b:SetSize(112, 22)
         if prev then b:SetPoint("LEFT", prev, "RIGHT", 6, 0) else b:SetPoint("LEFT", presetLabel, "RIGHT", 10, 0) end
         czButton(b)
@@ -916,7 +923,7 @@ local function buildOptions()
         b:SetScript("OnClick", function() WoWpoCesku_ApplyPreset(p[1]) end)
         prev = b
     end
-    local presetNote = options:CreateFontString(nil, "ARTWORK")
+    local presetNote = content:CreateFontString(nil, "ARTWORK")
     presetNote:SetFontObject(noteFont)
     presetNote:SetPoint("TOPLEFT", 20, -74)
     presetNote:SetText("Jen překlad = questy, rozhovory, knihy a přehled úkolů. Jen questy = pouze texty questů. Vše česky = i rozhraní a Kronika.")
@@ -988,19 +995,19 @@ local function buildOptions()
 
     -- pravý sloupec: panel s překladem
     addSection(right, "Panel s překladem")
-    local sizeLabel = options:CreateFontString(nil, "ARTWORK")
+    local sizeLabel = content:CreateFontString(nil, "ARTWORK")
     sizeLabel:SetFontObject(labelFont)
     sizeLabel:SetPoint("TOPLEFT", right.x, right.y - 4)
     sizeLabel:SetText("Velikost písma:")
-    local minus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+    local minus = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     minus:SetSize(26, 22)
     minus:SetPoint("LEFT", sizeLabel, "RIGHT", 12, 0)
     minus:SetText("-")
-    local value = options:CreateFontString(nil, "ARTWORK")
+    local value = content:CreateFontString(nil, "ARTWORK")
     value:SetFontObject(labelFont)
     value:SetPoint("LEFT", minus, "RIGHT", 8, 0)
     value:SetWidth(24)
-    local plus = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+    local plus = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     plus:SetSize(26, 22)
     plus:SetPoint("LEFT", value, "RIGHT", 8, 0)
     plus:SetText("+")
@@ -1010,7 +1017,7 @@ local function buildOptions()
     plus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) + 1); value:Refresh() end)
     right.y = right.y - 36
 
-    local reset = CreateFrame("Button", nil, options, "UIPanelButtonTemplate")
+    local reset = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     reset:SetSize(230, 24)
     reset:SetPoint("TOPLEFT", right.x, right.y)
     czButton(reset)
@@ -1024,7 +1031,7 @@ local function buildOptions()
         function() return WoWpoCeskuSettings.minimap ~= false end,
         function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
 
-    local help = options:CreateFontString(nil, "ARTWORK")
+    local help = content:CreateFontString(nil, "ARTWORK")
     help:SetFontObject(noteFont)
     help:SetPoint("TOPLEFT", right.x, right.y - 8)
     help:SetWidth(COL_W)
@@ -1032,6 +1039,7 @@ local function buildOptions()
     help:SetSpacing(2)
     help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat). "
         .. "Panel s překladem jde přetáhnout myší.\nPříkazy do chatu: /czq nastaveni, /czq stav, /czq lore, /czq vzacni")
+    content:SetHeight(math.max(-left.y, -right.y + help:GetStringHeight()) + 50)
 end
 
 options:SetScript("OnShow", function(self)
