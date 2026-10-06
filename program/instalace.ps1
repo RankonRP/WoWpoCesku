@@ -2,7 +2,8 @@
 # Soubory zůstávají tady – Pomocník zapisuje překlady a hra je rovnou vidí.
 
 Add-Type -AssemblyName System.Windows.Forms
-$source = Join-Path $PSScriptRoot "WoWpoCesku"
+$Root = Split-Path $PSScriptRoot -Parent   # hlavní složka projektu (skript je ve složce program\)
+$source = Join-Path $Root "WoWpoCesku"
 
 # Složka hry = ta, ve které je .flavor.info nebo Wow*.exe (např. ...\World of Warcraft\_classic_beta_)
 function Test-GameFolder([string]$path) {
@@ -63,8 +64,9 @@ Write-Host ""
 Write-Host "Složka hry: $game  ($(Get-FlavorName $game))" -ForegroundColor Cyan
 
 # Zapamatovat složku hry pro Pomocníka (čte z ní mezipaměť questů)
-$settingsPath = Join-Path $PSScriptRoot "nastaveni.json"
-$examplePath = Join-Path $PSScriptRoot "nastaveni.example.json"
+$settingsPath = Join-Path $Root "nastaveni\nastaveni.json"
+if (-not (Test-Path (Split-Path $settingsPath))) { [void](New-Item -ItemType Directory -Force (Split-Path $settingsPath)) }
+$examplePath = Join-Path $Root "nastaveni\nastaveni.example.json"
 if (-not (Test-Path $settingsPath) -and (Test-Path $examplePath)) { Copy-Item $examplePath $settingsPath }
 if (Test-Path $settingsPath) {
     $s = Get-Content $settingsPath -Raw -Encoding UTF8 | ConvertFrom-Json

@@ -28,7 +28,7 @@ const DRY_RUN = process.env.DRY_RUN === "1";
 // a odešle je až "node tools/zpracuj.js --odeslat" PO úspěšném pushi. Když push selže, nic se
 // neztratí – sběrna texty nabídne znovu.
 const ODLOZIT = process.env.ODLOZIT === "1";
-const ODESLAT_PATH = path.join(ROOT, ".odeslat.json");
+const ODESLAT_PATH = path.join(ROOT, "nastaveni", "stav", ".odeslat.json");
 
 const simple = (s) => (s || "").toLowerCase().replace(/[\s\p{P}]/gu, "");
 
@@ -46,7 +46,7 @@ async function sberna(pathname, body) {
 }
 
 // Filtr zakázaných slov (filtr.json): začátek slova, bez ohledu na velikost písmen
-const FILTER = JSON.parse(fs.readFileSync(path.join(ROOT, "filtr.json"), "utf8").replace(/^﻿/, ""));
+const FILTER = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "filtr.json"), "utf8").replace(/^﻿/, ""));
 const FILTER_RE = new RegExp(
   `(?<!\\p{L})(?:${[...FILTER.cesky, ...FILTER.anglicky].map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`,
   "iu"

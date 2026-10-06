@@ -5,7 +5,7 @@ const path = require("path");
 const { apply: applyRules } = require("./pravidla");
 
 const ROOT = path.join(__dirname, "..");
-const GLOSSARY_PATH = path.join(ROOT, "slovnicek.txt");
+const GLOSSARY_PATH = path.join(ROOT, "data", "slovnicek.txt");
 const { ANTHROPIC_API_KEY } = process.env;
 const PREKLADAC = process.env.PREKLADAC || "google";
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

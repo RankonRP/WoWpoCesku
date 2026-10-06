@@ -1,4 +1,4 @@
--- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md
+-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md
 -- WoWpoCesku: data pro doplňky Kroniky Azerothu (Kronika.lua)
 -- Vzácní mobové podle classic dat (foreverdb.net / CMaNGOS) a novinky WoW Forever: "Jméno|level|t" (t = lovec ochočí)
 

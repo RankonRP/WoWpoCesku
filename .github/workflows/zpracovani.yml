@@ -44,7 +44,7 @@ jobs:
         run: |
           git config user.name "wowpocesku-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          DATA="preklady.json WoWpoCesku/Data.lua rozhovory.json WoWpoCesku/DataRozhovory.lua rozhrani.json WoWpoCesku/DataRozhrani.lua"
+          DATA="data/preklady.json WoWpoCesku/Data.lua data/rozhovory.json WoWpoCesku/DataRozhovory.lua data/rozhrani.json WoWpoCesku/DataRozhrani.lua"
           for pokus in 1 2 3; do
             if git diff --quiet -- $DATA; then
               echo "Žádné změny v překladech."

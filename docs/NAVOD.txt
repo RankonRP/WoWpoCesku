@@ -174,11 +174,12 @@ SOUBORY
 Instalace do hry.bat   propojí addon se hrou (jednou)
 Spustit pomocnika.bat  spustí Pomocníka
 WoWpoCesku\            samotný addon
-preklady.json          všechny překlady (tady jdou ručně opravit chyby,
+program\               Pomocník a instalace (spouštějí je dva .bat soubory výš)
+data\preklady.json     všechny překlady (tady jdou ručně opravit chyby,
                        po restartu Pomocníka se propíšou do hry)
-nastaveni.json         tvoje nastavení – vznikne při prvním spuštění,
+data\slovnicek.txt     pravidla a pojmy pro překlad přes Claude
+nastaveni\nastaveni.json  tvoje nastavení – vznikne při prvním spuštění,
                        NIKOMU HO NEPOSÍLEJ
-slovnicek.txt          pravidla a pojmy pro překlad přes Claude
 
 
 PŘEKLAD PŘES CLAUDE (volitelné, placené)
@@ -186,7 +187,7 @@ PŘEKLAD PŘES CLAUDE (volitelné, placené)
 Místo Googlu může překládat Claude (AI od Anthropicu) – řádově desetiny
 centu za quest.
 1. Vytvoř API klíč na https://console.anthropic.com (je potřeba dobít kredit).
-2. V nastaveni.json nastav "prekladac": "claude" a klíč vlož do
+2. V nastaveni\nastaveni.json nastav "prekladac": "claude" a klíč vlož do
    "claude_api_klic": "sem",
 3. Restartuj Pomocníka.
 

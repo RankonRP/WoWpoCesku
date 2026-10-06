@@ -4,12 +4,12 @@
 
 ## Čeho se licence týká
 
-- české překlady (questy, rozhovory s NPC, texty rozhraní, popisky kouzel) a jejich databáze (`preklady.json`, `rozhovory.json`, `rozhrani.json`, `WoWpoCesku/Data.lua`, `DataRozhovory.lua`, `DataRozhrani.lua`),
+- české překlady (questy, rozhovory s NPC, texty rozhraní, popisky kouzel) a jejich databáze (`data/preklady.json`, `data/rozhovory.json`, `data/rozhrani.json`, `WoWpoCesku/Data.lua`, `DataRozhovory.lua`, `DataRozhrani.lua`),
 - **Kronika Azerothu**: příběhy oblastí a dungeonů, tajemství, poznámky k postavám a předmětům, otázky Zkoušky kronikáře, popisky pečetí (`DataLore.lua`, `DataKronika.lua`, `DataDungeony.lua`),
 - obrázky a textury v `WoWpoCesku/Textures/`,
 - výběr, uspořádání a údaje v seznamech vzácných mobů a míst (`DataVzacni.lua`, `DataKronika.lua`).
 
-Netýká se: **zdrojového kódu** (Lua, PowerShell, JavaScript), ten je pod licencí [MIT](LICENSE); písma Noto Sans (SIL OFL); **anglických originálních textů her**, ty jsou © Blizzard Entertainment (tato licence se vztahuje jen na český překlad, výběr a uspořádání).
+Netýká se: **zdrojového kódu** (Lua, PowerShell, JavaScript), ten je pod licencí [MIT](../LICENSE); písma Noto Sans (SIL OFL); **anglických originálních textů her**, ty jsou © Blizzard Entertainment (tato licence se vztahuje jen na český překlad, výběr a uspořádání).
 
 ## Co je povoleno
 

@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 
-const SRC = path.join(__dirname, '..', 'obrazky-pecete');
+const SRC = path.join(__dirname, 'zdroje', 'obrazky-pecete');
 const DST = path.join(__dirname, '..', 'WoWpoCesku', 'Textures', 'Pecete');
 const OUT = 128;
 

@@ -2,7 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const RULES = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "pravidla.json"), "utf8").replace(/^﻿/, ""));
+const RULES = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "data", "pravidla.json"), "utf8").replace(/^﻿/, ""));
 
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);

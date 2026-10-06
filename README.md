@@ -52,7 +52,7 @@ K tomu:
 
 Texty jsou psané vlastními slovy podle klasického WoW a [Warcraft Wiki](https://warcraft.wiki.gg/) a ověřené. Ve WoW Forever se může něco lišit – když narazíš na chybu, napiš.
 
-Podrobný návod včetně řešení častých potíží: [NAVOD.txt](NAVOD.txt) (je i v zipu, otevře se v Poznámkovém bloku).
+Podrobný návod včetně řešení častých potíží: [docs/NAVOD.txt](docs/NAVOD.txt) (je i v zipu, otevře se v Poznámkovém bloku).
 
 ## Stav
 
@@ -62,16 +62,18 @@ Testování na betě WoW Forever (klient 1.60.1). Překlady jsou strojové (Goog
 
 | Cesta | Co to je |
 |---|---|
+| `Instalace do hry.bat` | propojí addon se složkou hry (spouští `program/instalace.ps1`) |
+| `Spustit pomocnika.bat` | spustí Pomocníka – hlídá schránku, překládá nové texty, stahuje aktualizace (`program/pomocnik.ps1`) |
 | `WoWpoCesku/` | samotný addon (patří do `Interface\AddOns`) |
-| `Spustit pomocnika.bat`, `pomocnik.ps1` | Pomocník – hlídá schránku, překládá nové questy, stahuje aktualizace |
-| `Instalace do hry.bat` | propojí addon se složkou hry |
-| `preklady.json`, `rozhovory.json` | databáze překladů včetně anglických originálů |
-| `pravidla.json` | automatické úpravy strojového překladu |
+| `program/` | Pomocník, instalace a číslo verze (`verze.txt`) |
+| `data/` | databáze překladů (`preklady.json`, `rozhovory.json`, `rozhrani.json`), `pravidla.json`, `filtr.json`, `slovnicek.txt` |
+| `nastaveni/` | tvoje nastavení (`nastaveni.json` – nikomu ho neposílej) a stavové soubory |
+| `docs/` | návod a licence textů a dat |
 | `sberna/`, `tools/`, `.github/` | společná databáze a její zpracování (pro správce) |
 
 ## Licence a zdroje
 
 - Kód: [MIT](LICENSE)
-- **Překlady, texty Kroniky, databáze a obrázky: [LICENSE-DATA.md](LICENSE-DATA.md)** – addon můžeš používat a doporučovat, ale texty a data nelze kopírovat do jiných addonů ani projektů bez povolení.
+- **Překlady, texty Kroniky, databáze a obrázky: [docs/LICENSE-DATA.md](docs/LICENSE-DATA.md)** – addon můžeš používat a doporučovat, ale texty a data nelze kopírovat do jiných addonů ani projektů bez povolení.
 - Písmo Noto Sans: SIL Open Font License 1.1 (`WoWpoCesku/Fonts/OFL.txt`)
 - Anglické texty klasických questů pochází z open-source databáze [CMaNGOS classic-db](https://github.com/cmangos/classic-db). Texty questů jsou © Blizzard Entertainment; toto je neoficiální fanouškovský překlad.

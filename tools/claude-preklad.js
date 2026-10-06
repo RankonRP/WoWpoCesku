@@ -20,7 +20,7 @@ const DONE = new Set(["claude", "oprava"]);
 const FIELDS = ["title", "objectives", "text", "progress", "reward"];
 
 function savedVariablesFiles() {
-  const settings = JSON.parse(fs.readFileSync(path.join(ROOT, "nastaveni.json"), "utf8").replace(/^\uFEFF/, ""));
+  const settings = JSON.parse(fs.readFileSync(path.join(ROOT, "nastaveni", "nastaveni.json"), "utf8").replace(/^\uFEFF/, ""));
   const game = settings.slozka_hry || "D:/World of Warcraft/_classic_beta_";
   const accounts = path.join(game, "WTF", "Account");
   if (!fs.existsSync(accounts)) return [];
@@ -66,7 +66,7 @@ function seznam(max) {
 }
 
 // Označení z tlačítka "Nelíbí se mi – poslat Claudovi": WoWpoCeskuSeen.flag["q:<id>" | "g:<anglický text>"] = { t, part, title }
-const DONE_FLAGS = path.join(ROOT, ".oznacene-hotovo.json");
+const DONE_FLAGS = path.join(ROOT, "nastaveni", "stav", ".oznacene-hotovo.json");
 function readFlags() {
   const unescape = (s) => s.replace(/\\(n|r|t|"|\\)/g, (_, c) => (c === "n" ? "\n" : c === "r" ? "\r" : c === "t" ? "\t" : c));
   const flags = {};
@@ -123,7 +123,7 @@ function oznacene(markDone) {
       out.rozhovory[k] = { dosavadni_preklad: g ? g.cs : null, zdroj: g ? g.src : null };
     }
   }
-  if (markDone) { fs.writeFileSync(DONE_FLAGS, JSON.stringify(done)); console.log("označeno jako hotové: " + pending); return; }
+  if (markDone) { fs.mkdirSync(path.dirname(DONE_FLAGS), { recursive: true }); fs.writeFileSync(DONE_FLAGS, JSON.stringify(done)); console.log("označeno jako hotové: " + pending); return; }
   console.log(JSON.stringify(out, null, 1));
   console.error("označeno hráčem: " + Object.keys(flags).length + " | k přeložení: " + pending +
     " (questů " + Object.keys(out.questy).length + ", rozhovorů " + Object.keys(out.rozhovory).length + ")");

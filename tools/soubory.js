@@ -3,11 +3,11 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.join(__dirname, "..");
-const CACHE_PATH = path.join(ROOT, "preklady.json");
+const CACHE_PATH = path.join(ROOT, "data", "preklady.json");
 const DATA_LUA_PATH = path.join(ROOT, "WoWpoCesku", "Data.lua");
-const GOSSIP_PATH = path.join(ROOT, "rozhovory.json");
+const GOSSIP_PATH = path.join(ROOT, "data", "rozhovory.json");
 const GOSSIP_LUA_PATH = path.join(ROOT, "WoWpoCesku", "DataRozhovory.lua");
-const UI_PATH = path.join(ROOT, "rozhrani.json");
+const UI_PATH = path.join(ROOT, "data", "rozhrani.json");
 const UI_LUA_PATH = path.join(ROOT, "WoWpoCesku", "DataRozhrani.lua");
 const FIELD_ORDER = ["title", "text", "objectives", "progress", "reward"];
 
@@ -41,7 +41,7 @@ function writeCache(cache) {
 function writeDataLua(cache) {
   const out = [
     "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v preklady.json.",
-    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md",
+    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md",
     "WoWpoCesku_Data = {",
   ];
   for (const id of Object.keys(cache).sort((a, b) => a - b)) {
@@ -66,7 +66,7 @@ function writeGossip(gossip) {
 function writeGossipLua(gossip) {
   const out = [
     "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhovory.json.",
-    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md",
+    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md",
     "WoWpoCesku_Gossip = {",
   ];
   for (const k of Object.keys(gossip).sort()) {
@@ -82,7 +82,7 @@ function writeUi(ui) { writeJsonLines(UI_PATH, ui, Object.keys(ui).sort()); }
 function writeUiLua(ui) {
   const out = [
     "-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhrani.json.",
-    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md",
+    "-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md",
     "WoWpoCesku_UI = {",
   ];
   for (const k of Object.keys(ui).sort()) if (ui[k].cs) out.push(`[${luaString(k)}]=${luaString(ui[k].cs)},`);

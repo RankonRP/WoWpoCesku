@@ -100,7 +100,7 @@ const missing = [...wanted].filter((n) => !out[n]);
 console.log("se souřadnicemi:", found, "bez nich:", missing.length, missing.join(", "));
 
 const esc = (s) => s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-let lua = "© 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md\n-- WoWpoCesku: kde se objevují vzácní mobové (CMaNGOS classic-db, světové souřadnice: kontinent, x, y, …)\n"
+let lua = "© 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md\n-- WoWpoCesku: kde se objevují vzácní mobové (CMaNGOS classic-db, světové souřadnice: kontinent, x, y, …)\n"
   + "-- Vytvořeno nástrojem tools/vzacni.js – needitovat ručně.\nWoWpoCesku_RareSpawns = {\n";
 for (const [name, flat] of Object.entries(out)) lua += `    ["${esc(name)}"] = { ${flat.join(", ")} },\n`;
 lua += "}\n";

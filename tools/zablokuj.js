@@ -45,9 +45,11 @@ async function blokuj(client) {
 function vrat(id) {
   const git = (...args) => execFileSync("git", args, { cwd: ROOT, maxBuffer: 1e9 }).toString();
   const current = JSON.stringify(readCache()[id] ?? null);
-  const commits = git("log", "--format=%H", "--", "preklady.json").trim().split("\n");
+  // databáze byla dřív v hlavní složce, teď je v data/ – historii hledáme na obou místech
+  const showCache = (sha) => { try { return git("show", `${sha}:data/preklady.json`); } catch { return git("show", `${sha}:preklady.json`); } };
+  const commits = git("log", "--format=%H", "--", "data/preklady.json", "preklady.json").trim().split("\n");
   for (const sha of commits) {
-    const old = JSON.parse(git("show", `${sha}:preklady.json`).replace(/^﻿/, ""))[id] ?? null;
+    const old = JSON.parse(showCache(sha).replace(/^﻿/, ""))[id] ?? null;
     if (JSON.stringify(old) !== current) {
       const cache = readCache();
       if (old) cache[id] = old; else delete cache[id];

@@ -7,7 +7,7 @@ const path = require("path");
 const { apply } = require("./pravidla");
 
 const ROOT = path.join(__dirname, "..");
-const CACHE_PATH = path.join(ROOT, "preklady.json");
+const CACHE_PATH = path.join(ROOT, "data", "preklady.json");
 const FIELDS = ["title", "text", "objectives", "progress", "reward"];
 const write = process.argv.includes("--zapsat");
 

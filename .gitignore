@@ -1,7 +1,9 @@
 # Osobní nastavení s API klíčem – nikdy nenahrávat
 nastaveni.json
 
-# Lokální zálohy a balíčky
+# Stavové soubory Pomocníka a lokální zálohy
+nastaveni/stav/
+nastaveni/zaloha/
 zaloha/
 *.zip
 
@@ -10,12 +12,6 @@ sberna/node_modules/
 sberna/.wrangler/
 sberna/package-lock.json
 sberna/tajne.txt
-.preklady.etag
-.rozhovory.etag
-.cache-odeslano
-.fronta-zpracovano
-.rozhrani.etag
 
-.odeslat.json
-obrazky-pecete/
-.oznacene-hotovo.json
+# Zdrojové obrázky pečetí (do hry jdou jen převedené textury)
+tools/zdroje/obrazky-pecete/

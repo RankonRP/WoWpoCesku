@@ -5,10 +5,25 @@
 Add-Type -AssemblyName System.Windows.Forms, System.Drawing
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$Root         = $PSScriptRoot
-$SettingsPath = Join-Path $Root "nastaveni.json"
-$CachePath    = Join-Path $Root "preklady.json"
-$GlossaryPath = Join-Path $Root "slovnicek.txt"
+$Here         = $PSScriptRoot                 # složka program\
+$Root         = Split-Path $Here -Parent      # hlavní složka projektu
+$DataDir      = Join-Path $Root "data"
+$SetDir       = Join-Path $Root "nastaveni"
+$StateDir     = Join-Path $SetDir "stav"
+foreach ($d in @($DataDir, $SetDir, $StateDir)) { if (-not (Test-Path $d)) { [void](New-Item -ItemType Directory -Force $d) } }
+# Starší uspořádání (soubory přímo v hlavní složce) -> přesunout na nová místa, aby o nic nepřišli ani ti, kdo aktualizují
+foreach ($m in @(
+    @("nastaveni.json", $SetDir), @("nastaveni.example.json", $SetDir),
+    @("preklady.json", $DataDir), @("rozhovory.json", $DataDir), @("rozhrani.json", $DataDir),
+    @("pravidla.json", $DataDir), @("filtr.json", $DataDir), @("slovnicek.txt", $DataDir),
+    @(".preklady.etag", $StateDir), @(".rozhovory.etag", $StateDir), @(".rozhrani.etag", $StateDir),
+    @(".cache-odeslano", $StateDir), @(".fronta-zpracovano", $StateDir))) {
+    $old = Join-Path $Root $m[0]
+    if ((Test-Path $old) -and -not (Test-Path (Join-Path $m[1] $m[0]))) { Move-Item $old (Join-Path $m[1] $m[0]) -Force }
+}
+$SettingsPath = Join-Path $SetDir "nastaveni.json"
+$CachePath    = Join-Path $DataDir "preklady.json"
+$GlossaryPath = Join-Path $DataDir "slovnicek.txt"
 $DataLuaPath  = Join-Path $Root "WoWpoCesku\Data.lua"
 $Utf8NoBom    = New-Object System.Text.UTF8Encoding $false
 $FieldOrder   = @("title", "text", "objectives", "progress", "reward")
@@ -23,7 +38,7 @@ function Read-JsonFile($path) {
 }
 
 # nastaveni.json se nenahrává na GitHub (obsahuje API klíč) -> při prvním spuštění vznikne ze vzoru
-$ExamplePath = Join-Path $Root "nastaveni.example.json"
+$ExamplePath = Join-Path $SetDir "nastaveni.example.json"
 if (-not (Test-Path $SettingsPath) -and (Test-Path $ExamplePath)) { Copy-Item $ExamplePath $SettingsPath }
 $Settings = Read-JsonFile $SettingsPath
 if (-not $Settings) { $Settings = [pscustomobject]@{ prekladac = "google"; claude_api_klic = ""; claude_model = "claude-haiku-4-5" } }
@@ -36,8 +51,8 @@ function Set-Setting($name, $value) {
 
 # Společná databáze: sběrna nových questů a aktuální překlady na GitHubu
 $SbernaUrl      = "https://wowpocesku-sberna.wowpocesku-sberna.workers.dev"
-$RemoteCacheUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/preklady.json"
-$EtagPath       = Join-Path $Root ".preklady.etag"
+$RemoteCacheUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/data/preklady.json"
+$EtagPath       = Join-Path $StateDir ".preklady.etag"
 
 # Náhodné ID instalace (sběrna podle něj pozná, že stejný quest poslali různí hráči)
 if (-not $Settings.klient_id) {
@@ -85,7 +100,7 @@ function ConvertTo-LuaString([string]$s) {
 function Write-DataLua {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v preklady.json.")
-    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md")
+    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md")
     [void]$sb.AppendLine("WoWpoCesku_Data = {")
     foreach ($id in ($script:Cache.Keys | Sort-Object { [int]$_ })) {
         $parts = foreach ($f in $FieldOrder) {
@@ -105,10 +120,10 @@ function Write-DataLua {
 # Rozhovory s NPC: klíč = anglický text se sjednocenými mezerami (addon ho počítá stejně)
 # rozhovory.json: { "<anglický text>": { cs, en, npc, src } } -> WoWpoCesku\DataRozhovory.lua
 # ----------------------------------------------------------------------------
-$GossipPath      = Join-Path $Root "rozhovory.json"
+$GossipPath      = Join-Path $DataDir "rozhovory.json"
 $GossipLuaPath   = Join-Path $Root "WoWpoCesku\DataRozhovory.lua"
-$RemoteGossipUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/rozhovory.json"
-$GossipEtagPath  = Join-Path $Root ".rozhovory.etag"
+$RemoteGossipUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/data/rozhovory.json"
+$GossipEtagPath  = Join-Path $StateDir ".rozhovory.etag"
 
 function Get-GossipKey([string]$s) { (($s -replace '\\r', '') -replace '\s+', ' ').Trim() }
 
@@ -146,10 +161,10 @@ function Save-Gossip {
 # Texty rozhraní (talenty…): šablony s {1},{2} místo čísel, stejný formát jako rozhovory
 # rozhrani.json: { "<anglická šablona>": { cs, en, src } } -> WoWpoCesku\DataRozhrani.lua
 # ----------------------------------------------------------------------------
-$UiPath      = Join-Path $Root "rozhrani.json"
+$UiPath      = Join-Path $DataDir "rozhrani.json"
 $UiLuaPath   = Join-Path $Root "WoWpoCesku\DataRozhrani.lua"
-$RemoteUiUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/rozhrani.json"
-$UiEtagPath  = Join-Path $Root ".rozhrani.etag"
+$RemoteUiUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/data/rozhrani.json"
+$UiEtagPath  = Join-Path $StateDir ".rozhrani.etag"
 
 $script:Ui = @{}
 if (Test-Path $UiPath) { $script:Ui = ConvertFrom-GossipJson ([IO.File]::ReadAllText($UiPath, [Text.Encoding]::UTF8)) }
@@ -171,7 +186,7 @@ function Save-TextDb($db, [string]$path) {
 function Write-TextLua($db, [string]$path, [string]$var, [string]$source) {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v $source.")
-    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md")
+    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md")
     [void]$sb.AppendLine("$var = {")
     foreach ($k in ($db.Keys | Sort-Object)) {
         $cs = $db[$k]["cs"]
@@ -187,7 +202,7 @@ function Write-UiLua { Write-TextLua $script:Ui $UiLuaPath "WoWpoCesku_UI" "rozh
 function Write-GossipLua {
     $sb = New-Object System.Text.StringBuilder
     [void]$sb.AppendLine("-- Tento soubor generuje pomocnik.ps1. Neupravuj ho ručně – oprav překlad v rozhovory.json.")
-    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz LICENSE-DATA.md")
+    [void]$sb.AppendLine("-- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md")
     [void]$sb.AppendLine("WoWpoCesku_Gossip = {")
     foreach ($k in ($script:Gossip.Keys | Sort-Object)) {
         $cs = $script:Gossip[$k]["cs"]
@@ -304,7 +319,7 @@ $glossary
 }
 
 # Automatické úpravy strojového překladu (pravidla.json – stejná logika jako tools/pravidla.js)
-$RulesPath = Join-Path $Root "pravidla.json"
+$RulesPath = Join-Path $DataDir "pravidla.json"
 $script:Rules = @()
 function Initialize-Rules {
     $script:Rules = @()
@@ -675,8 +690,8 @@ function Update-UiFromGitHub {
 # Automatické aktualizace addonu a Pomocníka z GitHubu
 # (ve vývojové kopii s .git se nepoužívají – tam se aktualizuje přes git)
 # ----------------------------------------------------------------------------
-$VersionPath      = Join-Path $Root "verze.txt"
-$RemoteVersionUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/verze.txt"
+$VersionPath      = Join-Path $Here "verze.txt"
+$RemoteVersionUrl = "https://raw.githubusercontent.com/RankonRP/WoWpoCesku/main/program/verze.txt"
 $UpdateZipUrl     = "https://codeload.github.com/RankonRP/WoWpoCesku/zip/refs/heads/main"
 
 function Get-LocalVersion {
@@ -706,7 +721,7 @@ function Install-AppUpdate {
     $src = (Get-ChildItem $tmp -Directory | Select-Object -First 1).FullName
 
     # Data a nastavení hráče nepřepisovat (překlady se stahují zvlášť), jen doplnit, když chybí
-    $dataFiles = @("preklady.json", "rozhovory.json", "nastaveni.json", "WoWpoCesku\Data.lua", "WoWpoCesku\DataRozhovory.lua")
+    $dataFiles = @("data\preklady.json", "data\rozhovory.json", "data\rozhrani.json", "nastaveni\nastaveni.json", "WoWpoCesku\Data.lua", "WoWpoCesku\DataRozhovory.lua", "WoWpoCesku\DataRozhrani.lua")
     $skipDirs = @("sberna", "tools", ".github")
     foreach ($f in Get-ChildItem $src -Recurse -File) {
         $rel = $f.FullName.Substring($src.Length + 1)
@@ -720,7 +735,7 @@ function Install-AppUpdate {
 }
 
 function Restart-Helper {
-    Start-Process powershell.exe -ArgumentList '-NoProfile', '-STA', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', "`"$(Join-Path $Root 'pomocnik.ps1')`""
+    Start-Process powershell.exe -ArgumentList '-NoProfile', '-STA', '-ExecutionPolicy', 'Bypass', '-WindowStyle', 'Hidden', '-File', "`"$(Join-Path $Here 'pomocnik.ps1')`""
     $form.Close()
 }
 
@@ -863,7 +878,7 @@ function Import-GameCache([int]$maxTranslate = 20, [int]$maxSend = 100) {
     $stamp = [string](Get-Item $file).LastWriteTimeUtc.Ticks
     if ($Settings.cache_cas -eq $stamp) { return $null }
 
-    $sentPath = Join-Path $Root ".cache-odeslano"
+    $sentPath = Join-Path $StateDir ".cache-odeslano"
     $sent = New-Object 'System.Collections.Generic.HashSet[string]'
     if (Test-Path $sentPath) { foreach ($l in [IO.File]::ReadAllLines($sentPath)) { [void]$sent.Add($l) } }
 
@@ -997,7 +1012,7 @@ function Invoke-Quest([string]$clip, [bool]$quiet = $false) {
 # Hra je zapíše při /reload nebo odhlášení do WTF\Account\<účet>\SavedVariables\WoWpoCesku.lua,
 # Pomocník si soubor hlídá a texty přeloží sám – bez Ctrl+C.
 # ----------------------------------------------------------------------------
-$QueueDonePath = Join-Path $Root ".fronta-zpracovano"
+$QueueDonePath = Join-Path $StateDir ".fronta-zpracovano"
 $script:QueueDone = New-Object 'System.Collections.Generic.HashSet[string]'
 if (Test-Path $QueueDonePath) { foreach ($l in [IO.File]::ReadAllLines($QueueDonePath)) { [void]$script:QueueDone.Add($l) } }
 $script:QueueStamps = @{}
