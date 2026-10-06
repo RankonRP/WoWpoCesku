@@ -590,7 +590,9 @@ local function dungeonBestiar(key, list)
             if loot and #loot > 0 then
                 local parts = {}
                 for i = 1, math.min(#loot, 8) do
-                    parts[#parts + 1] = (loot[i][2] >= 4 and "|cff8a2be2" or (loot[i][2] == 3 and "|cff0b5cc4" or "|cff1a7a1a")) .. loot[i][1] .. "|r"
+                    local q, nm = loot[i][2], loot[i][1]
+                    if WoWpoCesku_ItemQuality then q, nm = WoWpoCesku_ItemQuality(loot[i][3], q, nm) end
+                    parts[#parts + 1] = (q >= 4 and "|cff8a2be2" or (q == 3 and "|cff0b5cc4" or "|cff1a7a1a")) .. nm .. "|r"
                 end
                 text = text .. "\n" .. GRAY .. "Může padnout: |r" .. table.concat(parts, ", ")
                     .. (#loot > 8 and (GRAY .. (" … a dalších %d|r"):format(#loot - 8)) or "")

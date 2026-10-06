@@ -8,8 +8,32 @@ local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
 local PARCHMENT = "Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga"
 local ART = "Interface\\AddOns\\WoWpoCesku\\Textures\\Dungeony\\"
 local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.42, 0.30, 0.18 }
-local QUALITY = { [2] = "|cff1a7a1a", [3] = "|cff0b5cc4", [4] = "|cff8a2be2" }
-local QCOLOR = { [2] = { 0.10, 0.48, 0.10 }, [3] = { 0.04, 0.36, 0.77 }, [4] = { 0.54, 0.17, 0.89 } }
+local QUALITY = { [0] = "|cff6b6b6b", [1] = "|cff4a4a4a", [2] = "|cff1a7a1a", [3] = "|cff0b5cc4", [4] = "|cff8a2be2", [5] = "|cffc25a00" }
+local QCOLOR = { [0] = { 0.42, 0.42, 0.42 }, [1] = { 0.29, 0.29, 0.29 }, [2] = { 0.10, 0.48, 0.10 }, [3] = { 0.04, 0.36, 0.77 }, [4] = { 0.54, 0.17, 0.89 }, [5] = { 0.76, 0.35, 0.0 } }
+
+-- Kvalita a jméno předmětu přímo z klienta (WoW Forever mění kvalitu i jména oproti classic databázi).
+-- Když klient předmět ještě nezná, vyžádá se a okno se po načtení samo obnoví.
+local itemPending = false
+function WoWpoCesku_ItemQuality(id, dbQuality, dbName)
+    local q, n
+    if C_Item and C_Item.GetItemQualityByID then
+        local ok, v = pcall(C_Item.GetItemQualityByID, id)
+        if ok and v then q = v end
+    end
+    if C_Item and C_Item.GetItemNameByID then
+        local ok, v = pcall(C_Item.GetItemNameByID, id)
+        if ok and v then n = v end
+    end
+    if (not q or not n) and GetItemInfo then
+        local ok, name, _, quality = pcall(GetItemInfo, id)
+        if ok then q = q or quality; n = n or name end
+    end
+    if (not q or not n) and C_Item and C_Item.RequestLoadItemDataByID then
+        pcall(C_Item.RequestLoadItemDataByID, id)
+        itemPending = true
+    end
+    return q or dbQuality, n or dbName
+end
 local GREEN = "|cff1d6b1d"
 
 local DUNGEONS = { "Ragefire Chasm", "Wailing Caverns", "The Deadmines", "Shadowfang Keep", "Blackfathom Deeps",
@@ -32,10 +56,10 @@ local ACCENT = {
 }
 
 local TABS = {
-    { id = "bossove", label = "Bossové a kořist" },
-    { id = "questy", label = "Questy" },
-    { id = "mapa", label = "Mapa" },
-    { id = "pruvodce", label = "Průvodce" },
+    { id = "bossove", label = "Bossové a kořist", icon = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8" },
+    { id = "questy", label = "Questy", icon = "Interface\\GossipFrame\\AvailableQuestIcon" },
+    { id = "mapa", label = "Mapa", icon = "Interface\\Icons\\INV_Misc_Map_01" },
+    { id = "pruvodce", label = "Průvodce", icon = "Interface\\Icons\\INV_Misc_Book_09" },
 }
 
 local win
@@ -207,6 +231,95 @@ local function mapData(key)
     return data
 end
 
+-------------------------------------------------------------------------------
+-- Zobrazit na mapě: DB souřadnice (x, y) -> zóna a pozice na její mapě -> uživatelská značka hry (waypoint).
+-- Herní mapu z addonu neotevíráme ani nepřepínáme (způsobovalo to chyby ADDON_ACTION_BLOCKED); značku hra ukáže sama.
+-- Přiřazení os se vybere automaticky podle toho, při kterém se nejvíc dárců questů trefí do nějaké zóny.
+-------------------------------------------------------------------------------
+local zoneCache, zoneFitCache
+
+local function zoneMaps(cont)
+    if zoneCache then return zoneCache[cont] or {} end
+    zoneCache = {}
+    if not (C_Map and C_Map.GetMapInfo and C_Map.GetWorldPosFromMapPos and CreateVector2D) then return {} end
+    for id = 1, 3000 do
+        local ok, info = pcall(C_Map.GetMapInfo, id)
+        if ok and info and info.mapType == 3 then
+            local ok0, c0, p0 = pcall(C_Map.GetWorldPosFromMapPos, id, CreateVector2D(0, 0))
+            local ok1, c1, p1 = pcall(C_Map.GetWorldPosFromMapPos, id, CreateVector2D(1, 1))
+            if ok0 and ok1 and c0 and c0 == c1 then
+                local ax, ay = xy(p0)
+                local bx, by = xy(p1)
+                if ax and ay and bx and by and ax ~= bx and ay ~= by then
+                    zoneCache[c0] = zoneCache[c0] or {}
+                    table.insert(zoneCache[c0], { id = id, ax = ax, ay = ay, bx = bx, by = by, area = math.abs((bx - ax) * (by - ay)), name = info.name })
+                end
+            end
+        end
+    end
+    return zoneCache[cont] or {}
+end
+
+local function unit(ti, z, x, y)
+    local dx, dy = z.bx - z.ax, z.by - z.ay
+    if ti == 1 then return (x - z.ax) / dx, (y - z.ay) / dy end
+    if ti == 2 then return (y - z.ax) / dx, (x - z.ay) / dy end
+    if ti == 3 then return (x - z.ay) / dy, (y - z.ax) / dx end
+    return (y - z.ay) / dy, (x - z.ax) / dx
+end
+
+local function zoneFit()
+    if zoneFitCache then return zoneFitCache.ti, zoneFitCache.best, zoneFitCache.total end
+    local counts, total = { 0, 0, 0, 0 }, 0
+    for _, q in pairs(WoWpoCesku_QuestPos or {}) do
+        for k = 1, 2 do
+            local p = q[k]
+            if p then
+                total = total + 1
+                for ti = 1, 4 do
+                    for _, z in ipairs(zoneMaps(p[1])) do
+                        local u, v = unit(ti, z, p[2], p[3])
+                        if inside(u, v) and u >= 0 and u <= 1 and v >= 0 and v <= 1 then counts[ti] = counts[ti] + 1 break end
+                    end
+                end
+            end
+        end
+    end
+    local ti, best = 1, counts[1]
+    for i = 2, 4 do if counts[i] > best then ti, best = i, counts[i] end end
+    zoneFitCache = { ti = ti, best = best, total = total, counts = counts }
+    return ti, best, total
+end
+
+local function locate(map, x, y)
+    local ti, best = zoneFit()
+    if not best or best < 1 then return nil end
+    local pick
+    for _, z in ipairs(zoneMaps(map)) do
+        local u, v = unit(ti, z, x, y)
+        if u >= 0 and u <= 1 and v >= 0 and v <= 1 and (not pick or z.area < pick.z.area) then pick = { z = z, u = u, v = v } end
+    end
+    if pick then return pick.z.id, pick.u, pick.v, pick.z.name end
+end
+
+local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+
+local function showOnMap(p, label)
+    if not p then say("pro tento quest nemam polohu venku (zacina uvnitr dungeonu nebo predmetem).") return end
+    local uiMap, u, v, zname = locate(p[1], p[2], p[3])
+    if not uiMap then say("polohu se nepodarilo prevest na mapu (zkus /czq mapa).") return end
+    local where = ("%s %.1f, %.1f"):format(zname or "?", u * 100, v * 100)
+    local set = false
+    if C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
+        set = pcall(function()
+            if C_Map.CanSetUserWaypointOnMap and not C_Map.CanSetUserWaypointOnMap(uiMap) then error("nelze") end
+            C_Map.SetUserWaypoint(UiMapPoint.CreateFromCoordinates(uiMap, u, v))
+            if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then C_SuperTrack.SetSuperTrackedUserWaypoint(true) end
+        end)
+    end
+    say(label .. ": " .. where .. (set and " - znacka je na mape (M)." or " (znacku nastavit nejde, souradnice jsou vyse)"))
+end
+
 -- plynulý přechod barvy (nový i starý způsob zápisu; když nejde ani jeden, zůstane plná plocha)
 local function gradient(tex, r, g, b, a1, a2)
     tex:SetColorTexture(r, g, b, math.max(a1, a2))
@@ -271,15 +384,16 @@ local function newScroll(parent, x, y, w, h)
     c.w = w - 26
     c:SetSize(c.w, 10)
     sf:SetScrollChild(c)
-    c.texts, c.items, c.rows, c.cards = {}, {}, {}, {}
-    c.nt, c.ni, c.nr, c.nc, c.y = 0, 0, 0, 0, 0
+    c.texts, c.items, c.rows, c.cards, c.btns = {}, {}, {}, {}, {}
+    c.nt, c.ni, c.nr, c.nc, c.nb, c.y = 0, 0, 0, 0, 0, 0
     c.portrait = false
     c.map = false
     return sf, c
 end
 
 local function reset(c)
-    c.y, c.nt, c.ni, c.nr, c.nc = 0, 0, 0, 0, 0
+    c.y, c.nt, c.ni, c.nr, c.nc, c.nb = 0, 0, 0, 0, 0, 0
+    for _, b in ipairs(c.btns) do b:Hide() end
     for _, t in ipairs(c.texts) do t:Hide() end
     for _, b in ipairs(c.items) do b:Hide() end
     for _, b in ipairs(c.rows) do b:Hide() end
@@ -303,6 +417,31 @@ local function addText(c, str, size, color, gap, indent, width)
     t:SetText(str)
     t:Show()
     c.y = c.y + (t:GetStringHeight() or 14) + (gap or 6)
+end
+
+local function addButton(c, label, onClick)
+    c.nb = c.nb + 1
+    local b = c.btns[c.nb]
+    if not b then
+        b = CreateFrame("Button", nil, c)
+        b:SetSize(190, 24)
+        b.bg = b:CreateTexture(nil, "BACKGROUND")
+        b.bg:SetAllPoints()
+        b.bg:SetColorTexture(0.50, 0.12, 0.05, 0.92)
+        b.ico = b:CreateTexture(nil, "ARTWORK")
+        b.ico:SetSize(18, 18)
+        b.ico:SetPoint("LEFT", 6, 0)
+        b.ico:SetTexture("Interface\\Icons\\INV_Misc_Map_01")
+        b:SetNormalFontObject(win.fontBtn)
+        b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
+        c.btns[c.nb] = b
+    end
+    b:ClearAllPoints()
+    b:SetPoint("TOPLEFT", 0, -c.y)
+    b:SetText(label)
+    b:SetScript("OnClick", onClick)
+    b:Show()
+    c.y = c.y + 30
 end
 
 -- tenká ozdobná čára pod nadpisem
@@ -386,6 +525,8 @@ local function addItem(c, name, quality, id)
         b:SetScript("OnLeave", function() GameTooltip:Hide() end)
         c.items[c.ni] = b
     end
+    local liveQ, liveName = WoWpoCesku_ItemQuality(id, quality, name)
+    quality, name = liveQ, liveName
     local qc = QCOLOR[quality] or { 0.4, 0.3, 0.2 }
     b.itemID = id
     b:ClearAllPoints()
@@ -434,7 +575,7 @@ end
 -------------------------------------------------------------------------------
 -- Seznam vlevo (bossové / questy)
 -------------------------------------------------------------------------------
-local function addRow(c, title, sub, mark, selected, onClick)
+local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emblem)
     c.nr = c.nr + 1
     local b = c.rows[c.nr]
     if not b then
@@ -457,6 +598,18 @@ local function addRow(c, title, sub, mark, selected, onClick)
         b.check:SetSize(18, 18)
         b.check:SetPoint("RIGHT", -4, 0)
         b.check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+        b.icon = b:CreateTexture(nil, "ARTWORK")
+        b.icon:SetSize(30, 30)
+        b.icon:SetPoint("LEFT", 12, 0)
+        b.badgeBg = b:CreateTexture(nil, "OVERLAY", nil, 1)
+        b.badgeBg:SetSize(22, 13)
+        b.badgeBg:SetPoint("BOTTOMRIGHT", b.icon, "BOTTOMRIGHT", 5, -3)
+        b.badgeBg:SetColorTexture(0.07, 0.04, 0.02, 0.92)
+        b.badge = text(b, 10, 1, 0.82, 0.25)
+        b.badge:SetPoint("CENTER", b.badgeBg, "CENTER", 0, 0)
+        b.emblem = b:CreateTexture(nil, "ARTWORK")
+        b.emblem:SetSize(22, 22)
+        b.emblem:SetPoint("RIGHT", -28, 0)
         b.label = text(b, 13, INK[1], INK[2], INK[3])
         b.label:SetPoint("TOPLEFT", 12, -6)
         b.sub = text(b, 11, SEPIA[1], SEPIA[2], SEPIA[3])
@@ -467,8 +620,19 @@ local function addRow(c, title, sub, mark, selected, onClick)
     b:ClearAllPoints()
     b:SetPoint("TOPLEFT", 0, -c.y)
     b:SetWidth(c.w)
-    b.label:SetWidth(c.w - 40)
-    b.sub:SetWidth(c.w - 40)
+    local off = icon and 52 or 12
+    local right = emblem and 62 or 34
+    b.label:ClearAllPoints()
+    b.label:SetPoint("TOPLEFT", off, -6)
+    b.label:SetWidth(c.w - off - right)
+    b.sub:SetWidth(c.w - off - right)
+    b.icon:SetShown(icon and true or false)
+    if icon then b.icon:SetTexture(icon) end
+    b.badgeBg:SetShown(badge and true or false)
+    b.badge:SetShown(badge and true or false)
+    if badge then b.badge:SetText(badge) end
+    b.emblem:SetShown(emblem and true or false)
+    if emblem then b.emblem:SetTexture(emblem) end
     b.label:SetText(title)
     b.sub:SetText(sub or "")
     b.check:SetShown(mark and true or false)
@@ -498,8 +662,10 @@ local function renderBosses(key)
     for _, b in ipairs(bosses) do if b[1] == cur then found = true end end
     if not found then cur = bosses[1][1]; state.boss[key] = cur end
     for _, b in ipairs(bosses) do
+        local lv = WoWpoCesku_BossLevel and WoWpoCesku_BossLevel[key] and WoWpoCesku_BossLevel[key][b[1]]
         addRow(L, b[1], (b[2] and b[2] ~= "") and b[2] or nil, killed[b[1]] ~= nil, b[1] == cur,
-            function() state.boss[key] = b[1]; showDetail() end)
+            function() state.boss[key] = b[1]; showDetail() end,
+            "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", lv and (lv >= 63 and "??" or tostring(lv)) or nil)
     end
     local sel
     for _, b in ipairs(bosses) do if b[1] == cur then sel = b end end
@@ -540,8 +706,10 @@ local function renderQuests(key)
     for _, e in ipairs(list) do
         local cz = WoWpoCesku_Data and WoWpoCesku_Data[e[1]] and WoWpoCesku_Data[e[1]].title
         local title = (cz and cz ~= e[2]) and cz or e[2]
+        local emblem = (e[5] == "H" and "Interface\\Icons\\INV_BannerPVP_01") or (e[5] == "A" and "Interface\\Icons\\INV_BannerPVP_02") or nil
         addRow(L, title, ("od levelu %d"):format(e[4]), questDone(e[1]), e[1] == cur,
-            function() state.quest[key] = e[1]; showDetail() end)
+            function() state.quest[key] = e[1]; showDetail() end,
+            "Interface\\GossipFrame\\AvailableQuestIcon", nil, emblem)
     end
     local sel
     for _, e in ipairs(list) do if e[1] == cur then sel = e end end
@@ -564,10 +732,19 @@ local function renderQuests(key)
     else
         addText(R, "Začíná předmětem, který najdeš v dungeonu nebo u nepřítele.", 13, INK, 10)
     end
+    local qpos = WoWpoCesku_QuestPos and WoWpoCesku_QuestPos[id]
+    if qpos and qpos[1] then
+        addButton(R, "Zobrazit na mapě", function() showOnMap(qpos[1], (sel[6] and sel[6] ~= "" and sel[6]) or "zacatek questu") end)
+        R.y = R.y + 4
+    end
     local ends = WoWpoCesku_DungeonQuestEnds and WoWpoCesku_DungeonQuestEnds[id]
     if ends then
         addText(R, "Odevzdává se u", 14, RED, 2)
         addText(R, ends, 13, INK, 10)
+        if qpos and qpos[2] then
+            addButton(R, "Zobrazit na mapě", function() showOnMap(qpos[2], ends:match("^(.-) – ") or "odevzdani questu") end)
+            R.y = R.y + 4
+        end
     end
     if sel[7] and sel[7] ~= "" then
         addText(R, "Odměna", 14, RED, 2)
@@ -826,6 +1003,7 @@ local function build()
     win.fontNormal = newFont("WoWpoCeskuDJTab", 12, INK[1], INK[2], INK[3])
     win.fontActive = newFont("WoWpoCeskuDJTabOn", 12, RED[1], RED[2], RED[3])
     win.fontBack = newFont("WoWpoCeskuDJBack", 12, 1, 0.92, 0.75)
+    win.fontBtn = newFont("WoWpoCeskuDJBtn", 12, 1, 0.92, 0.75)
 
     local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)
@@ -875,10 +1053,14 @@ local function build()
     for i = #TABS, 1, -1 do
         local t = TABS[i]
         local b = CreateFrame("Button", nil, win.detail)
-        b:SetSize(130, 26)
+        b:SetSize(146, 28)
         if prev then b:SetPoint("RIGHT", prev, "LEFT", -4, 0) else b:SetPoint("TOPRIGHT", -44, -152) end
         b.bg = b:CreateTexture(nil, "BACKGROUND")
         b.bg:SetAllPoints()
+        b.ico = b:CreateTexture(nil, "ARTWORK")
+        b.ico:SetSize(20, 20)
+        b.ico:SetPoint("LEFT", 8, 0)
+        b.ico:SetTexture(t.icon)
         b.under = b:CreateTexture(nil, "ARTWORK")
         b.under:SetPoint("BOTTOMLEFT", 0, 0)
         b.under:SetPoint("BOTTOMRIGHT", 0, 0)
@@ -898,6 +1080,16 @@ local function build()
     win.right.w = 450 - 26
 end
 
+local refreshCount = 0
+local itemFrame = CreateFrame("Frame")
+itemFrame:RegisterEvent("GET_ITEM_INFO_RECEIVED")
+itemFrame:SetScript("OnEvent", function()
+    if not (win and win:IsShown() and itemPending) or refreshCount >= 30 then return end
+    itemPending = false
+    refreshCount = refreshCount + 1
+    C_Timer.After(0.4, function() if win and win:IsShown() then showDetail() end end)
+end)
+
 -- Otevře deník; key = instance (nepovinné), tab = záložka (nepovinné).
 -- Bez parametrů: v dungeonu se otevře jeho detail, jinde přehled; opakované volání okno zavře.
 function WoWpoCesku_DungeonJournal(key, tab)
@@ -914,6 +1106,7 @@ function WoWpoCesku_DungeonJournal(key, tab)
     elseif not state.key then
         state.view = "list"
     end
+    refreshCount = 0
     win:Show()
     win:Raise()
     showDetail()
@@ -921,7 +1114,6 @@ end
 
 -- Diagnostika mapy: /czq mapa [název instance]. Vypíše, jak se přepočet povedl; uvnitř dungeonu porovná i tvou polohu.
 function WoWpoCesku_MapDebug(key)
-    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
     if key then
         local want = key:lower()
         for k in pairs(WoWpoCesku_BossPos or {}) do
@@ -933,6 +1125,8 @@ function WoWpoCesku_MapDebug(key)
         say("mapa: tohle neni dungeon s polohami (zkus /czq mapa Deadmines nebo vstup do dungeonu).")
         return
     end
+    local zti, zbest, ztotal = zoneFit()
+    say(("zony (pro tlacitko Zobrazit na mape): prepocet c. %d, %d z %d bodu padlo do nejake zony"):format(zti or 0, zbest or 0, ztotal or 0))
     mapCache[key] = nil
     local d = mapData(key)
     if not d then
