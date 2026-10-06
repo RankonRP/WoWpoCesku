@@ -7,4 +7,7 @@ WoWpoCesku_DungeonArt = {
     ["Wailing Caverns"] = "wailing-caverns",
     ["The Deadmines"] = "deadmines",
     ["Shadowfang Keep"] = "shadowfang-keep",
+    ["Blackfathom Deeps"] = "blackfathom-deeps",
+    ["The Stockade"] = "stockade",
+    ["Gnomeregan"] = "gnomeregan",
 }
