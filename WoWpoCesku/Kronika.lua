@@ -561,6 +561,7 @@ local function markBoss(name)
             S.bosses[key] = S.bosses[key] or {}
             local first = not S.bosses[key][b[1]]
             S.bosses[key][b[1]] = time()
+            WoWpoCesku_LastBoss = { key = key, name = b[1], t = GetTime and GetTime() or 0 }
             if journalAdd then pcall(journalAdd, "boss", b[1], key) end
             if first then
                 say(("Kronika: %s zapsan do Bestiare (%s)"):format(b[1], key))

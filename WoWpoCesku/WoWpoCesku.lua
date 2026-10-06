@@ -983,6 +983,9 @@ local function buildOptions()
     addCheck(right, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
         function() return WoWpoCeskuSettings.mapPlaces ~= false end,
         function(on) WoWpoCeskuSettings.mapPlaces = on end)
+    addCheck(right, "Dungeonový deník otevře mapu", "Po kliknutí na Zobrazit na mapě se mapa otevře. Když hra hlásí chybu ADDON_ACTION_BLOCKED, vypni.",
+        function() return WoWpoCeskuSettings.djOpenMap ~= false end,
+        function(on) WoWpoCeskuSettings.djOpenMap = on end)
     addCheck(right, "Okno při získání pečeti", "Cedulka uprostřed obrazovky; pečeť se získá i bez ní",
         function() return WoWpoCeskuSettings.sealBanner ~= false end,
         function(on) WoWpoCeskuSettings.sealBanner = on end)

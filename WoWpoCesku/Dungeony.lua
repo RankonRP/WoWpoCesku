@@ -317,7 +317,19 @@ local function showOnMap(p, label)
             if C_SuperTrack and C_SuperTrack.SetSuperTrackedUserWaypoint then C_SuperTrack.SetSuperTrackedUserWaypoint(true) end
         end)
     end
-    say(label .. ": " .. where .. (set and " - znacka je na mape (M)." or " (znacku nastavit nejde, souradnice jsou vyse)"))
+    local opened = false
+    if settings().djOpenMap ~= false and not (InCombatLockdown and InCombatLockdown()) then
+        -- mapu otevíráme přes securecall a jen mimo boj; kdyby hra hlásila ADDON_ACTION_BLOCKED, jde vypnout v nastavení
+        opened = pcall(function()
+            if OpenWorldMap then
+                securecall(OpenWorldMap, uiMap)
+            elseif WorldMapFrame then
+                securecall(ShowUIPanel, WorldMapFrame)
+                if WorldMapFrame.SetMapID then securecall(WorldMapFrame.SetMapID, WorldMapFrame, uiMap) end
+            end
+        end)
+    end
+    say(label .. ": " .. where .. (set and " - znacka je na mape" or " (znacku nastavit nejde, souradnice jsou vyse)") .. (opened and "." or " (otevri mapu klavesou M)."))
 end
 
 -- plynulý přechod barvy (nový i starý způsob zápisu; když nejde ani jeden, zůstane plná plocha)
@@ -499,7 +511,7 @@ local function showItemTip(self)
     GameTooltip:Show()
 end
 
-local function addItem(c, name, quality, id)
+local function addItem(c, name, quality, id, confirmed)
     c.ni = c.ni + 1
     local b = c.items[c.ni]
     if not b or b.isRule then
@@ -516,6 +528,11 @@ local function addItem(c, name, quality, id)
         b.icon:SetPoint("TOPLEFT", b.frame, "TOPLEFT", 2, -2)
         b.icon:SetPoint("BOTTOMRIGHT", b.frame, "BOTTOMRIGHT", -2, 2)
         b.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+        b.star = b:CreateTexture(nil, "OVERLAY")
+        b.star:SetSize(16, 16)
+        b.star:SetPoint("RIGHT", -6, 0)
+        b.star:SetTexture("Interface\\Common\\ReputationStar")
+        b.star:SetTexCoord(0, 0.5, 0, 0.5)
         b.label = text(b, 13, INK[1], INK[2], INK[3])
         b.label:SetPoint("TOPLEFT", b.frame, "TOPRIGHT", 8, -2)
         b.kind = text(b, 11, SEPIA[1], SEPIA[2], SEPIA[3])
@@ -534,6 +551,7 @@ local function addItem(c, name, quality, id)
     b:SetWidth(c.w)
     b.frame:SetBackdropBorderColor(qc[1], qc[2], qc[3], 1)
     b.icon:SetTexture(itemIcon(id))
+    b.star:SetShown(confirmed and true or false)
     b.label:SetWidth(c.w - 56)
     b.label:SetText((QUALITY[quality] or "") .. name .. "|r")
     b.kind:SetWidth(c.w - 56)
@@ -635,12 +653,15 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     if emblem then b.emblem:SetTexture(emblem) end
     b.label:SetText(title)
     b.sub:SetText(sub or "")
+    local h = 8 + (b.label:GetStringHeight() or 14) + 2 + ((sub and sub ~= "") and (b.sub:GetStringHeight() or 12) or 0) + 8
+    if h < 46 then h = 46 end
+    b:SetHeight(h)
     b.check:SetShown(mark and true or false)
     b.sel:SetShown(selected and true or false)
     b.accent:SetShown(selected and true or false)
     b:SetScript("OnClick", onClick)
     b:Show()
-    c.y = c.y + 45
+    c.y = c.y + h + 1
 end
 
 -------------------------------------------------------------------------------
@@ -681,11 +702,26 @@ local function renderBosses(key)
     if note then addText(R, note, 12, INK, 8, 0, textW) end
     if hasModel and R.y < 158 then R.y = 158 end
     addRule(R)
-    local loot = WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][sel[1]]
-    if loot and #loot > 0 then
+    local loot = {}
+    local seenIds = {}
+    local learned = WoWpoCeskuSeen and WoWpoCeskuSeen.loot and WoWpoCeskuSeen.loot[key] and WoWpoCeskuSeen.loot[key][sel[1]]
+    if learned then
+        local ids = {}
+        for id in pairs(learned) do ids[#ids + 1] = id end
+        table.sort(ids, function(a, b) return (learned[a].q or 0) > (learned[b].q or 0) or ((learned[a].q or 0) == (learned[b].q or 0) and a < b) end)
+        for _, id in ipairs(ids) do
+            loot[#loot + 1] = { learned[id].name or ("item " .. id), learned[id].q or 3, id, true }
+            seenIds[id] = true
+        end
+    end
+    local db = WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][sel[1]]
+    for _, it in ipairs(db or {}) do
+        if not seenIds[it[3]] then loot[#loot + 1] = it end
+    end
+    if #loot > 0 then
         addText(R, "Může padnout", 14, RED, 6)
-        for _, it in ipairs(loot) do addItem(R, it[1], it[2], it[3]) end
-        addText(R, "Kořist je z classic databáze, ve WoW Forever se může lišit. Najeď myší na předmět.", 11, SEPIA, 4)
+        for _, it in ipairs(loot) do addItem(R, it[1], it[2], it[3], it[4]) end
+        addText(R, "Zlatá hvězdička = padlo ti to ve hře (potvrzeno). Ostatní jsou z classic databáze a ve WoW Forever se mohou lišit. Najeď myší na předmět.", 11, SEPIA, 4)
     else
         addText(R, "V databázi pro něj není žádné zelené, modré ani epické vybavení.", 12, SEPIA, 4)
     end
@@ -954,12 +990,12 @@ showDetail = function()
     win.leftSf:SetShown(twoPane)
     win.rightSf:ClearAllPoints()
     if twoPane then
-        win.rightSf:SetPoint("TOPLEFT", 312, -178)
-        win.rightSf:SetSize(450, 372)
-        win.right.w = 450 - 26
+        win.rightSf:SetPoint("TOPLEFT", 336, -190)
+        win.rightSf:SetSize(424, 360)
+        win.right.w = 424 - 26
     else
-        win.rightSf:SetPoint("TOPLEFT", 30, -178)
-        win.rightSf:SetSize(730, 372)
+        win.rightSf:SetPoint("TOPLEFT", 30, -190)
+        win.rightSf:SetSize(730, 360)
         win.right.w = 730 - 26
     end
     win.right:SetWidth(win.right.w)
@@ -970,6 +1006,11 @@ showDetail = function()
     win.left:SetHeight(math.max(win.left.y + 10, 10))
     win.right:SetHeight(math.max(win.right.y + 10, 10))
     win.rightSf:SetVerticalScroll(0)
+    win.leftSf:SetVerticalScroll(0)
+    for _, pair in ipairs({ { win.leftSf, win.left }, { win.rightSf, win.right } }) do
+        local sb = pair[1].ScrollBar
+        if type(sb) == "table" and sb.SetShown then sb:SetShown((pair[2]:GetHeight() or 0) > (pair[1]:GetHeight() or 0) + 1) end
+    end
 end
 
 -------------------------------------------------------------------------------
@@ -1068,17 +1109,70 @@ local function build()
         b.under:SetColorTexture(0.50, 0.12, 0.05, 1)
         b:SetNormalFontObject(win.fontNormal)
         b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
-        b:SetText(t.label)
+        b:SetText("      " .. t.label)
         b.id = t.id
         b:SetScript("OnClick", function() state.tab = t.id; showDetail() end)
         win.tabs[#win.tabs + 1] = b
         prev = b
     end
 
-    win.leftSf, win.left = newScroll(win.detail, 30, -178, 240, 372)
-    win.rightSf, win.right = newScroll(win.detail, 312, -178, 450, 372)
-    win.right.w = 450 - 26
+    win.leftSf, win.left = newScroll(win.detail, 30, -190, 270, 360)
+    win.rightSf, win.right = newScroll(win.detail, 336, -190, 424, 360)
+    win.right.w = 424 - 26
 end
+
+-------------------------------------------------------------------------------
+-- Učení kořisti: co skutečně padlo z bosse (Forever mění kořist oproti classic databázi).
+-- Ukládá se do WoWpoCeskuSeen.loot[instance][boss][ID předmětu]; deník to ukáže jako potvrzené.
+-------------------------------------------------------------------------------
+local function secretValue(v) return issecretvalue and issecretvalue(v) end
+
+local function bossFromLoot(key)
+    local ids = WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key]
+    if ids and GetLootSourceInfo then
+        local ok, g1 = pcall(GetLootSourceInfo, 1)
+        if ok and type(g1) == "string" and not secretValue(g1) then
+            local npc = tonumber(select(6, strsplit("-", g1)))
+            if npc then
+                for name, id in pairs(ids) do if id == npc then return name end end
+            end
+        end
+    end
+    local last = WoWpoCesku_LastBoss
+    if last and last.key == key and GetTime and (GetTime() - last.t) < 120 then return last.name end
+end
+
+local lootFrame = CreateFrame("Frame")
+lootFrame:RegisterEvent("LOOT_OPENED")
+lootFrame:SetScript("OnEvent", function()
+    if not (IsInInstance and IsInInstance()) then return end
+    local key = WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey()
+    if not (key and WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]) then return end
+    local n = GetNumLootItems and GetNumLootItems() or 0
+    if n == 0 then return end
+    local boss = bossFromLoot(key)
+    if not boss then return end
+    WoWpoCeskuSeen = WoWpoCeskuSeen or {}
+    WoWpoCeskuSeen.loot = WoWpoCeskuSeen.loot or {}
+    local L = WoWpoCeskuSeen.loot
+    L[key] = L[key] or {}
+    L[key][boss] = L[key][boss] or {}
+    for i = 1, n do
+        local ok, link = pcall(GetLootSlotLink, i)
+        if ok and type(link) == "string" and not secretValue(link) then
+            local id = tonumber(link:match("item:(%d+)"))
+            if id then
+                local okI, _, _, _, equipLoc, _, classID = pcall(GetItemInfoInstant, id)
+                local gear = okI and ((classID == 2 or classID == 4) or (equipLoc and equipLoc ~= ""))
+                if gear then
+                    local q = C_Item and C_Item.GetItemQualityByID and select(2, pcall(C_Item.GetItemQualityByID, id))
+                    local name = link:match("%[(.-)%]")
+                    L[key][boss][id] = { name = name, q = tonumber(q) or 3 }
+                end
+            end
+        end
+    end
+end)
 
 local refreshCount = 0
 local itemFrame = CreateFrame("Frame")
