@@ -10,4 +10,7 @@ WoWpoCesku_DungeonArt = {
     ["Blackfathom Deeps"] = "blackfathom-deeps",
     ["The Stockade"] = "stockade",
     ["Gnomeregan"] = "gnomeregan",
+    ["Razorfen Kraul"] = "razorfen-kraul",
+    ["Scarlet Monastery"] = "scarlet-monastery",
+    ["Razorfen Downs"] = "razorfen-downs",
 }
