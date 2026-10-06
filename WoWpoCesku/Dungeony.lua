@@ -239,6 +239,7 @@ end
 -- Přiřazení os se vybere automaticky podle toho, při kterém se nejvíc dárců questů trefí do nějaké zóny.
 -------------------------------------------------------------------------------
 local zoneCache, zoneFitCache
+local setDJMark   -- definováno níž (dopředná deklarace)
 
 local function zoneMaps(cont)
     if zoneCache then return zoneCache[cont] or {} end
@@ -342,7 +343,7 @@ local function showOnMap(p, label)
             end
         end)
     end
-    setDJMark(uiMap, u, v, label, "Interface\\GossipFrame\\AvailableQuestIcon")
+    setDJMark(uiMap, u, v, label, "Interface\\GossipFrame\\AvailableQuestIcon", nil, 44)
     say(label .. ": " .. where .. (set and " - znacka je na mape" or " (znacku nastavit nejde, souradnice jsou vyse)") .. (opened and "." or " (otevri mapu klavesou M)."))
 end
 
@@ -378,7 +379,7 @@ local function drawDJMarks()
                 p:SetScript("OnEnter", function(self)
                     GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
                     GameTooltip:AddLine(self.label or "")
-                    GameTooltip:AddLine("Pravé tlačítko značku odstraní.", 0.8, 0.8, 0.8)
+                    GameTooltip:AddLine("Prave tlacitko znacku odstrani.", 0.8, 0.8, 0.8)
                     GameTooltip:Show()
                 end)
                 p:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -395,7 +396,7 @@ local function drawDJMarks()
                 p.glow:Hide()   -- kruhová ikona se září kreslila jako černý čtverec
             else
                 p.icon:SetTexture(m.icon)
-                p:SetSize(30, 30)
+                p:SetSize(m.size or 40, m.size or 40)
                 p.glow:SetSize(44, 44)
                 p.glow:Show()
             end
@@ -417,7 +418,7 @@ local function clearOldWaypoint(uiMap, u, v)
     end
 end
 
-local function setDJMark(uiMap, u, v, label, icon, atlas, size)
+setDJMark = function(uiMap, u, v, label, icon, atlas, size)
     clearOldWaypoint(uiMap, u, v)
     wipe(djMarks)
     djMarks[1] = { uiMap = uiMap, u = u, v = v, label = label, icon = icon, atlas = atlas, size = size }
@@ -488,7 +489,7 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 36)
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", isRaid(key) and "Raid" or "Dungeon", 56)
     say(("vstup %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
