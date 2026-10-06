@@ -1094,7 +1094,7 @@ local function renderQuests(key)
     end
     facButton("facA", "A", -42)
     facButton("facH", "H", -2)
-    L.y = L.y + 22
+    L.y = L.y - 10
 
     if #list == 0 then
         addText(R, "Pro tuto frakci nemám v databázi žádné questy k téhle instanci.", 13, INK)
