@@ -15,6 +15,7 @@ const OUT_W = 512, OUT_H = 64;
 const SLUGS = {
     'Ragefire Chasm': 'ragefire-chasm', 'Wailing Caverns': 'wailing-caverns', 'The Deadmines': 'deadmines',
     'Shadowfang Keep': 'shadowfang-keep', 'Blackfathom Deeps': 'blackfathom-deeps', 'The Stockade': 'stockade',
+    'Ruins of Lordaeron': 'ruins-of-lordaeron', 'Hall of Thanes': 'hall-of-thanes', 'Excavation Site: Wetlands': 'excavation-site-wetlands', 'City of Dalaran': 'city-of-dalaran',
     'Gnomeregan': 'gnomeregan', 'Razorfen Kraul': 'razorfen-kraul', 'Scarlet Monastery': 'scarlet-monastery',
     'Razorfen Downs': 'razorfen-downs', 'Uldaman': 'uldaman', "Zul'Farrak": 'zulfarrak', 'Maraudon': 'maraudon',
     'Sunken Temple': 'sunken-temple', 'Blackrock Depths': 'blackrock-depths', 'Blackrock Spire': 'blackrock-spire',
