@@ -40,7 +40,7 @@ local GREEN = "|cff1d6b1d"
 -- Zobrazují se jen dungeony, které má i původní DungeonJournal; ostatní a raidy jsou zatím skryté (data zůstávají).
 -- Skryté dungeony: Razorfen Downs, Uldaman, Zul'Farrak, Maraudon, Sunken Temple, Blackrock Depths, Blackrock Spire, Dire Maul, Scholomance, Stratholme
 -- Skryté raidy: Molten Core, Onyxia's Lair, Blackwing Lair, Zul'Gurub, Ruins of Ahn'Qiraj, Ahn'Qiraj Temple, Naxxramas
-local DUNGEONS = { "Ragefire Chasm", "Ruins of Lordaeron", "The Deadmines", "Wailing Caverns", "Shadowfang Keep", "Blackfathom Deeps",
+local DUNGEONS = { "Hall of Thanes", "Ragefire Chasm", "Ruins of Lordaeron", "The Deadmines", "Wailing Caverns", "Shadowfang Keep", "Blackfathom Deeps", "Excavation Site: Wetlands", "City of Dalaran",
     "The Stockade", "Gnomeregan", "Razorfen Kraul", "Scarlet Monastery" }
 local RAIDS = {}
 

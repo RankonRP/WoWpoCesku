@@ -50,3 +50,103 @@ WoWpoCesku_DungeonQuests[KEY] = {
     { 95250, "Abominable Creatures", 21, 16, "A", "", "" },
     { 97288, "Unending Torment", 21, 16, "H", "Abominable Head", "" },
 }
+
+-------------------------------------------------------------------------------
+-- Hall of Thanes
+-------------------------------------------------------------------------------
+KEY = "Hall of Thanes"
+WoWpoCesku_Lore[KEY] = {
+    title = KEY, tag = "Zničená síň trpasličích thanů pod Ironforge – nový dungeon WoW Forever (levely 13–20).",
+    ch = {
+        { "Síň thanů", [[Hall of Thanes je stará trpasličí síň, kde kdysi zasedali thanové klanů. Dnes ji obývají duchové, kteří nenašli klid, a kameni prostoupení strážci.]] },
+        { "Neklidní mrtví", [[Duch Faldrima Anvilmara a další zbloudilé duše prosí hrdiny o pomoc. Jejich rod je uvězněný v dávné křivdě a bez odpočinku se nemůže vrátit mezi živé.]] },
+        { "Vetřelci z Dark Iron", [[Do síně se vloudili Dark Iron trpaslíci, zloději a inženýři, kteří rabují cennosti thanů a přivolávají živly. Mezi bossy je Magmatus, ohnivá bytost z hlubin.]] },
+    },
+}
+WoWpoCesku_LoreTajemstvi[KEY] = [[• Questy jsou hlavně o duších thanů a o vyrabovaných rodinných cennostech.
+• Údaje o kořisti jsou z databáze Forever; potvrzuje je až zlatá hvězdička z lootu.]]
+WoWpoCesku_DungeonBosses[KEY] = {
+    { "Faldrim Anvilmar", "duch thana" },
+    { "Plunder", "golem, který hlídá poklady" },
+    { "Magmatus", "ohnivý živel" },
+    { "Durgen Dirgehammer", "zneuctěný thane" },
+}
+WoWpoCesku_BossNpc[KEY] = { ["Faldrim Anvilmar"] = 261306, ["Plunder"] = 261311, ["Magmatus"] = 261316, ["Durgen Dirgehammer"] = 261319 }
+WoWpoCesku_BossLootForever[KEY] = {
+    ["Faldrim Anvilmar"] = { { "Ephemeral Choker", 3, 270227 }, { "Aetherwisp Bracers", 3, 271096 }, { "Spiritwraith Drape", 3, 271097 } },
+    ["Plunder"] = { { "Golemheart Stave", 3, 270228 }, { "Treads of the Protector Golem", 3, 270229 }, { "Golemguard Chest", 3, 271098 } },
+    ["Magmatus"] = { { "Kindlegem Girdle", 3, 270230 }, { "Flamefist Grips", 3, 270231 }, { "Fang of Magmatus", 3, 271095 } },
+    ["Durgen Dirgehammer"] = { { "Durgen's Crescent Axe", 3, 270256 }, { "Direhammer Leggings", 3, 270260 }, { "Robes of the Disgraced Thane", 3, 270261 } },
+}
+WoWpoCesku_DungeonQuests[KEY] = {
+    { 96393, "Old Ironforge Incursion", 16, 9, "A", "", "" },
+    { 96394, "The Restless Dead", 15, 10, "A", "", "" },
+    { 96395, "An Ancient Grudge", 15, 10, nil, "", "" },
+    { 96403, "Important Heirlooms", 15, 10, "A", "", "" },
+}
+
+-------------------------------------------------------------------------------
+-- Excavation Site: Wetlands
+-------------------------------------------------------------------------------
+KEY = "Excavation Site: Wetlands"
+WoWpoCesku_Lore[KEY] = {
+    title = KEY, tag = "Vykopávky ve Wetlands – nový dungeon WoW Forever (levely 26–31).",
+    ch = {
+        { "Vykopávky", [[Ve Wetlands se na vykopávkách hledají pozůstatky dávné minulosti. Do hlubin se ale nastěhovala divoká zvěř, ještěři a ozbrojenci z klanu Dragonmaw.]] },
+        { "Hrozby v bažině", [[Krokodýli, raptoři a další šelmy z bažin pronikly do vykopávek. Hlídají je ale i strážní golemové, které tu zanechali dávní badatelé.]] },
+    },
+}
+WoWpoCesku_LoreTajemstvi[KEY] = [[• Questy dostaneš v okolí vykopávek ve Wetlands.
+• Údaje o kořisti jsou z databáze Forever; potvrzuje je až zlatá hvězdička z lootu.]]
+WoWpoCesku_DungeonBosses[KEY] = {
+    { "Saltspine", "ještěří šelma z bažin" },
+    { "Shadetooth", "raptor" },
+    { "Relic Guardian", "golem střežící relikvie" },
+}
+WoWpoCesku_BossNpc[KEY] = { ["Saltspine"] = 260322, ["Shadetooth"] = 260325, ["Relic Guardian"] = 260326 }
+WoWpoCesku_BossLootForever[KEY] = {
+    ["Saltspine"] = { { "Supple Bellyskin Leggings", 3, 273022 }, { "Saltscale Girdle", 3, 273023 }, { "Glinteye Slippers", 3, 273024 } },
+    ["Shadetooth"] = { { "Raptorclaw Greaves", 3, 273025 }, { "Garb of Florid Feathers", 3, 273026 }, { "Raptor's Gaze", 3, 273027 } },
+    ["Relic Guardian"] = { { "Reliquary Mantle", 3, 273028 }, { "Golemsight Long Gun", 3, 273029 }, { "Ring of Power Regulation", 3, 273030 } },
+}
+WoWpoCesku_DungeonQuests[KEY] = {
+    { 95646, "Horrors in the Highland", 31, 24, "A", "", "" },
+    { 95647, "Lost in the Thicket Things", 31, 24, "A", "", "" },
+    { 95663, "Dragonmaw Rumors", 31, 24, nil, "", "" },
+    { 95664, "Elder Knowledge", 31, 24, "H", "", "" },
+    { 95682, "Open the Maw", 31, 24, nil, "", "" },
+    { 95697, "Changing Tastes", 31, 24, "H", "", "" },
+    { 95737, "Seeking Caitlin", 31, 24, nil, "", "" },
+    { 95772, "Songblade Search", 31, 24, nil, "", "" },
+    { 95795, "Fallen in the Fen", 31, 24, "A", "", "" },
+    { 95809, "Heartwoven", 31, 24, "A", "", "" },
+    { 95810, "Lost Relic Carry", 31, 24, "A", "", "" },
+    { 98815, "Highland Hides", 28, 24, nil, "", "" },
+    { 98823, "Earthen Echo", 31, 24, "H", "", "" },
+    { 98824, "Prehistoric Prism", 31, 24, "A", "", "" },
+}
+
+-------------------------------------------------------------------------------
+-- City of Dalaran
+-------------------------------------------------------------------------------
+KEY = "City of Dalaran"
+WoWpoCesku_Lore[KEY] = {
+    title = KEY, tag = "Zničené kouzelnické město v Alterac – nový dungeon WoW Forever (levely 28–33).",
+    ch = {
+        { "Město kouzelníků", [[Dalaran bylo kdysi sídlo Kirin Tor, rady mágů. Dnes jsou jeho ruiny plné nestabilní magie a nemrtvých, kteří tu zůstali po pádu města.]] },
+        { "Zbloudilá magie", [[Questy se točí kolem zkažené arkánní energie, zdrojů moci a nemrtvých rytířů. Hlídají je i rozbouřené živly, které z magie vznikly.]] },
+    },
+}
+WoWpoCesku_LoreTajemstvi[KEY] = [[• Questy jsou hlavně o magických vzorcích a zdrojích moci.
+• Bossy sem doplním, až je v dungeonu uvidím ve hře.]]
+WoWpoCesku_DungeonBosses[KEY] = {}
+WoWpoCesku_DungeonQuests[KEY] = {
+    { 92456, "A Green Sample", 33, 24, "A", "", "" },
+    { 92457, "Starving Arcane", 33, 24, nil, "", "" },
+    { 92458, "Heart of Disruption", 33, 24, "A", "", "" },
+    { 92489, "Power Overwhelming", 33, 24, "A", "", "" },
+    { 96984, "Heart of Disruption", 33, 24, "H", "", "" },
+    { 96986, "The Grave Knight", 33, 24, "H", "", "" },
+    { 96987, "Opportunistic Education", 33, 24, "H", "", "" },
+    { 96988, "Source of Power", 33, 24, "H", "", "" },
+}

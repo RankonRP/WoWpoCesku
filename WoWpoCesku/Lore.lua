@@ -434,8 +434,7 @@ local function fillBook(key, mapID)
     local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
     local guide = WoWpoCesku_DungeonGuide and WoWpoCesku_DungeonGuide[key]
     if guide then letopis[#letopis + 1] = { "Rady: kde to je a jak na to", guide } end
-    local dq = WoWpoCesku_DungeonQuestsChapter and WoWpoCesku_DungeonQuestsChapter(key)
-    if dq then letopis[#letopis + 1] = dq end
+    -- questy k dungeonu jsou jen v Dungeon průvodci, ne v Kronice
     if books then letopis[#letopis + 1] = { "Z knih a legend (spoilery)", books } end
     local secrets = WoWpoCesku_LoreTajemstvi and WoWpoCesku_LoreTajemstvi[key]
     book.pages = {
