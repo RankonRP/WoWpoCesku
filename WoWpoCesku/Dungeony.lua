@@ -37,11 +37,12 @@ function WoWpoCesku_ItemQuality(id, dbQuality, dbName)
 end
 local GREEN = "|cff1d6b1d"
 
-local DUNGEONS = { "Ragefire Chasm", "Wailing Caverns", "The Deadmines", "Shadowfang Keep", "Blackfathom Deeps",
-    "The Stockade", "Gnomeregan", "Razorfen Kraul", "Scarlet Monastery", "Razorfen Downs", "Uldaman", "Zul'Farrak",
-    "Maraudon", "Sunken Temple", "Blackrock Depths", "Blackrock Spire", "Dire Maul", "Scholomance", "Stratholme" }
-local RAIDS = { "Molten Core", "Onyxia's Lair", "Blackwing Lair", "Zul'Gurub", "Ruins of Ahn'Qiraj",
-    "Ahn'Qiraj Temple", "Naxxramas" }
+-- Zobrazují se jen dungeony, které má i původní DungeonJournal; ostatní a raidy jsou zatím skryté (data zůstávají).
+-- Skryté dungeony: Razorfen Downs, Uldaman, Zul'Farrak, Maraudon, Sunken Temple, Blackrock Depths, Blackrock Spire, Dire Maul, Scholomance, Stratholme
+-- Skryté raidy: Molten Core, Onyxia's Lair, Blackwing Lair, Zul'Gurub, Ruins of Ahn'Qiraj, Ahn'Qiraj Temple, Naxxramas
+local DUNGEONS = { "Ragefire Chasm", "Ruins of Lordaeron", "The Deadmines", "Wailing Caverns", "Shadowfang Keep", "Blackfathom Deeps",
+    "The Stockade", "Gnomeregan", "Razorfen Kraul", "Scarlet Monastery" }
+local RAIDS = {}
 
 -- barva instance (banner, když ještě není malovaný obrázek)
 local ACCENT = {
@@ -53,7 +54,7 @@ local ACCENT = {
     ["Blackrock Spire"] = { 0.55, 0.30, 0.20 }, ["Dire Maul"] = { 0.45, 0.60, 0.35 }, ["Scholomance"] = { 0.40, 0.25, 0.50 },
     ["Stratholme"] = { 0.60, 0.30, 0.30 }, ["Molten Core"] = { 0.85, 0.40, 0.10 }, ["Onyxia's Lair"] = { 0.60, 0.20, 0.20 },
     ["Blackwing Lair"] = { 0.50, 0.15, 0.15 }, ["Zul'Gurub"] = { 0.35, 0.55, 0.25 }, ["Ruins of Ahn'Qiraj"] = { 0.70, 0.60, 0.30 },
-    ["Ahn'Qiraj Temple"] = { 0.60, 0.50, 0.30 }, ["Naxxramas"] = { 0.40, 0.60, 0.55 },
+    ["Ahn'Qiraj Temple"] = { 0.60, 0.50, 0.30 }, ["Naxxramas"] = { 0.40, 0.60, 0.55 }, ["Ruins of Lordaeron"] = { 0.40, 0.55, 0.30 },
 }
 
 local TABS = {
@@ -529,7 +530,7 @@ local CLIENT_ART = {
     ["Razorfen Downs"] = "RazorfenDowns", ["Uldaman"] = "Uldaman", ["Zul'Farrak"] = "ZulFarrak", ["Maraudon"] = "Maraudon",
     ["Sunken Temple"] = "SunkenTemple", ["Blackrock Depths"] = "BlackrockDepths", ["Blackrock Spire"] = "BlackrockSpire",
     ["Dire Maul"] = "DireMaul", ["Scholomance"] = "Scholomance", ["Stratholme"] = "Stratholme", ["Molten Core"] = "MoltenCore",
-    ["Blackwing Lair"] = "BlackwingLair", ["Zul'Gurub"] = "ZulGurub", ["Ruins of Ahn'Qiraj"] = "RuinsofAhnQiraj", ["Naxxramas"] = "Naxxramas",
+    ["Blackwing Lair"] = "BlackwingLair", ["Zul'Gurub"] = "ZulGurub", ["Ruins of Ahn'Qiraj"] = "RuinsofAhnQiraj",  ["Ruins of Lordaeron"] = "RuinsofLordaeron", ["Naxxramas"] = "Naxxramas",
 }
 
 local function setBanner(frame, key, w, h)
@@ -1330,7 +1331,7 @@ local function renderList()
         c.y = y + math.ceil(#list / 2) * (CARD_H + 8) + 8
     end
     section("Dungeony", DUNGEONS)
-    section("Raidy", RAIDS)
+    if #RAIDS > 0 then section("Raidy", RAIDS) end
     c:SetHeight(c.y + 10)
 end
 
