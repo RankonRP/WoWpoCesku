@@ -1606,3 +1606,39 @@ function WoWpoCesku_ArtTest2()
     f:Show()
     print("|cffffd100WoWpoCesku:|r /czq obr2: " .. #items .. " nahledu. Co je videt jako obrazek, klient zna. Posli screenshot.")
 end
+
+-- Měřítko oblasti obrázku v textuře klienta: /czq obr3 [název souboru, např. RagefireChasm]
+local rulerWin
+function WoWpoCesku_ArtTest3(name)
+    name = (name and name ~= "") and name or "RagefireChasm"
+    if not rulerWin then
+        local f = CreateFrame("Frame", "WoWpoCeskuObr3", UIParent, "BackdropTemplate")
+        f:SetSize(1040, 560)
+        f:SetPoint("CENTER")
+        f:SetFrameStrata("DIALOG")
+        f:SetBackdrop({ bgFile = "Interface\Buttons\WHITE8x8", edgeFile = "Interface\DialogFrame\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdropColor(0.35, 0.05, 0.35, 1)   -- výrazná barva, aby byla vidět průhledná místa
+        f:EnableMouse(true); f:SetMovable(true); f:RegisterForDrag("LeftButton")
+        f:SetScript("OnDragStart", f.StartMoving); f:SetScript("OnDragStop", f.StopMovingOrSizing)
+        local c = CreateFrame("Button", nil, f, "UIPanelCloseButton"); c:SetPoint("TOPRIGHT", -6, -6)
+        f.tex = f:CreateTexture(nil, "ARTWORK")
+        f.tex:SetPoint("TOPLEFT", 40, -60)
+        f.tex:SetSize(960, 480)      -- celá textura bez výřezu, poměr 2:1
+        f.lines = {}
+        for i = 0, 10 do
+            local v = f:CreateTexture(nil, "OVERLAY")
+            v:SetColorTexture(1, 1, 0, 0.7); v:SetSize(1, 480); v:SetPoint("TOPLEFT", f.tex, "TOPLEFT", i * 96, 0)
+            local h = f:CreateTexture(nil, "OVERLAY")
+            h:SetColorTexture(0, 1, 1, 0.7); h:SetSize(960, 1); h:SetPoint("TOPLEFT", f.tex, "TOPLEFT", 0, -i * 48)
+            local t = f:CreateFontString(nil, "OVERLAY"); t:SetFont("Interface\AddOns\WoWpoCesku\Fonts\cz.ttf", 11, "")
+            t:SetPoint("BOTTOM", v, "TOP", 0, 2); t:SetText(tostring(i * 10))
+            f.lines[#f.lines + 1] = v
+        end
+        f.title = f:CreateFontString(nil, "OVERLAY"); f.title:SetFont("Interface\AddOns\WoWpoCesku\Fonts\cz.ttf", 12, "")
+        f.title:SetPoint("TOPLEFT", 40, -20)
+        rulerWin = f
+    end
+    rulerWin.tex:SetTexture("Interface\EncounterJournal\UI-EJ-LOREBG-" .. name)
+    rulerWin.title:SetText("UI-EJ-LOREBG-" .. name .. " (cela textura 2:1; zluta = vodorovne procenta, tyrkysova = svisle)")
+    rulerWin:Show()
+end
