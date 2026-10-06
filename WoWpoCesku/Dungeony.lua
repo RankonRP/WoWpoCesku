@@ -484,10 +484,36 @@ local function gradient(tex, r, g, b, a1, a2)
 end
 
 -- banner instance: malovaný obrázek, když existuje, jinak barevná plocha; w/h = poměr cílové plochy
+-- Obrázky instancí, které už jsou v klientu hry (Interface\\EncounterJournal\\UI-EJ-LOREBG-<jméno>); nic se nekopíruje.
+-- Ověřeno ve WoW Forever (zkouška /czq obr2). Chybí Onyxia's Lair a Ahn'Qiraj Temple.
+local CLIENT_ART = {
+    ["Ragefire Chasm"] = "RagefireChasm", ["Wailing Caverns"] = "WailingCaverns", ["The Deadmines"] = "Deadmines",
+    ["Shadowfang Keep"] = "ShadowfangKeep", ["Blackfathom Deeps"] = "BlackfathomDeeps", ["The Stockade"] = "TheStockade",
+    ["Gnomeregan"] = "Gnomeregan", ["Razorfen Kraul"] = "RazorfenKraul", ["Scarlet Monastery"] = "ScarletMonastery",
+    ["Razorfen Downs"] = "RazorfenDowns", ["Uldaman"] = "Uldaman", ["Zul'Farrak"] = "ZulFarrak", ["Maraudon"] = "Maraudon",
+    ["Sunken Temple"] = "SunkenTemple", ["Blackrock Depths"] = "BlackrockDepths", ["Blackrock Spire"] = "BlackrockSpire",
+    ["Dire Maul"] = "DireMaul", ["Scholomance"] = "Scholomance", ["Stratholme"] = "Stratholme", ["Molten Core"] = "MoltenCore",
+    ["Blackwing Lair"] = "BlackwingLair", ["Zul'Gurub"] = "ZulGurub", ["Ruins of Ahn'Qiraj"] = "RuinsofAhnQiraj", ["Naxxramas"] = "Naxxramas",
+}
+
 local function setBanner(frame, key, w, h)
     local slug = WoWpoCesku_DungeonArt and WoWpoCesku_DungeonArt[key]
+    local clientName = CLIENT_ART[key]
+    if settings().djArt == "own" then clientName = nil end   -- v nastavení lze zvolit vlastní malované bannery
     local c = ACCENT[key] or { 0.5, 0.4, 0.3 }
-    if slug then
+    if clientName then
+        frame.art:SetTexture("Interface\\EncounterJournal\\UI-EJ-LOREBG-" .. clientName)
+        local want, have = w / h, 4   -- obrázek z klienta má zhruba poměr 4:1
+        if want > have then
+            local cut = (1 - have / want) / 2
+            frame.art:SetTexCoord(0, 1, cut, 1 - cut)
+        else
+            local cut = (1 - want / have) / 2
+            frame.art:SetTexCoord(cut, 1 - cut, 0, 1)
+        end
+        frame.art:SetVertexColor(1, 1, 1, 1)
+        frame.art:Show()
+    elseif slug then
         frame.art:SetTexture(ART .. slug)
         local want = w / h
         local have = 8   -- textura je 512×64
