@@ -1171,12 +1171,12 @@ showDetail = function()
     win.rightSf:ClearAllPoints()
     if twoPane then
         win.rightSf:SetPoint("TOPLEFT", 336, -190)
-        win.rightSf:SetSize(424, 360)
-        win.right.w = 424 - 26
+        win.rightSf:SetSize(402, 360)
+        win.right.w = 402 - 26
     else
         win.rightSf:SetPoint("TOPLEFT", 30, -190)
-        win.rightSf:SetSize(730, 360)
-        win.right.w = 730 - 26
+        win.rightSf:SetSize(708, 360)
+        win.right.w = 708 - 26
     end
     win.right:SetWidth(win.right.w)
     if state.tab == "bossove" then renderBosses(key)
@@ -1311,9 +1311,9 @@ local function build()
     win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
     win.boxR:SetPoint("TOPLEFT", 328, -184)
     win.boxR:SetSize(440, 372)
-    win.leftSf, win.left = newScroll(win.detail, 30, -190, 270, 360)
-    win.rightSf, win.right = newScroll(win.detail, 336, -190, 424, 360)
-    win.right.w = 424 - 26
+    win.leftSf, win.left = newScroll(win.detail, 30, -190, 252, 360)
+    win.rightSf, win.right = newScroll(win.detail, 336, -190, 402, 360)
+    win.right.w = 402 - 26
 end
 
 -------------------------------------------------------------------------------
