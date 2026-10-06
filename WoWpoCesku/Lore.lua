@@ -386,16 +386,20 @@ local function renderPage(chapters)
     book.sf:SetVerticalScroll(0)
 end
 
+local layoutTabs
+
 local function showTab(id)
     if not book.pages[id] then id = "letopis" end
     book.tab = id
     for _, t in ipairs(book.tabs) do
         local active = (t.id == id)
         t:SetShown(t.action or book.pages[t.id] ~= nil)
-        t:SetWidth(active and 166 or 154)
-        t.bg:SetVertexColor(active and 1 or 0.86, active and 1 or 0.80, active and 1 or 0.70)
-        if active then t.text:SetTextColor(RED[1], RED[2], RED[3]) else t.text:SetTextColor(INK[1], INK[2], INK[3], 0.8) end
+        if active then t:LockHighlight() else t:UnlockHighlight() end
+        if WoWpoCeskuButtonFont then
+            t:SetNormalFontObject(active and WoWpoCeskuButtonFontHighlight or WoWpoCeskuButtonFont)
+        end
     end
+    if layoutTabs then layoutTabs() end
     renderPage(book.pages[id])
 end
 
@@ -439,9 +443,23 @@ local function fillBook(key, mapID)
     showTab(book.tab or "letopis")
 end
 
+layoutTabs = function()
+    local y = -52
+    local n = 0
+    for _, t in ipairs(book.tabs) do
+        if t:IsShown() then
+            t:ClearAllPoints()
+            t:SetPoint("TOPLEFT", book.panel, "TOPLEFT", 12, y)
+            y = y - (t.action and 46 or 38) - (t.action and 0 or 0)
+            n = n + 1
+        end
+    end
+    book.panel:SetHeight(-y + 14)
+end
+
 local function createTabs()
     book.tabs = {}
-    -- záložky jsou v rámečku pod knihou (nižší úroveň), aby je deska knihy překryla
+    -- panel je v rámečku pod knihou (nižší úroveň), aby ho deska knihy překryla
     book:SetFrameLevel(20)
     local holder = CreateFrame("Frame", nil, UIParent)
     holder:SetFrameStrata("DIALOG")
@@ -450,31 +468,46 @@ local function createTabs()
     holder:Hide()
     book:HookScript("OnShow", function() holder:Show() end)
     book:HookScript("OnHide", function() holder:Hide() end)
+
+    local panel = CreateFrame("Frame", nil, holder, "BackdropTemplate")
+    panel:SetWidth(186)
+    panel:SetPoint("TOPLEFT", book, "TOPRIGHT", -8, -60)
+    panel:SetBackdrop({
+        bgFile = "Interface\\Buttons\\WHITE8x8",
+        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+        edgeSize = 24, insets = { left = 8, right = 8, top = 8, bottom = 8 },
+    })
+    panel:SetBackdropColor(0.23, 0.13, 0.07, 1)
+    local ptex = panel:CreateTexture(nil, "BACKGROUND", nil, 1)
+    ptex:SetPoint("TOPLEFT", 8, -8)
+    ptex:SetPoint("BOTTOMRIGHT", -8, 8)
+    ptex:SetTexture(PARCHMENT)
+    local head = fontString(panel, 12, RED[1], RED[2], RED[3])
+    head:SetPoint("TOP", 0, -20)
+    head:SetText("K A P I T O L Y")
+    local rule = panel:CreateTexture(nil, "ARTWORK")
+    rule:SetColorTexture(0.45, 0.30, 0.16, 0.7)
+    rule:SetPoint("TOPLEFT", 16, -38)
+    rule:SetPoint("TOPRIGHT", -16, -38)
+    rule:SetHeight(1)
+    book.panel = panel
+
     for i, def in ipairs(TABS) do
-        local t = CreateFrame("Button", nil, holder, "BackdropTemplate")
+        local t = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
         t.id = def.id
         t.action = def.action
-        t:SetSize(154, 36)
-        t:SetPoint("TOPLEFT", book, "TOPRIGHT", -14, -70 - (i - 1) * 44)
-        t:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12,
-            insets = { left = 3, right = 3, top = 3, bottom = 3 } })
-        t:SetBackdropBorderColor(0.45, 0.30, 0.16, 1)
-        t.bg = t:CreateTexture(nil, "BACKGROUND")
-        t.bg:SetPoint("TOPLEFT", 3, -3)
-        t.bg:SetPoint("BOTTOMRIGHT", -3, 3)
-        t.bg:SetTexture(PARCHMENT)
-        t.bg:SetTexCoord(0.3, 0.6, 0.3, 0.4)
-        -- vínová stužka na konci záložky
-        local ribbon = t:CreateTexture(nil, "ARTWORK")
-        ribbon:SetColorTexture(RED[1], RED[2], RED[3], 0.85)
-        ribbon:SetPoint("TOPRIGHT", -4, -4)
-        ribbon:SetPoint("BOTTOMRIGHT", -4, 4)
-        ribbon:SetWidth(4)
-        t.text = fontString(t, 13, SEPIA[1], SEPIA[2], SEPIA[3])
-        t.text:SetPoint("LEFT", 20, 0)
-        t.text:SetWidth(124)
-        t.text:SetWordWrap(false)
-        t.text:SetText(def.label)
+        t:SetSize(160, 30)
+        if WoWpoCeskuButtonFont then
+            t:SetNormalFontObject(WoWpoCeskuButtonFont)
+            t:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
+        end
+        t:SetText(def.label)
+        if def.action then
+            local sep = panel:CreateTexture(nil, "ARTWORK")
+            sep:SetColorTexture(0.45, 0.30, 0.16, 0.7)
+            sep:SetSize(150, 1)
+            sep:SetPoint("BOTTOM", t, "TOP", 0, 7)
+        end
         t:SetScript("OnClick", function(self)
             PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
             if def.action then
