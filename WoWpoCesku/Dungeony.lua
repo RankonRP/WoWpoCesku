@@ -725,7 +725,7 @@ local function addItem(c, name, quality, id, confirmed)
     b.kind:SetWidth(c.w - 56)
     b.kind:SetText(itemKind(id))
     b:Show()
-    c.y = c.y + 47
+    c.y = c.y + 54
 end
 
 -------------------------------------------------------------------------------
@@ -863,7 +863,7 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     b:SetBackdropBorderColor(selected and 0.62 or 0.42, selected and 0.20 or 0.27, selected and 0.10 or 0.13, selected and 1 or 0.85)
     b:SetScript("OnClick", onClick)
     b:Show()
-    c.y = c.y + h + 4
+    c.y = c.y + h + 8
 end
 
 -------------------------------------------------------------------------------
@@ -1163,7 +1163,7 @@ local function setTabs()
         t:SetShown(avail)
         if avail then
             t:ClearAllPoints()
-            if prev then t:SetPoint("RIGHT", prev, "LEFT", -4, 0) else t:SetPoint("TOPRIGHT", -44, -152) end
+            if prev then t:SetPoint("RIGHT", prev, "LEFT", -8, 0) else t:SetPoint("TOPRIGHT", -40, -150) end
             prev = t
         end
     end
@@ -1194,17 +1194,17 @@ showDetail = function()
     win.leftSf:SetShown(twoPane)
     win.boxL:SetShown(twoPane)
     win.boxR:ClearAllPoints()
-    win.boxR:SetPoint("TOPLEFT", twoPane and 328 or 24, -184)
-    win.boxR:SetSize(twoPane and 440 or 744, 372)
+    win.boxR:SetPoint("TOPLEFT", twoPane and 324 or 24, -190)
+    win.boxR:SetSize(twoPane and 444 or 744, 368)
     win.rightSf:ClearAllPoints()
     if twoPane then
-        win.rightSf:SetPoint("TOPLEFT", 336, -190)
-        win.rightSf:SetSize(402, 360)
-        win.right.w = 402 - 26
+        win.rightSf:SetPoint("TOPLEFT", 340, -202)
+        win.rightSf:SetSize(396, 344)
+        win.right.w = 396 - 26
     else
-        win.rightSf:SetPoint("TOPLEFT", 30, -190)
-        win.rightSf:SetSize(708, 360)
-        win.right.w = 708 - 26
+        win.rightSf:SetPoint("TOPLEFT", 36, -202)
+        win.rightSf:SetSize(696, 344)
+        win.right.w = 696 - 26
     end
     win.right:SetWidth(win.right.w)
     if state.tab == "bossove" then renderBosses(key)
@@ -1315,7 +1315,7 @@ local function build()
         local t = TABS[i]
         local b = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
         b:SetSize(156, 30)
-        if prev then b:SetPoint("RIGHT", prev, "LEFT", -2, 0) else b:SetPoint("TOPRIGHT", -40, -150) end
+        if prev then b:SetPoint("RIGHT", prev, "LEFT", -8, 0) else b:SetPoint("TOPRIGHT", -40, -150) end
         b.ico = b:CreateTexture(nil, "OVERLAY")
         b.ico:SetSize(22, 22)
         b.ico:SetPoint("LEFT", 8, 0)
@@ -1334,14 +1334,14 @@ local function build()
     end
 
     win.boxL = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxL:SetPoint("TOPLEFT", 24, -184)
-    win.boxL:SetSize(284, 372)
+    win.boxL:SetPoint("TOPLEFT", 24, -190)
+    win.boxL:SetSize(284, 368)
     win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxR:SetPoint("TOPLEFT", 328, -184)
-    win.boxR:SetSize(440, 372)
-    win.leftSf, win.left = newScroll(win.detail, 30, -190, 252, 360)
-    win.rightSf, win.right = newScroll(win.detail, 336, -190, 402, 360)
-    win.right.w = 402 - 26
+    win.boxR:SetPoint("TOPLEFT", 324, -190)
+    win.boxR:SetSize(444, 368)
+    win.leftSf, win.left = newScroll(win.detail, 36, -202, 236, 344)
+    win.rightSf, win.right = newScroll(win.detail, 340, -202, 396, 344)
+    win.right.w = 396 - 26
 end
 
 -------------------------------------------------------------------------------
