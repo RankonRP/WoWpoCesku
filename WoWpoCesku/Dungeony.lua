@@ -1,5 +1,5 @@
 -- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md
--- WoWpoCesku: Dungeonový deník – samostatné okno. Přehled dungeonů a raidů, detail se záložkami
+-- WoWpoCesku: Dungeon průvodce – samostatné okno. Přehled dungeonů a raidů, detail se záložkami
 -- Bossové a kořist / Questy / Průvodce. Otevře se příkazem /czq dungeon nebo tlačítkem v Kronice.
 -- Data: DataDungeony (bossové, questy), DataKoristi (kořist, ID příšer), DataPruvodce (průvodce, místa questů),
 -- DataObrazky (která instance má malovaný banner v Textures\Dungeony).
@@ -60,7 +60,7 @@ local TABS = {
     { id = "bossove", label = "Bossové a kořist", icon = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8" },
     { id = "questy", label = "Questy", icon = "Interface\\GossipFrame\\AvailableQuestIcon" },
     { id = "mapa", label = "Mapa", icon = "Interface\\Icons\\INV_Misc_Map_01" },
-    { id = "pruvodce", label = "Průvodce", icon = "Interface\\Icons\\INV_Misc_Book_09" },
+    { id = "pruvodce", label = "Rady", icon = "Interface\\Icons\\INV_Misc_Book_09" },
 }
 
 local win
@@ -1260,7 +1260,7 @@ local function build()
 
     local head = text(win, 22, RED[1], RED[2], RED[3])
     head:SetPoint("TOP", 0, -24)
-    head:SetText("Dungeonový deník")
+    head:SetText("Dungeon průvodce")
 
     -- přehled (karty)
     win.browseSf, win.browse = newScroll(win, 30, -70, 716, 500)
