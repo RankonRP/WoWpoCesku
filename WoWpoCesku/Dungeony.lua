@@ -496,16 +496,8 @@ end
 local BOX = { bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 }
 -- erb frakce: nejdřív atlas hry, jinak textura s výřezem (Horda červená, Aliance modrá)
 local function setFactionIcon(tex, letter)
-    local atlas = letter == "H" and { "poi-horde", "bfa-landingbutton-horde-up", "horde" } or { "poi-alliance", "bfa-landingbutton-alliance-up", "alliance" }
-    for _, a in ipairs(atlas) do
-        if C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(a) then
-            tex:SetTexCoord(0, 1, 0, 1)
-            tex:SetAtlas(a)
-            return
-        end
-    end
-    tex:SetTexture(letter == "H" and "Interface\\TargetingFrame\\UI-PVP-Horde" or "Interface\\TargetingFrame\\UI-PVP-Alliance")
-    tex:SetTexCoord(0, 0.6, 0, 0.6)
+    tex:SetTexCoord(0, 1, 0, 1)
+    tex:SetTexture(letter == "H" and "Interface\\FriendsFrame\\PlusManz-Horde" or "Interface\\FriendsFrame\\PlusManz-Alliance")
 end
 
 local function boxFrame(parent, level)
