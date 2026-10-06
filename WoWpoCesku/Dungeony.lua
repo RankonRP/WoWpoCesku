@@ -385,7 +385,18 @@ local function drawDJMarks()
                 djPins[n] = p
             end
             p.label = m.label
-            p.icon:SetTexture(m.icon)
+            local usedAtlas = false
+            if m.atlas and p.icon.SetAtlas and C_Texture and C_Texture.GetAtlasInfo and C_Texture.GetAtlasInfo(m.atlas) then
+                usedAtlas = pcall(p.icon.SetAtlas, p.icon, m.atlas)
+            end
+            if usedAtlas then
+                p:SetSize(m.size or 34, m.size or 34)
+                p.glow:SetSize((m.size or 34) + 16, (m.size or 34) + 16)
+            else
+                p.icon:SetTexture(m.icon)
+                p:SetSize(30, 30)
+                p.glow:SetSize(44, 44)
+            end
             p:SetFrameLevel(canvas:GetFrameLevel() + 1995)
             p:ClearAllPoints()
             p:SetPoint("CENTER", canvas, "TOPLEFT", m.u * w, -m.v * h)
@@ -394,9 +405,9 @@ local function drawDJMarks()
     end
 end
 
-local function setDJMark(uiMap, u, v, label, icon)
+local function setDJMark(uiMap, u, v, label, icon, atlas, size)
     wipe(djMarks)
-    djMarks[1] = { uiMap = uiMap, u = u, v = v, label = label, icon = icon }
+    djMarks[1] = { uiMap = uiMap, u = u, v = v, label = label, icon = icon, atlas = atlas, size = size }
     if WorldMapFrame and not djHooked then
         djHooked = true
         if WorldMapFrame.OnMapChanged then hooksecurefunc(WorldMapFrame, "OnMapChanged", function() C_Timer.After(0, drawDJMarks) end) end
@@ -459,7 +470,7 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Spell_Arcane_PortalOrgrimmar")
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vchod", "Interface\\Icons\\Achievement_Dungeon_ClassicDungeonMaster", "Dungeon", 36)
     say(("vchod %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
