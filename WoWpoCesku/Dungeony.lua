@@ -1523,3 +1523,62 @@ function WoWpoCesku_ArtTest()
     f:Show()
     say("okno /czq obr: ukazuje obrazky z klienta; ktere jsou videt (ne cerne/zelene), pouzijeme. Pošli screenshot.")
 end
+
+-- Zkouška názvů obrázků Encounter Journalu pro všechny instance: /czq obr2
+local nameWin
+function WoWpoCesku_ArtTest2()
+    local all = {}
+    for _, k in ipairs(DUNGEONS) do all[#all + 1] = k end
+    for _, k in ipairs(RAIDS) do all[#all + 1] = k end
+    local items = {}
+    for _, key in ipairs(all) do
+        local base = key:gsub("[^%w]", "")
+        local noThe = base:gsub("^The", "")
+        local list = { base }
+        if noThe ~= base then list[#list + 1] = noThe end
+        if key == "The Stockade" then list[#list + 1] = "StormwindStockade" end
+        if key == "Sunken Temple" then list[#list + 1] = "TempleofAtalHakkar"; list[#list + 1] = "SunkenTemple" end
+        if key == "Zul'Farrak" then list[#list + 1] = "ZulFarrak" end
+        if key == "Zul'Gurub" then list[#list + 1] = "ZulGurub" end
+        if key == "Onyxia's Lair" then list[#list + 1] = "OnyxiasLair"; list[#list + 1] = "Onyxia" end
+        for _, n in ipairs(list) do items[#items + 1] = { key .. " : " .. n, "Interface\EncounterJournal\UI-EJ-LOREBG-" .. n } end
+    end
+    if not nameWin then
+        local f = CreateFrame("Frame", "WoWpoCeskuObr2", UIParent, "BackdropTemplate")
+        f:SetSize(1040, 640)
+        f:SetPoint("CENTER")
+        f:SetFrameStrata("DIALOG")
+        f:SetBackdrop({ bgFile = "Interface\Buttons\WHITE8x8", edgeFile = "Interface\DialogFrame\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdropColor(0.1, 0.07, 0.04, 1)
+        f:EnableMouse(true)
+        local c = CreateFrame("Button", nil, f, "UIPanelCloseButton"); c:SetPoint("TOPRIGHT", -6, -6)
+        f.sf, f.content = newScroll(f, 20, -20, 990, 600)
+        f.content:SetSize(950, 10)
+        f.tex = {}
+        nameWin = f
+    end
+    local c = nameWin.content
+    for _, t in ipairs(nameWin.tex) do t.tex:Hide(); t.label:Hide() end
+    for i, it in ipairs(items) do
+        local t = nameWin.tex[i]
+        if not t then
+            t = { tex = c:CreateTexture(nil, "ARTWORK"), label = c:CreateFontString(nil, "OVERLAY") }
+            t.label:SetFont(FONT, 10, "")
+            nameWin.tex[i] = t
+        end
+        local col, row = (i - 1) % 4, math.floor((i - 1) / 4)
+        t.tex:ClearAllPoints()
+        t.tex:SetPoint("TOPLEFT", col * 238, -row * 78)
+        t.tex:SetSize(230, 56)
+        t.tex:SetTexture(it[2])
+        t.tex:Show()
+        t.label:ClearAllPoints()
+        t.label:SetPoint("TOPLEFT", t.tex, "BOTTOMLEFT", 0, -1)
+        t.label:SetWidth(230)
+        t.label:SetText(it[1])
+        t.label:Show()
+    end
+    c:SetHeight(math.ceil(#items / 4) * 78 + 10)
+    nameWin:Show()
+    print("|cffffd100WoWpoCesku:|r /czq obr2: ukazuje obrazky Encounter Journalu pro vsechny instance. Posli screenshot (rolovat jde kolečkem).")
+end
