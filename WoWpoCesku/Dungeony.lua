@@ -1096,7 +1096,7 @@ local function renderList()
     local c = win.browse
     reset(c)
     local colW = math.floor((c.w - 12) / 2)
-    local CARD_H = 76
+    local CARD_H = 104
     local function card(key, x, y)
         c.nc = c.nc + 1
         local b = c.cards[c.nc]
