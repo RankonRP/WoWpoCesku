@@ -1784,3 +1784,66 @@ function WoWpoCesku_EntranceDebug(text)
     end
     say(("map s vchody (EJ API): %d, vypsano: %d"):format(mapsWith, shown))
 end
+
+-------------------------------------------------------------------------------
+-- Ověření kořisti: /czq koristi – porovná, co ti v dungeonech padlo, s databází (Forever, classic) a vypíše rozdíly k okopírování.
+-------------------------------------------------------------------------------
+local reportWin
+function WoWpoCesku_LootReport()
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    local seenLoot = WoWpoCeskuSeen and WoWpoCeskuSeen.loot
+    if not seenLoot or not next(seenLoot) then
+        say("zatim nemam zadnou zaznamenanou koristi. Otevri loot nejakeho bosse v dungeonu a zkus to znovu.")
+        return
+    end
+    local function inList(list, id)
+        for _, it in ipairs(list or {}) do if it[3] == id then return true end end
+        return false
+    end
+    local ok, classic, news, lines = 0, 0, 0, {}
+    for key, bosses in pairs(seenLoot) do
+        for boss, items in pairs(bosses) do
+            for id, rec in pairs(items) do
+                local fv = WoWpoCesku_BossLootForever and WoWpoCesku_BossLootForever[key] and WoWpoCesku_BossLootForever[key][boss]
+                local db = WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][boss]
+                local status
+                if inList(fv, id) then ok = ok + 1; status = nil
+                elseif inList(db, id) then classic = classic + 1; status = "jen classic"
+                else news = news + 1; status = "NOVE" end
+                if status then
+                    lines[#lines + 1] = ("%s | %s | %d | %s | %s | %s"):format(key, boss, id, rec.name or "?", tostring(rec.q or "?"), status)
+                end
+            end
+        end
+    end
+    table.sort(lines)
+    say(("kontrola kořisti: overeno %d, jen classic %d, nove %d. Podrobnosti v okne (Ctrl+A, Ctrl+C a posli mi je)."):format(ok, classic, news))
+    if not reportWin then
+        local f = CreateFrame("Frame", "WoWpoCeskuLootReport", UIParent, "BackdropTemplate")
+        f:SetSize(760, 440)
+        f:SetPoint("CENTER")
+        f:SetFrameStrata("DIALOG")
+        f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdropColor(0.12, 0.08, 0.05, 1)
+        f:EnableMouse(true); f:SetMovable(true); f:RegisterForDrag("LeftButton")
+        f:SetScript("OnDragStart", f.StartMoving); f:SetScript("OnDragStop", f.StopMovingOrSizing)
+        local c = CreateFrame("Button", nil, f, "UIPanelCloseButton"); c:SetPoint("TOPRIGHT", -6, -6)
+        f.title = f:CreateFontString(nil, "OVERLAY")
+        f.title:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf", 13, "")
+        f.title:SetPoint("TOPLEFT", 22, -18)
+        f.sf = CreateFrame("ScrollFrame", nil, f, "UIPanelScrollFrameTemplate")
+        f.sf:SetPoint("TOPLEFT", 22, -46)
+        f.sf:SetSize(690, 370)
+        f.edit = CreateFrame("EditBox", nil, f.sf)
+        f.edit:SetMultiLine(true)
+        f.edit:SetAutoFocus(false)
+        f.edit:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf", 12, "")
+        f.edit:SetWidth(680)
+        f.edit:SetScript("OnEscapePressed", f.edit.ClearFocus)
+        f.sf:SetScrollChild(f.edit)
+        reportWin = f
+    end
+    reportWin.title:SetText(("Kontrola kořisti: ověřeno %d · jen classic %d · nové %d (instance | boss | ID | název | kvalita | stav)"):format(ok, classic, news))
+    reportWin.edit:SetText(#lines > 0 and table.concat(lines, "\n") or "Vsechno, co ti padlo, je v databazi Forever.")
+    reportWin:Show()
+end
