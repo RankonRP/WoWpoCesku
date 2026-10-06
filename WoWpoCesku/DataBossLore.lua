@@ -11,7 +11,7 @@ WoWpoCesku_BossLore = {
 
     ["Jergosh the Invoker"] = [[Orčí černokněžník, který zavrhl ideály svého lidu a oddal se temným a démonickým uměním. Vedl kultisty Searing Blade a patřil do Shadow Council. V Ragefire Chasm střežil Blood Filled Orb, předmět potřebný k přivolání démona Zelemara Zuřivého. Jeho plány byly tak vážné, že upoutaly pozornost samotného Thralla.
 
-SPOILER: Když se vrátila Pálivá legie, svolal Gul'dan přeživší vůdce Shadow Council, mezi nimi i Jergosha. Ten byl s Braelyn Firehand poslán do Caer Darrow pro Book of Medivh, který měl Kult zatracených. Knihu získal, ale tam ho zabil dobrodruh černokněžník.]],
+SPOILER: Když se vrátila Plamenná legie, svolal Gul'dan přeživší vůdce Shadow Council, mezi nimi i Jergosha. Ten byl s Braelyn Firehand poslán do Caer Darrow pro Book of Medivh, který měl Kult zatracených. Knihu získal, ale tam ho zabil dobrodruh černokněžník.]],
 
     ["Bazzalan"] = [[Satyr, démon a spolu s Jergoshem skutečný vůdce kultu Searing Blade. Jeho pohnutky nejsou jasné, ale jako všichni satyrové je mrštný a lstivý. Bojuje jako zloděj: používá Sinister Strike a občas otráví svého soupeře.]],
 },
