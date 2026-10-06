@@ -134,7 +134,7 @@ local TABS = {
     { id = "pecete", label = "Pečetě" },
     { id = "pribeh", label = "Tvůj příběh" },
     { id = "zkouska", label = "Zkouška kronikáře" },
-    { id = "dungeony", label = "Dungeon průvodce", action = true },   -- otevře samostatné okno
+    { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky

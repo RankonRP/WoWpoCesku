@@ -1,5 +1,5 @@
 -- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md
--- WoWpoCesku: Dungeon průvodce – samostatné okno. Přehled dungeonů a raidů, detail se záložkami
+-- WoWpoCesku: Dungeon Kronika – samostatné okno. Přehled dungeonů a raidů, detail se záložkami
 -- Bossové a kořist / Questy / Průvodce. Otevře se příkazem /czq dungeon nebo tlačítkem v Kronice.
 -- Data: DataDungeony (bossové, questy), DataKoristi (kořist, ID příšer), DataPruvodce (průvodce, místa questů),
 -- DataObrazky (která instance má malovaný banner v Textures\Dungeony).
@@ -1483,8 +1483,8 @@ local function build()
 
     local head = text(win, 22, RED[1], RED[2], RED[3])
     head:SetPoint("TOP", 0, -24)
-    head:SetFont(TITLE_FONT, 22, "")   -- písmo hry; to nemá českou diakritiku, proto bez ů
-    head:SetText("Dungeon pruvodce")
+    head:SetFont(TITLE_FONT, 22, "")   -- písmo hry; to nemá českou diakritiku, proto bez diakritiky
+    head:SetText("Dungeon Kronika")
 
     -- přehled (karty)
     win.browseSf, win.browse = newScroll(win, 30, -70, 856, 500)
