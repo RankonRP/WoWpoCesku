@@ -1,15 +1,122 @@
 -- © 2026 RankonRP a přispěvatelé. Překlady a texty nelze kopírovat do jiných addonů ani projektů bez povolení – viz docs/LICENSE-DATA.md
--- WoWpoCesku: kořist bossů ve WoW Forever (ověřeno v databázi Forever; liší se od classic).
--- WoWpoCesku_BossLootForever[instance][boss] = { { "Název", kvalita (3 = modrý), ID předmětu }, ... }
+-- WoWpoCesku: kořist bossů ve WoW Forever (podle databáze Forever; potvrzení ve hře dělá zlatá hvězdička v okně).
+-- WoWpoCesku_BossLootForever[instance][boss] = { { "Název", kvalita (2 zelený, 3 modrý), ID předmětu }, ... }
 -- Když pro bosse záznam existuje, nahrazuje classic databázi (DataKoristi.lua).
 
 WoWpoCesku_BossLootForever = {
-
-["Ragefire Chasm"] = {
-    ["Oggleflint"] = { { "Trogg Scepter", 3, 272996 }, { "Bone Knuckles", 3, 272998 }, { "Barbaric Crossbow", 3, 272999 } },
-    ["Taragaman the Hungerer"] = { { "Cursed Felblade", 3, 14145 }, { "Crystalline Cuffs", 3, 14148 }, { "Subterranean Cape", 3, 14149 } },
-    ["Jergosh the Invoker"] = { { "Cavedweller Bracers", 3, 14147 }, { "Robe of Evocation", 3, 14150 }, { "Chanting Blade", 3, 14151 } },
-    ["Bazzalan"] = { { "Searing Dagger", 3, 273003 }, { "Satyrskin Cloak", 3, 273005 }, { "Chasm Walkers", 3, 273007 } },
+["Shadowfang Keep"] = {
+    ["Razorclaw the Butcher"] = { { "Bloody Apron", 3, 6226 }, { "Butcher's Cleaver", 3, 1292 }, { "Butcher's Slicer", 3, 6633 } },
+    ["Commander Springvale"] = { { "Arced War Axe", 3, 3191 }, { "Commander's Crest", 3, 6320 } },
+    ["Fenrus the Devourer"] = { { "Black Wolf Bracers", 3, 3230 }, { "Fenrus' Hide", 3, 6340 } },
+    ["Wolf Master Nandos"] = { { "Feline Mantle", 3, 3748 }, { "Wolfmaster Cape", 3, 6314 } },
+    ["Rethilgore"] = { { "Rugged Spaulders", 3, 5254 } },
+    ["Archmage Arugal"] = { { "Belt of Arugal", 3, 6392 }, { "Meteor Shard", 3, 6220 }, { "Robes of Arugal", 3, 6324 } },
+    ["Odo the Blindwatcher"] = { { "Girdle of the Blindwatcher", 3, 6319 }, { "Odo's Ley Staff", 3, 6318 } },
+    ["Baron Silverlaine"] = { { "Baron's Scepter", 3, 6323 }, { "Silverlaine's Family Seal", 3, 6321 } },
 },
-
+["Razorfen Kraul"] = {
+    ["Death Speaker Jargba"] = { { "Death Speaker Mantle", 3, 6685 }, { "Death Speaker Robes", 3, 6682 }, { "Death Speaker Scepter", 3, 2816 } },
+    ["Aggem Thorncurse"] = { { "Thornspike", 3, 6681 } },
+    ["Overlord Ramtusk"] = { { "Corpsemaker", 3, 6687 }, { "Tusken Helm", 3, 6686 } },
+    ["Earthcaller Halmgar"] = { { "Whisperwind Headdress", 3, 6688 }, { "Wind Spirit Staff", 3, 6689 } },
+    ["Agathelos the Raging"] = { { "Ferine Leggings", 3, 6690 }, { "Swinetusk Shank", 3, 6691 } },
+    ["Charlga Razorflank"] = { { "Agamaggan's Clutch", 3, 6693 }, { "Heart of Agamaggan", 3, 6694 }, { "Pronged Reaver", 3, 6692 } },
+    ["Blind Hunter"] = { { "Batwing Mantle", 3, 6697 }, { "Nightstalker Bow", 3, 6696 }, { "Stygian Bone Amulet", 3, 6695 } },
+},
+["The Stockade"] = {
+    ["Kam Deepfury"] = { { "Demolition Girdle", 3, 273807 }, { "Kam's Walking Stick", 3, 2280 } },
+    ["Bruegal Ironknuckle"] = { { "Iron Knuckles", 3, 2942 }, { "Jimmied Handcuffs", 3, 3228 }, { "Prison Shank", 3, 2941 } },
+    ["Targorr the Dread"] = { { "Dark Horde Band", 3, 273806 } },
+},
+["Wailing Caverns"] = {
+    ["Deviate Faerie Dragon"] = { { "Feyscale Cloak", 3, 6632 }, { "Firebelcher", 3, 5243 } },
+    ["Lady Anacondra"] = { { "Belt of the Fang", 3, 10412 }, { "Serpent's Shoulders", 3, 5404 } },
+    ["Lord Serpentis"] = { { "Footpads of the Fang", 3, 10411 }, { "Savage Trodders", 3, 6459 }, { "Serpent Gloves", 3, 5970 }, { "Venomstrike", 3, 6469 } },
+    ["Kresh"] = { { "Kresh's Back", 3, 13245 }, { "Worn Turtle Shell Shield", 3, 6447 } },
+    ["Skum"] = { { "Glowing Lizardscale Cloak", 3, 6449 }, { "Tail Spike", 3, 6448 } },
+    ["Lord Cobrahn"] = { { "Cobrahn's Grasp", 3, 6460 }, { "Leggings of the Fang", 3, 10410 }, { "Robe of the Moccasin", 3, 6465 } },
+    ["Mutanus the Devourer"] = { { "Deep Fathom Ring", 3, 6463 }, { "Mutant Scale Breastplate", 3, 6627 }, { "Slime-encrusted Pads", 3, 6461 } },
+    ["Lord Pythas"] = { { "Armor of the Fang", 3, 6473 }, { "Stinging Viper", 3, 6472 } },
+    ["Verdan the Everliving"] = { { "Living Root", 3, 6631 }, { "Seedcloud Buckler", 3, 6630 }, { "Sporid Cape", 3, 6629 } },
+},
+["Blackfathom Deeps"] = {
+    ["Lady Sarevess"] = { { "Darkwater Talwar", 3, 11121 }, { "Naga Battle Gloves", 3, 888 }, { "Naga Heartpiercer", 3, 3078 } },
+    ["Twilight Lord Kelris"] = { { "Gaze Dreamer Pants", 3, 6903 }, { "Rod of the Sleepwalker", 3, 1155 } },
+    ["Old Serra'kis"] = { { "Bands of Serra'kis", 3, 6902 }, { "Bite of Serra'kis", 3, 6904 }, { "Glowing Thresher Cape", 3, 6901 } },
+    ["Gelihast"] = { { "Algae Fists", 3, 6906 }, { "Reef Axe", 3, 6905 } },
+    ["Ghamoo-ra"] = { { "Ghamoo-ra's Bind", 3, 6908 }, { "Spiked Shell Band", 3, 273839 }, { "Tortoise Armor", 3, 6907 } },
+    ["Aku'mai"] = { { "Leech Pants", 3, 6910 }, { "Moss Cinch", 3, 6911 }, { "Strike of the Hydra", 3, 6909 } },
+},
+["Gnomeregan"] = {
+    ["Grubbis"] = { { "Grubbis Paws", 3, 9445 } },
+    ["Electrocutioner 6000"] = { { "Electrocutioner Lagnut", 3, 9447 }, { "Electrocutioner Leg", 3, 9446 }, { "Spidertank Oilrag", 3, 9448 } },
+    ["Crowd Pummeler 9-60"] = { { "Gnomebot Operating Boots", 3, 9450 } },
+    ["Viscous Fallout"] = { { "Acidic Walkers", 3, 9454 }, { "Hydrocane", 3, 9452 }, { "Toxic Revenger", 3, 9453 } },
+    ["Dark Iron Ambassador"] = { { "Emissary Cuffs", 3, 9455 }, { "Glass Shooter", 3, 9456 }, { "Royal Diplomatic Scepter", 3, 9457 } },
+    ["Mekgineer Thermaplugg"] = { { "Electromagnetic Gigaflux Reactivator", 3, 9492 }, { "Charged Gear", 3, 9461 }, { "Thermaplugg's Central Core", 3, 9458 }, { "Thermaplugg's Left Arm", 3, 9459 } },
+},
+["Razorfen Downs"] = {
+    ["Amnennar the Coldbringer"] = { { "Bonefingers", 3, 10765 }, { "Coldrage Dagger", 3, 10761 }, { "Deathchill Armor", 3, 10764 }, { "Icemetal Barbute", 3, 10763 }, { "Robes of the Lich", 3, 10762 } },
+    ["Mordresh Fire Eye"] = { { "Deathmage Sash", 3, 10771 }, { "Mordresh's Lifeless Skull", 3, 10770 } },
+    ["Glutton"] = { { "Fleshhide Shoulders", 3, 10774 }, { "Glutton's Cleaver", 3, 10772 } },
+    ["Tuten'kash"] = { { "Arachnid Gloves", 3, 10777 }, { "Carapace of Tuten'kash", 3, 10775 } },
+},
+["Scarlet Monastery"] = {
+    ["Houndmaster Loksey"] = { { "Dog Training Gloves", 3, 7756 }, { "Dog Whistle", 3, 3456 }, { "Loksey's Training Stick", 3, 7710 } },
+    ["Interrogator Vishas"] = { { "Bloody Brass Knuckles", 3, 7683 }, { "Torturing Poker", 3, 7682 } },
+    ["Bloodmage Thalnos"] = { { "Bloodmage Mantle", 3, 7684 }, { "Orb of the Forgotten Seer", 3, 7685 } },
+    ["Ironspine"] = { { "Ironspine's Eye", 3, 7686 }, { "Ironspine's Fist", 3, 7687 }, { "Ironspine's Ribcage", 3, 7688 } },
+    ["Fallen Champion"] = { { "Ebon Vise", 3, 7690 }, { "Embalmed Shroud", 3, 7691 }, { "Morbid Dawn", 3, 7689 } },
+    ["Azshir the Sleepless"] = { { "Blighted Leggings", 3, 7709 }, { "Ghostshard Talisman", 3, 7731 }, { "Necrotic Wand", 3, 7708 } },
+    ["Arcanist Doan"] = { { "Hypnotic Blade", 3, 7714 }, { "Illusionary Rod", 3, 7713 }, { "Mantle of Doan", 2, 7712 }, { "Robe of Doan", 2, 7711 } },
+    ["Herod"] = { { "Raging Berserker's Helm", 3, 7719 }, { "Ravager", 3, 7717 } },
+    ["High Inquisitor Whitemane"] = { { "Hand of Righteousness", 3, 7721 } },
+    ["Scarlet Commander Mograine"] = { { "Aegis of the Scarlet Commander", 3, 7726 }, { "Gauntlets of Divinity", 3, 7724 }, { "Mograine's Might", 3, 7723 } },
+    ["High Inquisitor Fairbanks"] = { { "Branded Leather Bracers", 3, 19508 }, { "Dusty Mail Boots", 3, 19509 }, { "Inquisitor's Shawl", 3, 19507 } },
+},
+["Zul'Farrak"] = {
+    ["Antu'sul"] = { { "Sang'thraze the Deflector", 3, 9379 }, { "The Hand of Antu'sul", 3, 9639 }, { "Vice Grips", 3, 9640 } },
+    ["Gahz'rilla"] = { { "Gahz'rilla Fang", 3, 9467 }, { "Gahz'rilla Scale Armor", 3, 9469 } },
+    ["Shadowpriest Sezz'ziz"] = { { "Bad Mojo Mask", 3, 9470 }, { "Diabolic Skiver", 3, 9475 }, { "Jinxed Hoodoo Kilt", 3, 9474 }, { "Jinxed Hoodoo Skin", 3, 9473 } },
+    ["Chief Ukorz Sandscalp"] = { { "Big Bad Pauldrons", 3, 9476 }, { "Jang'thraze the Protector", 3, 11086 }, { "The Chief's Enforcer", 3, 9477 } },
+    ["Zerillis"] = { { "Sandstalker Ankleguards", 3, 12470 } },
+    ["Witch Doctor Zum'rah"] = { { "Zum'rah's Vexing Cane", 3, 18082 } },
+},
+["Uldaman"] = {
+    ["Revelosh"] = { { "Revelosh's Armguards", 3, 9388 }, { "Revelosh's Boots", 3, 9387 }, { "Revelosh's Gloves", 3, 9390 }, { "Revelosh's Spaulders", 3, 9389 } },
+    ["Ironaya"] = { { "Ironaya's Bracers", 3, 9409 }, { "Stoneweaver Leggings", 3, 9407 } },
+    ["Ancient Stone Keeper"] = { { "Rockshard Pauldrons", 3, 9411 } },
+    ["Grimlok"] = { { "Grimlok's Charge", 3, 9416 }, { "Grimlok's Tribal Vestments", 3, 9415 }, { "Oilskin Leggings", 3, 9414 } },
+},
+["Sunken Temple"] = {
+    ["Hazzas"] = { { "Idol of the Dream", 3, 220606 } },
+},
+["The Deadmines"] = {
+    ["Rhahk'Zor"] = { { "Ogre Loincloth", 3, 273289 }, { "Rhahk'Zor's Hammer", 3, 5187 }, { "Rockslicer", 3, 872 } },
+    ["Gilnid"] = { { "Goblin Hammer", 3, 273297 }, { "Lavishly Jeweled Ring", 3, 1156 }, { "Smelting Pants", 3, 5199 } },
+    ["Sneed's Shredder"] = { { "Buzz Saw", 3, 1937 }, { "Buzzer Blade", 3, 2169 }, { "Dull Sawblade", 3, 285292 } },
+    ["Edwin VanCleef"] = { { "Blackened Defias Armor", 3, 10399 }, { "Cape of the Brotherhood", 3, 5193 }, { "Corsair's Overshirt", 3, 5202 }, { "Cruel Barb", 3, 5191 } },
+    ["Mr. Smite"] = { { "First Mate Band", 3, 284715 }, { "Smite's Mighty Hammer", 3, 7230 }, { "Smite's Reaver", 3, 5196 }, { "Thief's Blade", 3, 5192 } },
+    ["Sneed"] = { { "Bandsaw Wristbands", 3, 273293 }, { "Gold-flecked Gloves", 3, 5195 }, { "Taskmaster Axe", 3, 5194 } },
+    ["Cookie"] = { { "Cookie's Stirring Rod", 3, 5198 }, { "Cookie's Tenderizer", 3, 5197 }, { "Lookie's Spyglass", 3, 273298 } },
+    ["Captain Greenskin"] = { { "Blackened Defias Belt", 3, 10403 }, { "Emberstone Staff", 3, 5201 }, { "Impaling Harpoon", 3, 5200 } },
+    ["Miner Johnson"] = { { "Gold-plated Buckler", 3, 5443 }, { "Miner's Cape", 3, 5444 } },
+},
+["Maraudon"] = {
+    ["Princess Theradras"] = { { "Blackstone Ring", 3, 17713 }, { "Bracers of the Stone Princess", 3, 17714 }, { "Eye of Theradras", 3, 17715 }, { "Charstone Dirk", 3, 17710 }, { "Princess Theradras' Scepter", 3, 17766 } },
+    ["Tinkerer Gizlock"] = { { "Inventor's Focal Sword", 3, 17719 }, { "Megashot Rifle", 3, 17717 } },
+    ["Rotgrip"] = { { "Albino Crocscale Boots", 3, 17728 }, { "Gatorbite Axe", 3, 17730 }, { "Rotgrip Mantle", 3, 17732 } },
+    ["Celebras the Cursed"] = { { "Claw of Celebras", 3, 17738 }, { "Grovekeeper's Drape", 3, 17739 }, { "Soothsayer's Headdress", 3, 17740 } },
+    ["Meshlok the Harvester"] = { { "Nature's Embrace", 3, 17741 } },
+    ["Noxxion"] = { { "Noxious Shooter", 3, 17745 } },
+    ["Razorlash"] = { { "Vinerot Sandals", 3, 17748 } },
+    ["Lord Vyletongue"] = { { "Satyrmane Sash", 3, 17755 } },
+    ["Landslide"] = { { "Fist of Stone", 3, 17943 } },
+},
+["Ragefire Chasm"] = {
+    ["Taragaman the Hungerer"] = { { "Crystalline Cuffs", 3, 14148 }, { "Cursed Felblade", 3, 14145 }, { "Subterranean Cape", 3, 14149 } },
+    ["Jergosh the Invoker"] = { { "Cavedweller Bracers", 3, 14147 }, { "Chanting Blade", 3, 14151 }, { "Robe of Evocation", 3, 14150 } },
+    ["Oggleflint"] = { { "Barbaric Crossbow", 3, 272999 }, { "Bone Knuckles", 3, 272998 }, { "Trogg Scepter", 3, 272996 } },
+    ["Bazzalan"] = { { "Chasm Walkers", 3, 273007 }, { "Satyrskin Cloak", 3, 273005 }, { "Searing Dagger", 3, 273003 } },
+},
 }
