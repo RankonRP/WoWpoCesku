@@ -392,7 +392,7 @@ local function drawDJMarks()
             end
             if usedAtlas then
                 p:SetSize(m.size or 34, m.size or 34)
-                p.glow:Hide()   // kruhová ikona se září kreslila jako černý čtverec
+                p.glow:Hide()   -- kruhová ikona se září kreslila jako černý čtverec
             else
                 p.icon:SetTexture(m.icon)
                 p:SetSize(30, 30)
