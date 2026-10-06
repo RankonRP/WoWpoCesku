@@ -134,6 +134,7 @@ local TABS = {
     { id = "pecete", label = "Pečetě" },
     { id = "pribeh", label = "Tvůj příběh" },
     { id = "zkouska", label = "Zkouška kronikáře" },
+    { id = "dungeony", label = "Dungeon průvodce", action = true },   -- otevře samostatné okno
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
@@ -390,7 +391,7 @@ local function showTab(id)
     book.tab = id
     for _, t in ipairs(book.tabs) do
         local active = (t.id == id)
-        t:SetShown(book.pages[t.id] ~= nil)
+        t:SetShown(t.action or book.pages[t.id] ~= nil)
         t:SetWidth(active and 166 or 154)
         t.bg:SetVertexColor(active and 1 or 0.86, active and 1 or 0.80, active and 1 or 0.70)
         if active then t.text:SetTextColor(RED[1], RED[2], RED[3]) else t.text:SetTextColor(INK[1], INK[2], INK[3], 0.8) end
@@ -452,6 +453,7 @@ local function createTabs()
     for i, def in ipairs(TABS) do
         local t = CreateFrame("Button", nil, holder, "BackdropTemplate")
         t.id = def.id
+        t.action = def.action
         t:SetSize(154, 36)
         t:SetPoint("TOPLEFT", book, "TOPRIGHT", -14, -70 - (i - 1) * 44)
         t:SetBackdrop({ edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12,
@@ -475,6 +477,14 @@ local function createTabs()
         t.text:SetText(def.label)
         t:SetScript("OnClick", function(self)
             PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
+            if def.action then
+                if WoWpoCesku_DungeonJournal then
+                    local key = bookKey
+                    if not (WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]) then key = nil end
+                    WoWpoCesku_DungeonJournal(key or nil, nil, true)
+                end
+                return
+            end
             showTab(self.id)
         end)
         book.tabs[i] = t
@@ -544,23 +554,6 @@ local function createBook()
 
     local close = CreateFrame("Button", nil, book, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)
-
-    -- tlačítko do Dungeonového deníku (vlastní okno s bossy, kořistí a questy)
-    local dj = CreateFrame("Button", nil, book, "UIPanelButtonTemplate")
-    dj:SetSize(170, 22)
-    dj:SetPoint("TOPLEFT", 26, -22)
-    if WoWpoCeskuButtonFont then
-        dj:SetNormalFontObject(WoWpoCeskuButtonFont)
-        dj:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
-    end
-    dj:SetText("Dungeon průvodce")
-    dj:SetScript("OnClick", function()
-        if WoWpoCesku_DungeonJournal then
-            local key = bookKey
-            if not (WoWpoCesku_DungeonBosses and WoWpoCesku_DungeonBosses[key]) then key = nil end
-            WoWpoCesku_DungeonJournal(key or nil)
-        end
-    end)
 
     book.sf = CreateFrame("ScrollFrame", nil, book, "UIPanelScrollFrameTemplate")
     book.content = CreateFrame("Frame", nil, book.sf)

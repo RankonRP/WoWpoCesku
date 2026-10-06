@@ -1409,9 +1409,9 @@ end)
 
 -- Otevře deník; key = instance (nepovinné), tab = záložka (nepovinné).
 -- Bez parametrů: v dungeonu se otevře jeho detail, jinde přehled; opakované volání okno zavře.
-function WoWpoCesku_DungeonJournal(key, tab)
+function WoWpoCesku_DungeonJournal(key, tab, forceOpen)
     if not win then build() end
-    if win:IsShown() and not key and not tab then win:Hide() return end
+    if win:IsShown() and not key and not tab and not forceOpen then win:Hide() return end
     if tab then state.tab = tab end
     if not key then
         local zone = WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey()
