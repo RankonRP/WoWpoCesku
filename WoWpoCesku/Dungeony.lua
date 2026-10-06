@@ -940,14 +940,19 @@ local function renderBosses(key)
             seenIds[id] = true
         end
     end
-    local db = WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][sel[1]]
+    local fv = WoWpoCesku_BossLootForever and WoWpoCesku_BossLootForever[key] and WoWpoCesku_BossLootForever[key][sel[1]]
+    for _, it in ipairs(fv or {}) do
+        if not seenIds[it[3]] then loot[#loot + 1] = it; seenIds[it[3]] = true end
+    end
+    -- classic databáze jen tam, kde o Forever nic nevíme (jinak by ukazovala staré předměty)
+    local db = (not fv) and WoWpoCesku_BossLoot and WoWpoCesku_BossLoot[key] and WoWpoCesku_BossLoot[key][sel[1]]
     for _, it in ipairs(db or {}) do
         if not seenIds[it[3]] then loot[#loot + 1] = it end
     end
     if #loot > 0 then
         addText(R, "Může padnout", 14, RED, 6)
         for _, it in ipairs(loot) do addItem(R, it[1], it[2], it[3], it[4]) end
-        addText(R, "Zlatá hvězdička = padlo ti to ve hře (potvrzeno). Ostatní jsou z classic databáze a ve WoW Forever se mohou lišit. Najeď myší na předmět.", 11, SEPIA, 4)
+        addText(R, "Zlatá hvězdička = padlo ti to ve hře (potvrzeno). Ostatní jsou z databáze (u některých dungeonů z classic, kde se Forever může lišit). Najeď myší na předmět.", 11, SEPIA, 4)
     else
         addText(R, "V databázi pro něj není žádné zelené, modré ani epické vybavení.", 12, SEPIA, 4)
     end
