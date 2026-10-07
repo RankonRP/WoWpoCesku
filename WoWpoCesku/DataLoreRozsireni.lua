@@ -222,3 +222,22 @@ Neeru Fireblade, skrytý vůdce klanu Burning Blade, posílal do jeskyně Thrall
 secrets("Ragefire Chasm", [[• Neeru Fireblade je skrytý vůdce Burning Blade a testoval Searing Blade, zatímco posílal do jeskyně Thrallovy věrné.
 • Přítomnost Ragefire troggů prý může naznačovat titánský trezor pod Orgrimmarem.
 • SPOILER: Po Cataclysmu se tu usadili Dark Shaman se spojenci Garrosha Hellscreama.]])
+
+-------------------------------------------------------------------------------
+-- Scarlet Monastery (platí pro Graveyard i Library – ty se z tohoto textu odvozují v DataNove.lua)
+-------------------------------------------------------------------------------
+chapters("Scarlet Monastery", {
+    { "Starý klášter Světla", [[Budova začínala jako „Old Monastery“: katedrála a seminář Církve Svatého světla. Arcibiskup Alonsus Faol v ní měl své sídlo a paladinové se tu učili, než se stali rytíři. Dlouho to byl klidný, uctívaný dům víry.]] },
+    { "Silver Hand a pád Lordaeronu", [[Po třetí válce a pádu Lordaeronu klášter převzali Rytíři Stříbrné ruky (Knights of the Silver Hand) pod vedením Highlorda Alexandrose Mograinea a změnili ho v obrannou základnu. Řád se později rozštěpil na Scarlet Crusade a Argent Dawn. Šarlatoví si klášter nechali a dali mu nové jméno a smysl.]] },
+    { "Pevnost fanatiků", [[Pod vedením High Inquisitor Whitemane a Scarlet Commandera Mograinea se klášter stal vojenskou posádkou a zároveň výslechovým střediskem. Fanatismus Šarlatových rostl: v každém cizinci viděli možného přenašeče moru. Z kláštera se tak stala pevnost podezíravosti, ve které se výslechy a popravy staly rutinou.]] },
+    { "Čtyři křídla", [[Klášter má čtyři křídla: Graveyard, Library, Armory a Cathedral. Ve WoW Forever jsou Graveyard a Library samostatné dungeony. Armory a Cathedral zatím do průvodce nepřidáváme.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V dalších příbězích se zbytky Šarlatových seskupily pod High Commanderem Goodchildem, ale zdecimovali je Rytíři Ebon Bladeu, kteří pobili poslední zélóty a vzkřísili některé klíčové postavy včetně Whitemane. Dnes klášter stojí opuštěný.]] },
+})
+
+boss("Scarlet Monastery", "Interrogator Vishas", [[Hlavní vyslýchač kláštera (Chief Interrogator) a muž s pronikavým vysokým hlasem. Své řemeslo prý dělá s hrdostí a bez špetky lítosti. Dlouho mučil vězně Vorrela Sengutze a jeho snubní prsten odnesl vlastní ženě Nancy Vishas – právě to je základ questu Vorrel's Revenge, kde jeho zlo vyvrcholí.]])
+
+boss("Scarlet Monastery", "Arcanist Doan", [[Lidský mág, rytíř Stříbrné ruky a později člen Scarlet Crusade, strážce Athenaea v knihovně kláštera. Podle příběhu se podílel na očištění temného krystalu, ze kterého vznikl legendární Ashbringer. Považují ho za jednoho z nejmocnějších mágů Křižáků a věřil, že arkánní magie je klíč k porážce Plagy. Vlastní důležitý klíč, který odemyká přístup k šarlatovým operacím v Plaguelands. Dabuje ho Chris Metzen.]])
+
+secrets("Scarlet Monastery", [[• Původní klášter byl katedrála a seminář Církve Svatého světla.
+• Arcanist Doan se prý podílel na očištění krystalu, z něhož vznikl Ashbringer.
+• SPOILER: Pozdější příběhy ukazují, jak Rytíři Ebon Bladeu klášter dobyli a vzkřísili Whitemane.]])
