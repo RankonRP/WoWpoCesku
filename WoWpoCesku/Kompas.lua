@@ -336,11 +336,12 @@ local function slow()
             active = true
             if not bar then createBar() end
             bar:Show()
+            bar:SetScale(cfg().compassScale or 1)
 
             local items = {}
             if target then items[#items + 1] = { kind = "target", map = target.uiMap, u = target.u, v = target.v, label = target.label } end
             local dung = WoWpoCesku_DungeonEntryMap
-            if dung then
+            if dung and cfg().compassDungeons ~= false then
                 for key, m in pairs(dung) do
                     if m[1] == pid and not (target and target.label == key .. " - vstup") then
                         items[#items + 1] = { kind = "dungeon", map = m[1], u = m[2], v = m[3], label = key }
@@ -361,7 +362,7 @@ local function slow()
                                 local _, d = vector(pid, px, py, pid, p[1], p[2])
                                 if d and (not bd or d < bd) then best, bd = p, d end
                             end
-                            if best and bd <= RARE_RANGE then
+                            if best and bd <= (cfg().compassRange or RARE_RANGE) then
                                 items[#items + 1] = { kind = "rare", map = pid, u = best[1], v = best[2], label = name, lvl = info.lvl, seen = seenR and seenR[name] ~= nil }
                             end
                         end
@@ -393,7 +394,7 @@ local function slow()
                         m.icon:SetTexture(it.main and mainIcon() or ICONS[it.kind])
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
-                        m.dir, m.dtext, m.dim = dir, dist(d), (it.kind == "rare" and it.seen)
+                        m.dir, m.dtext, m.dim = dir, (cfg().compassDist ~= false) and dist(d) or " ", (it.kind == "rare" and it.seen)
                         m.always, m.state = big, nil
                         entries[n] = m
                     end

@@ -1018,18 +1018,59 @@ function WoWpoCesku_ApplyPreset(name)
     print("|cffffd100WoWpoCesku:|r predvolba pouzita. Zmeny v rozhrani hry se projevi po /reload.")
 end
 
-local function buildOptions()
-    local scroll = CreateFrame("ScrollFrame", nil, options, "UIPanelScrollFrameTemplate")
+-- Nastavení: hlavní stránka WoWpoCesku a pod ní podkategorie (Překlad, Rozhraní hry, Kronika, Dungeony a mapa, Kompas, Ostatní)
+-- Každá stránka se postaví až při prvním zobrazení. Názvy podkategorií jsou bez diakritiky (seznam vlevo používá písmo hry).
+local function buildPage(fr, title, fn, firstY)
+    local scroll = CreateFrame("ScrollFrame", nil, fr, "UIPanelScrollFrameTemplate")
     scroll:SetPoint("TOPLEFT", 0, -4)
     scroll:SetPoint("BOTTOMRIGHT", -28, 4)
     content = CreateFrame("Frame", nil, scroll)
-    content:SetSize(((options:GetWidth() or 0) > 300 and options:GetWidth() or 640) - 30, 10)
+    local w = fr:GetWidth()
+    if not w or w < 300 then w = 640 end
+    content:SetSize(w - 30, 10)
     scroll:SetScrollChild(content)
+    COL_W = w - 80
     local head = content:CreateFontString(nil, "ARTWORK")
     head:SetFontObject(headFont)
     head:SetPoint("TOPLEFT", 16, -16)
-    head:SetText("WoWpoČesku – nastavení")
+    head:SetText(title)
+    local col = { x = 20, y = firstY or -56 }
+    fn(col)
+    content:SetHeight(-col.y + 50)
+end
 
+local pageDefs = {}   -- { frame, title, build }
+local function makePage(frame, title, build, firstY)
+    frame:SetScript("OnShow", function(self)
+        if not self.built then buildPage(self, title, build, firstY); self.built = true end
+        refreshOptions()
+    end)
+    pageDefs[#pageDefs + 1] = frame
+end
+
+local function subFrame(menuName)
+    local fr = CreateFrame("Frame")
+    fr.name = menuName
+    fr.parent = "WoWpoCesku"
+    fr:Hide()
+    return fr
+end
+
+local function note(col, text, gap)
+    local help = content:CreateFontString(nil, "ARTWORK")
+    help:SetFontObject(noteFont)
+    help:SetPoint("TOPLEFT", col.x, col.y - (gap or 8))
+    help:SetWidth(COL_W)
+    help:SetJustifyH("LEFT")
+    help:SetSpacing(2)
+    help:SetText(text)
+    col.y = col.y - (gap or 8) - help:GetStringHeight() - 8
+end
+
+local subPages = {}
+
+-- hlavní stránka: předvolby a rozcestník
+makePage(options, "WoWpoČesku – nastavení", function(col)
     local presetLabel = content:CreateFontString(nil, "ARTWORK")
     presetLabel:SetFontObject(noteFont)
     presetLabel:SetPoint("TOPLEFT", 20, -50)
@@ -1044,96 +1085,51 @@ local function buildOptions()
         b:SetScript("OnClick", function() WoWpoCesku_ApplyPreset(p[1]) end)
         prev = b
     end
-    local presetNote = content:CreateFontString(nil, "ARTWORK")
-    presetNote:SetFontObject(noteFont)
-    presetNote:SetPoint("TOPLEFT", 20, -74)
-    presetNote:SetText("Jen překlad = questy, rozhovory, knihy a přehled úkolů. Jen questy = pouze texty questů. Vše česky = i rozhraní a Kronika.")
+    col.y = -84
+    note(col, "Jen překlad = questy, rozhovory, knihy a přehled úkolů. Jen questy = pouze texty questů. Vše česky = i rozhraní a Kronika.", 0)
+    addSection(col, "Kategorie")
+    note(col, "Podrobné volby najdeš v seznamu vlevo pod WoWpoCesku:\n"
+        .. "• Preklad: texty questů, rozhovory, knihy, panel s překladem\n"
+        .. "• Rozhrani hry: co všechno se mění v rozhraní na češtinu\n"
+        .. "• Kronika: Kronika Azerothu, pečetě, deník, upozornění\n"
+        .. "• Dungeony a mapa: Dungeon Kronika, mapa a obrázky\n"
+        .. "• Kompas: kompas nahoře na obrazovce\n"
+        .. "• Ostatni: ikona u minimapy, aktualizace", 0)
+    addSection(col, "Nápověda")
+    note(col, "Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat). Panel s překladem jde přetáhnout myší.\n"
+        .. "Příkazy do chatu: /czq nastaveni, /czq stav, /czq lore, /czq dungeon, /czq vzacni, /czq kompas, /czq uvod", 0)
+end, -50)
 
-    -- dva stejně široké sloupce podle skutečné šířky okna (hra ho škáluje)
-    local w = options:GetWidth()
-    if not w or w < 300 then w = 640 end
-    COL_W = math.floor((w - 70) / 2)
-    local left, right = newColumn(20), newColumn(40 + COL_W)
-
-    -- levý sloupec: překlad
-    addSection(left, "Překlad")
-    addCheck(left, "Překlad zapnutý", nil,
+-- Překlad
+local pPreklad = subFrame("Preklad")
+makePage(pPreklad, "Překlad", function(col)
+    addSection(col, "Co se překládá")
+    addCheck(col, "Překlad zapnutý", nil,
         function() return WoWpoCeskuSettings.enabled end, setEnabled)
-    addCheck(left, "Překlad textu questů u NPC", "Okno s českým textem při přijetí a odevzdání questu",
+    addCheck(col, "Překlad textu questů u NPC", "Okno s českým textem při přijetí a odevzdání questu",
         function() return WoWpoCeskuSettings.quests ~= false end,
         function(on) WoWpoCeskuSettings.quests = on; if not on and panel.source == "dialog" then panel:Hide() end end)
-    addCheck(left, "Překlad v deníku questů (klávesa L)", nil,
+    addCheck(col, "Překlad v deníku questů (klávesa L)", nil,
         function() return WoWpoCeskuSettings.log ~= false end,
         function(on) WoWpoCeskuSettings.log = on end)
-    addCheck(left, "Překlad rozhovorů s NPC", "Když NPC jen mluví (obchodníci, strážní…)",
+    addCheck(col, "Překlad rozhovorů s NPC", "Když NPC jen mluví (obchodníci, strážní…)",
         function() return WoWpoCeskuSettings.gossip ~= false end,
         function(on) WoWpoCeskuSettings.gossip = on; if not on and panel.source == "gossip" then panel:Hide() end end)
-    addCheck(left, "Překlad knih, dopisů a cedulí", nil,
+    addCheck(col, "Překlad knih, dopisů a cedulí", nil,
         function() return WoWpoCeskuSettings.books ~= false end,
         function(on) WoWpoCeskuSettings.books = on; if not on and panel.source == "book" then panel:Hide() end end)
-    addCheck(left, "Čeština v přehledu úkolů a volbách u NPC",
+    addCheck(col, "Čeština v přehledu úkolů a volbách u NPC",
         "Názvy questů, „Zabito: 3/10“, „Ukaž mi, kam můžu letět“… (po /reload)",
         function() return WoWpoCeskuSettings.ui ~= false end,
         function(on) WoWpoCeskuSettings.ui = on end)
-    addCheck(left, "Automaticky označit text pro Ctrl+C", "U nového questu je text hned připravený ke zkopírování",
+    addCheck(col, "Automaticky označit text pro Ctrl+C", "U nového questu je text hned připravený ke zkopírování",
         function() return WoWpoCeskuSettings.autofocus end,
         function(on) WoWpoCeskuSettings.autofocus = on end)
 
-    -- levý sloupec: rozhraní hry česky (Lokalizace.lua)
-    addSection(left, "Rozhraní hry česky (po /reload)")
-    for _, part in ipairs(WoWpoCesku_LokParts or {}) do
-        addCheck(left, part.label, part.note and part.note:gsub("%s*%(projeví se po /reload%)", ""),
-            function() return not (WoWpoCeskuSettings.lok and WoWpoCeskuSettings.lok[part.key] == false) end,
-            function(on) WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}; WoWpoCeskuSettings.lok[part.key] = on end)
-    end
-
-    -- pravý sloupec: Kronika Azerothu
-    addSection(right, "Kronika Azerothu")
-    addCheck(right, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: klik na ikonu u minimapy nebo /czq lore",
-        function() return WoWpoCeskuSettings.loreToast ~= false end,
-        function(on) WoWpoCeskuSettings.loreToast = on end)
-    addCheck(right, "Upozornění na vzácné moby", "Zvuk, nápis a cedulka; zapíše se kde a kdy (/czq vzacni)",
-        function() return WoWpoCeskuSettings.rareAlert ~= false end,
-        function(on) WoWpoCeskuSettings.rareAlert = on end)
-    addCheck(right, "Kompas nahoře na obrazovce", "Směr a vzdálenost ke sledovanému cíli, vstupům a vzácným mobům (/czq kompas)",
-        function() return WoWpoCeskuSettings.compass ~= false end,
-        function(on) WoWpoCeskuSettings.compass = on end)
-    addCheck(right, "Upozornit na novou verzi", "Když potkáš hráče s novějším WoWpoČesku, objeví se hláška v chatu",
-        function() return WoWpoCeskuSettings.updateCheck ~= false end,
-        function(on) WoWpoCeskuSettings.updateCheck = on end)
-    addCheck(right, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
-        function() return WoWpoCeskuSettings.npcNotes ~= false end,
-        function(on) WoWpoCeskuSettings.npcNotes = on end)
-    addCheck(right, "Příběhy slavných předmětů", "Thunderfury, Atiesh, Corrupted Ashbringer…",
-        function() return WoWpoCeskuSettings.itemNotes ~= false end,
-        function(on) WoWpoCeskuSettings.itemNotes = on end)
-    addCheck(right, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
-        function() return WoWpoCeskuSettings.mapPlaces ~= false end,
-        function(on) WoWpoCeskuSettings.mapPlaces = on end)
-    addCheck(right, "Dungeon Kronika nastaví i značku hry", "Kromě naší ikony na mapě nastaví i klasickou značku (waypoint) se šipkou",
-        function() return WoWpoCeskuSettings.djWaypoint == true end,
-        function(on) WoWpoCeskuSettings.djWaypoint = on end)
-    addCheck(right, "Obrázky dungeonů z klienta hry", "Bannery v Dungeonovém deníku. Vypnuto = naše malované (po /reload)",
-        function() return WoWpoCeskuSettings.djArt ~= "own" end,
-        function(on) WoWpoCeskuSettings.djArt = on and "client" or "own" end)
-    addCheck(right, "Dungeon Kronika otevře mapu", "Po kliknutí na Zobrazit na mapě se mapa otevře. Když hra hlásí chybu ADDON_ACTION_BLOCKED, vypni.",
-        function() return WoWpoCeskuSettings.djOpenMap ~= false end,
-        function(on) WoWpoCeskuSettings.djOpenMap = on end)
-    addCheck(right, "Okno při získání pečeti", "Cedulka uprostřed obrazovky; pečeť se získá i bez ní",
-        function() return WoWpoCeskuSettings.sealBanner ~= false end,
-        function(on) WoWpoCeskuSettings.sealBanner = on end)
-    addCheck(right, "Deník postavy (Tvůj příběh)", "Zapisuje, kde jsi byl, koho jsi potkal a co jsi dokázal",
-        function() return WoWpoCeskuSettings.journal ~= false end,
-        function(on) WoWpoCeskuSettings.journal = on end)
-    addCheck(right, "Oznamovat nové pečetě guildě", "Do chatu guildy napíše, jakou pečeť jsi získal",
-        function() return WoWpoCeskuSettings.sealGuild == true end,
-        function(on) WoWpoCeskuSettings.sealGuild = on end)
-
-    -- pravý sloupec: panel s překladem
-    addSection(right, "Panel s překladem")
+    addSection(col, "Panel s překladem")
     local sizeLabel = content:CreateFontString(nil, "ARTWORK")
     sizeLabel:SetFontObject(labelFont)
-    sizeLabel:SetPoint("TOPLEFT", right.x, right.y - 4)
+    sizeLabel:SetPoint("TOPLEFT", col.x, col.y - 4)
     sizeLabel:SetText("Velikost písma:")
     local minus = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     minus:SetSize(26, 22)
@@ -1151,45 +1147,175 @@ local function buildOptions()
     optionWidgets[#optionWidgets + 1] = value
     minus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) - 1); value:Refresh() end)
     plus:SetScript("OnClick", function() setFontSize((WoWpoCeskuSettings.fontSize or DEFAULT_FONT_SIZE) + 1); value:Refresh() end)
-    right.y = right.y - 36
+    col.y = col.y - 36
 
     local reset = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     reset:SetSize(230, 24)
-    reset:SetPoint("TOPLEFT", right.x, right.y)
+    reset:SetPoint("TOPLEFT", col.x, col.y)
     czButton(reset)
     reset:SetText("Vrátit panel na výchozí místo")
     reset:SetScript("OnClick", function() WoWpoCeskuSettings.pos = nil; if panel:IsShown() then placePanel(panel.source) end end)
-    right.y = right.y - 40
+    col.y = col.y - 40
+end)
 
-    -- pravý sloupec: ostatní
-    addSection(right, "Ostatní")
-    addCheck(right, "Ikona u minimapy", "Klik = Kronika, Ctrl+klik = nastavení, pravý klik = překlad zap/vyp",
-        function() return WoWpoCeskuSettings.minimap ~= false end,
-        function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
+-- Rozhraní hry (Lokalizace.lua)
+local pRozhrani = subFrame("Rozhrani hry")
+makePage(pRozhrani, "Rozhraní hry česky", function(col)
+    addSection(col, "Co se mění (po /reload)")
+    for _, part in ipairs(WoWpoCesku_LokParts or {}) do
+        addCheck(col, part.label, part.note and part.note:gsub("%s*%(projeví se po /reload%)", ""),
+            function() return not (WoWpoCeskuSettings.lok and WoWpoCeskuSettings.lok[part.key] == false) end,
+            function(on) WoWpoCeskuSettings.lok = WoWpoCeskuSettings.lok or {}; WoWpoCeskuSettings.lok[part.key] = on end)
+    end
+end)
 
-    local help = content:CreateFontString(nil, "ARTWORK")
-    help:SetFontObject(noteFont)
-    help:SetPoint("TOPLEFT", right.x, right.y - 8)
-    help:SetWidth(COL_W)
-    help:SetJustifyH("LEFT")
-    help:SetSpacing(2)
-    help:SetText("Nové questy překládá Pomocník na počítači (Spustit pomocnika.bat). "
-        .. "Panel s překladem jde přetáhnout myší.\nPříkazy do chatu: /czq nastaveni, /czq stav, /czq lore, /czq dungeon, /czq vzacni")
-    content:SetHeight(math.max(-left.y, -right.y + help:GetStringHeight()) + 50)
+-- Kronika Azerothu
+local pKronika = subFrame("Kronika")
+makePage(pKronika, "Kronika Azerothu", function(col)
+    addSection(col, "Kniha a příběhy")
+    addCheck(col, "Titulky při vstupu do oblasti", "Kniha jde otevřít vždy: klik na ikonu u minimapy nebo /czq lore",
+        function() return WoWpoCeskuSettings.loreToast ~= false end,
+        function(on) WoWpoCeskuSettings.loreToast = on end)
+    addCheck(col, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
+        function() return WoWpoCeskuSettings.npcNotes ~= false end,
+        function(on) WoWpoCeskuSettings.npcNotes = on end)
+    addCheck(col, "Příběhy slavných předmětů", "Thunderfury, Atiesh, Corrupted Ashbringer…",
+        function() return WoWpoCeskuSettings.itemNotes ~= false end,
+        function(on) WoWpoCeskuSettings.itemNotes = on end)
+    addCheck(col, "Místa a tajemství na mapě", "Značky Poutníkova deníku na velké mapě (M)",
+        function() return WoWpoCeskuSettings.mapPlaces ~= false end,
+        function(on) WoWpoCeskuSettings.mapPlaces = on end)
+
+    addSection(col, "Upozornění")
+    addCheck(col, "Upozornění na vzácné moby", "Zvuk, nápis a cedulka; zapíše se kde a kdy (/czq vzacni)",
+        function() return WoWpoCeskuSettings.rareAlert ~= false end,
+        function(on) WoWpoCeskuSettings.rareAlert = on end)
+    addCheck(col, "Okno při získání pečeti", "Cedulka uprostřed obrazovky; pečeť se získá i bez ní",
+        function() return WoWpoCeskuSettings.sealBanner ~= false end,
+        function(on) WoWpoCeskuSettings.sealBanner = on end)
+    addCheck(col, "Oznamovat nové pečetě guildě", "Do chatu guildy napíše, jakou pečeť jsi získal",
+        function() return WoWpoCeskuSettings.sealGuild == true end,
+        function(on) WoWpoCeskuSettings.sealGuild = on end)
+
+    addSection(col, "Deník")
+    addCheck(col, "Deník postavy (Tvůj příběh)", "Zapisuje, kde jsi byl, koho jsi potkal a co jsi dokázal",
+        function() return WoWpoCeskuSettings.journal ~= false end,
+        function(on) WoWpoCeskuSettings.journal = on end)
+end)
+
+-- Dungeony a mapa
+local pDungeony = subFrame("Dungeony a mapa")
+makePage(pDungeony, "Dungeon Kronika a mapa", function(col)
+    addSection(col, "Dungeon Kronika")
+    addCheck(col, "Obrázky dungeonů z klienta hry", "Bannery v Dungeonovém deníku. Vypnuto = naše malované (po /reload)",
+        function() return WoWpoCeskuSettings.djArt ~= "own" end,
+        function(on) WoWpoCeskuSettings.djArt = on and "client" or "own" end)
+    addCheck(col, "Dungeon Kronika otevře mapu", "Po kliknutí na Zobrazit na mapě se mapa otevře. Když hra hlásí chybu ADDON_ACTION_BLOCKED, vypni.",
+        function() return WoWpoCeskuSettings.djOpenMap ~= false end,
+        function(on) WoWpoCeskuSettings.djOpenMap = on end)
+    addCheck(col, "Dungeon Kronika nastaví i značku hry", "Kromě naší ikony na mapě nastaví i klasickou značku (waypoint) se šipkou",
+        function() return WoWpoCeskuSettings.djWaypoint == true end,
+        function(on) WoWpoCeskuSettings.djWaypoint = on end)
+end)
+
+-- řádek s tlačítky - a + (číselná volba)
+local function addStepper(col, label, get, set, fmt)
+    local lab = content:CreateFontString(nil, "ARTWORK")
+    lab:SetFontObject(labelFont)
+    lab:SetPoint("TOPLEFT", col.x, col.y - 4)
+    lab:SetText(label)
+    local minus = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
+    minus:SetSize(26, 22)
+    minus:SetPoint("TOPLEFT", col.x + 250, col.y)
+    minus:SetText("-")
+    local val = content:CreateFontString(nil, "ARTWORK")
+    val:SetFontObject(labelFont)
+    val:SetPoint("LEFT", minus, "RIGHT", 8, 0)
+    val:SetWidth(60)
+    local plus = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
+    plus:SetSize(26, 22)
+    plus:SetPoint("LEFT", val, "RIGHT", 4, 0)
+    plus:SetText("+")
+    val.Refresh = function(self) self:SetText(fmt(get())) end
+    optionWidgets[#optionWidgets + 1] = val
+    minus:SetScript("OnClick", function() set(-1); val:Refresh() end)
+    plus:SetScript("OnClick", function() set(1); val:Refresh() end)
+    col.y = col.y - 34
 end
 
-options:SetScript("OnShow", function(self)
-    if not self.built then buildOptions(); self.built = true end
-    refreshOptions()
+-- Kompas
+local pKompas = subFrame("Kompas")
+makePage(pKompas, "Kompas", function(col)
+    addSection(col, "Kompas nahoře na obrazovce")
+    addCheck(col, "Kompas zapnutý", "Pruh teček nahoře: směr a vzdálenost (/czq kompas). Shift + tažení ho přesune",
+        function() return WoWpoCeskuSettings.compass ~= false end,
+        function(on) WoWpoCeskuSettings.compass = on end)
+    addCheck(col, "Vzácní moby na kompasu", "Lebky od vzdálenosti 300 yardů (/czq kompas vzacni)",
+        function() return WoWpoCeskuSettings.compassRares ~= false end,
+        function(on) WoWpoCeskuSettings.compassRares = on end)
+    addCheck(col, "Sledované questy na kompasu", "Označený quest má zlatou šipku, ostatní sledované malý vykřičník",
+        function() return WoWpoCeskuSettings.compassQuests ~= false end,
+        function(on) WoWpoCeskuSettings.compassQuests = on end)
+    addCheck(col, "Vstupy do dungeonů na kompasu", "Klíč u vstupu do dungeonu v oblasti, kde stojíš",
+        function() return WoWpoCeskuSettings.compassDungeons ~= false end,
+        function(on) WoWpoCeskuSettings.compassDungeons = on end)
+    addCheck(col, "Vzdálenosti pod značkami", "Vypnuto = jen ikony bez čísel",
+        function() return WoWpoCeskuSettings.compassDist ~= false end,
+        function(on) WoWpoCeskuSettings.compassDist = on end)
+    addStepper(col, "Dosah vzácných mobů (yardy):",
+        function() return WoWpoCeskuSettings.compassRange or 300 end,
+        function(d) WoWpoCeskuSettings.compassRange = math.max(100, math.min(1000, (WoWpoCeskuSettings.compassRange or 300) + d * 100)) end,
+        function(v) return tostring(v) end)
+    addStepper(col, "Velikost kompasu:",
+        function() return WoWpoCeskuSettings.compassScale or 1 end,
+        function(d) WoWpoCeskuSettings.compassScale = math.max(0.6, math.min(2, math.floor(((WoWpoCeskuSettings.compassScale or 1) + d * 0.1) * 10 + 0.5) / 10)) end,
+        function(v) return ("%d %%"):format(v * 100 + 0.5) end)
+    local pick = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
+    pick:SetSize(230, 24)
+    pick:SetPoint("TOPLEFT", col.x, col.y - 4)
+    czButton(pick)
+    pick:SetText("Vybrat ikonu označeného questu")
+    pick:SetScript("OnClick", function() if WoWpoCesku_CompassIconPicker then WoWpoCesku_CompassIconPicker() end end)
+    col.y = col.y - 40
+    local rst = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
+    rst:SetSize(230, 24)
+    rst:SetPoint("TOPLEFT", col.x, col.y)
+    czButton(rst)
+    rst:SetText("Vrátit kompas na výchozí místo")
+    rst:SetScript("OnClick", function()
+        WoWpoCeskuSettings.compassPos = nil
+        if WoWpoCeskuKompas then WoWpoCeskuKompas:ClearAllPoints(); WoWpoCeskuKompas:SetPoint("TOP", UIParent, "TOP", 0, -26) end
+    end)
+    col.y = col.y - 40
 end)
+
+-- Ostatní
+local pOstatni = subFrame("Ostatni")
+makePage(pOstatni, "Ostatní", function(col)
+    addSection(col, "Ikona a aktualizace")
+    addCheck(col, "Ikona u minimapy", "Klik = Kronika, Ctrl+klik = nastavení, pravý klik = překlad zap/vyp",
+        function() return WoWpoCeskuSettings.minimap ~= false end,
+        function(on) WoWpoCeskuSettings.minimap = on; if minimapButton then minimapButton:SetShown(on) end end)
+    addCheck(col, "Upozornit na novou verzi", "Když potkáš hráče s novějším WoWpoČesku, objeví se hláška v chatu",
+        function() return WoWpoCeskuSettings.updateCheck ~= false end,
+        function(on) WoWpoCeskuSettings.updateCheck = on end)
+    addSection(col, "Klávesové zkratky")
+    note(col, "Kronika, Dungeon Kronika a Discord mají klávesové zkratky: Esc > Klávesové zkratky > AddOns > WoWpoČesku.", 0)
+end)
+
+subPages = { pPreklad, pRozhrani, pKronika, pDungeony, pKompas, pOstatni }
 
 local optionsCategory
 local function registerOptions()
     if Settings and Settings.RegisterCanvasLayoutCategory then
         optionsCategory = Settings.RegisterCanvasLayoutCategory(options, "WoWpoCesku")
+        if Settings.RegisterCanvasLayoutSubcategory then
+            for _, fr in ipairs(subPages) do pcall(Settings.RegisterCanvasLayoutSubcategory, optionsCategory, fr, fr.name) end
+        end
         Settings.RegisterAddOnCategory(optionsCategory)
     elseif InterfaceOptions_AddCategory then
         InterfaceOptions_AddCategory(options)
+        for _, fr in ipairs(subPages) do InterfaceOptions_AddCategory(fr) end
     end
 end
 
