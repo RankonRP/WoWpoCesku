@@ -5,7 +5,7 @@
 ## Author: salifox
 ## X-License: Code MIT; texts and translations: see docs/LICENSE-DATA.md
 ## X-Website: https://github.com/RankonRP/WoWpoCesku
-## Version: 0.55.0
+## Version: 0.55.1
 ## SavedVariables: WoWpoCeskuSettings, WoWpoCeskuQueue, WoWpoCeskuDump, WoWpoCeskuSeen
 
 Data.lua

@@ -1614,7 +1614,7 @@ local function bossFromLoot(key)
     if ids and GetLootSourceInfo then
         local ok, g1 = pcall(GetLootSourceInfo, 1)
         if ok and type(g1) == "string" and not secretValue(g1) then
-            local npc = tonumber(select(6, strsplit("-", g1)))
+            local npc = tonumber((select(6, strsplit("-", g1))))
             if npc then
                 for name, id in pairs(ids) do if id == npc then return name end end
             end
