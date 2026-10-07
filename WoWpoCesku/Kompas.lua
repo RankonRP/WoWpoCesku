@@ -62,6 +62,7 @@ local function norm(a)
 end
 
 local function dist(d)
+    if cfg().compassMeters then d = d * 0.9144; if d >= 1000 then return ("%.1f km"):format(d / 1000) end return ("%d m"):format(d + 0.5) end
     if d >= 1000 then return ("%.1f km"):format(d / 1000) end
     return ("%d yd"):format(d + 0.5)
 end
@@ -76,7 +77,7 @@ local function createBar()
     bar:SetMovable(true)
     bar:EnableMouse(true)
     bar:RegisterForDrag("LeftButton")
-    bar:SetScript("OnDragStart", function(self) if IsShiftKeyDown() then self:StartMoving() end end)
+    bar:SetScript("OnDragStart", function(self) if IsShiftKeyDown() and not cfg().compassLock then self:StartMoving() end end)
     bar:SetScript("OnDragStop", function(self)
         self:StopMovingOrSizing()
         local p, _, _, x, y = self:GetPoint()
@@ -328,15 +329,48 @@ function WoWpoCesku_CompassIconPicker()
     tinsert(UISpecialFrames, "WoWpoCeskuIkony")
 end
 
+-- barvy pruhu: { tečky, písmena }
+local PALETTE = {
+    { "zlata", { 1, 0.9, 0.65 }, { 1, 0.82, 0.30 } },
+    { "bila", { 1, 1, 1 }, { 1, 1, 1 } },
+    { "zelena", { 0.6, 1, 0.6 }, { 0.5, 1, 0.5 } },
+    { "modra", { 0.6, 0.85, 1 }, { 0.5, 0.8, 1 } },
+    { "cervena", { 1, 0.55, 0.5 }, { 1, 0.45, 0.4 } },
+}
+WoWpoCesku_CompassPalette = PALETTE
+WoWpoCesku_CompassIcons = ICON_LIST
+
+local function kindIcon(kind)
+    local key = (kind == "rare" and "compassRareIcon") or (kind == "dungeon" and "compassDungeonIcon") or nil
+    local i = key and cfg()[key]
+    if i and ICON_LIST[i] then return ICON_LIST[i][2] end
+    return ICONS[kind]
+end
+
+local function applyLook()
+    local idx = cfg().compassColor or 1
+    if bar.colorIdx ~= idx then
+        bar.colorIdx = idx
+        local p = PALETTE[idx] or PALETTE[1]
+        for i, t in ipairs(bar.ticks) do t.tex:SetColorTexture(p[2][1], p[2][2], p[2][3], ((i - 1) % 6 == 0) and 0.95 or 0.6) end
+        for _, c in ipairs(bar.cards) do c.fs:SetTextColor(p[3][1], p[3][2], p[3][3]) end
+    end
+    bar:SetScale(cfg().compassScale or 1)
+    bar:SetAlpha(cfg().compassAlpha or 1)
+    BAR_W = cfg().compassWidth or 520
+    bar:SetWidth(BAR_W)
+    HALF = math.rad((cfg().compassFov or 180) / 2)
+end
+
 local function slow()
     active = false
     if cfg().compass ~= false then
         local pid, px, py = playerMapPos()
-        if pid and GetPlayerFacing and GetPlayerFacing() then
+        if pid and GetPlayerFacing and GetPlayerFacing() and not (cfg().compassHideCombat and UnitAffectingCombat and UnitAffectingCombat("player")) then
             active = true
             if not bar then createBar() end
             bar:Show()
-            bar:SetScale(cfg().compassScale or 1)
+            applyLook()
 
             local items = {}
             if target then items[#items + 1] = { kind = "target", map = target.uiMap, u = target.u, v = target.v, label = target.label } end
@@ -378,6 +412,7 @@ local function slow()
                     if it.kind == "target" then
                         if d < 15 then
                             say(("cil %s dosazen."):format(it.label or ""))
+                            if cfg().compassSound ~= false then pcall(PlaySound, (SOUNDKIT and SOUNDKIT.IG_QUEST_LIST_COMPLETE) or 618, "Master") end
                             target = nil
                             skip = true
                         else
@@ -391,7 +426,7 @@ local function slow()
                         local m = mark(n)
                         local big = it.kind == "target" or it.main == true
                         m.main = it.main == true
-                        m.icon:SetTexture(it.main and mainIcon() or ICONS[it.kind])
+                        m.icon:SetTexture(it.main and mainIcon() or kindIcon(it.kind))
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
                         m.dir, m.dtext, m.dim = dir, (cfg().compassDist ~= false) and dist(d) or " ", (it.kind == "rare" and it.seen)
@@ -402,7 +437,8 @@ local function slow()
             end
             for i = #entries, n + 1, -1 do entries[i] = nil end
             for i = n + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].glow:Hide(); marks[i].info = nil end
-            bar.label:SetText(label or "")
+            bar.label:SetText((cfg().compassLabel ~= false) and label or "")
+            bar:SetShown(not (cfg().compassAuto and n == 0))   -- volitelně: pruh jen když je co ukazovat
         end
     end
     if not active then hideAll() end
@@ -410,16 +446,17 @@ end
 
 -- rychlá část (každý snímek): jen poloha podle otočení postavy, takže pohyb je plynulý
 local function fast()
-    if not active then return end
+    if not active or not bar:IsShown() then return end
     local facing = GetPlayerFacing and GetPlayerFacing()
     if not facing then return end
     for _, c in ipairs(bar.cards) do
         local rel = norm(c.bearing + facing)
-        if math.abs(rel) <= HALF then c.fs:ClearAllPoints(); c.fs:SetPoint("CENTER", bar, "CENTER", xFor(rel), 8); c.fs:Show() else c.fs:Hide() end
+        if cfg().compassLetters ~= false and math.abs(rel) <= HALF then c.fs:ClearAllPoints(); c.fs:SetPoint("CENTER", bar, "CENTER", xFor(rel), 8); c.fs:Show() else c.fs:Hide() end
     end
-    for _, t in ipairs(bar.ticks) do
+    local dense = cfg().compassDense ~= false
+    for i, t in ipairs(bar.ticks) do
         local rel = norm(t.bearing + facing)
-        if math.abs(rel) <= HALF then t.tex:ClearAllPoints(); t.tex:SetPoint("BOTTOM", bar, "BOTTOM", xFor(rel), 3); t.tex:Show() else t.tex:Hide() end
+        if (dense or (i - 1) % 2 == 0) and math.abs(rel) <= HALF then t.tex:ClearAllPoints(); t.tex:SetPoint("BOTTOM", bar, "BOTTOM", xFor(rel), 3); t.tex:Show() else t.tex:Hide() end
     end
     for _, m in ipairs(entries) do
         local rel = norm(m.dir + facing)

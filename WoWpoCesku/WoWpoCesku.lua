@@ -1270,6 +1270,63 @@ makePage(pKompas, "Kompas", function(col)
         function() return WoWpoCeskuSettings.compassScale or 1 end,
         function(d) WoWpoCeskuSettings.compassScale = math.max(0.6, math.min(2, math.floor(((WoWpoCeskuSettings.compassScale or 1) + d * 0.1) * 10 + 0.5) / 10)) end,
         function(v) return ("%d %%"):format(v * 100 + 0.5) end)
+    addStepper(col, "Průhlednost:",
+        function() return WoWpoCeskuSettings.compassAlpha or 1 end,
+        function(d) WoWpoCeskuSettings.compassAlpha = math.max(0.2, math.min(1, math.floor(((WoWpoCeskuSettings.compassAlpha or 1) + d * 0.1) * 10 + 0.5) / 10)) end,
+        function(v) return ("%d %%"):format(v * 100 + 0.5) end)
+    addStepper(col, "Šířka pruhu:",
+        function() return WoWpoCeskuSettings.compassWidth or 520 end,
+        function(d) WoWpoCeskuSettings.compassWidth = math.max(280, math.min(900, (WoWpoCeskuSettings.compassWidth or 520) + d * 60)) end,
+        function(v) return tostring(v) end)
+    addStepper(col, "Zorný úhel:",
+        function() return WoWpoCeskuSettings.compassFov or 180 end,
+        function(d) WoWpoCeskuSettings.compassFov = math.max(90, math.min(270, (WoWpoCeskuSettings.compassFov or 180) + d * 30)) end,
+        function(v) return v .. "°" end)
+    addStepper(col, "Barva pruhu:",
+        function() return WoWpoCeskuSettings.compassColor or 1 end,
+        function(d)
+            local n = #(WoWpoCesku_CompassPalette or { 1 })
+            WoWpoCeskuSettings.compassColor = ((WoWpoCeskuSettings.compassColor or 1) - 1 + d) % n + 1
+        end,
+        function(v) local p = WoWpoCesku_CompassPalette and WoWpoCesku_CompassPalette[v]; return p and p[1] or "?" end)
+    addStepper(col, "Ikona vzácných mobů:",
+        function() return WoWpoCeskuSettings.compassRareIcon or 0 end,
+        function(d)
+            local n = #(WoWpoCesku_CompassIcons or {})
+            WoWpoCeskuSettings.compassRareIcon = ((WoWpoCeskuSettings.compassRareIcon or 0) + d) % (n + 1)
+        end,
+        function(v) local p = WoWpoCesku_CompassIcons and WoWpoCesku_CompassIcons[v]; return p and p[1] or "vychozi" end)
+    addStepper(col, "Ikona vstupů do dungeonů:",
+        function() return WoWpoCeskuSettings.compassDungeonIcon or 0 end,
+        function(d)
+            local n = #(WoWpoCesku_CompassIcons or {})
+            WoWpoCeskuSettings.compassDungeonIcon = ((WoWpoCeskuSettings.compassDungeonIcon or 0) + d) % (n + 1)
+        end,
+        function(v) local p = WoWpoCesku_CompassIcons and WoWpoCesku_CompassIcons[v]; return p and p[1] or "vychozi" end)
+    addCheck(col, "Světové strany (S, V, J, Z)", nil,
+        function() return WoWpoCeskuSettings.compassLetters ~= false end,
+        function(on) WoWpoCeskuSettings.compassLetters = on end)
+    addCheck(col, "Husté tečky", "Tečka po 7,5°; vypnuto = po 15°",
+        function() return WoWpoCeskuSettings.compassDense ~= false end,
+        function(on) WoWpoCeskuSettings.compassDense = on end)
+    addCheck(col, "Název cíle pod pruhem", nil,
+        function() return WoWpoCeskuSettings.compassLabel ~= false end,
+        function(on) WoWpoCeskuSettings.compassLabel = on end)
+    addCheck(col, "Skrýt, když není co ukazovat", "Pruh se objeví, až je cíl, quest, vstup nebo lebka",
+        function() return WoWpoCeskuSettings.compassAuto == true end,
+        function(on) WoWpoCeskuSettings.compassAuto = on end)
+    addCheck(col, "Skrýt v boji", nil,
+        function() return WoWpoCeskuSettings.compassHideCombat == true end,
+        function(on) WoWpoCeskuSettings.compassHideCombat = on end)
+    addCheck(col, "Zamknout pozici", "Shift + tažení pak pruh nepřesune",
+        function() return WoWpoCeskuSettings.compassLock == true end,
+        function(on) WoWpoCeskuSettings.compassLock = on end)
+    addCheck(col, "Vzdálenost v metrech", "Vypnuto = yardy",
+        function() return WoWpoCeskuSettings.compassMeters == true end,
+        function(on) WoWpoCeskuSettings.compassMeters = on end)
+    addCheck(col, "Zvuk při dosažení cíle", nil,
+        function() return WoWpoCeskuSettings.compassSound ~= false end,
+        function(on) WoWpoCeskuSettings.compassSound = on end)
     local pick = CreateFrame("Button", nil, content, "UIPanelButtonTemplate")
     pick:SetSize(230, 24)
     pick:SetPoint("TOPLEFT", col.x, col.y - 4)
