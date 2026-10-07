@@ -282,8 +282,18 @@ local function reportRare(name, cls, lvl, x, y, unit, npcID)
     say(("vzacny mob: %s%s"):format(name, rec.x and (" (%.1f, %.1f)"):format(rec.x, rec.y) or ""))
 end
 
+-- jednotka patří hráči (ochočený pet, démon…) nebo je přátelská: žádný „vzácný mob“
+local function ownedOrFriendly(unit)
+    local ok, v = pcall(UnitPlayerControlled, unit)
+    if ok and v == true then return true end
+    local ok2, f = pcall(UnitIsFriend, "player", unit)
+    if ok2 and f == true then return true end
+    return false
+end
+
 local function checkRare(unit)
     if not WoWpoCeskuSettings or WoWpoCeskuSettings.rareAlert == false then return end
+    if ownedOrFriendly(unit) then return end
     local okN, name = pcall(UnitName, unit)
     if not okN or not name or secret(name) then return end
     local okC, cls = pcall(UnitClassification, unit)
@@ -1713,7 +1723,7 @@ local function onUnitTooltip(tt)
     if okP and isPlayer == true then return end
     local text = npcNote(name)
     local title = name
-    if not text then
+    if not text and not ownedOrFriendly(unit) then
         local info = RARE[name]
         local rec = seen().rares[name]
         local okC, cls = pcall(UnitClassification, unit)
