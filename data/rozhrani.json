@@ -13,6 +13,7 @@
   "Attempt to draw power from a convergence of elements and receive its blessing, increasing your movement and mounted movement speeds by {1}%. Lasts {2} sec if no elemental convergence is nearby, and {3} min if one is found.": {"cs":"Pokusí se čerpat sílu ze soutoku živlů a získat jeho požehnání – zvýší rychlost pohybu pěšky i na jízdním zvířeti o {1} %. Trvá {2} s, když žádný soutok není nablízku, a {3} min, když se nějaký najde.","en":"Attempt to draw power from a convergence of elements and receive its blessing, increasing your movement and mounted movement speeds by {1}%. Lasts {2} sec if no elemental convergence is nearby, and {3} min if one is found.","src":"claude"},
   "Attempt to tap into the power of a nearby ley line, increasing your Health and Mana regeneration by {1}%. Lasts {2} sec if no ley line is nearby, and {3} min if one is found.": {"cs":"Pokusí se čerpat sílu z blízké magické linie (ley line) a zvýší regeneraci zdraví a Mana o {1} %. Trvá {2} s, když žádná linie není nablízku, a {3} min, když se nějaká najde.","en":"Attempt to tap into the power of a nearby ley line, increasing your Health and Mana regeneration by {1}%. Lasts {2} sec if no ley line is nearby, and {3} min if one is found.","src":"claude"},
   "Automatically shoots the target until cancelled.": {"cs":"Automaticky střílí na cíl, dokud to nezrušíš.","en":"Automatically shoots the target until cancelled.","src":"claude"},
+  "Beast": {"cs":"Bestie","en":"Beast","src":"komunita"},
   "Blasts the target with Holy energy, causing {1} to {2} Holy damage to an enemy, or {3} to {4} healing to an ally.": {"cs":"Zasáhne cíl svatou energií: nepříteli způsobí {1} až {2} svatého poškození, spojence vyléčí o {3} až {4}.","en":"Blasts the target with Holy energy, causing {1} to {2} Holy damage to an enemy, or {3} to {4} healing to an ally.","src":"claude"},
   "Blessing of Protection": {"cs":"Blessing of Protection","en":"Blessing of Protection","src":"claude"},
   "Blessing of Wisdom": {"cs":"Blessing of Wisdom","en":"Blessing of Wisdom","src":"claude"},
@@ -137,6 +138,7 @@
   "Judgement": {"cs":"Judgement","en":"Judgement","src":"claude"},
   "Killing a non-trivial target afflicted by your Drain Soul increases your Mana regeneration by {1}% for {2} sec and allows {3}% of normal Mana regeneration to continue while casting.": {"cs":"Zabití nezanedbatelného cíle zasaženého tvým Drain Soul zvyšuje tvou regeneraci Mana o {1} % na {2} s a umožní, aby {3} % běžné regenerace Mana pokračovalo i při sesílání.","en":"Killing a non-trivial target afflicted by your Drain Soul increases your Mana regeneration by {1}% for {2} sec and allows {3}% of normal Mana regeneration to continue while casting.","src":"claude"},
   "Lay on Hands": {"cs":"Lay on Hands","en":"Lay on Hands","src":"claude"},
+  "Level {1}": {"cs":"Úroveň {1}","en":"Level {1}","src":"komunita"},
   "Malediction": {"cs":"Prokletí","en":"Malediction","src":"komunita"},
   "Next melee": {"cs":"Příští útok na blízko","en":"Next melee","src":"claude"},
   "Ochrana": {"cs":"Ochrana","en":"Ochrana","src":"lokalne"},
@@ -197,6 +199,7 @@
   "When activated, this ability grants you an absorb shield equal to {1}% of your maximum health for {2} sec. Applies Forbearance for {3} min. Cannot be cast while Forbearance is active.": {"cs":"Po aktivaci získáš na {2} s štít, který pohltí poškození ve výši {1} % tvého maximálního zdraví. Způsobí Forbearance na {3} min. Nelze použít, dokud je Forbearance aktivní.","en":"When activated, this ability grants you an absorb shield equal to {1}% of your maximum health for {2} sec. Applies Forbearance for {3} min. Cannot be cast while Forbearance is active.","src":"claude"},
   "When active, {1}% of all damage taken by the caster is taken by your Imp, Voidwalker, Succubus, Incubus, or Felhunter Demon instead. In addition, both the Demon and the master will inflict {2}% more damage. Lasts as long as the Demon is active.": {"cs":"Je-li aktivní, {1} % veškerého poškození utrženého sesilatelem místo něj utrží tvůj Imp, Voidwalker, Succubus, Incubus nebo Felhunter. Kromě toho démon i pán způsobují o {2} % větší poškození. Trvá, dokud je démon aktivní.","en":"When active, {1}% of all damage taken by the caster is taken by your Imp, Voidwalker, Succubus, Incubus, or Felhunter Demon instead. In addition, both the Demon and the master will inflict {2}% more damage. Lasts as long as the Demon is active.","src":"claude"},
   "While Righteous Fury is active, all damage taken is reduced by {1}%.": {"cs":"Když je aktivní Righteous Fury, veškeré přijaté poškození je sníženo o {1} %.","en":"While Righteous Fury is active, all damage taken is reduced by {1}%.","src":"claude"},
+  "Wild Hearts": {"cs":"Divoké srdce","en":"Wild Hearts","src":"komunita"},
   "You are fluent in the following languages: Common": {"cs":"Plynně ovládáš tyto jazyky: Common","en":"You are fluent in the following languages: Common","src":"claude"},
   "You are fluent in the following languages: Common Darnassian": {"cs":"Plynně ovládáš tyto jazyky: Common Darnassian","en":"You are fluent in the following languages: Common Darnassian","src":"claude"},
   "You are fluent in the following languages: Orcish": {"cs":"Plynně ovládáš tyto jazyky: Orcish","en":"You are fluent in the following languages: Orcish","src":"claude"},
@@ -224,5 +227,7 @@
   "{1} mnoho": {"cs":"{1} Mana","en":"{1} mnoho","src":"claude"},
   "{1} sec cast": {"cs":"Sesílání {1} s","en":"{1} sec cast","src":"claude"},
   "{1} sec cooldown": {"cs":"Obnovení {1} s","en":"{1} sec cooldown","src":"claude"},
-  "{1} yd range": {"cs":"Dosah {1} yd","en":"{1} yd range","src":"claude"}
+  "{1} yd range": {"cs":"Dosah {1} yd","en":"{1} yd range","src":"claude"},
+  "{1}% Threat": {"cs":"{1} % ohrožení","en":"{1}% Threat","src":"komunita"},
+  "{1}/{2} Discolored Worg Heart": {"cs":"{1}/{2} Odbarvené worg srdce","en":"{1}/{2} Discolored Worg Heart","src":"komunita"}
 }
