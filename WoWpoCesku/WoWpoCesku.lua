@@ -1260,6 +1260,12 @@ makePage(pKompas, "Kompas", function(col)
     addCheck(col, "Sledované questy na kompasu", "Označený quest má zlatou šipku, ostatní sledované malý vykřičník",
         function() return WoWpoCeskuSettings.compassQuests ~= false end,
         function(on) WoWpoCeskuSettings.compassQuests = on end)
+    addCheck(col, "Hotové questy k odevzdání", "Otazník u questu, který máš splněný (i když ho nesleduješ)",
+        function() return WoWpoCeskuSettings.compassTurnin ~= false end,
+        function(on) WoWpoCeskuSettings.compassTurnin = on end)
+    addCheck(col, "Značka z mapy na kompasu", "Když položíš značku na velkou mapu (Ctrl+klik), kompas k ní ukáže směr a vzdálenost",
+        function() return WoWpoCeskuSettings.compassWaypoint ~= false end,
+        function(on) WoWpoCeskuSettings.compassWaypoint = on end)
     addCheck(col, "Vstupy do dungeonů na kompasu", "Klíč u vstupu do dungeonu v oblasti, kde stojíš",
         function() return WoWpoCeskuSettings.compassDungeons ~= false end,
         function(on) WoWpoCeskuSettings.compassDungeons = on end)

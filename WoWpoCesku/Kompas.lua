@@ -142,6 +142,10 @@ local function mark(i)
             if it.lvl then GameTooltip:AddLine("Level " .. it.lvl, 0.8, 0.8, 0.8) end
             GameTooltip:AddLine(it.seen and "Uz jsi ho videl" or "Zatim jsi ho nevidel", 0.8, 0.8, 0.8)
             GameTooltip:AddLine("Podrobnosti: Kronika > Bestiar", 0.6, 0.6, 0.6)
+        elseif it.kind == "waypoint" then
+            GameTooltip:AddLine("Znacka polozena na mape", 1, 0.82, 0)
+        elseif it.kind == "questdone" then
+            GameTooltip:AddLine("Hotovy quest - k odevzdani", 1, 0.82, 0)
         elseif it.kind == "quest" then
             GameTooltip:AddLine("Sledovany quest - misto cile", 1, 0.82, 0)
         elseif it.kind == "dungeon" then
@@ -196,9 +200,17 @@ local function questItems(pid)
         if ok and type(list) == "table" then
             local w, main = watchedQuests()
             for _, q in ipairs(list) do
-                if q.questID and w[q.questID] and q.x and q.y then
-                    -- hlavní (označený) quest je výraznější než ostatní sledované
-                    out[#out + 1] = { kind = "quest", map = pid, u = q.x, v = q.y, label = questTitle(q.questID), main = (q.questID == main) }
+                if q.questID and q.x and q.y then
+                    -- hotový quest (k odevzdání) dostane otazník, i když není sledovaný
+                    local done = false
+                    if C_QuestLog.IsComplete then
+                        local okC, c = pcall(C_QuestLog.IsComplete, q.questID)
+                        done = okC and c == true
+                    end
+                    if w[q.questID] or (done and cfg().compassTurnin ~= false) then
+                        -- hlavní (označený) quest je výraznější než ostatní sledované
+                        out[#out + 1] = { kind = done and "questdone" or "quest", map = pid, u = q.x, v = q.y, label = questTitle(q.questID), main = (q.questID == main) }
+                    end
                 end
             end
         end
@@ -233,6 +245,8 @@ local ICONS = {
     dungeon = "Interface\\Icons\\INV_Misc_Key_14",
     rare = "Interface\\TargetingFrame\\UI-TargetingFrame-Skull",
     quest = "Interface\\GossipFrame\\AvailableQuestIcon",
+    waypoint = "Interface\\Icons\\Ability_Hunter_MarkedForDeath",
+    questdone = "Interface\\GossipFrame\\ActiveQuestIcon",
 }
 
 -- ikony pro označený quest: /czq kompas ikona [číslo] přepíná, volba se pamatuje
@@ -374,6 +388,16 @@ local function slow()
 
             local items = {}
             if target then items[#items + 1] = { kind = "target", map = target.uiMap, u = target.u, v = target.v, label = target.label } end
+            -- značka (waypoint) položená na velké mapě
+            if cfg().compassWaypoint ~= false and C_Map and C_Map.GetUserWaypoint then
+                local okW, wp = pcall(C_Map.GetUserWaypoint)
+                if okW and wp and wp.uiMapID and wp.position then
+                    local wx, wy = wp.position.x, wp.position.y
+                    if wp.position.GetXY then wx, wy = wp.position:GetXY() end
+                    local dup = target and target.uiMap == wp.uiMapID and wx and wy and math.abs(target.u - wx) < 0.01 and math.abs(target.v - wy) < 0.01
+                    if wx and wy and not dup then items[#items + 1] = { kind = "waypoint", map = wp.uiMapID, u = wx, v = wy, label = "Znacka na mape" } end
+                end
+            end
             local dung = WoWpoCesku_DungeonEntryMap
             if dung and cfg().compassDungeons ~= false then
                 for key, m in pairs(dung) do
@@ -418,13 +442,13 @@ local function slow()
                         else
                             label = ("%s  -  %s"):format(it.label or "Cil", dist(d))
                         end
-                    elseif it.main and not label then
+                    elseif (it.main or it.kind == "waypoint") and not label then
                         label = ("%s  -  %s"):format(it.label or "Quest", dist(d))
                     end
                     if not skip then
                         n = n + 1
                         local m = mark(n)
-                        local big = it.kind == "target" or it.main == true
+                        local big = it.kind == "target" or it.main == true or it.kind == "waypoint"
                         m.main = it.main == true
                         m.icon:SetTexture(it.main and mainIcon() or kindIcon(it.kind))
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
