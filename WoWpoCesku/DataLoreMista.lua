@@ -107,3 +107,88 @@ chapters("Dun Morogh", {
 secrets("Dun Morogh", [[• Na skryté plošině na západě prý zní strašidelné vytí (souřadnice zhruba 25, 60).
 • Newman's Landing není na mapě; sedí tam tři gobliní z Booty Bay.
 • Dun Morogh byl původně jedna zóna s Loch Modanem.]])
+
+-------------------------------------------------------------------------------
+-- Teldrassil
+-------------------------------------------------------------------------------
+chapters("Teldrassil", {
+    { "Strom, který měl nahradit Nordrassil", [[Když Malfurion Stormrage uvízl ve Smaragdovém snu (21 ADP), vedl arcidruid Fandral Staghelm snahu vypěstovat nový Světový strom. Circle of Ancients a druidové spojili síly a vypěstovali v moři Veiled Sea obrovský strom, který pojmenovali Teldrassil, „Koruna země“ v darnašštině. Nozdormu ale na rozdíl od Nordrassilu Teldrassil nepožehnal: viděl v přání nočních elfů arogantní touhu a odmítl jim vrátit nesmrtelnost. Noční elfové tak žijí na Světovém stromě, ale zůstali smrtelní.]] },
+    { "Zkažená větev", [[Strom nakazil Fandral, který do jeho kořenů zasadil větev poskvrněnou démonem Xaviem a propojil ho tak s Emerald Nightmare. Malfurion zkázu později odstranil a Alexstrasza s Ysérou strom požehnaly, aby ho chránily až do jeho zničení.]] },
+    { "Místa a jejich příběhy", [[Darnassus je noční elfí hlavní město v koruně stromu. Shadowglen je ochráněné startovní údolí pro úrovně 1–5. Dolanaar je vesnice, kde Tallonkai Swiftroot organizuje obranu proti zkaženým tvorům. Rut'theran Village je dopravní uzel s portálem do Darnassu a loděmi na pevninu. Ban'ethil Barrow Den je doupě zkažených furbolgů v Ban'ethil Hollow, u Lake Al'Ameth zkoumá nemoc stromu Denalan, Starbreeze Village zasáhla zkáza a Wellspring Lake i River živí rosa ze Světového stromu. Gnarlpine Hold je pevnost zkažených furbolgů a Pools of Arlithrien jsou přírodní jezírka v lese.]] },
+    { "Zajímavosti", [[• Zóna je plochá kvůli omezením enginu: Chris Metzen chtěl, aby ve hře bylo vidět, že jde o obří strom, ale vývojáři tehdy nedokázali obří 3D strom prosadit přes technologii výškových map.
+• Původní jméno ostrova bylo „Kalidar“; v souborech hry zůstala mapa nepoužitého battlegroundu Kalidar.
+• Přípona „-drassil“ vychází z Yggdrasilu z nordické mytologie.
+• Pine Nut Bread bývá tvarován jako list na počest Teldrassilu.
+• V Teldrassilu nejsou žádné rudy; noční elfové nejsou známí kovářstvím ani těžbou.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Ve válce o trny (33 ADP) vypálili Teldrassil vojáci Hordy pod velením Sylvanas Windrunner pomocí demolishers s arkánně posílenou náloží, zatímco šamani v Darkshore vytvořili vítr, který oheň rozdmýchal. Byl to největší požár, jaký Azeroth viděl. Stovky nočních elfů uprchly do Darnassu, přeživší unikli portály do Stormwindu a usadili se u Olivia's Pond; další odplula na Azuremyst Isle. Po příměří (34 ADP) trosky stromu stále doutnaly a v roce 40 ADP Tyrande prohlásila, že noční elfové se vrátí a postaví nový domov v Bel'ameth na Dragon Isles, až se k pobřeží Teldrassilu vrátí život.]] },
+})
+
+secrets("Teldrassil", [[• Původní jméno ostrova bylo Kalidar; existuje nepoužitý battleground Kalidar.
+• Přípona -drassil odkazuje na Yggdrasil z nordické mytologie.
+• Zóna je plochá, protože engine nezvládl obří strom.
+• V Teldrassilu nejsou žádné rudy.
+• SPOILER: Teldrassil shořel ve válce o trny.]])
+
+-------------------------------------------------------------------------------
+-- Tirisfal Glades
+-------------------------------------------------------------------------------
+chapters("Tirisfal Glades", {
+    { "Tyr's Fall: pád strážce", [[Tirisfal se jmenuje podle titánského strážce Tyra, který padl v boji proti C'Thraxovi generálu Zakajzovi; ve vrykulském jazyce se místo jmenovalo „Tyr's Fall“, později zkráceně Tirisfal. Kolem tohoto místa se podle příběhu vyvinulo lidstvo z prokletých vrykulských potomků a založilo království Lordaeron. Pod zemí se prý míchají energie Tyra i Zakajze.]] },
+    { "Od království k Forsaken", [[Po třetí válce se oblast proměnila: její lidé byli zabiti a povstali jako nemrtví otroci Lich Kinga. Forsaken později Tirisfal prohlásili za svůj domov a pod ruinami Lordaeronu vybudovali Undercity. Předtím se tu lidé těšili poklidnému venkovu; vzpomínka na „pikniky mezi pahorky Tirisfalu na konci pozdního podzimu“ po příchodu Plagy zmizela.]] },
+    { "Místa a jejich příběhy", [[Deathknell je startovní oblast, kde se noví Forsaken probouzejí. Brill je hlavní osada Forsaken, zničená v bitvě o Lordaeron a později znovu postavená. Undercity leží pod ruinami Lordaeronu a je neobyvatelná kvůli moru. Scarlet Monastery je pevnost fanatického Scarlet Crusade a hlavní protivník Forsaken. Agamand Mills je bohatý rodinný statek, dnes nemrtvé ruiny. Venomweb Vale je chráněné magické místo, které dříve využívala Council of Tirisfal. Pradávný mor se šířil jedem pavouků Night Web a zdecimoval obyvatelstvo.]] },
+    { "Zajímavosti", [[• Brill spravuje Executor Zygand a pevnost Bulwark velí High Executor Derrington.
+• Název Tirisfal je vrykulské „Tyr's Fall“.
+• SPOILER: Po Cataclysmu se krajina výrazně změnila a v době Battle for Azeroth na ni zaútočila Aliance ze severních pláží.]] },
+})
+
+secrets("Tirisfal Glades", [[• Jméno Tirisfal znamená vrykulsky „Tyr's Fall“ (pád Tyra).
+• Pod zemí prý bojují energie Tyra a Zakajze.
+• Ruins of Lordaeron nad Undercity jsou ve WoW Forever nový dungeon (levely 15–22).]])
+
+-------------------------------------------------------------------------------
+-- Silverpine Forest
+-------------------------------------------------------------------------------
+chapters("Silverpine Forest", {
+    { "Dávná a nedávná minulost", [[Před 2 600 lety před otevřením Temné brány rozpoutal tu démon Kathra'natir sarančí mor. Jižní části kraje patřily Gilneasu, dokud je Greymane Wall neodřízla a nevznikly izolované lidské osady Pyrewood Village a Ambermill. Za třetí války vojska Lich Kinga uvázla u Greymane Wall; když Genn Greymane otevřel brány, jeho vojáci padli a povstali jako nemrtví. Archmage Arugal tehdy z Emerald Dream přivolal worgeny, jejichž kletba se pak vymkla kontrole a nakonec nakazila i Gilneas. Po válce kraj obsadili Forsaken a Arugal se uchýlil do Shadowfang Keep se svými vlky, kde založil kult.]] },
+    { "Místa a jejich příběhy", [[The Sepulcher je hlavní pevnost a dopravní uzel Forsaken. Ambermill býval osadou mágů z Dalaranu. Fenris Isle je ostrovní pevnost, kterou postupně držely zbytky nemrtvých, smečka Bloodfang a nakonec Scarlet Crusade, než ji Forsaken znovu získali. Pyrewood Village je lidská osada, odkud za úplňku zaznívá vytí. Shadowfang Keep je opuštěná pevnost barona Silverlainea, ve které Arugal vybudoval svůj vlčí kult. V Deep Elem Mine se za čtvrté války střetly Aliance a Horda. The Skittering Dark je pobřežní oblast plná nepřátel.]] },
+    { "Lidé a historky", [[Sylvanas Windrunner vedla invazi do Gilneasu; Dalar Dawnweaver je Forsaken, který řídí operace proti worgenům. Halmish, starý poustevník, varuje, že les je prokletý jiným prokletím než morem: proměnou v bestie. Worgenská proměna přichází za úplňku a postižení se stávají „krvežíznivými monstry“ po těle i duchu, i když jsou přes den normální. Dalaranský čaroděj Alphus Wordwill prý teoreticky vymyslel „lék“, který by zachoval mysl při proměně a vytvořil by ovladatelné super-vojáky.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V Cataclysmu Garrosh rozkázal Forsaken dobýt Gilneas; první invaze selhala a Gilneas Liberation Front zatlačil Forsaken zpět k Undercity. Forsaken vzkřísili pomocí Val'kyr tři zrádné gilneaské šlechtice (Godfrey, Ashbury, Walden), kteří však Sylvanas zavraždili a zmocnili se Shadowfang Keep, než byla kouzelně obnovena. V Battle for Azeroth Aliance Silverpine cílila a smečka Bloodfang dobyla Fenris Keep; Shadowfang Keep se proměnil v moru zamořenou laboratoř. V Dragonflightu se znovu zvedlo Scarlet Crusade a dobylo Fenris Isle a Fenris Keep od smečky Bloodfang.]] },
+})
+
+secrets("Silverpine Forest", [[• Pyrewood Village: za úplňku se ozývá vytí jako od vlků.
+• Halmish, starý poustevník, varuje před worgenským prokletím.
+• SPOILER: Pozdější příběhy ukazují, jak se Shadowfang Keep proměňuje v laboratoř a pak ho získává smečka Bloodfang.]])
+
+-------------------------------------------------------------------------------
+-- Hillsbrad Foothills
+-------------------------------------------------------------------------------
+chapters("Hillsbrad Foothills", {
+    { "Útočiště uprchlíků", [[Hillsbrad Foothills byly při druhé válce místem, kam přistáli stormwindští uprchlíci po prohrané první válce – velký exodus na břehy Lordaeronu. Orkové z klanů přepadali pobřežní města a nově vzniklá Aliance Lordaeronu zřídila obranné základny. Durnholde Keep přepadl válečník Orgrim Doomhammer, aby osvobodil trollího vůdce Zul'jina. Za třetí války Thrallova Horda ve zdejším kraji při cestě do Kalimdoru tajně v noci pronikla do Southshore a ukradla lodě.]] },
+    { "Místa a jejich příběhy", [[Southshore býval hlavním městem Aliance v kraji. Tarren Mill drží Forsaken jako nejjižnější pevnost. Durnholde Keep je věznice, kterou za druhé války přepadl Orgrim a která byla později držena Syndicate; do jejího „starého“ stavu se dá dostat přes Caverns of Time. Hillsbrad Fields (Sludge Fields) jsou zemědělská půda přeměněná na pokusná pole Forsaken. Azurelode Mine byl dřív součástí Gilneasu. Dalaran Crater je rozvalina kdysi majestátního města zničeného démonem Archimondem. Ravenholdt Manor je útočiště zlodějů. Purgation Isle je malý ostrov u jižního pobřeží.]] },
+    { "Gankbrad a Darkmoon Faire", [[Než vznikly battlegroundy, přezdívali Hillsbradu „Gankbrad“ a „Pwnshore“ pro neustálé boje frakcí – byl to „ground zero“ PvP na serverech. Darkmoon Faire se tu jednou utábořil poblíž Southshore; když ho obvinili z vraždy, objevil, že vinen je Cedrick Fallrook, a „zahrabal ho zaživa na hřbitově“. Cedrick zabil svého bratra Erika, syna vinaře Terrence Fallrooka, jehož panství ovládalo hospodářství na severu.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V Cataclysmu Forsaken zničili Southshore Novým morem a Aliance se stáhla k Alterac Mountains, kde ji drží klan Stormpike. Za invaze Plamenné legie byl Hillsbrad jedním z jejích cílů a obě frakce kraj ubránily. Po příměří začala Aliance Southshore znovu stavět.]] },
+})
+
+secrets("Hillsbrad Foothills", [[• Před battlegroundy se Hillsbrad přezdívalo „Gankbrad“ a „Pwnshore“.
+• Darkmoon Faire se tu jednou utábořil a vyřešil vraždu (Cedrick Fallrook).
+• Jihozápadní roh (Azurelode Mine) býval součástí Gilneasu.]])
+
+-------------------------------------------------------------------------------
+-- Alterac Mountains
+-------------------------------------------------------------------------------
+chapters("Alterac Mountains", {
+    { "Království v horách", [[Království Alterac vzniklo po trollích válkách, když se kmen Alteraci připojil k Arathoru pod králem Thoradinem a později se osamostatnil v horských štítech. Při druhé válce odhalila Aliance Lordaeronu zradu alterackých šlechticů, kteří spolupracovali s Hordou. Po válce vznikla „alteracká krize“ kolem toho, co s krajem. Bývalé exilové alteracké šlechtice dnes představuje Syndicate, banditská frakce, která se snaží krajinu získat zpět krádežemi a násilím.]] },
+    { "Zničení Dalaranu", [[Za třetí války Plaga vpadla do Alteracu při Arthasově pochodu na Dalaran. Když byl vyvolán Archimonde, seslal kouzlo, které Dalaran zničilo, a zůstal po něm kráter. Dnes Ruins of Alterac drží ogři Crushridge pod Mug'tholem a Syndicate ovládá jiné oblasti. Dwarfové Stormpike hájí Alterac Valley proti vyhnanému klanu Frostwolf.]] },
+    { "Místa a jejich příběhy", [[Strahnbrad je ruina bývalé osady, kterou ovládají ogři nebo Syndicate. Crushridge Hold je ogří pevnost v horách. Ruins of Alterac je zničené hlavní město, které si přivlastnil ogří válečník Mug'thol. Dalaran Crater je místo, kde bylo kouzelnické město zničeno; magické pole brání vstupu. Alterac Valley je instancovaná PvP oblast, kde proti sobě stojí Stormpike a Frostwolf. Ravenholdt Manor je neutrální pevnost zlodějů. Na Uplands najdeš Dandred's Fold, základnu Syndicate. Lordamere Internment Camp je vězeňský tábor.]] },
+    { "Zajímavosti", [[• Vzácná bylina Wintersbite roste ve vysokých polohách.
+• Alteracké trávy dávají horkému čaji „silnou zemitou chuť“.
+• Zasněžené štíty je vidět z Hearthglenu a Stratholme.
+• Alterac se objevil v South Parku v díle „Make Love, Not Warcraft“.
+• Ve Warcraftu II byl Alterac zelenější; dnes je převážně zasněžený.
+• Ve WoW Forever se v Alterac Mountains objevuje i dungeon City of Dalaran (úrovně 28–33).]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Při čtvrté válce Horda převzala část kraje obnovením pevností v ruinách Alteracu a Strahnbradu pro tažení proti Alianci v Lordaeronu.]] },
+})
+
+secrets("Alterac Mountains", [[• Wintersbite je vzácná bylina z vysokých hor.
+• Ve WoW Forever se v Alterac Mountains nachází nový dungeon City of Dalaran (levely 28–33).
+• Alterac se objevil v South Parku v díle „Make Love, Not Warcraft“.]])
