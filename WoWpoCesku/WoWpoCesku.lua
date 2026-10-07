@@ -313,14 +313,6 @@ czButton(claudeBtn)
 claudeBtn:SetText("Nelíbí se mi – poslat Claudovi")
 claudeBtn:Hide()
 
--- Chyba v překladu nebo v addonu: odkaz na náš Discord
-local discordBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
-discordBtn:SetSize(120, 20)
-discordBtn:SetPoint("TOPLEFT", 18, -15)   -- nahoře vlevo, ať se nekryje s tlačítky dole
-czButton(discordBtn)
-discordBtn:SetText("Chyba? Discord")
-discordBtn:SetScript("OnClick", function() WoWpoCesku_ShowDiscord() end)
-
 local content = CreateFrame("Frame", nil, scroll)
 content:SetSize(310, 10)
 scroll:SetScrollChild(content)
