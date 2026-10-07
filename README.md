@@ -77,3 +77,6 @@ Testování na betě WoW Forever (klient 1.60.1). Překlady jsou strojové (Goog
 - **Překlady, texty Kroniky, databáze a obrázky: [docs/LICENSE-DATA.md](docs/LICENSE-DATA.md)** – addon můžeš používat a doporučovat, ale texty a data nelze kopírovat do jiných addonů ani projektů bez povolení.
 - Písmo Noto Sans: SIL Open Font License 1.1 (`WoWpoCesku/Fonts/OFL.txt`)
 - Anglické texty klasických questů pochází z open-source databáze [CMaNGOS classic-db](https://github.com/cmangos/classic-db). Texty questů jsou © Blizzard Entertainment; toto je neoficiální fanouškovský překlad.
+
+
+**Discord:** https://discord.gg/2CnEbAMJK5 – chyby, nápady a návrhy překladů.

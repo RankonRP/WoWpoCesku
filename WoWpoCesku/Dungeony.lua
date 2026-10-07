@@ -1481,6 +1481,14 @@ local function build()
     local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -8, -8)
 
+    local dc = CreateFrame("Button", nil, win, "UIPanelButtonTemplate")
+    dc:SetSize(150, 22)
+    dc:SetPoint("TOPLEFT", 30, -22)
+    dc:SetNormalFontObject(win.fontBtn)
+    dc:SetHighlightFontObject(win.fontBtnOn)
+    dc:SetText("Chyba? Discord")
+    dc:SetScript("OnClick", function() if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end end)
+
     local head = text(win, 22, RED[1], RED[2], RED[3])
     head:SetPoint("TOP", 0, -24)
     head:SetFont(TITLE_FONT, 22, "")   -- písmo hry; to nemá českou diakritiku, proto bez diakritiky

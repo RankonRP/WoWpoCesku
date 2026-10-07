@@ -34,6 +34,57 @@ local function czButton(button)
     button:SetHighlightFontObject(buttonFontHighlight)
 end
 
+-- Discord addonu: sem hráči píšou chyby, nápady a překlady (odkaz si zkopírují z okénka, hra je nesmí otvírat sama)
+WoWpoCesku_DISCORD = "https://discord.gg/2CnEbAMJK5"
+
+local discordWin
+function WoWpoCesku_ShowDiscord()
+    if discordWin then discordWin:Show() discordWin.box:SetFocus() discordWin.box:HighlightText() return end
+    local f = CreateFrame("Frame", "WoWpoCeskuDiscord", UIParent, "BackdropTemplate")
+    discordWin = f
+    f:SetSize(430, 160)
+    f:SetPoint("CENTER")
+    f:SetFrameStrata("DIALOG")
+    f:SetToplevel(true)
+    f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32,
+        insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+    f:SetBackdropColor(0.10, 0.10, 0.14, 0.97)
+    f:EnableMouse(true)
+    f:SetMovable(true)
+    f:RegisterForDrag("LeftButton")
+    f:SetScript("OnDragStart", f.StartMoving)
+    f:SetScript("OnDragStop", f.StopMovingOrSizing)
+    local t = f:CreateFontString(nil, "OVERLAY")
+    t:SetFont(FONT, 15, "")
+    t:SetTextColor(1, 0.82, 0)
+    t:SetPoint("TOP", 0, -20)
+    t:SetText("Discord WoWpoČesku")
+    local d = f:CreateFontString(nil, "OVERLAY")
+    d:SetFont(FONT, 12, "")
+    d:SetTextColor(0.9, 0.9, 0.9)
+    d:SetPoint("TOP", t, "BOTTOM", 0, -10)
+    d:SetWidth(380)
+    d:SetText("Našel jsi chybu nebo máš nápad? Zkopíruj odkaz (klik do políčka, Ctrl+C) a otevři ho v prohlížeči.")
+    local box = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
+    box:SetSize(300, 22)
+    box:SetPoint("TOP", d, "BOTTOM", 0, -14)
+    box:SetAutoFocus(true)
+    box:SetFont(FONT, 12, "")
+    box:SetText(WoWpoCesku_DISCORD)
+    box:HighlightText()
+    box:SetScript("OnTextChanged", function(self) if self:GetText() ~= WoWpoCesku_DISCORD then self:SetText(WoWpoCesku_DISCORD) self:HighlightText() end end)
+    box:SetScript("OnEscapePressed", function() f:Hide() end)
+    f.box = box
+    local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    ok:SetSize(110, 24)
+    ok:SetPoint("BOTTOM", 0, 18)
+    ok:SetNormalFontObject(buttonFont)
+    ok:SetHighlightFontObject(buttonFontHighlight)
+    ok:SetText("Zavřít")
+    ok:SetScript("OnClick", function() f:Hide() end)
+    tinsert(UISpecialFrames, "WoWpoCeskuDiscord")
+end
+
 -- Která pole musí být přeložená pro danou část questu
 local PART_FIELDS = {
     detail   = { "text", "objectives" },
@@ -191,6 +242,14 @@ claudeBtn:SetPoint("BOTTOMLEFT", 20, 46)
 czButton(claudeBtn)
 claudeBtn:SetText("Nelíbí se mi – poslat Claudovi")
 claudeBtn:Hide()
+
+-- Chyba v překladu nebo v addonu: odkaz na náš Discord
+local discordBtn = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
+discordBtn:SetSize(150, 22)
+discordBtn:SetPoint("BOTTOMLEFT", 20, 18)
+czButton(discordBtn)
+discordBtn:SetText("Nahlásit chybu (Discord)")
+discordBtn:SetScript("OnClick", function() WoWpoCesku_ShowDiscord() end)
 
 local content = CreateFrame("Frame", nil, scroll)
 content:SetSize(310, 10)
@@ -1154,7 +1213,7 @@ local function showWelcome()
     local INK = { 0.20, 0.13, 0.07 }
     local f = CreateFrame("Frame", "WoWpoCeskuUvod", UIParent, "BackdropTemplate")
     welcome = f
-    f:SetSize(540, 520)
+    f:SetSize(540, 580)
     f:SetPoint("CENTER")
     f:SetFrameStrata("DIALOG")
     f:SetToplevel(true)
@@ -1215,6 +1274,15 @@ local function showWelcome()
     hint:SetPoint("LEFT", url, "RIGHT", 10, 0)
     hint:SetText("klik + Ctrl+C zkopíruje odkaz")
     last = url
+    text("Chyba, nápad nebo otázka?", 15, 0.50, 0.12, 0.05, 14)
+    text("Napiš na náš Discord. Odkaz najdeš v okénku /czq discord (nebo tlačítko Discord v Dungeon Kronice).", 13, INK[1], INK[2], INK[3], 6)
+    local dbtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    dbtn:SetSize(220, 24)
+    dbtn:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -8)
+    czButton(dbtn)
+    dbtn:SetText("Zobrazit odkaz na Discord")
+    dbtn:SetScript("OnClick", function() WoWpoCesku_ShowDiscord() end)
+    last = dbtn
     text("Chceš jen část češtiny?", 15, 0.50, 0.12, 0.05, 18)
     text("Vyber předvolbu. Všechno si pak můžeš upravit v nastavení (Esc > Možnosti > AddOns, nebo Ctrl+klik na ikonu u minimapy). "
         .. "Tento úvod otevřeš znovu příkazem /czq uvod.", 13, INK[1], INK[2], INK[3], 6)
@@ -1403,6 +1471,8 @@ SlashCmdList.CZQUESTS = function(msg)
         if WoWpoCesku_MapList then WoWpoCesku_MapList(arg) end
     elseif cmd == "mapa" then
         if WoWpoCesku_MapDebug then WoWpoCesku_MapDebug(arg ~= "" and arg or nil) end
+    elseif cmd == "discord" or cmd == "chyba" then
+        WoWpoCesku_ShowDiscord()
     elseif cmd == "uvod" or cmd == "úvod" then
         showWelcome()
     elseif cmd == "nastaveni" or cmd == "nastavení" or cmd == "config" then
