@@ -1228,6 +1228,36 @@ function WoWpoCesku_PecetePage(key)
         return a.name < b.name
     end)
     table.sort(hidden, function(a, b) return (a.got and 0 or 1) < (b.got and 0 or 1) end)
+    -- filtr a řazení (volba se pamatuje): Vše = získané první, Získané, Chybí, Nejblíž dokončení
+    WoWpoCeskuSettings = WoWpoCeskuSettings or {}
+    local mode = WoWpoCeskuSettings.sealFilter or "all"
+    local function ratio(s) return (s.need and s.need > 0) and math.min(1, (s.have or 0) / s.need) or 0 end
+    local function arrange(list)
+        local idx = {}
+        for i, s in ipairs(list) do idx[s] = i end
+        local out = {}
+        for _, s in ipairs(list) do
+            if mode == "all" or (mode == "got" and s.got) or ((mode == "miss" or mode == "near") and not s.got) then out[#out + 1] = s end
+        end
+        if mode == "near" then
+            table.sort(out, function(a, b)
+                if (a.hidden and 1 or 0) ~= (b.hidden and 1 or 0) then return not a.hidden end
+                local ra, rb = ratio(a), ratio(b)
+                if ra ~= rb then return ra > rb end
+                return idx[a] < idx[b]
+            end)
+        else
+            table.sort(out, function(a, b)
+                if (a.got and 1 or 0) ~= (b.got and 1 or 0) then return a.got ~= nil end
+                if a.got and b.got and a.got ~= b.got then return a.got > b.got end
+                return idx[a] < idx[b]
+            end)
+        end
+        return out
+    end
+    here, legends, hidden, general, postava = arrange(here), arrange(legends), arrange(hidden), arrange(general), arrange(postava)
+    svet, remeslo, reputace, znalost, zones, dungs = arrange(svet), arrange(remeslo), arrange(reputace), arrange(znalost), arrange(zones), arrange(dungs)
+
     local rank, nxt = rankOf(pts)
     local page = {
         { "Pečetě kronikáře", ("Hodnost: |cff801f0d%s|r%s\n"):format(rank,
@@ -1252,6 +1282,20 @@ function WoWpoCesku_PecetePage(key)
             or "Zatím žádný – poraz bosse v dungeonu a pečeť se začne plnit.", seals = dungs,
           after = GRAY .. "Pečetě se zapisují samy. Zlatý vosk = vzácná pečeť, černý = skrytá.|r" },
     }
+    page[1].filters = {
+        current = mode,
+        options = { { "all", "Vše" }, { "got", "Získané" }, { "miss", "Chybí" }, { "near", "Nejblíž" } },
+        onClick = function(id)
+            WoWpoCeskuSettings.sealFilter = id
+            if WoWpoCesku_ShowLore then WoWpoCesku_ShowLore("pecete") end
+        end,
+    }
+    if mode ~= "all" then
+        local kept = { page[1] }
+        for i = 2, #page do if page[i].seals and #page[i].seals > 0 then kept[#kept + 1] = page[i] end end
+        if #kept == 1 then kept[2] = { "Nic k zobrazení", "V tomhle filtru zatím nic není. Přepni na Vše." } end
+        page = kept
+    end
     return page
 end
 

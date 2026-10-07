@@ -296,6 +296,7 @@ end
 
 local function renderPage(chapters)
     local y, nRows, nSeals = 0, 0, 0
+    for _, fb in ipairs(book.filterBtns or {}) do fb:Hide() end
     for i, ch in ipairs(chapters) do
         local h, p, o = book.heads[i], book.paras[i], book.orns[i]
         if not h then
@@ -326,6 +327,33 @@ local function renderPage(chapters)
         p:SetText(ch[2])
         p:Show()
         y = y + p:GetStringHeight() + 16
+        -- lišta filtrů (záložka Pečetě): Vše / Získané / Chybí / Nejblíž dokončení
+        if ch.filters then
+            book.filterBtns = book.filterBtns or {}
+            local x = 0
+            for k, opt in ipairs(ch.filters.options) do
+                local fb = book.filterBtns[k]
+                if not fb then
+                    fb = CreateFrame("Button", nil, book.content, "UIPanelButtonTemplate")
+                    fb:SetSize(120, 24)
+                    if WoWpoCeskuButtonFont then
+                        fb:SetNormalFontObject(WoWpoCeskuButtonFont)
+                        fb:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
+                    end
+                    book.filterBtns[k] = fb
+                end
+                fb:ClearAllPoints()
+                fb:SetPoint("TOPLEFT", x, -y)
+                fb:SetText(opt[2])
+                local active = (ch.filters.current == opt[1])
+                if WoWpoCeskuLoreBtnOff then fb:SetDisabledFontObject(WoWpoCeskuLoreBtnOff) end
+                fb:SetEnabled(not active)
+                fb:SetScript("OnClick", function() ch.filters.onClick(opt[1]) end)
+                fb:Show()
+                x = x + 124
+            end
+            y = y + 34
+        end
         if ch.seals and #ch.seals > 0 then
             local cols = 3
             local cw = math.floor((W - 20) / cols)
