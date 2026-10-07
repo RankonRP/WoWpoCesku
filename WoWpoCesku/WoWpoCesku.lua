@@ -10,7 +10,11 @@ do
     guard:RegisterEvent("ADDON_ACTION_FORBIDDEN")
     guard:SetScript("OnEvent", function(_, event, addon, func)
         if addon ~= "WoWpoCesku" then return end
+        if tostring(func):find("OpenSettingsPanel", 1, true) then
+            print("|cffffd100WoWpoCesku:|r hra nepusti addon otevrit nastaveni primo. Otevri ho pres Esc > Moznosti > AddOns > WoWpoCesku.")
+        else
         print(("|cffffd100WoWpoCesku:|r hra zablokovala akci: %s (%s) - napis to prosim autorovi"):format(tostring(func), event))
+        end
         WoWpoCeskuSeen = WoWpoCeskuSeen or {}
         WoWpoCeskuSeen.blocked = WoWpoCeskuSeen.blocked or {}
         table.insert(WoWpoCeskuSeen.blocked, date("%d.%m. %H:%M ") .. tostring(func))
@@ -1377,8 +1381,14 @@ local function registerOptions()
 end
 
 local function openOptions()
+    if InCombatLockdown and InCombatLockdown() then
+        print("|cffffd100WoWpoCesku:|r nastaveni jde otevrit az mimo boj (Esc > Moznosti > AddOns > WoWpoCesku).")
+        return
+    end
     if Settings and Settings.OpenToCategory and optionsCategory then
-        Settings.OpenToCategory(optionsCategory:GetID())
+        -- securecall: chyba ADDON_ACTION_BLOCKED nezahlásí hra, ale jen se tiše přeskočí
+        local ok = pcall(securecall, Settings.OpenToCategory, optionsCategory:GetID())
+        if not ok then print("|cffffd100WoWpoCesku:|r nastaveni otevri pres Esc > Moznosti > AddOns > WoWpoCesku.") end
     elseif InterfaceOptionsFrame_OpenToCategory then
         -- klasické rozhraní napoprvé otevře jen seznam, proto dvakrát
         InterfaceOptionsFrame_OpenToCategory(options)
