@@ -1504,6 +1504,7 @@ local function build()
     local dc = CreateFrame("Button", nil, win, "UIPanelButtonTemplate")
     dc:SetSize(150, 22)
     dc:SetPoint("TOPLEFT", 30, -22)
+    dc:SetFrameLevel(win:GetFrameLevel() + 200)   -- vždy nad ostatními prvky okna, ať ho hráč vidí
     dc:SetNormalFontObject(win.fontBtn)
     dc:SetHighlightFontObject(win.fontBtnOn)
     dc:SetText("Chyba? Discord")
