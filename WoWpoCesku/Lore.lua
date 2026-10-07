@@ -141,7 +141,7 @@ local TABS = {
 
 -- záložka Postavy: kdo je kdo, vztahy a zajímavosti (DataPostavy.lua)
 function WoWpoCesku_PostavyPage()
-    local list = WoWpoCesku_Postavy
+    local list = WoWpoCesku_KdoJeKdo
     if not list or #list == 0 then return nil end
     local page = { { "Kdo je kdo v Azerothu", "Významné postavy, jejich vztahy a zajímavosti. Po názvu postavy je uvedena strana nebo skupina. Příběhy míst najdeš v ostatních záložkách." } }
     for _, ch in ipairs(list) do page[#page + 1] = ch end

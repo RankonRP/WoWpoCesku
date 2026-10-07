@@ -1,6 +1,6 @@
 -- Kdo je kdo v Azerothu: významné postavy, jejich vztahy a zajímavosti (záložka Postavy v Kronice)
 -- Formát: { "Jméno · skupina", [[životopis \n\n Vztahy: ... \n\n Zajímavost: ...]] }
-WoWpoCesku_Postavy = {
+WoWpoCesku_KdoJeKdo = {
     { "Thrall · Horda", [[Narodil se jako Go'el, syn náčelníka Durotana z klanu Frostwolf. Jako nemluvně ho našel lidský velitel Aedelas Blackmoore na Durnholde Keep a vychoval z něj gladiátora. Pojmenoval ho Thrall, tedy „otrok“. Thrall utekl, našel svůj lid, sjednotil orky a dovedl je do nové vlasti, do Durotaru, kde postavil Orgrimmar.
 
 Vztahy: otec Durotan a matka Draka, mentor Drek'Thar, přítelkyně z vězení Taretha Foxton, spojenec Cairne Bloodhoof a po boku Jaina Proudmoore. Orgrim Doomhammer mu předal své jméno i zbraň.
