@@ -519,7 +519,6 @@ local function showEntrance(key)
         end)
     end
     setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "ring", isRaid(key) and "Raid" or "Dungeon", 52)   -- ikona ověřená ve hře (atlas Dungeon se nekreslil)
-    C_Timer.After(1.5, function() if WoWpoCesku_MarkDebug then WoWpoCesku_MarkDebug() end end)   -- diagnostika značky (dočasně)
     say(("vstup %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
