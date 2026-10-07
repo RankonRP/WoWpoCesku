@@ -383,6 +383,10 @@ local function drawDJMarks()
                 p.ring:SetColorTexture(0.10, 0.50, 0.58, 1)
                 pcall(p.rim.SetMask, p.rim, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
                 pcall(p.ring.SetMask, p.ring, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
+                p.dot = p:CreateTexture(nil, "BACKGROUND", nil, 0)
+                p.dot:SetPoint("CENTER")
+                p.dot:SetColorTexture(0.80, 0.95, 0.95, 1)
+                pcall(p.dot.SetMask, p.dot, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
                 p.icon = p:CreateTexture(nil, "ARTWORK")
                 p.icon:SetAllPoints()
                 p:EnableMouse(true)
@@ -405,15 +409,18 @@ local function drawDJMarks()
                 p:SetSize(m.size or 34, m.size or 34)
                 p.glow:Hide()   -- kruhová ikona se září kreslila jako černý čtverec
             else
-                p.icon:SetTexture(m.icon)
+                if m.icon == "ring" then p.icon:SetTexture(nil) else p.icon:SetTexture(m.icon) end
                 p:SetSize(m.size or 40, m.size or 40)
-                p.glow:SetSize(44, 44)
-                p.glow:Show()
+
+                p.glow:Hide()   -- kreslil se jako černý čtverec
             end
             do
                 local sz = p:GetWidth()
-                p.rim:SetSize(sz * 0.80, sz * 0.80)
-                p.ring:SetSize(sz * 0.70, sz * 0.70)
+                local ringed = (m.icon == "ring")
+                p.rim:SetShown(ringed); p.ring:SetShown(ringed); p.dot:SetShown(ringed)
+                p.rim:SetSize(sz, sz)
+                p.ring:SetSize(sz * 0.84, sz * 0.84)
+                p.dot:SetSize(sz * 0.40, sz * 0.40)
             end
             p:SetFrameLevel(canvas:GetFrameLevel() + 1995)
             p:ClearAllPoints()
@@ -507,7 +514,7 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "Interface\\GossipFrame\\AvailableQuestIcon", nil, 48)   -- ikona ověřená ve hře (atlas Dungeon se nekreslil)
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "ring", nil, 40)   -- ikona ověřená ve hře (atlas Dungeon se nekreslil)
     C_Timer.After(1.5, function()
         local shown = 0
         for _, p in ipairs(djPins) do if p:IsShown() then shown = shown + 1 end end
