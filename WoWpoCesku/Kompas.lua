@@ -231,18 +231,93 @@ local function hideAll()
     bar:Hide()
 end
 
-local function update()
-    local on = cfg().compass ~= false
-    if not on then hideAll() return end
-    local pid, px, py = playerMapPos()
-    if not pid or not GetPlayerFacing then hideAll() return end   -- v dungeonu pozici hra neříká
-    local facing = GetPlayerFacing()
-    if not facing then hideAll() return end   -- např. na lodi nebo při jízdě taxíkem
-    if not bar then createBar() end
-    bar:Show()
+local entries = {}   -- sestavuje pomalá část (0,2 s): směr a vzdálenost; rychlá část (každý snímek) jen posouvá podle otočení
+local active = false
 
-    -- světové strany a značky po 45°
-    local function xFor(rel) return rel / HALF * (BAR_W / 2 - 14) end
+local function xFor(rel) return rel / HALF * (BAR_W / 2 - 14) end
+
+-- pomalá část: seznam značek, vzdálenosti, texty
+local function slow()
+    active = false
+    if cfg().compass ~= false then
+        local pid, px, py = playerMapPos()
+        if pid and GetPlayerFacing and GetPlayerFacing() then
+            active = true
+            if not bar then createBar() end
+            bar:Show()
+
+            local items = {}
+            if target then items[#items + 1] = { kind = "target", map = target.uiMap, u = target.u, v = target.v, label = target.label } end
+            local dung = WoWpoCesku_DungeonEntryMap
+            if dung then
+                for key, m in pairs(dung) do
+                    if m[1] == pid and not (target and target.label == key .. " - vstup") then
+                        items[#items + 1] = { kind = "dungeon", map = m[1], u = m[2], v = m[3], label = key }
+                    end
+                end
+            end
+            if cfg().compassQuests ~= false then
+                for _, qi in ipairs(questItems(pid)) do items[#items + 1] = qi end
+            end
+            if cfg().compassRares ~= false and WoWpoCesku_RareInfo and WoWpoCesku_RarePoints then
+                local zone = WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey() or (GetRealZoneText and GetRealZoneText())
+                if zone then
+                    local seenR = WoWpoCeskuSeen and WoWpoCeskuSeen.rares
+                    for name, info in pairs(WoWpoCesku_RareInfo) do
+                        if info.zone == zone and not (target and target.label == name) then
+                            local best, bd
+                            for _, p in ipairs(WoWpoCesku_RarePoints(name, pid)) do
+                                local _, d = vector(pid, px, py, pid, p[1], p[2])
+                                if d and (not bd or d < bd) then best, bd = p, d end
+                            end
+                            if best and bd <= RARE_RANGE then
+                                items[#items + 1] = { kind = "rare", map = pid, u = best[1], v = best[2], label = name, lvl = info.lvl, seen = seenR and seenR[name] ~= nil }
+                            end
+                        end
+                    end
+                end
+            end
+
+            local n, label = 0, nil
+            for _, it in ipairs(items) do
+                local dir, d = vector(pid, px, py, it.map, it.u, it.v)
+                if dir then
+                    local skip = false
+                    if it.kind == "target" then
+                        if d < 15 then
+                            say(("cil %s dosazen."):format(it.label or ""))
+                            target = nil
+                            skip = true
+                        else
+                            label = ("%s  -  %s"):format(it.label or "Cil", dist(d))
+                        end
+                    end
+                    if not skip then
+                        n = n + 1
+                        local m = mark(n)
+                        local big = it.kind == "target"
+                        m.icon:SetTexture(ICONS[it.kind])
+                        m.icon:SetSize(big and 20 or 16, big and 20 or 16)
+                        m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
+                        m.dir, m.dtext, m.dim = dir, dist(d), (it.kind == "rare" and it.seen)
+                        m.always, m.state = big, nil
+                        entries[n] = m
+                    end
+                end
+            end
+            for i = #entries, n + 1, -1 do entries[i] = nil end
+            for i = n + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].info = nil end
+            bar.label:SetText(label or "")
+        end
+    end
+    if not active then hideAll() end
+end
+
+-- rychlá část (každý snímek): jen poloha podle otočení postavy, takže pohyb je plynulý
+local function fast()
+    if not active then return end
+    local facing = GetPlayerFacing and GetPlayerFacing()
+    if not facing then return end
     for _, c in ipairs(bar.cards) do
         local rel = norm(c.bearing + facing)
         if math.abs(rel) <= HALF then c.fs:ClearAllPoints(); c.fs:SetPoint("CENTER", bar, "CENTER", xFor(rel), 8); c.fs:Show() else c.fs:Hide() end
@@ -251,91 +326,41 @@ local function update()
         local rel = norm(t.bearing + facing)
         if math.abs(rel) <= HALF then t.tex:ClearAllPoints(); t.tex:SetPoint("BOTTOM", bar, "BOTTOM", xFor(rel), 3); t.tex:Show() else t.tex:Hide() end
     end
-
-    -- seznam značek
-    local items = {}
-    if target then items[#items + 1] = { kind = "target", map = target.uiMap, u = target.u, v = target.v, label = target.label } end
-    local entries = WoWpoCesku_DungeonEntryMap
-    if entries then
-        for key, m in pairs(entries) do
-            if m[1] == pid and not (target and target.label == key .. " - vstup") then
-                items[#items + 1] = { kind = "dungeon", map = m[1], u = m[2], v = m[3], label = key }
+    for _, m in ipairs(entries) do
+        local rel = norm(m.dir + facing)
+        local inView = math.abs(rel) <= HALF
+        if inView or m.always then
+            local x = xFor(math.max(-HALF, math.min(HALF, rel)))
+            m.icon:ClearAllPoints()
+            m.icon:SetPoint("CENTER", bar, "CENTER", x, 4)
+            local st = inView and m.dtext or (rel < 0 and "<" or ">")
+            if m.state ~= st then
+                m.state = st
+                m.text:SetText(st)
+                m.icon:SetAlpha(inView and (m.dim and 0.6 or 1) or 0.6)
             end
+            m.icon:Show(); m.text:ClearAllPoints(); m.text:SetPoint("TOP", m.icon, "BOTTOM", 0, 1); m.text:Show()
+            m.hit:ClearAllPoints(); m.hit:SetPoint("CENTER", m.icon, "CENTER", 0, -4); m.hit:Show()
+        else
+            m.icon:Hide(); m.text:Hide(); m.hit:Hide(); m.state = nil
         end
     end
-    if cfg().compassQuests ~= false then
-        for _, qi in ipairs(questItems(pid)) do items[#items + 1] = qi end
-    end
-    if cfg().compassRares ~= false and WoWpoCesku_RareInfo and WoWpoCesku_RarePoints then
-        local zone = WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey() or (GetRealZoneText and GetRealZoneText())
-        if zone then
-            local seenR = WoWpoCeskuSeen and WoWpoCeskuSeen.rares
-            for name, info in pairs(WoWpoCesku_RareInfo) do
-                if info.zone == zone and not (target and target.label == name) then
-                    local best, bd
-                    for _, p in ipairs(WoWpoCesku_RarePoints(name, pid)) do
-                        local _, d = vector(pid, px, py, pid, p[1], p[2])
-                        if d and (not bd or d < bd) then best, bd = p, d end
-                    end
-                    if best and bd <= RARE_RANGE then
-                        items[#items + 1] = { kind = "rare", map = pid, u = best[1], v = best[2], label = name, lvl = info.lvl, seen = seenR and seenR[name] ~= nil }
-                    end
-                end
-            end
-        end
-    end
-
-    local used = 0
-    local label
-    for _, it in ipairs(items) do
-        local dir, d = vector(pid, px, py, it.map, it.u, it.v)
-        if dir then
-            if it.kind == "target" then
-                if d < 15 then
-                    say(("cil %s dosazen."):format(it.label or ""))
-                    target = nil
-                    label = nil
-                else
-                    label = ("%s  -  %s"):format(it.label or "Cil", dist(d))
-                end
-            end
-            local rel = norm(dir + facing)
-            local inView = math.abs(rel) <= HALF
-            if inView or it.kind == "target" then
-                used = used + 1
-                local m = mark(used)
-                local x = xFor(math.max(-HALF, math.min(HALF, rel)))
-                m.icon:SetTexture(ICONS[it.kind])
-                m.icon:ClearAllPoints()
-                m.icon:SetPoint("CENTER", bar, "CENTER", x, 4)
-                m.icon:SetAlpha(inView and (it.kind == "rare" and it.seen and 0.6 or 1) or 0.6)
-                m.icon:SetSize(it.kind == "target" and 20 or 16, it.kind == "target" and 20 or 16)
-                m.icon:Show()
-                m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
-                m.hit:ClearAllPoints()
-                m.hit:SetPoint("CENTER", m.icon, "CENTER", 0, -4)
-                m.hit:Show()
-                m.text:ClearAllPoints()
-                m.text:SetPoint("TOP", m.icon, "BOTTOM", 0, 1)
-                m.text:SetText(inView and dist(d) or (rel < 0 and "<" or ">"))
-                m.text:Show()
-            end
-        end
-    end
-    for i = used + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].info = nil end
-    bar.label:SetText(label or "")
 end
 
 local f = CreateFrame("Frame")
 f:SetScript("OnUpdate", function(_, dt)
     elapsed = elapsed + dt
-    if elapsed < 0.05 then return end
-    elapsed = 0
-    local ok, err = pcall(update)
+    local ok, err = true, nil
+    if elapsed >= 0.2 then
+        elapsed = 0
+        ok, err = pcall(slow)
+    end
+    if ok then ok, err = pcall(fast) end
     if not ok and not f.failed then
         f.failed = true
         say("kompas: chyba " .. tostring(err) .. " (kompas se vypnul, /czq kompas ho zapne)")
         cfg().compass = false
+        active = false
         hideAll()
     end
 end)
