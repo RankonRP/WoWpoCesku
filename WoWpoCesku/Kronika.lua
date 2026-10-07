@@ -784,6 +784,9 @@ local SERIES = {
       desc = function(n) return n == 1 and "Vyčisti svůj první dungeon – poraz v něm všechny bosse."
           or ("Vyčisti %d různých dungeonů nebo raidů."):format(n) end,
       steps = { { 1, "Hrdina", 10 }, { 5, "Ochránce Azerothu", 10 }, { 10, "Postrach temnot", 25 }, { 20, "Legenda dungeonů", 50 } } },
+    { id = "boss", icon = IC .. "INV_Misc_Bone_HumanSkull_01", image = PIC .. "dobyvatel", what = "bossů",
+      desc = function(n) return ("Poraz celkem %d různých bossů v dungeonech a raidech."):format(n) end,
+      steps = { { 10, "Zabiják bossů", 5 }, { 30, "Pán dungeonů", 10 }, { 75, "Postrach Azerothu", 25 }, { 150, "Legenda bitev", 50 } } },
     { id = "kviz", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "složených zkoušek",
       desc = function(n) return ("Slož Zkoušku kronikáře (5 z 5) v %d různých oblastech nebo dungeonech."):format(n) end,
       steps = { { 3, "Žák kronikáře", 5 }, { 10, "Učenec Azerothu", 10 }, { 25, "Mudrc", 25 } } },
@@ -898,6 +901,8 @@ local function sealList()
     local S = seen()
     local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0,
         kviz = countKeys(S.quiz), level = S.maxLvl or 0, gold = math.floor((S.maxGold or 0) / 10000), riding = S.riding or 0, death = S.deaths or 0 }
+    counts.boss = 0
+    for _, t in pairs(S.bosses or {}) do counts.boss = counts.boss + countKeys(t) end
     for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then counts.zone = counts.zone + 1 end end
     for zone, places in pairs(WoWpoCesku_Objevy or {}) do
         local n, missing = 0, {}
@@ -1091,7 +1096,7 @@ local function charName()
     if ok and type(name) == "string" and name ~= "" and not secret(name) then return name end
 end
 
-local SEAL_VERSION = 4   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
+local SEAL_VERSION = 5   -- při přidání nových druhů pečetí zvýšit: starý postup se zapíše potichu
 
 checkSeals = function()
     local S = seen()
