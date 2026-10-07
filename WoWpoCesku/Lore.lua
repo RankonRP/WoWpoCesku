@@ -136,6 +136,7 @@ local TABS = {
     { id = "zkouska", label = "Zkouška kronikáře" },
     { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
     { id = "discord", label = "Discord – chyba?", action = true, discord = true },   -- okénko s odkazem na Discord
+    { id = "soubor", label = "Poslat texty k překladu", action = true, discord = true },   -- návod, jak poslat nepřeložené texty
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
@@ -572,7 +573,11 @@ local function createTabs()
         t:SetScript("OnClick", function(self)
             PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
             if def.discord then
-                if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end
+                if def.id == "soubor" then
+                    if WoWpoCesku_ShowSend then WoWpoCesku_ShowSend() end
+                elseif WoWpoCesku_ShowDiscord then
+                    WoWpoCesku_ShowDiscord()
+                end
                 return
             end
             if def.action then
