@@ -653,3 +653,107 @@ chapters("Moonglade", {
 secrets("Moonglade", [[• Do Moonglade se dostaneš jen pěšky přes Felwood nebo Timbermaw Hold (druidové teleportem od úrovně 14).
 • V jezeře Elune'ara prý spí polobůh Omen.
 • Chybí tu bylinky, rudy i kůže.]])
+
+-------------------------------------------------------------------------------
+-- Azshara
+-------------------------------------------------------------------------------
+chapters("Azshara", {
+    { "Zin-Azshari: zmizelá metropole", [[Azshara je pobřežní oblast na severovýchodě Kalimdoru s věčným podzimem: oranžová a červená vegetace. Kdysi tu stála Zin-Azshari, největší noční elfí metropole před Válkou prastarých. Při Velkém roztříštění město padlo a zbyly jen ruiny rozeseté po útesech a plážích. Jméno nese po královně Azshaře.]] },
+    { "Místa a postavy", [[Valormok je hordský tábor a Talrendis Point alianční základna. Ruins of Eldarath jsou prastaré noční elfí ruiny s highbornskými artefakty. Azuregos je drak, který střeží highbornské poklady před černým dračím rodem, a Archmage Xylem testuje učně mágů na Arcane Pinnacle. Oblast obývají nagové z kmene Spitelash, satyři, nemrtví a murlokové; „Enchanted Coral“ nagy přitahuje.]] },
+    { "Zajímavosti", [[• Azshara měla být před The Burning Crusade čtvrtým battlegroundem.
+• Před Cataclysmem byla zóna proslulá farmením zlata, protože tam byly zásoby thoria.
+• Má výrazný podzimní vzhled, který je jinde ve hře vzácný.
+• SPOILER: Po Cataclysmu je v Azshaře hlavní město goblinů Bilgewater Harbor a modrý drak Kalecgos tu hledal útočiště.]] },
+})
+
+secrets("Azshara", [[• Azshara měla být čtvrtým battlegroundem před The Burning Crusade.
+• Před Cataclysmem se tu hodně farmilo zlato (thorium).
+• Azuregos střeží highbornské poklady před černým dračím rodem.]])
+
+-------------------------------------------------------------------------------
+-- Tanaris
+-------------------------------------------------------------------------------
+chapters("Tanaris", {
+    { "Z džungle na poušť", [[Tanaris byl kdysi bujná džungle, kde žily taurenské kmeny a říše Gurubashi. Velké roztříštění z něj udělalo poušť a uvěznilo trollí kmen Farraki, který se přizpůsobil a stal se písečnými trolly. Bronzový dračí rod tu založil Caverns of Time jako své rodové sídlo a Titáni vytvořili vchod do Uldumu.]] },
+    { "Místa a jejich příběhy", [[Gadgetzan je hlavní obchodní uzel goblinů ze Steamwheedle Cartel a neutrální město. Caverns of Time je prastaré sídlo bronzového dračího rodu s časovými instancemi a doménou Nozdorma. Zul'Farrak je trollské sídlo a dungeon s písečnými trolly a kmeny Sandfury. Steamwheedle Port je gobliní přístav. The Gaping Chasm je aktivní silithidí úl, nebezpečný i po Válce posunujících se písků. Noxious Lair je podzemní doupě tvorů v odlehlé poušti.]] },
+    { "Postavy a zajímavosti", [[• Nozdormu, Aspekt času, prý v Tanaris sídlil.
+• Marin Noggenfogger vládne Gadgetzanu a Chief Ukorz Sandscalp je vůdce písečných trollů v Zul'Farraku.
+• Jeden z názvů pro ropu je „Tanaris Tea“.
+• Podle klepů ogrů Gordunni je Tanaris pokrytý trusem ogrů Dunemaul.
+• Tanaris má podle wiki nejvíc dungeonů ze všech oblastí.
+• Pohyblivé písky často mění krajinu.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Při Cataclysmu oceán zaplavil Steamwheedle Port a Gadgetzan se stal novým dokem. V The War Within se jižně od Gadgetzanu objevily magické anomálie.]] },
+})
+
+secrets("Tanaris", [[• Jeden z názvů pro ropu je „Tanaris Tea“.
+• Tanaris je údajně pokrytý trusem ogrů Dunemaul (podle klepů Gordunni).
+• SPOILER: Po Cataclysmu zaplavil oceán Steamwheedle Port.]])
+
+-------------------------------------------------------------------------------
+-- Un'Goro Crater
+-------------------------------------------------------------------------------
+chapters("Un'Goro Crater", {
+    { "Titánský pokus", [[Un'Goro Crater je ekosystém vytvořený Titány. Titán Freya ho navrhla jako „oblast pro experimenty“ spolu se Sholazar Basin a Vale of Eternal Blossoms. Je to titánské výzkumné pole, kde volně žijí prastaří dinosauři, někteří dlouzí téměř 300 stop, mezi exotickými rostlinami a elementálními silami. Za Války posunujících se písků něco v Un'Goro Qiraji zabránilo kráter dobýt. Později sem dorazila expedice vedená Williden a Hol'anyee Marshal, ale byla přemožena a našla útočiště v Marshal's Refuge.]] },
+    { "Místa a jejich příběhy", [[Marshal's Refuge (Stand) je základna expedice Marshalů a vědců zkoumajících jedinečný ekosystém kráteru. Fire Plume Ridge je sopečná oblast uprostřed kráteru, kde bloudí ohniví elementálové a Ringo hledá pomoc proti vůdci Blazerunnerovi. The Shaper's Terrace je prastaré titánské zařízení objevené v době Wrath. Lakkari Tar Pits a Marshlands změnily po Cataclysmu květy bloodpetal. Terror Run je území elitních dinosaurů.]] },
+    { "Postavy a zajímavosti", [[• Williden Marshal vede expedici, J.D. Collie je gnómský vědec starající se o výzkum krystalů.
+• Zóna je plná odkazů na seriál „Land of the Lost“ z 70. let: pylony napájené červeným, zeleným, modrým a žlutým krystalem řídí interdimenzní portály; jména Williden a Hol'anyee odpovídají rodině Marshallových.
+• Název prý pochází z tanzanského kráteru Ngorongoro.
+• Před Cataclysmem tu byly questy s odkazy na Nintendo (Link z The Legend of Zelda).
+• Un'Goro je jediný zdroj Devilsaur Leather.]] },
+})
+
+secrets("Un'Goro Crater", [[• Zóna vychází ze seriálu „Land of the Lost“ (pylony s barevnými krystaly).
+• Jméno prý pochází z kráteru Ngorongoro.
+• Devilsaur Leather padá jen v Un'Goro.
+• Před Cataclysmem tu byly odkazy na Linka z The Legend of Zelda.]])
+
+-------------------------------------------------------------------------------
+-- Silithus
+-------------------------------------------------------------------------------
+chapters("Silithus", {
+    { "Zdi Qiraji", [[Silithus ukrývá uvězněnou říši Qiraji za Scarab Wall po Válce posunujících se písků. Jejich služebníci silithidé se v jižním Kalimdoru za tisíciletí rozmnožili. V době classic noční elfové znovu otevřeli Gates of Ahn'Qiraj, aby ohrozili Qiraji. Cenarion Circle zřídil Cenarion Hold jako stálou přítomnost pro sledování poražených úlů. Bronzový dračí rod se po 10 000 letech poprvé vrátil do pouště při otevření bran.]] },
+    { "Místa a jejich příběhy", [[Cenarion Hold je neutrální středisko druidů sledujících silithidy. Scarab Wall a Gate of Ahn'Qiraj jsou prastará bariéra a místo slavné události otevření brány. Hive'Ashi, Hive'Zora a Hive'Regal jsou silithidí pevnosti. Southwind Village a Staghelm Point jsou zničené noční elfí osady z doby po Roztříštění. Twilight Base Camp je velitelství Twilight's Hammer a Valor's Rest původní tábor Cenarionu. Ruins of Ahn'Qiraj (10 hráčů) a Temple of Ahn'Qiraj (40 hráčů) jsou raidy v zóně.]] },
+    { "Zajímavosti", [[• Silithus byl kompletně předělán v patchi 1.8.0 pro otevření Ahn'Qiraj.
+• Před Cataclysmem tu byla skrytá taurenská pobřežní vesnice dostupná jen plaváním.
+• Za Silithyst dust se vedl světový PvP boj po patchi 1.12.
+• V Silithusu se těží thorium, Mountain Silversage, Black Lotus a Heavy Scorpid Scales.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V době Legionu zabodl Sargeras svůj meč do středu Silithusu a zranil samotný Azeroth: vznikla „the Wound“, jizva krvácející titánskou arkánní krev a vytvářející po Azerothu Azerite. Magni Bronzebeard pak vedl péči o zraněnou planetu a spojil Alianci i Hordu.]] },
+})
+
+secrets("Silithus", [[• Silithus byl předělán v patchi 1.8.0 kvůli otevření Ahn'Qiraj.
+• Před Cataclysmem tu byla skrytá taurenská vesnice dostupná jen plaváním.
+• SPOILER: Sargeras zabodl meč do Silithusu a vznikla „the Wound“.]])
+
+-------------------------------------------------------------------------------
+-- Felwood
+-------------------------------------------------------------------------------
+chapters("Felwood", {
+    { "Zkažený les", [[Felwood byl kdysi nedotčený les, který se zkazil za třetí války. Dreadlord Tichondrius použil „Skull of Gul'dan“ k poskvrnění země a vznikla zmutovaná zvěř, zkažení Ancientové a otrávené prostředí. Zkáza sloužila strategickému cíli Plamenné legie oslabit obranu nočních elfů poblíž Mount Hyjal.]] },
+    { "Místa a jejich příběhy", [[Whisperwind Grove je útočiště Emerald Circle s nezkaženým moonwellem a snahou o obnovu země. Bloodvenom Post býval hlavní hordskou osadou, než ji zničily nestabilní pokusy vědkyně Winny Hazzard se zkaženými ooze. Talonbranch Glade je alianční základna. Jaedenar je pevnost Shadow Council, kde se šíří démonická zkáza a připravuje se návrat Legie. Timbermaw Hold je domov kmene Timbermaw, jedněch z posledních čistých furbolgů; vede k němu tunel z Moonglade a Winterspring.]] },
+    { "Postavy a zajímavosti", [[• Lord Banehollow velí silám Shadow Council ze Shadow Hold.
+• Feronas Sindweller je lovec démonů a bývalý žák Illidana.
+• Greta Mosshoof vede druidské očišťování u Emerald Sanctuary.
+• Zkažené rostliny jde očistit pomocí Cenarion Plant Salve a získat buffy a předměty.
+• V zóně jsou čtyři archeologická naleziště s fragmenty nočních elfů.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu nahradil Bloodvenom Post hordský Irontree Clearing, který provozují goblini z Bilgewater Cartel. V Talonbranch Glade se po Invazi Gilneasu usadili worgeni.]] },
+})
+
+secrets("Felwood", [[• Tichondrius poskvrnil Felwood pomocí „Skull of Gul'dan“.
+• Timbermaw Hold je spojený tunelem s Moonglade a Winterspring.
+• Cenarion Plant Salve čistí zkažené rostliny a dává buffy.]])
+
+-------------------------------------------------------------------------------
+-- Winterspring
+-------------------------------------------------------------------------------
+chapters("Winterspring", {
+    { "Prokletí krystalu", [[Winterspring se vyvinul z prastaré noční elfí osady ve sporné pohraničí. Příběh se točí kolem prokletí „Crystal of Zin-Malor“, které zasáhlo postupně Highborne před 10 000 lety, vysoké elfy kolem 100 BDP a později krvavé elfy. Za třetí války se tu střetlo víc frakcí, než dobrodruzi pomohli oblast stabilizovat. Zónu později postihly Plamenná legie, Scourge i elementální invaze; v poslední době modrá dračice Haleh čistí prokleté artefakty.]] },
+    { "Místa a jejich příběhy", [[Everlook je gobliní obchodní stanice a hlavní uzel s letištěm a neutrálními obchodníky. Mazthoril je rozsáhlá jeskyně a hlavní sídlo modrého dračího rodu v Kalimdoru. Lake Kel'Theril a ruiny jsou přízračné zbytky prokletého města a vyšetřují se tam „highbornští duchové“ a šílenství z artefaktů. Starfall Village je alianční osada nočních elfů. Winterfall Village je nepřátelská osada furbolgů. Timbermaw Hold je hlavní přístup z Felwoodu. Frostfire Hot Springs a Frostsaber Rock jsou přírodní zajímavosti s unikátní faunou.]] },
+    { "Postavy a zajímavosti", [[• Donova Snowden vede boj proti Winterfallům; vliv tu mají Wintersaber Trainers, Darnassus a Explorers' League.
+• Mobové z Timbermaw jsou „nepřátelští, ale neútočí“ bez provokace.
+• Unikátní zdroje: bylina Icecap (jen zde) a Blue Dragonscale.
+• Divoká zvěř jde od frostsaberů po yeti.]] },
+})
+
+secrets("Winterspring", [[• Zdejší prokletí způsobuje Crystal of Zin-Malor.
+• Icecap roste jen ve Winterspring.
+• Timbermaw jsou nepřátelští, ale neútočí bez provokace.]])
