@@ -362,3 +362,30 @@ secrets("Gnomeregan", [[• Gelbin Mekkatorque počítá prvočísla, když je p
 • Electrocutioner 6000 drží Workshop Key k zadnímu vchodu do instance.
 • Grubbis vyrostl do obřích rozměrů kvůli toxickému plynu; Chomper je jeho bazilišek.
 • Thermaplugg plánoval zradu předem: údaje o plynu zfalšoval.]])
+
+-- Razorfen Kraul: další příběh
+chapters("Razorfen Kraul", {
+    { "Agamaggan: kanec, který padl za svět", [[Agamaggan byl jedním z Prastarých strážců, obří kanec a Divoký bůh, později uctívaný i jako loa. Za Války prastarých (War of the Ancients) se spolu s dalšími Divokými bohy postavil Plamenné legii. Rozsápal tisíce doomguardů a felguardů, ale nakonec padl při obraně těch, kdo se snažili dostat k Well of Eternity. Z jeho těla vznikl Razorfen, obří trnitý shluk posvátný pro quilboary. Podle jejich víry „Agamaggan nechal své tělo, aby nás chránilo“, a vchod do Razorfen Downs považují za jeho obří tlamu. Uctívají ho i některé orčí klany a noční elfové, a Blood Shards z jeho esence jsou mezi věrnými zvlášť ceněné.]] },
+    { "Charlga a Razorfen Downs", [[Za Charlgy Razorflank quilboarové vyhnali taureny z jižních Barrens. Svým stoupencům prý lhala, že potřebují krev, aby Agamaggana oživili, a tím je poštvala proti obyvatelům Barrens. Vytvořila velkou část trnité kopule Razorfen Downs a dceru Chugaru cvičila, aby ji udržovala. Jednala i s agenty Plagy a spojila svůj kmen s nemrtvými; formálně byla vůdkyní, ale kmen Death's Head ve skutečnosti řídil Amnennar the Coldbringer.]] },
+    { "Willix a eskorta", [[Goblin Willix the Importer z Ratchetu skončil ve vězení Razorfen Kraul, když hledal modrolisté hlízy pro Mebok Mizzyrixe. Při eskortním questu si stěžuje, že to tu strašně smrdí, a před Charlgou varuje. Lze ho zachránit a vyvést ven.]] },
+    { "Válečníci kmene Death's Head", [[Overlord Ramtusk velí vojskům Death's Head v Razorfen Kraul. Při střetu volá „For Victory! For Agamaggan!“ a jeho Thunderclap zpomaluje. Hlídají ho dva elitní Razorfen Spearhide se Thorns Aura a Whirling Barrage, takže se doporučuje je nejdřív vyřadit. Z Ramtuska padá obouruční sekera Corpsemaker a přilba Tusken Helm.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V pozdějších příbězích porazili Charlgu hrdinové vedení Spirit of Agamaggan a Auld Stonespirem; duch Agamaggana si vyžádal, aby jí vyrvali srdce. Krátce před válkou o trny sem vtrhli Sylvanas a Nathanos.]] },
+})
+
+boss("Razorfen Kraul", "Charlga Razorflank", [[„The Crone“, šamanka zaměřená na geomancii, která vyhnala taureny z jižních Barrens. Podle pozdějšího příběhu lhala quilboarům, že potřebují krev k oživení Agamaggana, a tak je poštvala proti Barrens. Vyjednávala s Plagou, i když kmen Death's Head ve skutečnosti řídil Amnennar. Její dcera Chugara udržuje trnitou kopuli Razorfen Downs. Dabuje ji Julie Granata. SPOILER: Později ji porazili hrdinové vedení Spirit of Agamaggan.]])
+
+boss("Razorfen Kraul", "Overlord Ramtusk", [[Velitel vojsk Death's Head v Razorfen Kraul. Při boji křičí „For Victory! For Agamaggan!“, používá Battle Shout a Thunderclap (zpomalení) a má dvě strážkyně se Thorns Aura. Padá z něj Corpsemaker a Tusken Helm. Dabuje ho Marc Graue.]])
+
+secrets("Razorfen Kraul", [[• Quilboarové věří, že vchod do Razorfen Downs je tlama Agamaggana.
+• Ramtusk volá „For Victory! For Agamaggan!“.
+• Willix the Importer je goblin z Ratchetu, kterého můžeš eskortovat ven.
+• Charlga ve skutečnosti nevládla kmeni Death's Head, ten řídil Amnennar.]])
+
+-- Ragefire Chasm: další příběh
+chapters("Ragefire Chasm", {
+    { "Orgrimmar nad vulkánem", [[Ragefire Chasm leží pod Orgrimmarem. Vchod je v Cleft of Shadow, kde sídlí Neeru Fireblade; uvnitř teče láva a v hlubinách žijí tvorové, kteří se Hordě nikdy nepodřídili.]] },
+    { "Dvojí hra Neerua", [[Neeru Fireblade je v Cleft of Shadow považován za důvěryhodného, ve skutečnosti ale vede klan Burning Blade. Do Ragefire Chasm posílá Thrallovy věrné, aby se jich zbavil, a zároveň zkouší, jak silní kultisté Searing Blade jsou. Válečný náčelník nakonec nasadí dobrodruhy, aby vůdce kultu zlikvidovali.]] },
+})
+
+secrets("Ragefire Chasm", [[• Neeru Fireblade sedí v Cleft of Shadow a je skrytý vůdce klanu Burning Blade.
+• Magatha, taurenská věštkyně, se pokoušela s troggy vyjednávat.]])
