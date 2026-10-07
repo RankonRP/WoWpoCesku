@@ -427,7 +427,7 @@ local function fillBook(key, mapID)
     local hasArt = drawIllustration(mapID)
     book.sf:ClearAllPoints()
     book.sf:SetPoint("TOPLEFT", hasArt and book.ill or book.tag, "BOTTOMLEFT", 0, hasArt and -14 or -16)
-    book.sf:SetPoint("BOTTOMRIGHT", -34, 56)
+    book.sf:SetPoint("BOTTOMRIGHT", -46, 56)
 
     -- Letopis: kapitoly příběhu + „Z knih a legend“
     local letopis = {}
