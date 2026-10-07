@@ -1533,7 +1533,7 @@ function WoWpoCesku_PribehPage()
         ("Zápisů v kronice: %d%s. Kronika zapisuje sama: nové oblasti a dungeony, poražené bosse, úrovně, pečetě, vzácné tvory, slavné postavy i pády v boji.")
             :format(n, first and (" · první z " .. date("%d.%m.%Y", first)) or "") }
     page[2] = { "Sdílet", "Celý příběh postavy jako souvislý text, který si zkopíruješ a pošleš kamarádům nebo na Discord.",
-        rows = { { text = "|cff801f0d▶ Zobrazit příběh ke zkopírování|r", onClick = showStory } } }
+        rows = { { text = "|cff801f0d» Zobrazit příběh ke zkopírování|r", onClick = showStory } } }
     local day, lines, shown = nil, {}, 0
     local function flush()
         if day and #lines > 0 then page[#page + 1] = { day, table.concat(lines, "\n\n") } end
