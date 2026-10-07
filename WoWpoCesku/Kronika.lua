@@ -640,7 +640,8 @@ local function dungeonBestiar(key, list)
                     .. (#loot > 8 and (GRAY .. (" … a dalších %d|r"):format(#loot - 8)) or "")
             end
             if t then text = text .. "\n" .. GRAY .. "Poražen " .. date("%d.%m. %H:%M", t) .. "|r" end
-            rows[#rows + 1] = { mark = t ~= nil, text = text }
+            local npcId = WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][b[1]]
+            rows[#rows + 1] = { mark = t ~= nil, text = text, npc = npcId }
         end
     end
     return {
@@ -694,6 +695,7 @@ local function rareRow(name, info, rec, isExtra)
     if not hasPts and not isExtra then text = text .. "\n" .. GRAY .. "Místo výskytu neznámé.|r" end
     return {
         mark = rec ~= nil,
+        npc = (WoWpoCesku_RareNpc and WoWpoCesku_RareNpc[name]) or (rec and rec.id),
         text = text,
         hint = hasPts and "Klikni - ukaze se na mape" or nil,
         onClick = hasPts and function() WoWpoCesku_ShowRareOnMap(name) end or nil,

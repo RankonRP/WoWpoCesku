@@ -349,23 +349,48 @@ local function renderPage(chapters)
             nRows = nRows + 1
             local b = rowButton(nRows)
             local hasBox = row.mark ~= nil
+            local hasPic = row.npc ~= nil
             b.box:SetShown(hasBox)
             b.check:SetShown(row.mark == true)
+            -- portrét příšery (3D model) v rámečku, když známe ID
+            if not b.pframe then
+                b.pframe = CreateFrame("Frame", nil, b, "BackdropTemplate")
+                b.pframe:SetSize(46, 56)
+                b.pframe:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 })
+                b.pframe:SetBackdropColor(0.10, 0.07, 0.04, 1)
+                b.pframe:SetBackdropBorderColor(0.55, 0.38, 0.16, 1)
+                b.model = CreateFrame("PlayerModel", nil, b.pframe)
+                b.model:SetPoint("TOPLEFT", 1, -1)
+                b.model:SetPoint("BOTTOMRIGHT", -1, 1)
+            end
+            local shownPic = false
+            if hasPic then
+                b.model:ClearModel()
+                shownPic = pcall(b.model.SetCreature, b.model, row.npc)
+                if shownPic and b.model.SetPortraitZoom then pcall(b.model.SetPortraitZoom, b.model, 1) end
+            end
+            b.pframe:SetShown(shownPic)
+            local left = hasBox and 24 or 4
+            b.pframe:ClearAllPoints()
+            b.pframe:SetPoint("TOPLEFT", left, -2)
+            if shownPic then left = left + 54 end
             b.text:ClearAllPoints()
-            b.text:SetPoint("TOPLEFT", hasBox and 24 or 4, -2)
-            b.text:SetWidth(W - (hasBox and 50 or 30))
+            b.text:SetPoint("TOPLEFT", left, -2)
+            b.text:SetWidth(W - left - 26)
             b.text:SetText(row.text)
             b.onClick, b.hint = row.onClick, row.hint
+            local rowH = math.max(b.text:GetStringHeight() + 6, shownPic and 62 or 0)
             b:ClearAllPoints()
             b:SetPoint("TOPLEFT", 0, -y)
-            b:SetSize(W - 20, b.text:GetStringHeight() + 6)
+            b:SetSize(W - 20, rowH)
             b:Show()
-            y = y + b.text:GetStringHeight() + 7
+            y = y + rowH + 1
         end
         if (ch.rows or ch.seals) and ch.after then
             nRows = nRows + 1
             local b = rowButton(nRows)
             b.box:Hide(); b.check:Hide()
+            if b.pframe then b.pframe:Hide() end
             b.text:ClearAllPoints()
             b.text:SetPoint("TOPLEFT", 4, -2)
             b.text:SetWidth(W - 30)
