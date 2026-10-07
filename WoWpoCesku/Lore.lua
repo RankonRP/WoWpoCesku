@@ -129,6 +129,7 @@ end
 local TABS = {
     { id = "letopis", label = "Letopis" },
     { id = "tajemstvi", label = "Tajemství" },
+    { id = "postavy", label = "Postavy" },
     { id = "denik", label = "Poutníkův deník" },
     { id = "bestiar", label = "Bestiář" },
     { id = "pecete", label = "Pečetě" },
@@ -137,6 +138,15 @@ local TABS = {
     { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
     { id = "discord", label = "Discord: chyby a překlady", action = true, discord = true },   -- okénko s odkazem na Discord
 }
+
+-- záložka Postavy: kdo je kdo, vztahy a zajímavosti (DataPostavy.lua)
+function WoWpoCesku_PostavyPage()
+    local list = WoWpoCesku_Postavy
+    if not list or #list == 0 then return nil end
+    local page = { { "Kdo je kdo v Azerothu", "Významné postavy, jejich vztahy a zajímavosti. Po názvu postavy je uvedena strana nebo skupina. Příběhy míst najdeš v ostatních záložkách." } }
+    for _, ch in ipairs(list) do page[#page + 1] = ch end
+    return page
+end
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
 -- klikací řádek (třeba vzácný mob v Bestiáři)
@@ -528,6 +538,7 @@ local function fillBook(key, mapID)
     book.pages = {
         letopis = letopis,
         tajemstvi = secrets and { { "Tajemství a kam se podívat", secrets } } or nil,
+        postavy = WoWpoCesku_PostavyPage and WoWpoCesku_PostavyPage() or nil,
         denik = WoWpoCesku_DenikPage and WoWpoCesku_DenikPage(key) or nil,
         bestiar = WoWpoCesku_BestiarPage and WoWpoCesku_BestiarPage(key) or nil,
         pecete = WoWpoCesku_PecetePage and WoWpoCesku_PecetePage(key) or nil,

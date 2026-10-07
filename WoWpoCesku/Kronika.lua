@@ -1437,6 +1437,74 @@ local function sentence(J, e)
     return s
 end
 
+-- celý příběh postavy jako souvislý text (nejstarší zápis nahoře) pro zkopírování
+local function storyText(J)
+    local out = { "Příběh postavy " .. (J.name or "?"), "" }
+    local day
+    for _, e in ipairs(J.list) do
+        local s = sentence(J, e)
+        if s then
+            local d = date("%d.%m.%Y", e.t)
+            if d ~= day then day = d; out[#out + 1] = ""; out[#out + 1] = d end
+            out[#out + 1] = s
+        end
+    end
+    return table.concat(out, "\n")
+end
+
+local storyWin
+local function showStory()
+    local J = journal(true)
+    if not J then return end
+    if not storyWin then
+        local f = CreateFrame("Frame", "WoWpoCeskuPribehExport", UIParent, "BackdropTemplate")
+        storyWin = f
+        f:SetSize(560, 420)
+        f:SetPoint("CENTER")
+        f:SetFrameStrata("FULLSCREEN_DIALOG")
+        f:SetToplevel(true)
+        f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32,
+            insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+        f:SetBackdropColor(0.10, 0.10, 0.14, 0.97)
+        f:EnableMouse(true)
+        f:SetMovable(true)
+        f:RegisterForDrag("LeftButton")
+        f:SetScript("OnDragStart", f.StartMoving)
+        f:SetScript("OnDragStop", f.StopMovingOrSizing)
+        local t = f:CreateFontString(nil, "OVERLAY")
+        t:SetFont(FONT, 15, "")
+        t:SetTextColor(1, 0.82, 0)
+        t:SetPoint("TOP", 0, -20)
+        t:SetText("Tvůj příběh ke zkopírování")
+        local hint = f:CreateFontString(nil, "OVERLAY")
+        hint:SetFont(FONT, 11, "")
+        hint:SetTextColor(0.7, 0.7, 0.7)
+        hint:SetPoint("TOP", t, "BOTTOM", 0, -6)
+        hint:SetText("Klikni do textu, Ctrl+A označí vše, Ctrl+C zkopíruje. Pak ho vlož třeba na Discord.")
+        local sf = CreateFrame("ScrollFrame", "WoWpoCeskuPribehExportScroll", f, "UIPanelScrollFrameTemplate")
+        sf:SetPoint("TOPLEFT", 24, -64)
+        sf:SetPoint("BOTTOMRIGHT", -40, 56)
+        local eb = CreateFrame("EditBox", nil, sf)
+        eb:SetMultiLine(true)
+        eb:SetAutoFocus(false)
+        eb:SetFont(FONT, 12, "")
+        eb:SetWidth(480)
+        eb:SetScript("OnEscapePressed", eb.ClearFocus)
+        sf:SetScrollChild(eb)
+        f.edit = eb
+        local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        ok:SetSize(110, 24)
+        ok:SetPoint("BOTTOMRIGHT", -26, 20)
+        ok:SetText("Zavřít")
+        ok:SetScript("OnClick", function() f:Hide() end)
+        tinsert(UISpecialFrames, "WoWpoCeskuPribehExport")
+    end
+    local text = storyText(J)
+    storyWin.edit:SetText(text)
+    storyWin.edit:SetCursorPosition(0)
+    storyWin:Show()
+end
+
 -- záložka Tvůj příběh: zápisy po dnech, nejnovější nahoře
 function WoWpoCesku_PribehPage()
     local J = journal(true)
@@ -1447,6 +1515,8 @@ function WoWpoCesku_PribehPage()
     page[1] = { "Příběh postavy " .. (J.name or "?"),
         ("Zápisů v kronice: %d%s. Kronika zapisuje sama: nové oblasti a dungeony, poražené bosse, úrovně, pečetě, vzácné tvory, slavné postavy i pády v boji.")
             :format(n, first and (" · první z " .. date("%d.%m.%Y", first)) or "") }
+    page[2] = { "Sdílet", "Celý příběh postavy jako souvislý text, který si zkopíruješ a pošleš kamarádům nebo na Discord.",
+        rows = { { text = "|cff801f0d▶ Zobrazit příběh ke zkopírování|r", onClick = showStory } } }
     local day, lines, shown = nil, {}, 0
     local function flush()
         if day and #lines > 0 then page[#page + 1] = { day, table.concat(lines, "\n\n") } end
