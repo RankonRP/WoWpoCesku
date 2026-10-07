@@ -427,6 +427,8 @@ local function rarePoints(name, mapID)
     return out
 end
 
+WoWpoCesku_RarePoints = rarePoints
+
 local function hidePins()
     for _, p in ipairs(pins) do p:Hide() end
 end
@@ -608,6 +610,7 @@ function WoWpoCesku_ShowRareOnMap(name)
         return
     end
     pinMapID, pinName = mapID, name
+    if WoWpoCesku_TrackRare then WoWpoCesku_TrackRare(name) end   -- kompas ukáže nejbližší místo
     pcall(hookMap)
     if WorldMapFrame:IsShown() then
         refreshPins()

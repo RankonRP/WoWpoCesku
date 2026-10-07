@@ -1095,6 +1095,9 @@ local function buildOptions()
     addCheck(right, "Upozornění na vzácné moby", "Zvuk, nápis a cedulka; zapíše se kde a kdy (/czq vzacni)",
         function() return WoWpoCeskuSettings.rareAlert ~= false end,
         function(on) WoWpoCeskuSettings.rareAlert = on end)
+    addCheck(right, "Kompas nahoře na obrazovce", "Směr a vzdálenost ke sledovanému cíli, vstupům a vzácným mobům (/czq kompas)",
+        function() return WoWpoCeskuSettings.compass ~= false end,
+        function(on) WoWpoCeskuSettings.compass = on end)
     addCheck(right, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
         function() return WoWpoCeskuSettings.npcNotes ~= false end,
         function(on) WoWpoCeskuSettings.npcNotes = on end)
@@ -1534,6 +1537,8 @@ SlashCmdList.CZQUESTS = function(msg)
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
+    elseif cmd == "kompas" then
+        if WoWpoCesku_CompassCommand then WoWpoCesku_CompassCommand(arg) end
     elseif cmd == "dungeon" or cmd == "dungy" or cmd == "dj" then
         if WoWpoCesku_DungeonJournal then WoWpoCesku_DungeonJournal() end
     elseif cmd == "koristi" or cmd == "kořisti" then
