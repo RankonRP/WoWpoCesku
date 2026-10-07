@@ -155,3 +155,28 @@ Quest „The Restless Dead“ vypráví o tom, že něco narušilo hrobky a z hl
 
 A „Important Heirlooms“ uvádí komickou postavu: hlídače, který se sám raději přiznává, že se v trezorech „plížil“ a „hlídkoval“. Když z hlubin v krtčích strojích vylezla Dark Iron síla, uvědomil si, že dole leží neocenitelná kořist, alespoň „důležité kulturní dědictví“, a prosí hrdiny, aby všechna dědictví zachránili.]] },
 })
+
+-------------------------------------------------------------------------------
+-- DRUHÝ PRŮCHOD: příběhy questů Excavation Site: Wetlands a City of Dalaran
+-------------------------------------------------------------------------------
+chapters("Excavation Site: Wetlands", {
+    { "Questy: titánská relikvie", [[Hlavní nit příběhu tvoří Titan Relic, předmět, který hrdinové z vykopávek odnášejí. Aliance ho nese Prospectoru Whelgarovi do vykopávek ve Wetlands (quest Lost Relic Carry) nebo High Explorerovi Magellasovi do Hall of Explorers v Ironforge (Prehistoric Prism). Horda ho vozí na Elder Rise v Thunder Bluffu, kde má taurenským starším říct víc (Elder Knowledge), a taurenský Earthen Ring u Muln Earthfuryho na Skywatcher Plateau v Mulgore chce vědět, co všechno relikvie o zemi vypovídá (Earthen Echo).]] },
+    { "Questy: Dragonmaw a odboj", [[Horda se o Dragonmawy zajímá skrz Forsaken: Deathstalker Agent ve svahu nad táborem Dragonmaw ji najde po příjezdu do Wetlands (Dragonmaw Rumors) a pak po tobě chce, abys zlikvidoval Dragonmaw uvnitř vykopávek a vrátil se s tím, co najdeš (Open the Maw).]] },
+    { "Questy: Songbladeové a Grassmanové", [[Dorin Songblade hledá svého bratra Daewyna ve Whelgar's Excavation Site (Songblade Search); když ho najdeš, vrátíš se k Dorinovi (Fallen in the Fen) a dostaneš jako odměnu Daewyn's Girdle nebo Songblade Stabilizer. Caitlin Grassman z Menethil Harbor se bojí o své příbuzné: nejdřív mluvíš s ní (Seeking Caitlin), pak hledáš Ardina Grassmana v Excavation Sites (Lost in the Thicket Things) a nakonec se k Caitlin vracíš s odpovědí (Heartwoven).]] },
+    { "Questy: lov", [[Prospektoři ve Wetlands potřebují i obyčejné věci: Thicket Raptor Meat (Changing Tastes) a čtyři Thicket Raptor Hides pro koželuha Jamese Hallorana v Menethil Harbor (Highland Hides, quest pro úroveň 28). Rethiel the Greenwarden žádá po zabití Highland Horrora jeho „root core“ (Horrors in the Highland).]] },
+})
+
+boss("Excavation Site: Wetlands", "Highland Horror", [[Podle questu Horrors in the Highland je to tvor, jehož „root core“ chce legendární strážce rostlin Rethiel the Greenwarden. Zrůda z vysočiny nad vykopávkami je tedy zkažená příroda, kterou je potřeba zlikvidovat.]])
+
+boss("Excavation Site: Wetlands", "Relic Guardian", [[Hlídá Titan Relic, kolem které se točí řada questů: relikvii chtějí Prospector Whelgar, Explorers' League i taurenští starší. Je to poškozený konstrukt Titánů, který stále střeží to, co měl střežit.]])
+
+chapters("City of Dalaran", {
+    { "Questy: Kirin Tor a zkažená magie", [[Archmage Modera před Dalaranem vysílá hrdiny proti arkánním pozůstatkům: osm Seeking Remnants, osm Saturated Remnants a osm Mana Echoes (Starving Arcane) a její obraz (Image of Archmage Modera) chce Arcane Mote z města (Heart of Disruption). Aliance nese podobné úkoly mágům ve Stormwindu: Shylamiir chce Fel Infused Blossom (A Green Sample) a High Sorcerer Andromath chce, abys zabil Mana Elemental (Power Overwhelming).]] },
+    { "Questy Hordy z Tarren Mill a Undercity", [[Horda dostává úkoly od svých: Magus Wordeen Voidglare v Tarren Mill chce Arcane Mote (Heart of Disruption), Melisara v Tarren Mill žádá hlavu Atrexise the Grave Knighta (The Grave Knight; odměna Gravewalker Boots nebo Undead Knight's Bracers) a Doctor Martin Felben v Undercity šest Cracked Sentry Cores (Source of Power). Rexxie Copperclutch u vchodu do stok chce knihu Founding of Dalaran z města (Opportunistic Education).]] },
+})
+
+boss("City of Dalaran", "Atrexis the Grave Knight", [[Hrobový rytíř, kterého chce Melisara z Tarren Mill porazit (quest The Grave Knight). Za jeho porážku dostaneš Gravewalker Boots nebo Undead Knight's Bracers.]])
+
+secrets("City of Dalaran", [[• Rexxie Copperclutch u stok chce knihu Founding of Dalaran.
+• Atrexis the Grave Knight dává Gravewalker Boots a Undead Knight's Bracers.
+• Cracked Sentry Cores sbírá Doctor Martin Felben z Undercity.]])

@@ -110,20 +110,20 @@ WoWpoCesku_BossLootForever[KEY] = {
     ["Relic Guardian"] = { { "Reliquary Mantle", 3, 273028 }, { "Golemsight Long Gun", 3, 273029 }, { "Ring of Power Regulation", 3, 273030 } },
 }
 WoWpoCesku_DungeonQuests[KEY] = {
-    { 95646, "Horrors in the Highland", 31, 24, "A", "", "" },
-    { 95647, "Lost in the Thicket Things", 31, 24, "A", "", "" },
-    { 95663, "Dragonmaw Rumors", 31, 24, nil, "", "" },
+    { 95646, "Horrors in the Highland", 31, 24, "A", "Rethiel the Greenwarden", "" },
+    { 95647, "Lost in the Thicket Things", 31, 24, "A", "Ardin Grassman", "" },
+    { 95663, "Dragonmaw Rumors", 31, 24, nil, "Deathstalker Agent", "" },
     { 95664, "Elder Knowledge", 31, 24, "H", "", "" },
-    { 95682, "Open the Maw", 31, 24, nil, "", "" },
+    { 95682, "Open the Maw", 31, 24, nil, "Deathstalker Agent", "" },
     { 95697, "Changing Tastes", 31, 24, "H", "", "" },
-    { 95737, "Seeking Caitlin", 31, 24, nil, "", "" },
-    { 95772, "Songblade Search", 31, 24, nil, "", "" },
-    { 95795, "Fallen in the Fen", 31, 24, "A", "", "" },
-    { 95809, "Heartwoven", 31, 24, "A", "", "" },
-    { 95810, "Lost Relic Carry", 31, 24, "A", "", "" },
-    { 98815, "Highland Hides", 28, 24, nil, "", "" },
-    { 98823, "Earthen Echo", 31, 24, "H", "", "" },
-    { 98824, "Prehistoric Prism", 31, 24, "A", "", "" },
+    { 95737, "Seeking Caitlin", 31, 24, nil, "Caitlin Grassman", "" },
+    { 95772, "Songblade Search", 31, 24, nil, "Dorin Songblade", "" },
+    { 95795, "Fallen in the Fen", 31, 24, "A", "Dorin Songblade", "Daewyn's Girdle, Songblade Stabilizer" },
+    { 95809, "Heartwoven", 31, 24, "A", "Caitlin Grassman", "Greater Healing Potion, Mana Potion" },
+    { 95810, "Lost Relic Carry", 31, 24, "A", "Prospector Whelgar", "" },
+    { 98815, "Highland Hides", 28, 24, nil, "James Halloran", "" },
+    { 98823, "Earthen Echo", 31, 24, "H", "Muln Earthfury", "" },
+    { 98824, "Prehistoric Prism", 31, 24, "A", "High Explorer Magellas", "" },
 }
 
 -------------------------------------------------------------------------------
@@ -141,14 +141,14 @@ WoWpoCesku_LoreTajemstvi[KEY] = [[• Questy jsou hlavně o magických vzorcích
 • Bossy sem doplním, až je v dungeonu uvidím ve hře.]]
 WoWpoCesku_DungeonBosses[KEY] = {}
 WoWpoCesku_DungeonQuests[KEY] = {
-    { 92456, "A Green Sample", 33, 24, "A", "", "" },
-    { 92457, "Starving Arcane", 33, 24, nil, "", "" },
-    { 92458, "Heart of Disruption", 33, 24, "A", "", "" },
-    { 92489, "Power Overwhelming", 33, 24, "A", "", "" },
-    { 96984, "Heart of Disruption", 33, 24, "H", "", "" },
-    { 96986, "The Grave Knight", 33, 24, "H", "", "" },
-    { 96987, "Opportunistic Education", 33, 24, "H", "", "" },
-    { 96988, "Source of Power", 33, 24, "H", "", "" },
+    { 92456, "A Green Sample", 33, 24, "A", "Shylamiir", "" },
+    { 92457, "Starving Arcane", 33, 24, nil, "Archmage Modera", "" },
+    { 92458, "Heart of Disruption", 33, 24, "A", "Image of Archmage Modera", "" },
+    { 92489, "Power Overwhelming", 33, 24, "A", "High Sorcerer Andromath", "" },
+    { 96984, "Heart of Disruption", 33, 24, "H", "Magus Wordeen Voidglare", "" },
+    { 96986, "The Grave Knight", 33, 24, "H", "Melisara", "Gravewalker Boots, Undead Knight's Bracers" },
+    { 96987, "Opportunistic Education", 33, 24, "H", "Rexxie Copperclutch", "" },
+    { 96988, "Source of Power", 33, 24, "H", "Doctor Martin Felben", "" },
 }
 
 -------------------------------------------------------------------------------
