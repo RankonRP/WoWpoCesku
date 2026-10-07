@@ -1510,9 +1510,18 @@ local function build()
     dc:SetText("Chyba? Discord")
     dc:SetScript("OnClick", function() if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end end)
 
-    local head = text(win, 22, RED[1], RED[2], RED[3])
-    head:SetPoint("TOP", 0, -24)
-    head:SetFont(TITLE_FONT, 22, "")   -- písmo hry; to nemá českou diakritiku, proto bez diakritiky
+    -- nadpis ve stylu hry: zlatá ozdobná cedule nad oknem a zlatý nápis herním písmem
+    local plaque = win:CreateTexture(nil, "ARTWORK")
+    plaque:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
+    plaque:SetSize(340, 68)
+    plaque:SetPoint("TOP", win, "TOP", 0, 14)
+    win.plaque = plaque
+    local head = win:CreateFontString(nil, "OVERLAY")
+    head:SetFont(TITLE_FONT, 17, "OUTLINE")   -- písmo hry; to nemá českou diakritiku, proto bez diakritiky
+    head:SetTextColor(1, 0.82, 0)
+    head:SetShadowColor(0, 0, 0, 1)
+    head:SetShadowOffset(1, -1)
+    head:SetPoint("TOP", plaque, "TOP", 0, -14)
     head:SetText("Dungeon Kronika")
 
     -- přehled (karty)
