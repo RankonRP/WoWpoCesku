@@ -98,7 +98,49 @@
     "skřetích": "orčích",
     "skřetského": "orčího",
     "skřetský": "orčí",
-    "skřetská": "orčí"
+    "skřetská": "orčí",
+    "přejete": "přeješ",
+    "přejete si": "přeješ si",
+    "nejste": "nejsi",
+    "kdybyste": "kdybys",
+    "nebojte": "neboj",
+    "hlaste": "hlas",
+    "ohlaste": "ohlas",
+    "nahlaste": "nahlas",
+    "vyhrajte": "vyhraj",
+    "prohrajte": "prohraj",
+    "zkuste": "zkus",
+    "pokuste": "pokus",
+    "připojte": "připoj",
+    "zapojte": "zapoj",
+    "spojte": "spoj",
+    "uhaste": "uhas",
+    "odkryjte": "odkryj",
+    "přeneste": "přenes",
+    "vyneste": "vynes",
+    "zatřeste": "zatřes",
+    "setřeste": "setřes",
+    "třeste": "třes",
+    "stůjte": "stůj",
+    "nestůjte": "nestůj",
+    "nenoste": "nenos",
+    "kryjte": "kryj",
+    "jednajte": "jednej",
+    "umyjte": "umyj",
+    "zavěste": "zavěs",
+    "vyděste": "vyděs",
+    "vzkříste": "vzkřís",
+    "poduste": "poduš",
+    "nahlásíte": "nahlásíš",
+    "prokážete": "prokážeš",
+    "nebudete": "nebudeš",
+    "berete": "bereš",
+    "nesete": "neseš",
+    "jedete": "jedeš",
+    "vedete": "vedeš",
+    "žijete": "žiješ",
+    "vinete": "vineš",
+    "otřete": "otřeš"
   },
   "regexy": [
     {
@@ -249,6 +291,261 @@
     {
       "hledat": "(?<!\\p{L})([Vv]) (Valley of)",
       "nahradit": "$1e $2"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: opatrní -> opatrný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)opatrní(?!\\p{L})",
+      "nahradit": "$1$2opatrný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: úspěšní -> úspěšný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)úspěšní(?!\\p{L})",
+      "nahradit": "$1$2úspěšný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: stateční -> statečný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)stateční(?!\\p{L})",
+      "nahradit": "$1$2statečný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: věrní -> věrný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)věrní(?!\\p{L})",
+      "nahradit": "$1$2věrný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: pilní -> pilný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)pilní(?!\\p{L})",
+      "nahradit": "$1$2pilný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: odvážní -> odvážný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)odvážní(?!\\p{L})",
+      "nahradit": "$1$2odvážný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: silní -> silný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)silní(?!\\p{L})",
+      "nahradit": "$1$2silný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: šikovní -> šikovný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)šikovní(?!\\p{L})",
+      "nahradit": "$1$2šikovný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: nezastavitelní -> nezastavitelný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)nezastavitelní(?!\\p{L})",
+      "nahradit": "$1$2nezastavitelný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: neústupní -> neústupný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)neústupní(?!\\p{L})",
+      "nahradit": "$1$2neústupný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: obezřetní -> obezřetný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)obezřetní(?!\\p{L})",
+      "nahradit": "$1$2obezřetný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: oddaní -> oddaný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)oddaní(?!\\p{L})",
+      "nahradit": "$1$2oddaný"
+    },
+    {
+      "popis": "po buď/budeš/jsi jednotné číslo: užiteční -> užitečný",
+      "hledat": "(?<!\\p{L})(buď|Buď|budeš|Budeš|jsi|Jsi)(\\s+)užiteční(?!\\p{L})",
+      "nahradit": "$1$2užitečný"
+    },
+    {
+      "popis": "emoce <snort> -> <frkání>",
+      "hledat": "<snort>",
+      "nahradit": "<frkání>"
+    },
+    {
+      "popis": "emoce <frkni> -> <frkání>",
+      "hledat": "<frkni>",
+      "nahradit": "<frkání>"
+    },
+    {
+      "popis": "emoce <weeze> -> <sípe>",
+      "hledat": "<weeze>",
+      "nahradit": "<sípe>"
+    },
+    {
+      "popis": "emoce <Grumbles> -> <bručí>",
+      "hledat": "<Grumbles>",
+      "nahradit": "<bručí>"
+    },
+    {
+      "popis": "emoce <grin> -> <ušklíbne se>",
+      "hledat": "<grin>",
+      "nahradit": "<ušklíbne se>"
+    },
+    {
+      "popis": "emoce <hic> -> <škytne>",
+      "hledat": "<hic>",
+      "nahradit": "<škytne>"
+    },
+    {
+      "popis": "emoce <slintat> -> <slintá>",
+      "hledat": "<slintat>",
+      "nahradit": "<slintá>"
+    },
+    {
+      "popis": "Craftsman's Writ: vymyšlená částka na konci (ve výši 20a USD)",
+      "hledat": "\\s+(?:ve výši|v hodnotě|v měřítku)\\s+[\\d$ ]*a?\\s*USD",
+      "nahradit": ""
+    },
+    {
+      "popis": "Craftsman's Writ: vymyšlená částka před předmětem (vyžaduje 20a USD X)",
+      "hledat": "(vyžaduje|požaduje)\\s+(?:[\\d$]+\\s+)*\\d*a?\\s*USD\\s+",
+      "nahradit": "$1 "
+    },
+    {
+      "popis": "Craftsman's Writ: vymyšlená částka před 'spolu s'",
+      "hledat": "\\s+\\d*a?\\s*USD(?=\\s+spolu)",
+      "nahradit": ""
+    },
+    {
+      "popis": "Craftsman's Writ: zbytek zástupného znaku (vyžaduje 2 $ 20a X)",
+      "hledat": "(vyžaduje|požaduje)\\s+\\d+\\s*\\$\\s*\\d+a\\s+",
+      "nahradit": "$1 "
+    },
+    {
+      "popis": "Vrať 100 USD nástroje -> Vrať nástroje",
+      "hledat": "Vrať 100 USD ",
+      "nahradit": "Vrať "
+    },
+    {
+      "popis": "rozbitý zástupný znak $10a před jménem",
+      "hledat": "(?<!\\p{L})\\$10a\\s+",
+      "nahradit": ""
+    },
+    {
+      "popis": "rozkaz na začátku věty: Otevřete -> Otevři",
+      "hledat": "(?<!\\p{L})Otevřete(?!\\p{L})",
+      "nahradit": "Otevři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Zavřete -> Zavři",
+      "hledat": "(?<!\\p{L})Zavřete(?!\\p{L})",
+      "nahradit": "Zavři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Ukončete -> Ukonči",
+      "hledat": "(?<!\\p{L})Ukončete(?!\\p{L})",
+      "nahradit": "Ukonči"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Dokončete -> Dokonči",
+      "hledat": "(?<!\\p{L})Dokončete(?!\\p{L})",
+      "nahradit": "Dokonči"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Skončete -> Skonči",
+      "hledat": "(?<!\\p{L})Skončete(?!\\p{L})",
+      "nahradit": "Skonči"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Odešlete -> Odešli",
+      "hledat": "(?<!\\p{L})Odešlete(?!\\p{L})",
+      "nahradit": "Odešli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Vyšlete -> Vyšli",
+      "hledat": "(?<!\\p{L})Vyšlete(?!\\p{L})",
+      "nahradit": "Vyšli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Nemyslete -> Nemysli",
+      "hledat": "(?<!\\p{L})Nemyslete(?!\\p{L})",
+      "nahradit": "Nemysli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Myslete -> Mysli",
+      "hledat": "(?<!\\p{L})Myslete(?!\\p{L})",
+      "nahradit": "Mysli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Vysvětlete -> Vysvětli",
+      "hledat": "(?<!\\p{L})Vysvětlete(?!\\p{L})",
+      "nahradit": "Vysvětli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Vyjádřete -> Vyjádři",
+      "hledat": "(?<!\\p{L})Vyjádřete(?!\\p{L})",
+      "nahradit": "Vyjádři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Ušetřete -> Ušetři",
+      "hledat": "(?<!\\p{L})Ušetřete(?!\\p{L})",
+      "nahradit": "Ušetři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Vymyslete -> Vymysli",
+      "hledat": "(?<!\\p{L})Vymyslete(?!\\p{L})",
+      "nahradit": "Vymysli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Zvětšete -> Zvětši",
+      "hledat": "(?<!\\p{L})Zvětšete(?!\\p{L})",
+      "nahradit": "Zvětši"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Modlete -> Modli",
+      "hledat": "(?<!\\p{L})Modlete(?!\\p{L})",
+      "nahradit": "Modli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Setřete -> Setři",
+      "hledat": "(?<!\\p{L})Setřete(?!\\p{L})",
+      "nahradit": "Setři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Otřete -> Otři",
+      "hledat": "(?<!\\p{L})Otřete(?!\\p{L})",
+      "nahradit": "Otři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Šetřete -> Šetři",
+      "hledat": "(?<!\\p{L})Šetřete(?!\\p{L})",
+      "nahradit": "Šetři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Naostřete -> Naostři",
+      "hledat": "(?<!\\p{L})Naostřete(?!\\p{L})",
+      "nahradit": "Naostři"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Nakreslete -> Nakresli",
+      "hledat": "(?<!\\p{L})Nakreslete(?!\\p{L})",
+      "nahradit": "Nakresli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Rozmyslete -> Rozmysli",
+      "hledat": "(?<!\\p{L})Rozmyslete(?!\\p{L})",
+      "nahradit": "Rozmysli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Pomyslete -> Pomysli",
+      "hledat": "(?<!\\p{L})Pomyslete(?!\\p{L})",
+      "nahradit": "Pomysli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Urychlete -> Urychli",
+      "hledat": "(?<!\\p{L})Urychlete(?!\\p{L})",
+      "nahradit": "Urychli"
+    },
+    {
+      "popis": "rozkaz na začátku věty: Opatřete -> Opatři",
+      "hledat": "(?<!\\p{L})Opatřete(?!\\p{L})",
+      "nahradit": "Opatři"
+    },
+    {
+      "popis": "2. os. mn. čísla přítomného času -ete -> -eš (vy -> ty)",
+      "hledat": "(?<!\\p{L})(?!(?:zvířete|Zvířete|kuřete|Kuřete|prasete|Prasete|dvojčete|Dvojčete|rozkvete)(?!\\p{L}))(\\p{L}{4,})ete(?!\\p{L})",
+      "nahradit": "$1eš"
     }
   ],
   "staty_popis": "Názvy statů, které v textech rozhraní (talenty, kouzla) zůstávají anglicky. Před překladem Googlem se schovají a pak vrátí. Rozlišuje velká a malá písmena (energy jako obyčejné slovo zůstane).",

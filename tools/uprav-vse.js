@@ -32,9 +32,27 @@ for (const [id, e] of Object.entries(cache)) {
 console.log(`Upraveno: ${quests} questů, ${fields} polí`);
 console.log(examples.join("\n"));
 
+// rozhovory s NPC: stejná pravidla (ručně opravené, src = "oprava", se nemění)
+const S = require("./soubory");
+const gossip = S.readGossip();
+let talks = 0;
+const talkExamples = [];
+for (const e of Object.values(gossip)) {
+  if (e.src === "oprava" || !e.cs) continue;
+  const t = apply(e.cs);
+  if (t !== e.cs) {
+    if (talkExamples.length < 8) talkExamples.push(`   ${e.cs.slice(0, 110)}\n → ${t.slice(0, 110)}`);
+    e.cs = t;
+    talks++;
+  }
+}
+console.log(`Upraveno: ${talks} rozhovorů`);
+console.log(talkExamples.join("\n"));
+
 if (write) {
-  const { writeCache, writeDataLua } = require("./soubory");
-  writeCache(cache);
-  writeDataLua(cache);
-  console.log("Zapsáno do preklady.json a Data.lua.");
+  S.writeCache(cache);
+  S.writeDataLua(cache);
+  S.writeGossip(gossip);
+  S.writeGossipLua(gossip);
+  console.log("Zapsáno do preklady.json, Data.lua, rozhovory.json a DataRozhovory.lua.");
 }
