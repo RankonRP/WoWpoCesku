@@ -148,7 +148,16 @@ local function hideTargetButton()
     if targetBtn and not InCombatLockdown() then targetBtn:Hide() end
 end
 
-local function showAlert(name, info, rec)
+local PORTRAIT_W = 74
+
+-- npcID z GUID (jen když není tajný)
+local function npcFromGUID(guid)
+    if not guid or secret(guid) then return nil end
+    local ok2, kind, _, _, _, _, idn = pcall(strsplit, "-", guid)
+    if ok2 and (kind == "Creature" or kind == "Vehicle") then return tonumber(idn) end
+end
+
+local function showAlert(name, info, rec, unit)
     if not alert then
         alert = parchmentFrame("WoWpoCeskuRareAlert", UIParent, "HIGH")
         alert:SetPoint("TOP", 0, -110)
@@ -157,6 +166,16 @@ local function showAlert(name, info, rec)
         alert.hint:SetFont(FONT, 11, "")
         alert.hint:SetTextColor(RED[1], RED[2], RED[3])
         alert.hint:SetPoint("TOPLEFT", alert.text, "BOTTOMLEFT", 0, -4)
+        -- portrét moba (3D model) v rámečku vlevo
+        alert.pframe = CreateFrame("Frame", nil, alert, "BackdropTemplate")
+        alert.pframe:SetSize(PORTRAIT_W, 86)
+        alert.pframe:SetPoint("TOPLEFT", 8, -8)
+        alert.pframe:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
+        alert.pframe:SetBackdropColor(0.10, 0.07, 0.04, 1)
+        alert.pframe:SetBackdropBorderColor(0.80, 0.60, 0.16, 1)
+        alert.model = CreateFrame("PlayerModel", nil, alert.pframe)
+        alert.model:SetPoint("TOPLEFT", 2, -2)
+        alert.model:SetPoint("BOTTOMRIGHT", -2, 2)
         local anim = alert:CreateAnimationGroup()
         local hold = anim:CreateAnimation("Alpha")
         hold:SetFromAlpha(1) hold:SetToAlpha(1) hold:SetDuration(12) hold:SetOrder(1)
@@ -166,10 +185,30 @@ local function showAlert(name, info, rec)
         anim:SetScript("OnFinished", function() alert:Hide(); hideTargetButton() end)
         alert.anim = anim
     end
+    alert.title:ClearAllPoints()
+    alert.title:SetPoint("TOPLEFT", PORTRAIT_W + 18, -8)
     alert.title:SetText("Vzácný mob: " .. name)
     alert.text:SetText(rareNote(name, info, rec))
-    fitFrame(alert, 340)
-    alert:SetHeight(alert:GetHeight() + 16)
+    -- model: nejdřív podle npcID (uložené z minula nebo z GUID), jinak podle jednotky
+    local shown = false
+    local id = rec and rec.id
+    if id and alert.model.SetCreature then
+        alert.model:ClearModel()
+        shown = pcall(alert.model.SetCreature, alert.model, id)
+    end
+    if not shown and unit and alert.model.SetUnit then
+        shown = pcall(alert.model.SetUnit, alert.model, unit)
+    end
+    if shown and alert.model.SetPortraitZoom then pcall(alert.model.SetPortraitZoom, alert.model, 1) end
+    alert.pframe:SetShown(shown)
+    local left = shown and (PORTRAIT_W + 18) or 10
+    alert.title:ClearAllPoints()
+    alert.title:SetPoint("TOPLEFT", left, -8)
+    local textW = 340 - left - 10
+    alert.title:SetWidth(textW)
+    alert.text:SetWidth(textW)
+    local h = alert.title:GetStringHeight() + alert.text:GetStringHeight() + 22 + 16
+    alert:SetSize(340, shown and math.max(h, 104) or h)
     local canTarget = setupTargetButton(name, 340, alert:GetHeight())
     alert.hint:SetText(canTarget and "Klikni a zaměříš ho" or "V boji ho addon zaměřit nemůže")
     alert.anim:Stop()
@@ -177,7 +216,7 @@ local function showAlert(name, info, rec)
 end
 
 -- společné hlášení: zápis do deníku + upozornění (nejvýš jednou za 5 minut na stejného)
-local function reportRare(name, cls, lvl, x, y)
+local function reportRare(name, cls, lvl, x, y, unit, npcID)
     local info = RARE[name]
     local S = seen()
     local rec = S.rares[name] or { n = 0 }
@@ -187,6 +226,8 @@ local function reportRare(name, cls, lvl, x, y)
     rec.z = zoneKey()
     if x then rec.x, rec.y = x, y else rec.x, rec.y = playerPos() end
     rec.c = cls or rec.c
+    if not npcID and unit then local okG, g = pcall(UnitGUID, unit); if okG then npcID = npcFromGUID(g) end end
+    if npcID then rec.id = npcID end
     if lvl then rec.l = lvl end
     rec.new = (info == nil) or nil
     S.rares[name] = rec
@@ -202,7 +243,7 @@ local function reportRare(name, cls, lvl, x, y)
         pcall(RaidNotice_AddMessage, RaidWarningFrame, "VZACNY MOB: " .. name,
             ChatTypeInfo and ChatTypeInfo["RAID_WARNING"] or { r = 1, g = 0.3, b = 0.1 })
     end
-    showAlert(name, info, rec)
+    showAlert(name, info, rec, unit)
     say(("vzacny mob: %s%s"):format(name, rec.x and (" (%.1f, %.1f)"):format(rec.x, rec.y) or ""))
 end
 
@@ -216,7 +257,7 @@ local function checkRare(unit)
     local okP, isPlayer = pcall(UnitIsPlayer, unit)
     if okP and isPlayer == true then return end
     local okL, lvl = pcall(UnitLevel, unit)
-    reportRare(name, cls, (okL and not secret(lvl)) and lvl or nil)
+    reportRare(name, cls, (okL and not secret(lvl)) and lvl or nil, nil, nil, unit)
 end
 
 -- ikony vzácných mobů na minimapě (vignettes) – dosah větší než jmenovky
@@ -233,7 +274,7 @@ local function checkVignettes()
                 local x, y
                 local pos = mapID and C_VignetteInfo.GetVignettePosition and C_VignetteInfo.GetVignettePosition(guid, mapID)
                 if pos then x, y = math.floor(pos.x * 1000 + 0.5) / 10, math.floor(pos.y * 1000 + 0.5) / 10 end
-                reportRare(name, nil, nil, x, y)
+                reportRare(name, nil, nil, x, y, nil, npcFromGUID(info.objectGUID))
             end
         end
     end
