@@ -419,7 +419,7 @@ local function drawDJMarks()
             end
             do
                 local sz = p:GetWidth()
-                local ringed = (m.icon == "ring")
+                local ringed = (m.icon == "ring") and not usedAtlas
                 p.rim:SetShown(ringed); p.ring:SetShown(ringed); p.dot:SetShown(ringed)
                 p.rim:SetSize(sz, sz)
                 p.ring:SetSize(sz * 0.84, sz * 0.84)
