@@ -38,7 +38,7 @@ end
 WoWpoCesku_DISCORD = "https://discord.gg/2CnEbAMJK5"
 
 local discordWin
-function WoWpoCesku_ShowDiscord()
+local function oldShowDiscord()
     if discordWin then discordWin:Show() discordWin:Raise() discordWin.box:SetFocus() discordWin.box:HighlightText() return end
     local f = CreateFrame("Frame", "WoWpoCeskuDiscord", UIParent, "BackdropTemplate")
     discordWin = f
@@ -98,7 +98,7 @@ function WoWpoCesku_ShowSend()
     end
     local f = CreateFrame("Frame", "WoWpoCeskuSend", UIParent, "BackdropTemplate")
     sendWin = f
-    f:SetSize(520, 330)
+    f:SetSize(520, 380)
     f:SetPoint("CENTER")
     f:SetFrameStrata("FULLSCREEN_DIALOG")
     f:SetFrameLevel(500)
@@ -115,7 +115,7 @@ function WoWpoCesku_ShowSend()
     t:SetFont(FONT, 15, "")
     t:SetTextColor(1, 0.82, 0)
     t:SetPoint("TOP", 0, -20)
-    t:SetText("Pomoz s překlady – pošli nepřeložené texty")
+    t:SetText("Discord WoWpoČesku – chyby a překlady")
     f.count = f:CreateFontString(nil, "OVERLAY")
     f.count:SetFont(FONT, 12, "")
     f.count:SetPoint("TOP", t, "BOTTOM", 0, -10)
@@ -126,7 +126,7 @@ function WoWpoCesku_ShowSend()
     d:SetPoint("TOP", f.count, "BOTTOM", 0, -12)
     d:SetWidth(470)
     d:SetJustifyH("LEFT")
-    d:SetText("Addon si nepřeložené texty zapamatoval do souboru na tvém disku (sám nic neodesílá – WoW to addonům nedovolí). Pomůžeš tak, když ten soubor pošleš na náš Discord:\n\n1. Napiš |cffffd100/reload|r nebo se odhlas (tím se soubor uloží).\n2. Otevři složku hry: |cffffd100World of Warcraft\\_classic_beta_\\WTF\\Account\\<NÁZEV ÚČTU>\\SavedVariables|r\n3. Soubor |cffffd100WoWpoCesku.lua|r pošli na Discord do kanálu #návrhy-překladů (odkaz je níže).\n\nSoubor obsahuje texty ze hry, nastavení addonu a postup v Kronice (jména tvých postav), žádná hesla.")
+    d:SetText("|cffffd100Našel jsi chybu nebo máš nápad?|r Napiš na náš Discord (odkaz je dole), do kanálu #hlášení-chyb.\n\n|cffffd100Chceš pomoct s překlady?|r Addon si nepřeložené texty zapamatoval do souboru na tvém disku (sám nic neodesílá – WoW to addonům nedovolí). Pomůžeš tak, když ten soubor pošleš na Discord:\n\n1. Napiš |cffffd100/reload|r nebo se odhlas (tím se soubor uloží).\n2. Otevři složku hry: |cffffd100World of Warcraft\\_classic_beta_\\WTF\\Account\\<NÁZEV ÚČTU>\\SavedVariables|r\n3. Soubor |cffffd100WoWpoCesku.lua|r pošli na Discord do kanálu #návrhy-překladů (odkaz je níže).\n\nSoubor obsahuje texty ze hry, nastavení addonu a postup v Kronice (jména tvých postav), žádná hesla.")
     local lbl = f:CreateFontString(nil, "OVERLAY")
     lbl:SetFont(FONT, 12, "")
     lbl:SetTextColor(0.7, 0.7, 0.7)
@@ -150,6 +150,9 @@ function WoWpoCesku_ShowSend()
     ok:SetScript("OnClick", function() f:Hide() end)
     tinsert(UISpecialFrames, "WoWpoCeskuSend")
 end
+
+-- jedno tlačítko pro všechno: chyby i posílání textů otevírají stejné okénko
+function WoWpoCesku_ShowDiscord() WoWpoCesku_ShowSend() end
 
 
 -- Která pole musí být přeložená pro danou část questu

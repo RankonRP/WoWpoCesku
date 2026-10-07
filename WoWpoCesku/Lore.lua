@@ -135,8 +135,7 @@ local TABS = {
     { id = "pribeh", label = "Tvůj příběh" },
     { id = "zkouska", label = "Zkouška kronikáře" },
     { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
-    { id = "discord", label = "Discord – chyba?", action = true, discord = true },   -- okénko s odkazem na Discord
-    { id = "soubor", label = "Poslat texty k překladu", action = true, discord = true },   -- návod, jak poslat nepřeložené texty
+    { id = "discord", label = "Discord: chyby a překlady", action = true, discord = true },   -- okénko s odkazem na Discord
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
