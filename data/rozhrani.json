@@ -193,6 +193,7 @@
   "The Human Spirit": {"cs":"The Human Spirit","en":"The Human Spirit","src":"claude"},
   "This feature becomes available at level {1}": {"cs":"Tahle funkce bude dostupná od úrovně {1}","en":"This feature becomes available at level {1}","src":"claude"},
   "Total Health increased by {1}% and chance to hit increased by {2}%.": {"cs":"Celkové zdraví zvýšeno o {1} % a šance zasáhnout o {2} %.","en":"Total Health increased by {1}% and chance to hit increased by {2}%.","src":"claude"},
+  "Transfers {1} health every {2} second from the target to the caster. Lasts {3} sec.": {"cs":"Přenese {1} zdraví každých {2} sekund z cíle na sesilatele. Trvá {3} s.","en":"Transfers {1} health every {2} second from the target to the caster. Lasts {3} sec.","src":"komunita"},
   "Transfers {1} health from the target to the caster every {2} sec. Lasts {3} sec.": {"cs":"Přenese {1} zdraví z cíle na sesilatele každé {2} s. Trvá {3} s.","en":"Transfers {1} health from the target to the caster every {2} sec. Lasts {3} sec.","src":"claude"},
   "Transform into a wisp upon death, increasing movement speed by {1}%.": {"cs":"Po smrti se promění ve wispa a zvýší rychlost pohybu o {1} %.","en":"Transform into a wisp upon death, increasing movement speed by {1}%.","src":"claude"},
   "Underwater Breathing": {"cs":"Podvodní dýchání","en":"Underwater Breathing","src":"komunita"},
