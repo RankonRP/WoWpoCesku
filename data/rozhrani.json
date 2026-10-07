@@ -9,6 +9,7 @@
   "Allows {1}% of your Mana regeneration to continue while casting.": {"cs":"Během sesílání pokračuje {1} % tvé regenerace Mana.","en":"Allows {1}% of your Mana regeneration to continue while casting.","src":"claude"},
   "An instant strike that causes {1}% weapon damage plus an additional {2} to {3} as Holy damage.": {"cs":"Okamžitý úder, který způsobí {1} % poškození zbraně a navíc {2} až {3} svatého poškození.","en":"An instant strike that causes {1}% weapon damage plus an additional {2} to {3} as Holy damage.","src":"claude"},
   "Applies Light's Vigil to the target for {1} sec. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer {2} to {3} Holy damage and refund {4}% of Light's Vigil's Mana cost, or allied targets to heal their party for {5} to {6} The Paladin may only have one Light's Vigil active per party.": {"cs":"Umístí na cíl Light's Vigil na {1} s. Tvůj příští Holy Shock na tento cíl nespustí obnovení: nepříteli způsobí {2} až {3} svatého poškození a vrátí {4} % ceny Mana za Light's Vigil, spojenci vyléčí celou jeho skupinu o {5} až {6}. Paladin může mít ve skupině aktivní jen jeden Light's Vigil.","en":"Applies Light's Vigil to the target for {1} sec. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer {2} to {3} Holy damage and refund {4}% of Light's Vigil's Mana cost, or allied targets to heal their party for {5} to {6} The Paladin may only have one Light's Vigil active per party.","src":"claude"},
+  "Arugal's Folly": {"cs":"Arugal's Folly","en":"Arugal's Folly","src":"komunita"},
   "Attack with an equipped wand.": {"cs":"Zaútočíš nasazenou hůlkou.","en":"Attack with an equipped wand.","src":"claude"},
   "Attempt to draw power from a convergence of elements and receive its blessing, increasing your movement and mounted movement speeds by {1}%. Lasts {2} sec if no elemental convergence is nearby, and {3} min if one is found.": {"cs":"Pokusí se čerpat sílu ze soutoku živlů a získat jeho požehnání – zvýší rychlost pohybu pěšky i na jízdním zvířeti o {1} %. Trvá {2} s, když žádný soutok není nablízku, a {3} min, když se nějaký najde.","en":"Attempt to draw power from a convergence of elements and receive its blessing, increasing your movement and mounted movement speeds by {1}%. Lasts {2} sec if no elemental convergence is nearby, and {3} min if one is found.","src":"claude"},
   "Attempt to tap into the power of a nearby ley line, increasing your Health and Mana regeneration by {1}%. Lasts {2} sec if no ley line is nearby, and {3} min if one is found.": {"cs":"Pokusí se čerpat sílu z blízké magické linie (ley line) a zvýší regeneraci zdraví a Mana o {1} %. Trvá {2} s, když žádná linie není nablízku, a {3} min, když se nějaká najde.","en":"Attempt to tap into the power of a nearby ley line, increasing your Health and Mana regeneration by {1}%. Lasts {2} sec if no ley line is nearby, and {3} min if one is found.","src":"claude"},
@@ -25,6 +26,7 @@
   "Converts {1} Health into {2} Mana for you. Spirit increases the amount converted.": {"cs":"Přemění {1} zdraví na {2} Mana. Spirit zvyšuje přeměněné množství.","en":"Converts {1} Health into {2} Mana for you. Spirit increases the amount converted.","src":"claude"},
   "Cooldown remaining: {1} min": {"cs":"Zbývá do obnovení: {1} min","en":"Cooldown remaining: {1} min","src":"claude"},
   "Cooldown remaining: {1} sec": {"cs":"Zbývá do obnovení: {1} s","en":"Cooldown remaining: {1} sec","src":"claude"},
+  "Corpse": {"cs":"Mrtvola","en":"Corpse","src":"komunita"},
   "Corrupts the target, causing {1} Shadow damage over {2} sec.": {"cs":"Zkazí cíl a způsobí {1} poškození stínem během {2} s.","en":"Corrupts the target, causing {1} Shadow damage over {2} sec.","src":"claude"},
   "Crafting Reagent": {"cs":"Surovina pro výrobu","en":"Crafting Reagent","src":"claude"},
   "Creates a Minor Healthstone that can be used to instantly restore {1} health. Conjured items disappear if logged out for more than {2} minutes.": {"cs":"Vytvoří Minor Healthstone, kterým lze okamžitě obnovit {1} zdraví. Vyvolané předměty zmizí, pokud jsi odhlášen déle než {2} min.","en":"Creates a Minor Healthstone that can be used to instantly restore {1} health. Conjured items disappear if logged out for more than {2} minutes.","src":"claude"},
@@ -174,6 +176,7 @@
   "Sell Price: {1}|A:coin-copper:{2}:{3}:{4}:{5}|a": {"cs":"Prodejní cena: {1}|A:coin-copper:{2}:{3}:{4}:{5}|a","en":"Sell Price: {1}|A:coin-copper:{2}:{3}:{4}:{5}|a","src":"claude"},
   "Sends a shadowy bolt at the enemy, causing {1} to {2} Shadow damage.": {"cs":"Vyšle na nepřítele stínový paprsek, který způsobí {1} až {2} poškození stínem.","en":"Sends a shadowy bolt at the enemy, causing {1} to {2} Shadow damage.","src":"claude"},
   "Shifts the imp out of phase with the world, making it unattackable unless it attacks.": {"cs":"Posouvá imp mimo fázi se světem, takže je neútočný, pokud nezaútočí.","en":"Shifts the imp out of phase with the world, making it unattackable unless it attacks.","src":"komunita"},
+  "Skinnable": {"cs":"Stahovatelné","en":"Skinnable","src":"komunita"},
   "Soul Harvest": {"cs":"Sklizeň duše","en":"Soul Harvest","src":"komunita"},
   "Spirit increased by {1}%.": {"cs":"Spirit zvýšen o {1} %.","en":"Spirit increased by {1}%.","src":"claude"},
   "Spojenec: dosah {1} yd": {"cs":"Spojenec: dosah {1} yd","en":"Spojenec: dosah {1} yd","src":"claude"},
@@ -229,5 +232,6 @@
   "{1} sec cooldown": {"cs":"Obnovení {1} s","en":"{1} sec cooldown","src":"claude"},
   "{1} yd range": {"cs":"Dosah {1} yd","en":"{1} yd range","src":"claude"},
   "{1}% Threat": {"cs":"{1} % ohrožení","en":"{1}% Threat","src":"komunita"},
+  "{1}/{2} Darksoul Shackle": {"cs":"{1}/{2} Darksoul Shackle","en":"{1}/{2} Darksoul Shackle","src":"komunita"},
   "{1}/{2} Discolored Worg Heart": {"cs":"{1}/{2} Odbarvené worg srdce","en":"{1}/{2} Discolored Worg Heart","src":"komunita"}
 }
