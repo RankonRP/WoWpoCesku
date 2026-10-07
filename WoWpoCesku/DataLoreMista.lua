@@ -504,3 +504,79 @@ chapters("Deadwind Pass", {
 secrets("Deadwind Pass", [[• V knize The Last Guardian má oblast tvar lebky (ve hře ne).
 • Ariden a jeho Dark Riders jsou prokletí lovci artefaktů.
 • SPOILER: V době Legionu se Dalaran přesunul nad Karazhan.]])
+
+-------------------------------------------------------------------------------
+-- The Barrens
+-------------------------------------------------------------------------------
+chapters("The Barrens", {
+    { "Ze zeleného lesa na savanu", [[Barrens byly původně zelený les nočních elfů, který se po Velkém roztříštění a konfliktech s Plamennou legií změnil v drsnou savanu. Po generace tu taurenské kmeny putovaly a bojovaly s kentaury. Když dorazila Thrallova Horda, založila nové osady a východní část vyhlásila Durotarem. Zóna sloužila jako nárazník mezi územími Hordy a Aliance.]] },
+    { "Místa a jejich příběhy", [[The Crossroads je největší hordská osada na křižovatce dvou hlavních obchodních cest. Camp Taurajo je taurenský tábor u hranic s Mulgore. Ratchet je neutrální gobliní přístav, který ovládá Gazlowe a Steamwheedle Cartel. Wailing Caverns jsou prastaré jeskyně u oáz, které druidové chtěli obnovit, ale zkazila je Smaragdová noční můra. Razorfen Kraul je quilboarská osada a dungeon na jihu. Northwatch Hold je lidská pevnost Aliance; napětí kolem ní později vedlo k větším střetům. Dreadmist Peak je místo démonických kultistů, kde zasáhli Thrall a Jaina.]] },
+    { "Postavy a zajímavosti", [[• Gazlowe je gobliní podnikatel vedoucí Ratchet.
+• Naralex je druid, který se snažil zemi obnovit a zkazila ho noční můra.
+• Chat „Barrens Chat“ se stal legendou celé komunity.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu byly Barrens rozděleny lávovou řekou na Northern a Southern Barrens a změnily se na válečnou zónu Aliance a Hordy. Camp Taurajo byl zničen; Aliance oblehla Crossroads a zaútočila na Honor's Stand.]] },
+})
+
+secrets("The Barrens", [[• Barrens Chat je legenda komunity.
+• Wailing Caverns zde byly původně zdrojem vody pro oázy.
+• SPOILER: Po Cataclysmu se Barrens dělí na Northern a Southern.]])
+
+-------------------------------------------------------------------------------
+-- Darkshore
+-------------------------------------------------------------------------------
+chapters("Darkshore", {
+    { "Pobřeží, které pamatuje Azsharu", [[Darkshore je severozápadní pobřeží Kalimdoru. Dřív tu stála prosperující noční elfí města Ameth'Aran a Bashal'Aran z doby impéria Kaldorei. Po Velkém roztříštění zůstala oblast dlouho opuštěná, až vznikl Auberdine jako přístav, přívoz a obchodní uzel Aliance.]] },
+    { "Místa a jejich příběhy", [[Auberdine je alianční přístav, kam se plavily lodě z Menethil Harbor. Grove of the Ancients je jižní místo, které před zkázou ochránila prastará strážní magie, za cenu strážců samotných. Cliffspring Falls je pramen pitné vody, u kterého se vyšetřovala zkáza. Ruins of Auberdine jsou zničená původní osada. Bashal'Aran je prastará highbornská ruina. Na území jsou nepřátelští naga Darkscale, satyři Deth'ryll, murlokové Greymist a zkažení tvorové; furbolgové v jeskyních z velké části zdivočeli.]] },
+    { "Zajímavosti", [[• Zóna je pro úrovně 5–30 a nabízí lněnou a vlněnou látku, bylinky Peacebloom a Silverleaf a měděnou a cínovou rudu.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm zdevastoval Darkshore víc než téměř jakoukoli jinou zónu: Auberdine byl zničen a přeživší vybudovali na severu Lor'danel. Za čtvrté války obsadila Darkshore Horda po spálení Teldrassilu; Aliance pod Maiev Shadowsong a worgeny ji nakonec dobyla zpět. Tyrande po příměří soustředila hněv proti Hordě jinde a oblast zůstává tichá: zpěv ptáků zmizel a trauma je znát na krajině.]] },
+})
+
+secrets("Darkshore", [[• Darkshore je pro úrovně 5–30 a leží kolem zničeného Auberdine.
+• SPOILER: Za čtvrté války obsadila Darkshore Horda po spálení Teldrassilu.]])
+
+-------------------------------------------------------------------------------
+-- Ashenvale
+-------------------------------------------------------------------------------
+chapters("Ashenvale", {
+    { "Domov nočních elfů", [[Ashenvale je prastará noční elfí vlast, „divočina jižně od Darkshore a Felwoodu, západně od Azsharu“. Za třetí války vykácel klan Warsong pod Grommashem Hellscreamem část lesa pro dřevo a střetl se s polobohem Cenariem. Plamenná legie zkazila část kraje, která se změnila ve Felwood; zkáza se dál nerozšířila díky zásahu Illidana.]] },
+    { "Místa a jejich příběhy", [[Astranaar je hlavní noční elfí osada a v zóně něco jako hlavní město. Maestra's Post a Raynewood Retreat jsou důležité základny, Forest Song je stavba draenejů. Na straně Hordy je Splintertree Post, hlavní základna s dřevařským provozem, a Zoram'gar Outpost na západě. Sentinel Onaeya se u Maestra's Post brání útokům Hordy a Raene Wolfrunner čistí v Astranaaru zkažené furbolgy. Je'neu Sancrea posílá odvážlivce do Blackfathom Deeps.]] },
+    { "Zajímavosti", [[• V Ashenvale najdeš čtyři archeologická naleziště s fragmenty nočních elfů.
+• Zóna má vchod do Blackfathom Deeps a do Warsong Gulch.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Za Cataclysmu probíhala intenzivní válka Aliance a Hordy; Horda zprvu zajala několik pozic, ale Aliance zvítězila. Válka o trny (Battle for Azeroth) Astranaar zdevastovala, ale zůstal sporný.]] },
+})
+
+secrets("Ashenvale", [[• V zóně jsou vchody do Blackfathom Deeps a Warsong Gulch.
+• Grommash Hellscream zde kácel les pro lumber a střetl se s Cenariem.
+• SPOILER: Astranaar byl zdevastován válkou o trny.]])
+
+-------------------------------------------------------------------------------
+-- Stonetalon Mountains
+-------------------------------------------------------------------------------
+chapters("Stonetalon Mountains", {
+    { "Posvátná hora harpyjí", [[Stonetalon Mountains bývaly rodovým územím harpyjí a posvátnou půdou pro noční elfy i taureny. Za třetí války Thrall a Cairne Bloodhoof očistili zkaženou fontánu požehnanou Elune a spojili síly Aliance a Hordy proti Plamenné legii v jeskyních na vrcholu. V době classic WoW způsobila ničivá logging a těžba goblinské Venture Company ekologickou zkázu a místní šamani slyšeli volání duchů o pomoc.]] },
+    { "Místa a jejich příběhy", [[Sun Rock Retreat je taurenská osada a hlavní uzel. Stonetalon Peak je posvátná hora, kde sídlí noční elfí i taurenská útočiště. Windshear Crag decimovala těžba, vzduch je plný sazí. Charred Vale bylo „kdysi bujné a krásné, dnes zpustošená ruina plná ohnivých elementálů a černých draků“. Malaka'jin je osada trollů Darkspear. Mirkfallon Lake býval hnízdištěm wyvern a dnes ho goblini vybagrují. Grimtotem Post je neutrální taurenský tábor. Webwinder Path a Hollow jsou průchody plné pavouků a Boulderslide Ravine skrývá jeskyni s aktivními zemními elementály.]] },
+    { "Zajímavosti", [[• Harpyje jsou tradiční původní obyvatelé.
+• Proroctví hlásala „prastaré zlo“ pod horami, které se později ukázalo jako démonický vládce Balzannar.
+• Forever Tree v Charred Vale vyrostl na hrobě dryády.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm: Deathwing vynesl Stonetalon do popředí a zkažení od Starých bohů zasáhlo samotný vrchol. Overlord Krom'gar zničil mýtinu nevinných druidů a žáků jen pro podezření ze spojenectví s Aliancí a později bombardoval Thal'darah Grove podle falešných zpravodajských dat. Když to Garrosh zjistil, nechal Krom'gara popravit. Po čtvrté válce sentinelové z Stardust Spire zničili všechny hordské obléhací stroje.]] },
+})
+
+secrets("Stonetalon Mountains", [[• Harpyje jsou původními obyvateli Stonetalon.
+• Forever Tree v Charred Vale vyrostl z hrobu dryády.
+• SPOILER: Garrosh nechal Krom'gara popravit za atrocity.]])
+
+-------------------------------------------------------------------------------
+-- Thousand Needles
+-------------------------------------------------------------------------------
+chapters("Thousand Needles", {
+    { "Písčitá rokle a Great Lift", [[Thousand Needles byla před Cataclysmem „písčitá rokle“ a poklidné sporné území. Ikonický Great Lift spojoval kaňon s okolními oblastmi. Freewind Post byl hordský tábor, kde Cliffwatcher Longhorn hledal pomoc proti klanu Grimtotem. Na Shimmering Flats se konaly slavné závody na Mirage Raceway, kde gnómové a gobliní jezdili raketovými auty a řešili spory, kdo je lepší inženýr.]] },
+    { "Místa a jejich příběhy", [[Highperch je hnízdiště wyvern. Splithoof Crag je kentaurská pevnost. Darkcloud Pinnacle je významné středisko s questy. Freewind Post je hlavní hordská základna, kde taureni hájí území před kentaury a Grimtotem. Zajímavé místo bylo Shimmering Flats, vyschlé solné jezero se závodní dráhou.]] },
+    { "Zajímavosti", [[• Cesta od hranic s Feralasem do Gadgetzanu trvala pěšky asi dva týdny.
+• Carrot on a Stick, předmět padající na Shimmering Flats, byl před Cataclysmem klíčový pro optimalizaci rychlosti mountů.
+• Zóna se plánovala jako místo Southern Barrens warfrontu, ale to se nikdy neuskutečnilo.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm zdevastoval Thousand Needles: zóna se zaplavila, Shimmering Flats se staly Shimmering Deep, Great Lift byl zničen a řada kentaurů vyhynula. Mirage Raceway skončil pod vodou. Fizzle Brassbolts (gnóm) a Pozzik (goblin) postavili uprostřed Shimmering Deep neutrální Speedbarge. Vznikl nový hordský Westreach Summit; zóna zůstává ve zmatku kvůli Southsea Pirates, Twilight's Hammer a Grimtotem. Na dně Shimmering Deep prý leží mrtví velrybí žraloci.]] },
+})
+
+secrets("Thousand Needles", [[• Cesta z Feralasu do Gadgetzanu pěšky trvala asi dva týdny.
+• Carrot on a Stick z Shimmering Flats byl pro mounty před Cataclysmem klíčový.
+• SPOILER: Po Cataclysmu je Shimmering Flats zaplaveno.]])
