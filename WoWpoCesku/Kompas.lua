@@ -232,6 +232,7 @@ local ICONS = {
     dungeon = "Interface\\Icons\\INV_Misc_Key_14",
     rare = "Interface\\TargetingFrame\\UI-TargetingFrame-Skull",
     quest = "Interface\\GossipFrame\\AvailableQuestIcon",
+    mainquest = "Interface\\Minimap\\ROTATING-MINIMAPGUIDEARROW",   -- zlatá šipka pro označený quest
 }
 
 local function hideAll()
@@ -307,7 +308,7 @@ local function slow()
                         local m = mark(n)
                         local big = it.kind == "target" or it.main == true
                         m.main = it.main == true
-                        m.icon:SetTexture(ICONS[it.kind])
+                        m.icon:SetTexture(it.main and ICONS.mainquest or ICONS[it.kind])
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
                         m.dir, m.dtext, m.dim = dir, dist(d), (it.kind == "rare" and it.seen)
