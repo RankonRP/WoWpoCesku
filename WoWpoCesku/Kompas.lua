@@ -145,9 +145,9 @@ local function mark(i)
         elseif it.kind == "waypoint" then
             GameTooltip:AddLine("Znacka polozena na mape", 1, 0.82, 0)
         elseif it.kind == "questdone" then
-            GameTooltip:AddLine("Hotovy quest - k odevzdani", 1, 0.82, 0)
+            GameTooltip:AddLine(it.main and "Oznaceny quest - hotovy, k odevzdani" or "Hotovy quest - k odevzdani", 1, 0.82, 0)
         elseif it.kind == "quest" then
-            GameTooltip:AddLine("Sledovany quest - misto cile", 1, 0.82, 0)
+            GameTooltip:AddLine(it.main and "Oznaceny quest - misto cile" or "Sledovany quest - misto cile", 1, 0.82, 0)
         elseif it.kind == "dungeon" then
             GameTooltip:AddLine("Vstup do dungeonu", 1, 0.82, 0)
         else
@@ -207,7 +207,8 @@ local function questItems(pid)
                         local okC, c = pcall(C_QuestLog.IsComplete, q.questID)
                         done = okC and c == true
                     end
-                    if w[q.questID] or (done and cfg().compassTurnin ~= false) then
+                    -- ukáže se označený quest a hotové questy; ostatní sledované jen s volbou "všechny sledované"
+                    if q.questID == main or (w[q.questID] and cfg().compassAllQuests == true) or (done and cfg().compassTurnin ~= false) then
                         -- hlavní (označený) quest je výraznější než ostatní sledované
                         out[#out + 1] = { kind = done and "questdone" or "quest", map = pid, u = q.x, v = q.y, label = questTitle(q.questID), main = (q.questID == main) }
                     end
@@ -452,7 +453,7 @@ local function slow()
                         m.main = it.main == true
                         m.icon:SetTexture(it.main and mainIcon() or kindIcon(it.kind))
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
-                        m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
+                        m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl, main = it.main }
                         m.dir, m.dtext, m.dim = dir, (cfg().compassDist ~= false) and dist(d) or " ", (it.kind == "rare" and it.seen)
                         m.always, m.state = big, nil
                         entries[n] = m

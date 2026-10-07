@@ -1260,6 +1260,9 @@ makePage(pKompas, "Kompas", function(col)
     addCheck(col, "Sledované questy na kompasu", "Označený quest má zlatou šipku, ostatní sledované malý vykřičník",
         function() return WoWpoCeskuSettings.compassQuests ~= false end,
         function(on) WoWpoCeskuSettings.compassQuests = on end)
+    addCheck(col, "Všechny sledované questy", "Vypnuto = jen označený quest (ten jeden, na který ukazuje hra). Hotové questy jsou zvlášť níže",
+        function() return WoWpoCeskuSettings.compassAllQuests == true end,
+        function(on) WoWpoCeskuSettings.compassAllQuests = on end)
     addCheck(col, "Hotové questy k odevzdání", "Otazník u questu, který máš splněný (i když ho nesleduješ)",
         function() return WoWpoCeskuSettings.compassTurnin ~= false end,
         function(on) WoWpoCeskuSettings.compassTurnin = on end)
