@@ -117,6 +117,13 @@ local function mark(i)
     m = {}
     m.icon = bar:CreateTexture(nil, "OVERLAY", nil, 2)
     m.icon:SetSize(16, 16)
+    -- zlatá záře za hlavním (označeným) questem
+    m.glow = bar:CreateTexture(nil, "OVERLAY", nil, 1)
+    m.glow:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
+    m.glow:SetBlendMode("ADD")
+    m.glow:SetVertexColor(1, 0.82, 0.2)
+    m.glow:SetSize(44, 44)
+    m.glow:Hide()
     m.text = bar:CreateFontString(nil, "OVERLAY")
     m.text:SetFont(FONT, 10, "OUTLINE")
     m.text:SetTextColor(1, 1, 1)
@@ -154,10 +161,10 @@ end
 local questCache, questT = {}, 0
 
 local function watchedQuests()
-    local w = {}
+    local w, main = {}, nil
     if C_SuperTrack and C_SuperTrack.GetSuperTrackedQuestID then
         local ok, id = pcall(C_SuperTrack.GetSuperTrackedQuestID)
-        if ok and type(id) == "number" and id > 0 then w[id] = true end
+        if ok and type(id) == "number" and id > 0 then w[id] = true; main = id end
     end
     if C_QuestLog and C_QuestLog.GetNumQuestWatches and C_QuestLog.GetQuestIDForQuestWatchIndex then
         local ok, n = pcall(C_QuestLog.GetNumQuestWatches)
@@ -168,7 +175,7 @@ local function watchedQuests()
             end
         end
     end
-    return w
+    return w, main
 end
 
 local function questTitle(id)
@@ -186,10 +193,11 @@ local function questItems(pid)
     if C_QuestLog and C_QuestLog.GetQuestsOnMap then
         local ok, list = pcall(C_QuestLog.GetQuestsOnMap, pid)
         if ok and type(list) == "table" then
-            local w = watchedQuests()
+            local w, main = watchedQuests()
             for _, q in ipairs(list) do
                 if q.questID and w[q.questID] and q.x and q.y then
-                    out[#out + 1] = { kind = "quest", map = pid, u = q.x, v = q.y, label = questTitle(q.questID) }
+                    -- hlavní (označený) quest je výraznější než ostatní sledované
+                    out[#out + 1] = { kind = "quest", map = pid, u = q.x, v = q.y, label = questTitle(q.questID), main = (q.questID == main) }
                 end
             end
         end
@@ -291,11 +299,14 @@ local function slow()
                         else
                             label = ("%s  -  %s"):format(it.label or "Cil", dist(d))
                         end
+                    elseif it.main and not label then
+                        label = ("%s  -  %s"):format(it.label or "Quest", dist(d))
                     end
                     if not skip then
                         n = n + 1
                         local m = mark(n)
-                        local big = it.kind == "target"
+                        local big = it.kind == "target" or it.main == true
+                        m.main = it.main == true
                         m.icon:SetTexture(ICONS[it.kind])
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
@@ -306,7 +317,7 @@ local function slow()
                 end
             end
             for i = #entries, n + 1, -1 do entries[i] = nil end
-            for i = n + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].info = nil end
+            for i = n + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].glow:Hide(); marks[i].info = nil end
             bar.label:SetText(label or "")
         end
     end
@@ -339,10 +350,18 @@ local function fast()
                 m.text:SetText(st)
                 m.icon:SetAlpha(inView and (m.dim and 0.6 or 1) or 0.6)
             end
+            if m.main then
+                m.icon:SetSize(24, 24)
+                m.glow:ClearAllPoints(); m.glow:SetPoint("CENTER", m.icon, "CENTER", 0, 0)
+                m.glow:SetAlpha(0.65 + 0.35 * math.sin(GetTime() * 4))   -- tepe
+                m.glow:Show()
+            else
+                m.glow:Hide()
+            end
             m.icon:Show(); m.text:ClearAllPoints(); m.text:SetPoint("TOP", m.icon, "BOTTOM", 0, 1); m.text:Show()
             m.hit:ClearAllPoints(); m.hit:SetPoint("CENTER", m.icon, "CENTER", 0, -4); m.hit:Show()
         else
-            m.icon:Hide(); m.text:Hide(); m.hit:Hide(); m.state = nil
+            m.icon:Hide(); m.text:Hide(); m.hit:Hide(); m.glow:Hide(); m.state = nil
         end
     end
 end
