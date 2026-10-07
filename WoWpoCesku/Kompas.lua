@@ -232,8 +232,31 @@ local ICONS = {
     dungeon = "Interface\\Icons\\INV_Misc_Key_14",
     rare = "Interface\\TargetingFrame\\UI-TargetingFrame-Skull",
     quest = "Interface\\GossipFrame\\AvailableQuestIcon",
-    mainquest = "Interface\\Minimap\\ROTATING-MINIMAPGUIDEARROW",   -- zlatá šipka pro označený quest
 }
+
+-- ikony pro označený quest: /czq kompas ikona [číslo] přepíná, volba se pamatuje
+local ICON_LIST = {
+    { "zlata sipka", "Interface\\Minimap\\ROTATING-MINIMAPGUIDEARROW" },
+    { "hvezda", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_1" },
+    { "kruh", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_2" },
+    { "diamant", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_3" },
+    { "trojuhelnik", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_4" },
+    { "mesic", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_5" },
+    { "ctverec", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_6" },
+    { "kriz", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_7" },
+    { "svitek", "Interface\\Icons\\INV_Scroll_03" },
+    { "kniha", "Interface\\Icons\\INV_Misc_Book_09" },
+    { "mapa", "Interface\\Icons\\INV_Misc_Map_01" },
+    { "otaznik", "Interface\\GossipFrame\\ActiveQuestIcon" },
+    { "vykricnik", "Interface\\GossipFrame\\AvailableQuestIcon" },
+    { "modry vykricnik", "Interface\\GossipFrame\\DailyQuestIcon" },
+    { "oko", "Interface\\Icons\\INV_Misc_Eye_01" },
+}
+
+local function mainIcon()
+    local i = cfg().compassIcon or 1
+    return (ICON_LIST[i] or ICON_LIST[1])[2]
+end
 
 local function hideAll()
     if not bar then return end
@@ -308,7 +331,7 @@ local function slow()
                         local m = mark(n)
                         local big = it.kind == "target" or it.main == true
                         m.main = it.main == true
-                        m.icon:SetTexture(it.main and ICONS.mainquest or ICONS[it.kind])
+                        m.icon:SetTexture(it.main and mainIcon() or ICONS[it.kind])
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
                         m.dir, m.dtext, m.dim = dir, dist(d), (it.kind == "rare" and it.seen)
@@ -419,6 +442,12 @@ function WoWpoCesku_CompassCommand(arg)
     arg = (arg or ""):lower()
     if arg == "zrusit" or arg == "cancel" then
         WoWpoCesku_Untrack()
+    elseif arg:match("^ikona") then
+        local n = tonumber(arg:match("%d+"))
+        local i = n or ((cfg().compassIcon or 1) % #ICON_LIST + 1)
+        if i < 1 or i > #ICON_LIST then i = 1 end
+        cfg().compassIcon = i
+        say(("ikona oznaceneho questu %d/%d: %s (dalsi /czq kompas ikona, konkretni /czq kompas ikona 5)"):format(i, #ICON_LIST, ICON_LIST[i][1]))
     elseif arg == "quest" or arg == "questy" then
         questDebug()
     elseif arg == "vzacni" then
