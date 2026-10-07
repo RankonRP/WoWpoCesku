@@ -134,6 +134,8 @@ local function mark(i)
             if it.lvl then GameTooltip:AddLine("Level " .. it.lvl, 0.8, 0.8, 0.8) end
             GameTooltip:AddLine(it.seen and "Uz jsi ho videl" or "Zatim jsi ho nevidel", 0.8, 0.8, 0.8)
             GameTooltip:AddLine("Podrobnosti: Kronika > Bestiar", 0.6, 0.6, 0.6)
+        elseif it.kind == "quest" then
+            GameTooltip:AddLine("Sledovany quest - misto cile", 1, 0.82, 0)
         elseif it.kind == "dungeon" then
             GameTooltip:AddLine("Vstup do dungeonu", 1, 0.82, 0)
         else
@@ -148,10 +150,80 @@ local function mark(i)
     return m
 end
 
+-- sledované questy: body z herní mapy questů (C_QuestLog.GetQuestsOnMap), jen pro mapu, kde stojíš
+local questCache, questT = {}, 0
+
+local function watchedQuests()
+    local w = {}
+    if C_SuperTrack and C_SuperTrack.GetSuperTrackedQuestID then
+        local ok, id = pcall(C_SuperTrack.GetSuperTrackedQuestID)
+        if ok and type(id) == "number" and id > 0 then w[id] = true end
+    end
+    if C_QuestLog and C_QuestLog.GetNumQuestWatches and C_QuestLog.GetQuestIDForQuestWatchIndex then
+        local ok, n = pcall(C_QuestLog.GetNumQuestWatches)
+        if ok and type(n) == "number" then
+            for i = 1, n do
+                local ok2, id = pcall(C_QuestLog.GetQuestIDForQuestWatchIndex, i)
+                if ok2 and type(id) == "number" then w[id] = true end
+            end
+        end
+    end
+    return w
+end
+
+local function questTitle(id)
+    if C_QuestLog and C_QuestLog.GetTitleForQuestID then
+        local ok, t = pcall(C_QuestLog.GetTitleForQuestID, id)
+        if ok and type(t) == "string" and t ~= "" then return t end
+    end
+    return "Quest " .. id
+end
+
+local function questItems(pid)
+    local now = GetTime()
+    if questCache.map == pid and now - questT < 1 then return questCache.list end
+    local out = {}
+    if C_QuestLog and C_QuestLog.GetQuestsOnMap then
+        local ok, list = pcall(C_QuestLog.GetQuestsOnMap, pid)
+        if ok and type(list) == "table" then
+            local w = watchedQuests()
+            for _, q in ipairs(list) do
+                if q.questID and w[q.questID] and q.x and q.y then
+                    out[#out + 1] = { kind = "quest", map = pid, u = q.x, v = q.y, label = questTitle(q.questID) }
+                end
+            end
+        end
+    end
+    questCache.map, questCache.list, questT = pid, out, now
+    return out
+end
+
+-- /czq kompas quest: co o sledovaných questech říká hra (když se na kompasu nic neukáže)
+local function questDebug()
+    local pid = playerMapPos()
+    say(("API: GetQuestsOnMap=%s, SuperTrack=%s, Watches=%s"):format(
+        tostring(C_QuestLog and C_QuestLog.GetQuestsOnMap ~= nil), tostring(C_SuperTrack and C_SuperTrack.GetSuperTrackedQuestID ~= nil),
+        tostring(C_QuestLog and C_QuestLog.GetNumQuestWatches ~= nil)))
+    local w = watchedQuests()
+    local n = 0
+    for id in pairs(w) do n = n + 1 end
+    say("sledovanych questu: " .. n .. ", mapa: " .. tostring(pid))
+    if pid and C_QuestLog and C_QuestLog.GetQuestsOnMap then
+        local ok, list = pcall(C_QuestLog.GetQuestsOnMap, pid)
+        say("bodu questu na mape: " .. ((ok and type(list) == "table") and #list or "chyba"))
+        if ok and type(list) == "table" then
+            for _, q in ipairs(list) do
+                if w[q.questID] then say(("  %s: %.1f, %.1f"):format(questTitle(q.questID), (q.x or 0) * 100, (q.y or 0) * 100)) end
+            end
+        end
+    end
+end
+
 local ICONS = {
     target = "Interface\\Icons\\INV_Misc_Map_01",
     dungeon = "Interface\\Icons\\INV_Misc_Key_14",
     rare = "Interface\\TargetingFrame\\UI-TargetingFrame-Skull",
+    quest = "Interface\\GossipFrame\\AvailableQuestIcon",
 }
 
 local function hideAll()
@@ -190,6 +262,9 @@ local function update()
                 items[#items + 1] = { kind = "dungeon", map = m[1], u = m[2], v = m[3], label = key }
             end
         end
+    end
+    if cfg().compassQuests ~= false then
+        for _, qi in ipairs(questItems(pid)) do items[#items + 1] = qi end
     end
     if cfg().compassRares ~= false and WoWpoCesku_RareInfo and WoWpoCesku_RarePoints then
         local zone = WoWpoCesku_CurrentZoneKey and WoWpoCesku_CurrentZoneKey() or (GetRealZoneText and GetRealZoneText())
@@ -299,6 +374,8 @@ function WoWpoCesku_CompassCommand(arg)
     arg = (arg or ""):lower()
     if arg == "zrusit" or arg == "cancel" then
         WoWpoCesku_Untrack()
+    elseif arg == "quest" or arg == "questy" then
+        questDebug()
     elseif arg == "vzacni" then
         cfg().compassRares = not (cfg().compassRares ~= false)
         say("kompas: vzacni mobove " .. (cfg().compassRares ~= false and "ZAPNUTI" or "VYPNUTI"))
