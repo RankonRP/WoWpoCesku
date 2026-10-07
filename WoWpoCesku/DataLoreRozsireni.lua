@@ -321,3 +321,44 @@ secrets("Blackfathom Deeps", [[• Jméno Ghamoo-ra odkazuje na filmovou příš
 • V oltářní hádance po Kelrisovi zapaluj svíce VŽDY po jedné.
 • Ghamoo-ra může ochočit lovec (Shell Shield, Bite).
 • Gelihast je z kmene Blindlight.]])
+
+-- The Stockade: další příběh
+chapters("The Stockade", {
+    { "Celý příběh jednoho povstání", [[Příběh Stockade začíná v politice. Šlechta drží ve vězení lidi, které potřebuje jako páku, a vězení se postupně stává místem, kde se potkávají zločinci z celého království. Když se k tomu přidají Defiasové, kteří mají důvod nenávidět samotný Stormwind, stačí jediná jiskra. Tou byl strážce Mac, kterého vězni zabili při výrobě šátků s odznakem Bratrstva, a o chvíli později vypuklo plné povstání, ve kterém se spojili vězni z různých světů.]] },
+    { "Targorr: popravčí Blackrocku", [[Targorr the Dread býval nejvyšším popravčím klanu Blackrock pod Gath'Ilzoggem a při válce na obránce Stormwindu používal brutální mučení. Zajali ho a zavřeli do Stockade, ale nikdy ho nepopravili – selhal systém, protože šlechta rozsudek odkládala. Při povstání se postavil na stranu defiaských vzbouřenců. Strážný Berton z Lakeshire po jeho hlavě touží v questu What Comes Around... Zajímavost: Targorr používá proto-orčí model z alfy hry.]] },
+    { "Kam Deepfury a most Thandol Span", [[Kam Deepfury, trpaslík z klanu Dark Iron, podle zpravodajských záznamů zorganizoval výbuch, který zničil jeden z mostů přes Thandol Span a způsobil smrt rodiny Longbrada Grima. Do Stockade se dostal jako jediný z bossů bez vazby na Defias. Hlavu Kama pak chce quest The Fury Runs Deep jako odplatu dwarvské komunity.]] },
+    { "Bruegal a ostatní vězni", [[Bruegal Ironknuckle je vzácný trpaslík, který ve vězení vede vzpouru: jeho hlášky jako „Death to the Warden's men!“ nebo „Tell the Warden this prison is ours now!“ ukazují, že už vězení považuje za své. Z celé věznice jsou rare drops právě od něj a od Kama (Kam's Walking Stick). Hamhock je dvouhlavý ogr; fanoušci spekulují, že jde o zajatého ogra z Duskwoodu nebo o spojence Defiasů.]] },
+})
+
+boss("The Stockade", "Targorr the Dread", [[Dřív nejvyšší popravčí klanu Blackrock pod Gath'Ilzoggem, který mučil obránce Stormwindu. Zajali ho a zavřeli do Stockade, ale nikdy ho nepopravili – selhal systém. Při povstání se spojil s defiaskými vzbouřenci. Bojuje se dvěma zbraněmi, má Thrash a Enrage. Hlavu po něm chce Guard Berton z Lakeshire (quest What Comes Around...). Používá proto-orčí model z alfy hry.]])
+
+boss("The Stockade", "Kam Deepfury", [[Trpaslík z Dark Iron, který podle záznamů uspořádal výbuch zničivšího most v Thandol Span a způsobil smrt rodiny Longbrada Grima. V Stockade je jedním z mála zajatců bez vazby na Defias. Bojuje jako obránce: má Defensive Stance, Shield Slam a Shield Wall. Jeho hlavu chce quest The Fury Runs Deep.]])
+
+boss("The Stockade", "Bruegal Ironknuckle", [[Vzácný trpaslík, který vede ve vězení vzpouru: křičí „Death to the Warden's men!“ a „Tell the Warden this prison is ours now!“. Jako jediný v celé věznici dává pozoruhodnou kořist (Iron Knuckles, Jimmied Handcuffs, Prison Shank).]])
+
+boss("The Stockade", "Hamhock", [[Dvouhlavý ogr, mini-boss, který nemá žádnou významnou kořist ani quest. Na stránkách fanoušků se spekuluje, že jde o zajatého ogra z Duskwoodu nebo o někoho spojeného s Defias. Bojuje s Bloodlust a Chain Lightning.]])
+
+secrets("The Stockade", [[• Targorr používá proto-orčí model z alfy hry.
+• Bruegal je jediný mob ve věznici s významnou kořistí (spolu s Kam's Walking Stick).
+• Quest What Comes Around... (Lakeshire) chce hlavu Targorra, The Fury Runs Deep hlavu Kama Deepfuryho.
+• Hamhock je dvouhlavý ogr; původ je předmětem spekulací.]])
+
+-- Gnomeregan: další příběh
+chapters("Gnomeregan", {
+    { "Gelbin Mekkatorque, král gnómů", [[Gelbin Mekkatorque je High Tinker a král gnómů, geniální vynálezce, jehož výtvory zahrnují Mechanostridera, Deeprun Tram a obléhací stroje. Pád Gnomereganu je jeho největší tragédie: jeho důvěryhodný rádce Sicco Thermaplugg ho přesvědčil, aby vypustil toxické záření jako obranu proti troggům, a Thermapluggova zrada z žárlivé ambice zabila asi 80 % gnómů. Mekkatorque to nese jako vinu.
+
+Po katastrofě odvedl přeživší do Tinker Town v Ironforge a roky plánoval Operation: Gnomeregan, aby dobyl domov zpět. Jeho slavná věta zní: „Naše věrnost přátelům je naše nejpravdivější a největší síla… Je to moc, kterou čísla nepřekonají.“ Zvláštní detail: když je ve stresu, počítá prvočísla.]] },
+    { "Grubbis a Chomper", [[Grubbis je obří troggský boss, doprovázený baziliškem Chomperem. Příběh uvádí, že plyn, který zaplavil město, měl rozzlobit troggy a zabít gnómy, ale Grubbis kvůli němu nečekaně vyrostl do obrovských rozměrů. Objevuje se na konci události Blastmaster Emi Shortfuse; opravdová obtíž je ve spoustě troggů před ním i s ním a v závalu tunelu, který se spustí po varování v chatu.]] },
+    { "Stroje Gnomereganu", [[Electrocutioner 6000 stojí v Launch Bay, řídí ho poručík Tom „Sizzlepants“ Crankle, leper gnóm ve službách Thermaplugga. Původně držel Workshop Key, jediný přístup k zadnímu vchodu do instance. Podle příběhu byl stroj zničen a jeho noha je vystavena v Tinker Town. Při střetu zakřičí „Electric justice!“. V Warcraft Rumble pilota nahradil Rotgear.]] },
+    { "Cesta k Operaci", [[Gnomeregan zůstává živou ruinou: radioaktivní plyn, leper gnómové, troggové a Dark Iron agenti si ho dělí. Bezpečná zóna v instanci ukazuje, že ne všichni gnómové odešli; část zůstala a bojuje, aby se město jednou vrátilo.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Mekkatorque byl vážně zraněn v bitvě o Dazar'alor a zachránil ho Spark Reactor z Mechagonu. Poté sjednotil rozdělená gnómská království a byl vyhlášen prvním králem od krále Mechagona před čtyřmi stoletími.]] },
+})
+
+boss("Gnomeregan", "Grubbis", [[Obří troggský boss, doprovázený baziliškem Chomperem. Podle příběhu měl radioaktivní plyn rozzlobit troggy a zabít gnómy, ale Grubbis kvůli němu nečekaně vyrostl do obrovských rozměrů. Objevuje se na konci události Blastmaster Emi Shortfuse.]])
+
+boss("Gnomeregan", "Electrocutioner 6000", [[Mechanický tank v Launch Bay, kterého řídí poručík Tom „Sizzlepants“ Crankle, leper gnóm ve službách Thermaplugga. Používá Chain Bolt, Megavolt a Shock; při souboji křičí „Electric justice!“. Původně držel Workshop Key k zadnímu vchodu. Podle příběhu byl později zničen a jeho noha je vystavena v Tinker Town.]])
+
+secrets("Gnomeregan", [[• Gelbin Mekkatorque počítá prvočísla, když je pod stresem.
+• Electrocutioner 6000 drží Workshop Key k zadnímu vchodu do instance.
+• Grubbis vyrostl do obřích rozměrů kvůli toxickému plynu; Chomper je jeho bazilišek.
+• Thermaplugg plánoval zradu předem: údaje o plynu zfalšoval.]])
