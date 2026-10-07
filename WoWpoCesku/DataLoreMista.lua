@@ -192,3 +192,90 @@ chapters("Alterac Mountains", {
 secrets("Alterac Mountains", [[• Wintersbite je vzácná bylina z vysokých hor.
 • Ve WoW Forever se v Alterac Mountains nachází nový dungeon City of Dalaran (levely 28–33).
 • Alterac se objevil v South Parku v díle „Make Love, Not Warcraft“.]])
+
+-------------------------------------------------------------------------------
+-- Arathi Highlands
+-------------------------------------------------------------------------------
+chapters("Arathi Highlands", {
+    { "Kolébka lidského impéria", [[Kolem roku 2 800 před otevřením Temné brány (BDP) sjednotil král Thoradin lidské kmeny a založil impérium Arathor s hlavním městem Strom. Polosuchá krajina byla nárazníkem proti trollím nájezdům. Kolem roku 1 200 BDP se Arathor rozpadl na městské státy a jeho dědicem se stala Stromgarde.]] },
+    { "Stromgarde a Trollbaneové", [[Za druhé války byla Stromgarde pod králem Thorasem Trollbanem klíčová pro tažení Aliance. Horda oblast zprvu přeplavila, ale Aliance ji zatlačila zpět přes Thandol Span. Po třetí válce zemřel Thoras a jeho syn princ Galen Trollbane se nedokázal udržet proti Syndicate, ogrům Boulderfist ani domorodým trollům Witherbark. Přeživší se stáhli do Refuge Pointe a Horda zřídila Hammerfall v dřívějším internačním táboře.]] },
+    { "Místa a jejich příběhy", [[Stromgarde Keep byla skvost impéria a dnes je to sporná zřícenina. Refuge Pointe je uprchlická osada Aliance. Hammerfall dostal jméno po Orgrimu Doomhammerovi. Dabyrie's Farmstead je alianční farma, Go'Shek Farm hordská. Boulderfist Hall a Witherbark Village jsou pevnosti ogrů a trollů. Circle of East Binding a další kruhy jsou prastaré elementální vazby, které drží uvězněný Myzrael. Thandol Span je obří trpasličí most spojující Lordaeron s Khaz Modanem a Faldir's Cove malá pobřežní osada Aliance. Galen's Fall je dřívější hordská základna na jihu a Northfold Manor zřícenina.]] },
+    { "Zajímavosti", [[• Oblast se objevila v South Parku v díle „Make Love, Not Warcraft“.
+• Na jihovýchodním pobřeží stojí odlehlá trpasličí farma, kterou jde navštívit jen s létajícím mountem – geografická kuriozita bez funkce.
+• Region je sporné území: ani jedna frakce ho nikdy neovládla naplno.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Princ Galen zabil vlastního otce kvůli artefaktu Trol'kalar. V době Legionu krátce ovládly kraj Galenovy nemrtvé jednotky, než je zdecimovali Rytíři Ebon Bladeu. Ve čtvrté válce zvítězila Aliance a král Danath Trollbane obnovil vládu; Hammerfall později dostala Mag'har pod Overlord Geya'rah. Později se tu objevila krize Red Dawn s invazí gnollů, ogrů a koboldů.]] },
+})
+
+secrets("Arathi Highlands", [[• Arathor založil král Thoradin kolem roku 2 800 BDP.
+• Prastaré kruhy elementální vazby drží uvězněného Myzraela.
+• SPOILER: Galen Trollbane zabil vlastního otce kvůli artefaktu Trol'kalar.]])
+
+-------------------------------------------------------------------------------
+-- Wetlands
+-------------------------------------------------------------------------------
+chapters("Wetlands", {
+    { "Nárazníková zem Khaz Modanu", [[Wetlands byly důležitou severní nárazníkovou zónou Khaz Modanu. Po Válce tří kladiv postavili trpaslíci Thandol Span, aby udrželi vztahy mezi Ironforge a územím Wildhammerů. Za druhé války si tu Orgrim Doomhammer zřídil výchozí bod invazního loďstva a nedaleký Grim Batol obsadil klan Dragonmaw. Zdejší divočina trpěla: orkové i jejich draci hojně žrali čerstvé maso, a zvěře ubylo.]] },
+    { "Menethil Harbor", [[Po druhé válce vyrostl z přístaviště Menethil Harbor, pojmenovaný po králi Terenasi Menethilovi II. z Lordaeronu. Je to hlavní alianční přístav a dopravní uzel s loděmi do vzdálených měst.]] },
+    { "Místa a jejich příběhy", [[Dun Modr byla kdysi prosperující trpasličí pevnost, později ji obsadili Dark Iron a nakonec Alianci vrátil Thargas Anvilmar. Whelgar's Excavation Site je výzkumné naleziště, kde prospektor Whelgar žádá pomoc proti Dragonmawům; právě nad ním leží vchod do nového dungeonu Excavation Site: Wetlands. Angerfang Encampment je pevnost izolovaných zbytků klanu Dragonmaw pod vedením Gorfaxe Angerfanga. Bluegill, Black Channel a Mosshide jsou murločí močály. Grim Batol, kdysi sídlo Dragonmawů, je prastará pevnost pod horou.]] },
+    { "Zajímavosti", [[• V zemi jsou sporné ruiny a záhadné vraky lodí na pobřeží.
+• Černí dračí mladíci pod drakem Pyrricionem se přeli o území s okupujícími orky.
+• Rethiel the Greenwarden je legendární strážce z rostlin, jehož legenda inspirovala usazení nočních elfů.
+• Ve WoW Forever tu nad vykopávkami najdeš dungeon Excavation Site: Wetlands (levely 26–31).]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm způsobil zatopení a částečně potopil přístav a povodeň vytlačila mořské tvory do močálů. Grim Batol se stal pevností Twilight's Hammer, než ho společně dobyla Aliance a červení draci. Po Cataclysmu se řeší obnova, ekologie a boj s Dragonmawy a murloky.]] },
+})
+
+secrets("Wetlands", [[• Ve WoW Forever je nad Whelgar's Excavation Site nový dungeon Excavation Site: Wetlands.
+• Rethiel the Greenwarden je legendární strážce z rostlin.
+• SPOILER: Po Cataclysmu je Menethil Harbor částečně zatopený.]])
+
+-------------------------------------------------------------------------------
+-- Loch Modan
+-------------------------------------------------------------------------------
+chapters("Loch Modan", {
+    { "Thelsamar a přehrada", [[Thelsamar je hlavní osada oblasti, kterou řídí Magistrate Bluntnose pod Radou tří kladiv. Za druhé války kraj ovládli orkové, než ho trpaslíci vítězně dobyli zpět. Stonewrought Dam, přehrada, „architektonický div, který nemá v Azerothu obdoby“, držela obrovské jezero Loch.]] },
+    { "Místa a jejich příběhy", [[Dun Algaz je severní brána do oblasti. Ironband's Excavation Site je archeologické naleziště, kde prospektor Ironband bojuje s nebezpečím, které vykopávky přinesly: troggy. Mo'grosh Stronghold je obří věž ogrů. Farstrider Lodge je hostinec lovců, Algaz Station severní stanice, Silver Stream Mine důl. Ve Valley of Kings posílá kapitán Rugelfuss mladé trpaslíky vyhubit troggy. Grizzlepaw Ridge a North/South Gate Pass jsou úseky cest k Dun Morogh.]] },
+    { "Zajímavosti", [[• Loch Modan byl původně zamýšlen jako jedna zóna spolu s Dun Morogh.
+• Jméno prý znamená „horské jezero“ v trpasličím jazyce.
+• Pod vodou jsou vidět rozbité katapulty a balisty z druhé války.
+• V původním jezeře ležely tři velké ostrovy; na nejsevernějším jsou ruiny z druhé války.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm: Deathwing zničil přehradu, Loch se z devadesáti procent vypustil a oblast obsadil Dark Iron s Twilight's Hammer. Gnolové Mosshide se přesunuli na západ a murlokové, gnolové a koboldi vytvořili neobvyklé spolky. V nově vzniklé jeskyni Ironwing Cavern se objevili proto-stridery a porouchaná bojová kuřata.]] },
+})
+
+secrets("Loch Modan", [[• Jméno Loch Modan prý znamená „horské jezero“.
+• Pod hladinou jsou rozbité katapulty z druhé války.
+• SPOILER: Po Cataclysmu je Loch z 90 % vypuštěný.]])
+
+-------------------------------------------------------------------------------
+-- Redridge Mountains
+-------------------------------------------------------------------------------
+chapters("Redridge Mountains", {
+    { "Rudé hory pod Stormwindem", [[Redridge Mountains patří k území království Stormwind. Historicky sever zdevastovalo vyvolání Ragnarose trpaslíky Dark Iron, čímž vznikl Blackrock Mountain a Burning Steppes. Později klany Blackrock a Black Tooth Grin vybudovaly Temnou hordu: ovládly Stonewatch Keep a z pevnosti terorizovaly Lakeshire.]] },
+    { "Morganth a gnolové", [[V době hry kontrolovali východní polovinu orkové spojení se zlým lidským černokněžníkem Morganthem a jeho gnolovými přisluhovači Shadowhide. Hrdinové je postupně zatlačují zpět.]] },
+    { "Místa a jejich příběhy", [[Lakeshire je hlavní alianční středisko na západním břehu Lake Everstill. V radnici Lakeshire Town Hall verbuje Magistrate Solomon dobrodruhy na obranu kraje. Stonewatch Keep je lidská pevnost, kterou zajali orkové. Render's Camp a Render's Valley jsou orčí osady, zničené při konfliktu s Temnou hordou. Tower of Ilgalar drží gnolové Shadowhide. Three Corners je křižovatka cest. Lake Everstill obývají murlokové a legendy mluví o mořských netvorech. Redridge Canyons jsou nebezpečné horské cesty, Alther's Mill neutrální osada a Rethban Caverns jeskyně pod zemí.]] },
+    { "Lidé a historky", [[Magistrate Solomon je stárnoucí vůdce Lakeshire, který přivolává pomoc z daleka. Marshal Marris u zřícené lávky vede mladé lidi proti gnollům a orkům a Verner Osgood mu pomáhá.]] },
+    { "Zajímavosti", [[• Supi prý vidí lidské vlasy jako výborný materiál na hnízdo, proto se hodí helma.
+• Warcraft III zmiňuje gnolly a koboldy, i když tam Redridge nikdy nebyl.
+• Přechod do Burning Steppes býval jedním z nejstrmějších skoků úrovní ve hře (z 20 na 50).]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu vedla Temnou hordu drak Darkblaze; hrdinové ji zatlačili zpět do Burning Steppes. Most Everstill Bridge se po Cataclysmu stavěl pět let. Při „Death Rising“ zaútočila na Redridge Plaga a Stormwindská armáda spolu s Argent Crusade kraj ubránila.]] },
+})
+
+secrets("Redridge Mountains", [[• Přechod z Redridge do Burning Steppes býval skokem z úrovně 20 na 50.
+• Supi se prý rádi hnízdí ve vlasech – hodí se helma.
+• SPOILER: Everstill Bridge se po Cataclysmu stavěl pět let.]])
+
+-------------------------------------------------------------------------------
+-- Duskwood
+-------------------------------------------------------------------------------
+chapters("Duskwood", {
+    { "Z Brightwoodu na Duskwood", [[Původně se oblast jmenovala Brightwood a byla úrodnou součástí Stormwindu. Po druhé válce se podle příběhu proměnila v prokletý les: temnota se rozšířila z blízkého Karazhanu po smrti čaroděje Medivha, a z mírumilovné krajiny se stal kraj nemrtvých a hrůz.]] },
+    { "Klíčová zápletka", [[Artefakt Scythe of Elune přitahuje Dark Riders a worgeny. Nekromancer Morbent Fel vládne Raven Hill Cemetery, kde straší neklidné hroby. Oliver Harris, alchymista, zkoumá worgenskou kletbu u Raven Hill. Sven Yorgen je přeživší, jehož rodinu zabili Dark Riders; představuje civilní tragédii zdejšího kraje.]] },
+    { "Místa a jejich příběhy", [[Darkshire je hlavní osada, radnice slouží jako středisko úkolů a město trápí nemrtví i worgeni. Raven Hill Cemetery je Morbentovo sídlo. Twilight Grove ukrývá Velký strom, který vede sílu Smaragdového snu a slouží jako portál pro druidy. Manor Mistmantle je spojený s vlčím kultem a legendou o Scythe of Elune. Roland's Doom je důl, kde se při operacích Defias ztratila kosa. Vul'Gol Ogre Mound je ogří osada a naleziště fosilií.]] },
+    { "Zajímavosti", [[• Temnota od Karazhanu je v kraji stálá a v Duskwoodu se nikdy úplně nerozední.
+• SPOILER: Po Cataclysmu se do Duskwoodu přistěhovali gilneajští uprchlíci, mezi nimi Tobias Mistmantle, který hledá bratra Stalvana.
+• SPOILER: Při invazi Legionu tu Veiled Hand pod Sister Ebonlocke prováděli démonické rituály.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu se kolem Manoru Mistmantle objevily vlčí smečky Mistfang a vzácné květy, což svědčí o dlouhodobé nestabilitě spojené s magickými artefakty. Kraj dnes brání Commander Sarah Ladimore s milicí Night Watch.]] },
+})
+
+secrets("Duskwood", [[• Darkshire stráží Night Watch; původní vládce byl Lord Ello Ebonlocke.
+• Artefakt Scythe of Elune se ztratil v dole Roland's Doom.
+• SPOILER: Po Cataclysmu se tu usadili gilneajští uprchlíci.]])
