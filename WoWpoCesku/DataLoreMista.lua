@@ -412,3 +412,95 @@ chapters("Tirisfal Glades", {
 
 Forsaken nemohou přirozeně spát a mají otupělé vjemy. Živí se alchymií, štěpováním částí těla a kanibalismem; „všechno chutná po popelu“. Do Hordy je prosadil taurenský Hamuul Runetotem proti Lich Kingovi, ale důvěra utrpěla po moru u Wrathgate, který zabil Hordu i Alianci. Nejblíž mají krvavé elfy. SPOILER: Dnes je vede Desolate Council: Lilian Voss, Calia Menethil, Master Apothecary Faranell, Deathstalker Commander Belmont a Dark Ranger Velonara.]] },
 })
+
+-------------------------------------------------------------------------------
+-- Searing Gorge
+-------------------------------------------------------------------------------
+chapters("Searing Gorge", {
+    { "Jak se zelené údolí proměnilo v pálenou rokli", [[Před více než 230 lety se Sorcerer-Thane Thaurissan z klanu Dark Iron pokusil za Války tří kladiv přivolat nadpřirozeného sluhu. Místo toho vzbudil prastarého Firelorda Ragnarose; výbuch sopky „navždy zčernal okolní země“ a zničil dark ironskou metropoli Thaurissan. Kdysi úrodné údolí se proměnilo v spálenou pustinu.]] },
+    { "Thorium Brotherhood", [[Thorium Brotherhood, Dark Iron trpaslíci, kteří se oddělili od klanu, založili Thorium Point jako neutrální základnu, odkud sledují těžbu Dark Iron v oblasti.]] },
+    { "Místa a jejich příběhy", [[Thorium Point je neutrální středisko a hlavní zdroj questů; Hansel Heavyhands tu organizuje boj proti hrozbám. Iron Summit je druhá neutrální osada s alternativním letištěm. The Cauldron a Slag Pit jsou obrovská ironská těžba, ve které pracují otroci. Dustfire Valley ukazuje zkázu po sopečném výbuchu. Firewatch Ridge je scénický výhled, Grimesilt Dig Site je naleziště plné golemů, Tanner Camp malá osada a Blackchar Cave jeskyně. Smrt v instancích Blackrock Mountain tě vrací na hřbitov u Thorium Point.]] },
+    { "Postavy a zajímavosti", [[• Hansel Heavyhands vede boj proti golemům, pavoukům a incendosaurům.
+• Master Smith Burninate chce se spoluprací dobrodruhů vyrobit ohnivé tavidlo.
+• Velarok Windblade posílá odvážlivce zapálit dark ironské hlídkové věže.
+• Mountaineer Pebblebitty dřív hlídal průsmyk Stonewrought Pass, který byl před Cataclysmem uzamčen questovým klíčem.
+• Charred Oak, památník nad Cauldronem, byl později odstraněn.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Během The Burning Crusade zaútočila Plamenná legie pod Highlordem Kruulem, než začalo tažení do Outlandu. Cataclysm odemkl Stonewrought Pass bez klíče.]] },
+})
+
+secrets("Searing Gorge", [[• Po smrti v instancích Blackrock Mountain se probudíš na hřbitově u Thorium Point.
+• Thaurissan vzbudil Ragnarose omylem při pokusu o vyvolání sluhy.
+• SPOILER: Po Cataclysmu je Stonewrought Pass volný.]])
+
+-------------------------------------------------------------------------------
+-- Burning Steppes
+-------------------------------------------------------------------------------
+chapters("Burning Steppes", {
+    { "Hora, která roztavila hory", [[Sorcerer-Thane Thaurissan z klanu Dark Iron se za Války tří kladiv pokusil přivolat elementály. Plán se spektakulárně zvrtl: klan byl vyhnán z Ironforge a on vzbudil Firelorda Ragnarose, jehož příchod „roztavil několik hor v tomto pásmu a vykoval obrovskou sopku“.]] },
+    { "Orkové a Anduin Lothar", [[Po první a druhé válce vybudoval klan Blackrock v oblasti stálá sídla. Warchief Orgrim Doomhammer zde poblíž sopky zabil lidského hrdinu Anduina Lothara; toto vítězství se ale nakonec obrátilo proti Hordě. Dnes je oblast sporná mezi Aliancí a Hordou a černý dračí rod sem sahá vlivem Nefariana, který obsadil horní patra Blackrock Spire.]] },
+    { "Místa a jejich příběhy", [[Morgan's Vigil je alianční pevnost a poslední bašta lidí jižně od stepí. Flame Crest je malá hordská základna. Blackrock Mountain je aktivní sopka, kterou nejde přehlédnout. Blackrock Spire je dřívější hordská pevnost, dnes sporná mezi Nefarianovými draky a orky z Blackrocku. Altar of Storms je posvátné místo, Ruins of Thaurissan opuštěné hlavní město Dark Iron a pomník čarodějné pýchy. Dreadmaul Rock je pevnost ogrů Firegut, Terror Wing Path území černých draků a Pillar of Ash orientační bod u Black Tooth Hovel. Blackrock Stronghold je hlavní orčí osada, skrytá před hlavní cestou.]] },
+    { "Zajímavosti", [[• Nižší hráči Aliance z Redridge Mountains se tu často dostanou rovnou mezi vysoké lávové elementály – klasická „past na nováčky“.
+• Dokonce se plánovala oblast „Deathwing Scar“ na západě stepí, která ale nevznikla.
+• Burning Steppes jsou jediným schůdným pozemním průchodem ze Stormwindu na sever do Khaz Modanu a Lordaeronu.
+• SPOILER: Po Cataclysmu tu najdeš tvory z Outlandu: dva ravagery (Venomspine a Azelisk) a nether raye Ornata.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Eitrigg (Horda) dostal pro klan Blackrock milost. Moira Thaurissan vládne Dark Iron na straně Aliance. Po čtvrté válce panuje v oblasti nejistý „příměří a opatrná důvěra“.]] },
+})
+
+secrets("Burning Steppes", [[• Ragnaros roztavil hory a vykoval sopku Blackrock Mountain.
+• Anduin Lothar padl od Orgrima Doomhammera poblíž sopky.
+• Z Redridge sem chodí nováčci a končí u lávových elementálů.
+• SPOILER: Po Cataclysmu zde najdeš tvory z Outlandu (ravagery a nether raye).]])
+
+-------------------------------------------------------------------------------
+-- Swamp of Sorrows
+-------------------------------------------------------------------------------
+chapters("Swamp of Sorrows", {
+    { "Atal'ai a utopený chrám", [[Swamp of Sorrows vznikla v severní části prastarého mega-močálu Black Morass. Rozhodující událostí byli Atal'ai, odpadlá trollí frakce, která kolem 1 500 BDP uprchla před pádem říše Gurubashi a postavila Temple of Atal'Hakkar, kde uctívala temného loa Hakkara the Soulflayer. Dračí Aspekt Ysera se o rituálech dozvěděla a „uvolnila svou moc na kultisty“: utopila chrám v největší bažině a postavila zelené draky pod Eranikem, aby další vyvolání zabránili.]] },
+    { "První válka a zrod Blasted Lands", [[Za první války zřídila Horda tři osady: Rockard, Stonard a Kyross. Po zničení Temné brány v 6 ADP se jižní část stala Blasted Lands a severní si ponechala jméno Swamp of Sorrows na památku obětí druhé války.]] },
+    { "Místa a jejich příběhy", [[Stonard je orčí pevnost obnovená do dřívější slávy v roce 25 ADP a slouží jako základna pro badatele zkoumající artefakty, rostliny a zvěř. Splinterspear Junction je malá hordská osada. Temple of Atal'Hakkar (Sunken Temple) je prastará trollí svatyně a nejvýznamnější místo zóny – dungeon pro úrovně 50–60. Pool of Tears leží u chrámu a je spojený s magickým výzkumem. Stagalbog a Purespring Cavern/Itharius's Cave jsou divoké oblasti a jeskyně. The Shifting Mire a Misty Valley jsou pohyblivá bahnitá území.]] },
+    { "Postavy a zajímavosti", [[• Jammal'an the Prophet býval vůdcem Atal'ai.
+• Ysera a její družka Eranikus jsou historicky spojeni s utopením chrámu.
+• Název zóny prý odkazuje na „Swamp of Sadness“ z Nekonečného příběhu, kde se utopí kůň Artax.
+• Za druhé války potřebovala Turalyonova armáda týden na cestu k hranicím a dalších pár dní k Temné bráně.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V roce 26 ADP přistáli draenejové z havarovaného Exodaru a založili The Harborage (původně neutrální, později spojenec Aliance). Po Cataclysmu Aliance postavila Marshtide Watch proti Hordě a gobliní Bogpaddle je neutrální letovisko. Za čtvrté války se v Misty Reed Farm skrýval Varok Saurfang.]] },
+})
+
+secrets("Swamp of Sorrows", [[• Název odkazuje na „Swamp of Sadness“ z Nekonečného příběhu (kůň Artax).
+• Chrám Atal'Hakkar utopila Ysera a postavila k němu zelené draky pod Eranikem.
+• SPOILER: Po Cataclysmu vyrostlo gobliní letovisko Bogpaddle.]])
+
+-------------------------------------------------------------------------------
+-- Blasted Lands
+-------------------------------------------------------------------------------
+chapters("Blasted Lands", {
+    { "Z močálu na rudou hlínu", [[Blasted Lands byly původně močálem Black Morass. Zničil je Medivh, když otevřel Temnou bránu a vpustil do Azerothu orkskou Hordu v první válce. Arkánní magie orků byla tak silná, že „pohltila močál a nechala suchou rudou hlínu“. Po zničení brány za druhé války vznikl Nethergarde Keep jako trvalý strážce.]] },
+    { "Plamenná legie se vrací", [[Plamenná legie později znovu otevřela Temnou bránu kolem 26 ADP. Do roku 25 ADP stihly démonické síly pod Razelikhem the Defilerem zkazit místní ogry a členy Shadow Council v kult Shadowsworn.]] },
+    { "Místa a jejich příběhy", [[Nethergarde Keep je hlavní alianční pevnost, postavená na žádost Archmage Khadgara a Kirin Tor, aby se invaze z Draenoru neopakovala. Dreadmaul Hold (Okril'lon Hold) je hordská pevnost; ogři Dreadmaul původně sloužili démonickým pánům. Rise of the Defiler je místo, kde dobrodruzi porazili Razelikha a zlomili moc Shadowsworn. The Dark Portal je dimenzionální brána do Outlandu, opakovaně ničená i obnovovaná. Surwich je rybářská vesnice následovníků zkaženého druida Marla Wormthorna. Altar of Storms je rituální místo Shadowsworn, které postavila Lady Sevine k vedení démonické moci. Serpent's Coil obývají nagové kmene Bloodwash.]] },
+    { "Postavy a zajímavosti", [[• Lord Kazzak je mocný démon, který velí silám Plamenné legie v Tainted Scar.
+• Lady Sevine, Archmage Allistarj a Grol the Destroyer vedli Shadowsworn a dostali nesmrtelnost za věčnou službu.
+• Design Blasted Lands prý inspiroval kanadský Greater Sudbury v Ontariu, důlní město s pustou krajinou a zčernalými skalami.
+• Původní manuál Warcraftu naznačoval, že Temná brána vytvořila močál, ne poušť – významná změna lore.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Za Cataclysmu se oblasti zmocnila Horda (Okril'lon) a snaha druida Marla Wormthorna o obnovu selhala a vytvořila zkažený Tainted Forest. Blood elfové z Reliquary zřídili tábor pro lov démonických artefaktů. V roce 31 ADP zaútočila Iron Horde přes Temnou bránu z jiného světa.]] },
+})
+
+secrets("Blasted Lands", [[• Původní manuál Warcraftu naznačoval, že Temná brána vytvořila močál.
+• Lord Kazzak straší v Tainted Scar.
+• Design zóny prý inspiroval kanadský Greater Sudbury.
+• SPOILER: Po Cataclysmu zde vznikl Tainted Forest.]])
+
+-------------------------------------------------------------------------------
+-- Deadwind Pass
+-------------------------------------------------------------------------------
+chapters("Deadwind Pass", {
+    { "Prokletí starší než Karazhan", [[Zkáza Deadwind Pass je starší než samotný Karazhan. Nekrolyt Sataiel s kosou Ulthalesh, kterou mu daroval Sargeras, systematicky požíral duše a vysával život ze země. Vznikl tak „pomník hněvu Legie“, magický uzel, ve kterém později stála věž Karazhan.]] },
+    { "Karazhan a Medivh", [[Strážkyně Aegwynn postavila Karazhan zhruba 600 let před první válkou jako útočiště před Council of Tirisfal; čerpala z ley linií této oblasti. Její syn Medivh věž zdědil, ale posedl ho Sargeras. Když ho Anduin Lothar a Khadgar porazili, jeho smrt uvolnila fel energii, která prokletím zasáhla Deadwind Pass a proměnila nedaleký Brightwood v Duskwood. Věž se poté sama zapečetila.]] },
+    { "Místa a jejich příběhy", [[Karazhan je centrální věž, kdysi Medivhovo sídlo, dnes dimenzionální uzel, který hlídá Violet Eye. Abandoned Kirin Tor Camp byl výzkumnou stanicí Archmage Arrexise; katastrofální démonický rituál tu zabil všechny učně. Ariden's Camp byl základnou obchodníka-šarlatána Aridena, kterého Medivh proklel, aby věčně lovil artefakty jako Dark Riders. Master's Cellar jsou ruiny lidského sídla; později tu sídlil kult černého draka Nalice. Grosh'gok Compound je pevnost ogrů Deadwind. Karazhan Catacombs jsou podzemní jeskyně plné agresivních duchů.]] },
+    { "Zajímavosti", [[• V knize „The Last Guardian“ je oblast, kde stojí Karazhan, popsána jako tvar lebky; ve hře tomu tak není.
+• V zóně nejsou žádné bylinky ani rudy.
+• Oblast prý může představovat původní Borderlands z Warcraftu I.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V době Legionu se Dalaran přesunul přímo nad Karazhan a Medivh přerušil dimenzionální spojení, aby věž Legie nemohla použít jako bránu mezi světy. Poté oblast sužovali worgeni Nightbane, přitahovaní Scythe of Elune.]] },
+})
+
+secrets("Deadwind Pass", [[• V knize The Last Guardian má oblast tvar lebky (ve hře ne).
+• Ariden a jeho Dark Riders jsou prokletí lovci artefaktů.
+• SPOILER: V době Legionu se Dalaran přesunul nad Karazhan.]])
