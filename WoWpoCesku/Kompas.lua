@@ -72,9 +72,6 @@ local function createBar()
     bar:SetFrameStrata("MEDIUM")
     local c = cfg().compassPos
     if c then bar:SetPoint(c[1], UIParent, c[1], c[2], c[3]) else bar:SetPoint("TOP", UIParent, "TOP", 0, -26) end
-    bar:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 })
-    bar:SetBackdropColor(0.07, 0.05, 0.03, 0.55)
-    bar:SetBackdropBorderColor(0.55, 0.38, 0.16, 0.9)
     bar:SetClampedToScreen(true)
     bar:SetMovable(true)
     bar:EnableMouse(true)
@@ -97,8 +94,8 @@ local function createBar()
 
     -- střed (kam se díváš)
     local mid = bar:CreateTexture(nil, "OVERLAY")
-    mid:SetSize(2, BAR_H)
-    mid:SetPoint("CENTER")
+    mid:SetSize(2, 9)
+    mid:SetPoint("BOTTOM", 0, 0)
     mid:SetColorTexture(1, 0.82, 0.30, 0.7)
 
     bar.cards = {}
@@ -110,11 +107,12 @@ local function createBar()
         bar.cards[i] = { fs = fs, bearing = def[1] }
     end
     bar.ticks = {}
-    for i = 1, 8 do
+    for i = 1, 48 do   -- tečky po 7,5°, každá šestá (45°) je větší
         local t = bar:CreateTexture(nil, "ARTWORK")
-        t:SetSize(1, 6)
-        t:SetColorTexture(0.8, 0.7, 0.5, 0.6)
-        bar.ticks[i] = { tex = t, bearing = (i - 1) * math.pi / 4 }
+        local big = (i - 1) % 6 == 0
+        t:SetSize(big and 3 or 2, big and 3 or 2)
+        t:SetColorTexture(1, 0.9, 0.65, big and 0.95 or 0.6)
+        bar.ticks[i] = { tex = t, bearing = (i - 1) * math.pi / 24 }
     end
     bar.label = bar:CreateFontString(nil, "OVERLAY")
     bar.label:SetFont(FONT, 12, "OUTLINE")
@@ -164,7 +162,7 @@ local function update()
     end
     for _, t in ipairs(bar.ticks) do
         local rel = norm(t.bearing + facing)
-        if math.abs(rel) <= HALF then t.tex:ClearAllPoints(); t.tex:SetPoint("BOTTOM", bar, "BOTTOM", xFor(rel), 1); t.tex:Show() else t.tex:Hide() end
+        if math.abs(rel) <= HALF then t.tex:ClearAllPoints(); t.tex:SetPoint("BOTTOM", bar, "BOTTOM", xFor(rel), 3); t.tex:Show() else t.tex:Hide() end
     end
 
     -- seznam značek
