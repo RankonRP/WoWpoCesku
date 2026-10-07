@@ -134,3 +134,24 @@ do
             { "Atrexis the Grave Knight", "hrobový rytíř" }, { "Mana Wraith", "přízrak many" } }) do dal[#dal + 1] = b end
     end
 end
+
+-------------------------------------------------------------------------------
+-- DRUHÝ PRŮCHOD: příběhy questů nových dungeonů
+-------------------------------------------------------------------------------
+chapters("Ruins of Lordaeron", {
+    { "Questy Hordy: příběh hlavy Barona", [[Nejzajímavější příběh Hordy začíná, když z poraženého Barona padne ohavná hlava. Jak zrůda padá, hlava se odtrhne; zdá se, že byla několikrát znovu připojena a s každým připojením držela hůř. Nese ji mistr lékárník Faranell v Undercity, který ji označí za výjimečnou: prý kdysi patřila velkému maršálovi Aliance (jméno si vybavuje jako Othmar), a sama Temná paní mu prý udělala radost, že ji poslala. Hlava prý zná tajemství, a promluví, pokud ji znovu připojí k vhodnému hostiteli.
+
+Faranell ji uloží vedle dostupného těla v další místnosti, ale ještě nepřipojí. Pak potřebuje „motivovat“ bestii lektvarem: Toxic Skullcap od Tawny Grisette v Trade Quarter, Blisterweed od místních bylinkářů a Essence of Agony od prodejce jedů v Rogues' Quarter. Dohromady je to recept na to, jak přivázat hlavu k vůli Temné paní.]] },
+    { "Questy Hordy: Světlá spravedlnost a Rath'mael", [[Forsaken paladin Morbin Lightbane vysvětluje, že nad Undercity se Plaga pořád potuluje ve velkém počtu a síly Forsaken se ztenčují. Rozkládající se maso se podle něj nedá obnovit bez náhrady, proto chce, aby hrdinové sbírali Intact Limbs v Ruins of Lordaeron. Vzpomíná na kapitána Gareka Bandariona, který by chtěl dokončit, co začal, a uzdravit své příbuzné.
+
+Zprávy z Lordamere Overlook zase říkají, že ulice a hřbitov zalila bezbožná mlha, která pohromě poskytuje kryt. Zvědové tvrdí, že ji vyvolává nová síla mezi nemrtvými, nekromancer Rath'mael, a Forsaken si nemohou dovolit čekat.]] },
+    { "Questy Aliance: dědictví, která nikdo nechce ztratit", [[Aliance sbírá relikvie. Staré insignie patřily vojákům Lordaeronu a ruiny jsou jich pravděpodobně plné: generál Marcus Jonathan ve Stormwindu je rád vezme, aby je vrátil rodinám. Hřeben Lordaeronu (Crest of Lordaeron) je zvětralý hřeben se znamením království; po pádu království jich zbylo tak málo, že po něm touží kdokoli, kdo chce zachovat historii. A krví potřísněný dopis z hřbitova odkazuje na pohřešované dítě rodiny Heartweaverů a posílá hrdiny za Orphan Matron Nightingale ve Stormwind City.]] },
+})
+
+chapters("Hall of Thanes", {
+    { "Příběhy questů", [[Quest „Old Ironforge Incursion“ posílá hrdiny do jeskyní pod Old Ironforge, kde se v Hall of Thanes mají dostat až do nižších trezorů. Podle questu je tamním velitelem Durgen Dirgehammer: jeho hlavu je třeba doručit králi Magnimu Bronzebeardovi a k tomu ho pozdravit od starého přítele Farsena.
+
+Quest „The Restless Dead“ vypráví o tom, že něco narušilo hrobky a z hlubin kleneb slyšet podivné zvuky. Duchové jsou lehcí spáči a nyní jsou vyděšení; hrdinové mají zjistit, co se děje, a pokud někdo z mrtvých procitl, uložit ho zase k spánku. Navazuje „An Ancient Grudge“, ve kterém duch jednoho z thanů prosí o pomoc pro svého pána (Faldrima Anvilmara), pohlceného prastarou záští.
+
+A „Important Heirlooms“ uvádí komickou postavu: hlídače, který se sám raději přiznává, že se v trezorech „plížil“ a „hlídkoval“. Když z hlubin v krtčích strojích vylezla Dark Iron síla, uvědomil si, že dole leží neocenitelná kořist, alespoň „důležité kulturní dědictví“, a prosí hrdiny, aby všechna dědictví zachránili.]] },
+})

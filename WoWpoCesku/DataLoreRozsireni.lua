@@ -389,3 +389,20 @@ chapters("Ragefire Chasm", {
 
 secrets("Ragefire Chasm", [[• Neeru Fireblade sedí v Cleft of Shadow a je skrytý vůdce klanu Burning Blade.
 • Magatha, taurenská věštkyně, se pokoušela s troggy vyjednávat.]])
+
+-- Scarlet Monastery: další příběh (platí pro Graveyard i Library)
+chapters("Scarlet Monastery", {
+    { "Jak vzniklo Scarlet Crusade", [[Scarlet Crusade je fanatická náboženská sekta, která vznikla z Řádu Stříbrné ruky po třetí válce v Lordaeronu. Původně měla vyhubit nemrtvé, ale zdegenerovala v extremistickou skupinu známou korupcí a zélotstvím. Kořeny sahají k přeživším Silver Hand, kteří se shromáždili v Hearthglenu. Zlomovým bodem bylo odhalení, že Grand Crusader Saidan Dathrohan je posedlý dreadlordem Balnazzarem, který Křižáky vrhl k fanatismu. Balnazzar zosnoval i smrt legendárního Highlorda Alexandrose Mograinea; jeho syn Renault se stal jedním z hlavních vůdců zkaženého Crusade.]] },
+    { "Rozpad a větve", [[Scarlet Crusade pod vedením Renaulta Mograinea a High Inquisitor Sally Whitemane ovládalo hlavní pevnosti včetně Scarlet Monastery, Hearthglenu a Tyr's Hand. Pak se rozpadlo: Scarlet Onslaught pod Brigitte Abbendis odplul do Northrendu, Scarlet Renegades se pokusili o vnitřní reformu a zbytky se rozprchly po Lordaeronu. Někteří členové se přidali k Red Dawn v Arathi Highlands, jiní vytrvali v klášteře a ve vzdálených základnách.]] },
+    { "Hřbitov nemrtvých mučitelů", [[Hřbitov je nejhroznější křídlo kláštera: místo, kde Křižáci nechávali vyslýchané a mučené. Bloodmage Thalnos, kostlivý mini-boss, býval členem Crusade proslulým brutálními metodami při „očistě“ nováčků. Po nákaze nemrtvostí se proměnil v děsivého kostlivce a velí přízrakům a zombíkům. Při boji volá „We hunger for vengeance“, v polovině zdraví „No rest, for the angry dead“ a při zabití hráče „More… More souls“. Hearthstone ho zesměšnil poznámkou, že vede každoroční krevní sbírku kláštera. Fanoušci spekulují, že mohl být před nemrtvostí krvavým elfem.]] },
+    { "Knihovna a psovodi", [[Knihovna je místo Arcanist Doana a Houndmastera Lokseyho. Loksey byl lidský lovec a vůdce Šarlatových, který cvičil klášterní psy ke stopování nepřátel. Jeho bratr, Huntsman Leopold, byl považován za vhodnějšího na diplomatické mise do Light's Hope Chapel; Leopold prý věřil, že Loksey „se nedokáže postarat ani o vlastní psy“. SPOILER: Po smrti se Loksey dostal do Revendrethu k pokání; Venthyr ho zlomili „Penitent Hunt“ – „strach byl jeho zbraní v životě, strach bude jeho učitelem po smrti“.]] },
+})
+
+boss("Scarlet Monastery", "Bloodmage Thalnos", [[Kostlivý mini-boss na hřbitově, dřív člen Scarlet Crusade proslulý brutálními metodami při „očistě“ nováčků. Po nákaze nemrtvostí velí přízrakům a zombíkům. Používá Fire Nova, Flame Shock, Flame Spike a Shadow Bolt. Volá „We hunger for vengeance“ a „No rest, for the angry dead“; dabuje ho Marc Graue. Hearthstone ho vyobrazil jako vedoucího krevní sbírky.]])
+
+boss("Scarlet Monastery", "Houndmaster Loksey", [[Lidský lovec a vůdce Šarlatových, který cvičil klášterní psy. Jeho bratr Huntsman Leopold byl vhodnější pro diplomatické mise do Light's Hope Chapel. SPOILER: Po smrti ho Venthyr v Revendrethu zlomili hrůzou z Penitent Hunt.]])
+
+secrets("Scarlet Monastery", [[• Bloodmage Thalnos volá „We hunger for vengeance“; Hearthstone si z něj dělá legrace jako z vedoucího krevní sbírky.
+• Loksey a jeho bratr Leopold ukazují, že i Křižáci mají rodinné spory.
+• Scarlet Crusade se rozpadlo na Onslaught, Renegades a další větve.
+• SPOILER: V Shadowlands se Loksey kál v Revendrethu.]])
