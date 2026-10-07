@@ -102,3 +102,38 @@ do
         "V Western Plaguelands stojí alianční tábor uprostřed mrtvé země…",
         "Došel(a) jsi do Chillwind Camp.")
 end
+
+-- easter eggy a zajímavá místa (skryté pečetě)
+do
+    local H = WoWpoCesku_SealHidden
+    local function misto(id, place, name, pts, hint, desc)
+        H[#H + 1] = { id = id, misto = place, name = name, pts = pts, hint = hint, desc = desc }
+    end
+    local function npc(id, nm, name, pts, hint, desc)
+        H[#H + 1] = { id = id, npc = nm, name = name, pts = pts, hint = hint, desc = desc }
+    end
+    misto("newman", "Newman's Landing", "Dok mimo mapu", 10,
+        "Na pobřeží Dun Morogh stojí malé molo, které není na mapě a má jiné počasí než okolí…",
+        "Našel(a) jsi Newman's Landing.")
+    misto("deeprun", "Deeprun Tram", "Podzemní tramvaj", 5,
+        "Pod zemí jezdí tramvaj mezi dvěma hlavními městy Aliance – jízda stojí za to…",
+        "Svezl(a) ses Deeprun Tramem.")
+    misto("ravenholdt", "Ravenholdt Manor", "Doupě zlodějů", 10,
+        "V horách u Hillsbradu leží neutrální panství, kde se scházejí ti nejlepší zloději…",
+        "Došel(a) jsi do Ravenholdt Manor.")
+    misto("explorers", "Hall of Explorers", "Síň badatelů", 5,
+        "V Ironforge sídlí badatelé, kteří hledají tajemství titánů…",
+        "Navštívil(a) jsi Hall of Explorers.")
+    misto("thandol", "Thandol Span", "Most přes propast", 5,
+        "Obří trpasličí most spojuje dva kontinenty a nese jméno, které se nedá snadno zapomenout…",
+        "Přešel/přešla jsi Thandol Span.")
+    npc("gazlowe", "Gazlowe", "Pán Ratchetu", 5,
+        "Goblinský podnikatel vládne přístavu v Barrens a o všem rád smlouvá…",
+        "Potkal(a) jsi Gazlowa.")
+    npc("revilgaz", "Baron Revilgaz", "Baron přístavu", 5,
+        "Na jihu džungle vládne přístavu goblin s titulem barona…",
+        "Potkal(a) jsi barona Revilgaze.")
+    npc("noggenfogger", "Marin Noggenfogger", "Alchymista z pouště", 5,
+        "V pouštním městě vládne goblin, po kterém se jmenuje slavný lektvar…",
+        "Potkal(a) jsi Marina Noggenfoggera.")
+end
