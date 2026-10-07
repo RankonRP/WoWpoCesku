@@ -580,3 +580,76 @@ chapters("Thousand Needles", {
 secrets("Thousand Needles", [[• Cesta z Feralasu do Gadgetzanu pěšky trvala asi dva týdny.
 • Carrot on a Stick z Shimmering Flats byl pro mounty před Cataclysmem klíčový.
 • SPOILER: Po Cataclysmu je Shimmering Flats zaplaveno.]])
+
+-------------------------------------------------------------------------------
+-- Desolace
+-------------------------------------------------------------------------------
+chapters("Desolace", {
+    { "Mashan'she a princezna Theradras", [[Desolace se původně jmenovala Mashan'she, „Tkalcovský stav Matky Země“, a byla úrodnou pastvinou. Taurenští šamani, kteří hledali Matku Zemi, probudili princeznu Theradras, obří zemní elementálku. Ta vysála z krajiny sílu, aby se obnovila, a zbyla z ní pustina.]] },
+    { "Zrození kentaurů", [[Zaetar, syn lesního pána Cenaria, přišel Theradras uvěznit, ale zamiloval se do ní. Ze zakázaného svazku se zrodili kentauři, kteří zavraždili svého otce a rozšířili se po Kalimdoru; na staletí vytlačili taureny. Když Horda povstala, Theradras své kentaurské děti posílila a jejich agrese donutila Hordu zasáhnout. Horda se spojila s klanem Magram pod Warugem, který Theradras odmítl, a v Maraudonu ji zabili.]] },
+    { "Místa a jejich příběhy", [[Nijel's Point je alianční město postavené na ruinách nočních elfů v severních horách. Shadowprey Village je pobřežní osada Darkspearů, kde Taiga Wisemane čistí zdejší démonické poskvrny. Kodo Graveyard je neutrální místo, symbol prokletí země. Maraudon je posvátné kentaurské území a dungeon s komnatou Theradras. Thunder Axe Fortress je základna kultu Burning Blade. Mannoroc Coven je démony zamořené místo, kde padají zelené ohnivé koule z nebe. Magram a Kolkar jsou soupeřící kentaurské osady; Magram převzal vesnici Kolkarů. Sargeron obývají satyři, kteří vysávají energii z Eluniných artefaktů. Na Ranazjar Isle bojuje elementál Lord Hydronis s naga. Valley of Spears je prastaré obřadní místo, kde se propadly kopce.]] },
+    { "Postavy a zajímavosti", [[• Čtyři kentaurské klany: Magram, Kolkar, Gelkis a Maraudine (historicky pět, s vlivem Theradras).
+• Rexxar tu kdysi putoval s medvědicí Mishou.
+• Flayers' Point je skrytý obchodní přístav, který není na běžných mapách.
+• Kreldig Ungor v Nijel's Point posílá dobrodruhy za poklady, Maurin Bonesplitter a Takata Steelblade u Ghost Walker Post vedou boj proti Burning Blade.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm proměnil šedou pustinu v úrodnou trávu se zeleným lesem uprostřed s obří centrální stromem. Kodo Graveyard se rozdělil, jedna polovina je bujně zelená, a u pobřeží vznikly nové ostrovy (Sar'theris Strand, Ranazjar Isle). Cenarion Circle vybudoval Cenarion Wildlands s Karnum's Glade jako velitelstvím.]] },
+})
+
+secrets("Desolace", [[• Desolace se původně jmenovala Mashan'she – „Tkalcovský stav Matky Země“.
+• Kentauři jsou potomci Zaetara a princezny Theradras.
+• Flayers' Point je skrytý přístav, který není na běžných mapách.
+• SPOILER: Po Cataclysmu je střed Desolace zelený.]])
+
+-------------------------------------------------------------------------------
+-- Dustwallow Marsh
+-------------------------------------------------------------------------------
+chapters("Dustwallow Marsh", {
+    { "Theramore a Jaina", [[Po třetí válce vedla Jaina Proudmoore svůj lid do Dustwallow Marsh a založila Theramore, alianční městský stát, po bitvě u Mount Hyjal. Z divočiny se stalo sporné území mezi frakcemi. Útok Daelina Proudmoora na Echo Isles donutil Darkspear trolly Vol'jina přesídlit sem; Rexxar a spojenci používali bažinu jako základnu. Ogří klan Stonemaul se připojil k Hordě po porážce vůdce Kor'galla.]] },
+    { "Místa a jejich příběhy", [[Theramore Isle je „zářivá pevnost“ Aliance. Brackenwall Village je hordská osada pod Overlordem Mok'Morokkem a domov ogrů Stonemaul. Onyxia's Lair je jižní doupě černé dračice Onyxie, dcery Deathwinga. Witch Hill (Swamplight Manor) je strašidelné místo, které „nesouvisí se Scourge ani s Lich Kingem“, ale s démonem Zelfraxem. Alcaz Island je ostrovní vězení, kde prý Defiasové kdysi drželi krále Variana Wrynna; WoW Forever zde má přidat dungeon Alcaz Prison. Wyrmbog na jihu jsou doupata černých draků. Mudsprocket je gobliní městečko z patche 2.3.0 s letištěm a neutrálním statusem. Nat's Landing je domov legendárního rybáře Nata Pagleho. Stonemaul Ruins jsou opuštěná ogří osada.]] },
+    { "Postavy a zajímavosti", [[• Tabetha je arkanistka, která verbuje mágy ze své farmy v Quagmire.
+• Theramoreští námořníci považovali místní stromy za horší než „dobrý dub z hor nad Orgrimmarem“.
+• Hranice mezi Dustwallow, Barrens a Durotarem byly ve Warcraftu III „rozmazané“.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu vznikla dálnice z Theramore přímo do Southern Barrens. V Mists of Pandaria byl Theramore zničen manabombou na rozkaz válečného náčelníka Garrosha Hellscreama a zůstal jen kráter; přes NPC Zidormi se dá vrátit ve fázi. V Dragonflightu se frakce Sullied Banner pokusila vyrobit manabomby v ruinách Theramore, dokud ji nezastavili modří draci pod Kalecgosem.]] },
+})
+
+secrets("Dustwallow Marsh", [[• Nat Pagle sídlí v Nat's Landing.
+• Mudsprocket je gobliní neutrální městečko z patche 2.3.0.
+• SPOILER: Theramore byl později zničen manabombou.]])
+
+-------------------------------------------------------------------------------
+-- Feralas
+-------------------------------------------------------------------------------
+chapters("Feralas", {
+    { "Eldre'Thalas a šílený princ", [[Feralas ovládalo kdysi highbornské město Eldre'Thalas. Po výbuchu Well of Eternity, který přerušil jejich magické spojení, vymyslel princ Tortheldrin temné řešení: přivolal a uvěznil démona Immol'thara v magických pylonech, aby z něj čerpal moc. Když démon po tisíciletích slábl, šílený princ pozabíjel většinu arkanistů a zbylé zotročil, aby věznění udržovali, a energii pohlcoval sám, ale jen uvnitř města.]] },
+    { "Dire Maul", [[Prastaré elfí ruiny dnes ovládají ogři Gordunni a z Eldre'Thalas se stal dungeon Dire Maul. Aliance a Horda tu mají základny (Feathermoon Stronghold a Camp Mojache), ale potýkají se s ogry, naga, silithidy a zkaženou zvěří.]] },
+    { "Místa a jejich příběhy", [[Feathermoon Stronghold je pobřežní pevnost Aliance, kterou opakovaně napadají naga. Camp Mojache je hordská osada tauren, východní opora proti ogřím nájezdům. Dire Maul je rozlehlý dungeon, kde král Gordok vládne zbytkům highbornského města. Lower Wilds je jižní oblast s Emerald Summit a New Thalanaar. Gordunni Outpost je nepřátelský tábor ogrů. Isle of Dread je západní ostrov plný naga se Shalzaru's Lair. Ruins of Isildien jsou prastaré highbornské zbytky. Lariss Pavilion je orientační stavba. Dream Bough u Jademir Lake je místo, kde kdysi číhal zkažený zelený drak Taerar. Grimtotem Compound je osada vzpurných taurenů a Twin Colossals obří dvě sochy mezi Desolace a Feralasem.]] },
+    { "Postavy a zajímavosti", [[• King Gordok vládl ogrům v Dire Maul.
+• Prince Tortheldrin uvěznil Immol'thara a zotročil Shen'dralar.
+• General Shandris Feathermoon brání Feathermoon Stronghold.
+• Ysondre je vykoupený zelený drak, který pomáhá proti Taerarovi.
+• V džungli žijí „komáři velcí jako kolibříci“ a trvá přes čtrnáct dní projít jižní les pěšky.
+• Lidé považují Feralas za „kraj světa“.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm zničil povodní Thalanaar i původní Feathermoon Stronghold. Ogři Stonemaul se spojili s Hordou a ukázalo se, že Cho'gall naučil Gordunni arkánní magii přes Twilight's Hammer. V románu Traveler převzal vůdce tajné skupiny „the Hidden“ Malus velení nad Dire Maul po porážce Gordoka a poslal ogry ven do lesů.]] },
+})
+
+secrets("Feralas", [[• Dire Maul je zbytek highbornského města Eldre'Thalas.
+• Tortheldrin uvěznil Immol'thara kvůli moci.
+• Lidé považují Feralas za „kraj světa“.
+• SPOILER: Po Cataclysmu byly Thalanaar a Feathermoon zničeny povodní.]])
+
+-------------------------------------------------------------------------------
+-- Moonglade
+-------------------------------------------------------------------------------
+chapters("Moonglade", {
+    { "Nejposvátnější místo ve Snu", [[Za Války prastarých hledal Malfurion Stormrage pomoc polobožského Cenaria právě v Moonglade. Po Velkém roztříštění z ní vznikli strážci hájku a dryády, kteří chrání přírodu. Později tu byl založen Cenarion Circle k boji se zkázou. Moonglade je popsána jako „nejposvátnější místo ve Snu“. Po třetí válce se Keeper Remulos stal jejím strážcem a otevřel ji všem druidským rasám.]] },
+    { "Místa a jejich příběhy", [[Nighthaven je hlavní osada, kde se druidové scházejí a kde se každoročně slaví Lunar Festival. Lake Elune'ara je posvátné jezero pojmenované po bohyni Elune; prý v něm spí polobůh Omen. Shrine of Remulos je velitelství Keepera Remulose a duchovní střed druidské autority. Stormrage Barrow Dens jsou podzemní svatyně, kde druidové upadají do hluboké meditace a kam občas zasáhne Noční můra.]] },
+    { "Zajímavosti", [[• Dostat se sem jde jen pěšky přes Felwood nebo Timbermaw Hold; druidové se sem teleportují od úrovně 14.
+• V Moonglade je hodně ryb v Lake Elune'ara, ale chybí tu bylinky, rudy i kůže – proto je tak málo osídlená, přestože je pro lore důležitá.
+• Keeper Remulos je hlavní strážce, Dendrite Starblaze trenér druidských bojových podob, Loganaar obecný druidský trenér.
+• SPOILER: Malfurion Stormrage se tu objevuje v duchu.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: V posledních rozšířeních hrozila Moonglade Emerald Nightmare a Plamenná legie, ale druidské síly ji ochránily.]] },
+})
+
+secrets("Moonglade", [[• Do Moonglade se dostaneš jen pěšky přes Felwood nebo Timbermaw Hold (druidové teleportem od úrovně 14).
+• V jezeře Elune'ara prý spí polobůh Omen.
+• Chybí tu bylinky, rudy i kůže.]])
