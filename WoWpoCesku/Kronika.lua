@@ -157,6 +157,39 @@ local function npcFromGUID(guid)
     if ok2 and (kind == "Creature" or kind == "Vehicle") then return tonumber(idn) end
 end
 
+-- vyskočení rámečku + zlatý záblesk (pro upozornění a banner pečeti); `strong` = delší a jasnější záblesk
+local function addPop(frame, strong)
+    local grp = frame:CreateAnimationGroup()
+    local sc = grp:CreateAnimation("Scale")
+    sc:SetDuration(0.35)
+    sc:SetOrder(1)
+    sc:SetSmoothing("OUT")
+    if sc.SetScaleFrom then sc:SetScaleFrom(0.75, 0.75); sc:SetScaleTo(1, 1) elseif sc.SetScale then sc:SetScale(1.33, 1.33) end
+    frame.popGroup = grp
+    local flash = frame:CreateTexture(nil, "OVERLAY", nil, 7)
+    flash:SetPoint("TOPLEFT", -6, 6)
+    flash:SetPoint("BOTTOMRIGHT", 6, -6)
+    flash:SetTexture("Interface\\Buttons\\WHITE8x8")
+    flash:SetBlendMode("ADD")
+    flash:SetVertexColor(1, 0.82, 0.30)
+    flash:SetAlpha(0)
+    local fg = frame:CreateAnimationGroup()
+    local up = fg:CreateAnimation("Alpha")
+    up:SetFromAlpha(0) up:SetToAlpha(strong and 0.55 or 0.35) up:SetDuration(0.15) up:SetOrder(1)
+    local down = fg:CreateAnimation("Alpha")
+    down:SetFromAlpha(strong and 0.55 or 0.35) down:SetToAlpha(0) down:SetDuration(strong and 0.9 or 0.6) down:SetOrder(2)
+    fg:SetScript("OnPlay", function() flash:SetAlpha(0) end)
+    fg:SetScript("OnFinished", function() flash:SetAlpha(0) end)
+    -- Alpha animace běží na textuře
+    up:SetTarget(flash); down:SetTarget(flash)
+    frame.flashGroup = fg
+end
+
+local function playPop(frame)
+    if frame.popGroup then frame.popGroup:Stop(); frame.popGroup:Play() end
+    if frame.flashGroup then frame.flashGroup:Stop(); frame.flashGroup:Play() end
+end
+
 local function showAlert(name, info, rec, unit)
     if not alert then
         alert = parchmentFrame("WoWpoCeskuRareAlert", UIParent, "HIGH")
@@ -184,6 +217,7 @@ local function showAlert(name, info, rec, unit)
         anim:SetScript("OnPlay", function() alert:Show(); alert:SetAlpha(1) end)
         anim:SetScript("OnFinished", function() alert:Hide(); hideTargetButton() end)
         alert.anim = anim
+        addPop(alert, false)
     end
     alert.title:ClearAllPoints()
     alert.title:SetPoint("TOPLEFT", PORTRAIT_W + 18, -8)
@@ -213,6 +247,7 @@ local function showAlert(name, info, rec, unit)
     alert.hint:SetText(canTarget and "Klikni a zaměříš ho" or "V boji ho addon zaměřit nemůže")
     alert.anim:Stop()
     alert.anim:Play()
+    playPop(alert)
 end
 
 -- společné hlášení: zápis do deníku + upozornění (nejvýš jednou za 5 minut na stejného)
@@ -1076,6 +1111,7 @@ local function showNextBanner()
         anim:SetScript("OnPlay", function() banner:Show(); banner:SetAlpha(1) end)
         anim:SetScript("OnFinished", function() banner:Hide(); showNextBanner() end)
         banner.anim = anim
+        addPop(banner, true)
         banner:SetScript("OnMouseUp", function()
             banner.anim:Stop(); banner:Hide(); wipe(bannerQueue)
             if WoWpoCesku_ShowLore then WoWpoCesku_ShowLore("pecete") end
@@ -1087,9 +1123,16 @@ local function showNextBanner()
     banner.text:SetText(s.desc or "")
     banner.wax:SetTexture(s.image)
     tintSeal(banner.wax, s, true)
-    pcall(PlaySound, 888, "Master")
+    -- zvuk podle vzácnosti: obyčejná = splněný quest, vzácná/skrytá = fanfára a ještě zvonění navíc
+    if s.hidden or s.gold then
+        pcall(PlaySound, 888, "Master")
+        C_Timer.After(0.7, function() pcall(PlaySound, 618, "Master") end)
+    else
+        pcall(PlaySound, 618, "Master")
+    end
     banner.anim:Stop()
     banner.anim:Play()
+    playPop(banner)
 end
 
 -- jméno postavy, která pečeť získala (pečetě jsou společné pro celý účet)
@@ -1231,13 +1274,17 @@ function WoWpoCesku_PecetePage(key)
     -- filtr a řazení (volba se pamatuje): Vše = získané první, Získané, Chybí, Nejblíž dokončení
     WoWpoCeskuSettings = WoWpoCeskuSettings or {}
     local mode = WoWpoCeskuSettings.sealFilter or "all"
+    local search = (WoWpoCeskuSettings.sealSearch or ""):lower()
     local function ratio(s) return (s.need and s.need > 0) and math.min(1, (s.have or 0) / s.need) or 0 end
     local function arrange(list)
         local idx = {}
         for i, s in ipairs(list) do idx[s] = i end
         local out = {}
         for _, s in ipairs(list) do
-            if mode == "all" or (mode == "got" and s.got) or ((mode == "miss" or mode == "near") and not s.got) then out[#out + 1] = s end
+            local okMode = mode == "all" or (mode == "got" and s.got) or ((mode == "miss" or mode == "near") and not s.got)
+            -- hledání: skrytá nezískaná pečeť se nikdy neprozradí podle názvu
+            local okFind = search == "" or ((not s.hidden or s.got) and (s.name or ""):lower():find(search, 1, true) ~= nil)
+            if okMode and okFind then out[#out + 1] = s end
         end
         if mode == "near" then
             table.sort(out, function(a, b)
@@ -1290,7 +1337,7 @@ function WoWpoCesku_PecetePage(key)
             if WoWpoCesku_ShowLore then WoWpoCesku_ShowLore("pecete") end
         end,
     }
-    if mode ~= "all" then
+    if mode ~= "all" or search ~= "" then
         local kept = { page[1] }
         for i = 2, #page do if page[i].seals and #page[i].seals > 0 then kept[#kept + 1] = page[i] end end
         if #kept == 1 then kept[2] = { "Nic k zobrazení", "V tomhle filtru zatím nic není. Přepni na Vše." } end

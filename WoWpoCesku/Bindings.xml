@@ -1,0 +1,11 @@
+<Bindings>
+    <Binding name="WPC_KRONIKA" header="WOWPOCESKU" category="ADDONS">
+        WoWpoCesku_ToggleKronika()
+    </Binding>
+    <Binding name="WPC_DUNGEON" category="ADDONS">
+        WoWpoCesku_ToggleDungeonKronika()
+    </Binding>
+    <Binding name="WPC_DISCORD" category="ADDONS">
+        WoWpoCesku_ShowDiscord()
+    </Binding>
+</Bindings>

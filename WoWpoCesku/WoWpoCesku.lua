@@ -1212,8 +1212,8 @@ local function createMinimapButton()
     minimapButton:SetFrameStrata("MEDIUM")
     minimapButton:SetFrameLevel(8)
     local icon = minimapButton:CreateTexture(nil, "BACKGROUND")
-    icon:SetTexture("Interface\\Icons\\INV_Misc_Book_09")
-    icon:SetSize(20, 20)
+    icon:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\ikona.tga")
+    icon:SetSize(22, 22)
     icon:SetPoint("CENTER", 0, 1)
     local border = minimapButton:CreateTexture(nil, "OVERLAY")
     border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
@@ -1275,7 +1275,7 @@ local function showWelcome()
     local INK = { 0.20, 0.13, 0.07 }
     local f = CreateFrame("Frame", "WoWpoCeskuUvod", UIParent, "BackdropTemplate")
     welcome = f
-    f:SetSize(540, 580)
+    f:SetSize(540, 460)
     f:SetPoint("CENTER")
     f:SetFrameStrata("DIALOG")
     f:SetToplevel(true)
@@ -1298,68 +1298,76 @@ local function showWelcome()
     local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
     close:SetPoint("TOPRIGHT", -4, -4)
 
-    local last
-    local function text(str, size, r, g, b, gap, justify)
-        local t = f:CreateFontString(nil, "OVERLAY")
-        t:SetFont(FONT, size, "")
-        t:SetTextColor(r, g, b)
-        t:SetWidth(490)
-        t:SetJustifyH(justify or "LEFT")
-        t:SetSpacing(2)
-        if last then t:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -(gap or 8)) else t:SetPoint("TOPLEFT", 25, -30) end
-        t:SetText(str)
-        last = t
-        return t
+    f:SetHeight(460)
+    local pages, cur = {}, 1
+    local function newPage()
+        local pg = CreateFrame("Frame", nil, f)
+        pg:SetPoint("TOPLEFT", 0, 0)
+        pg:SetPoint("BOTTOMRIGHT", 0, 60)
+        pg.last = nil
+        pg.text = function(str, size, r, g, b, gap, justify)
+            local t = pg:CreateFontString(nil, "OVERLAY")
+            t:SetFont(FONT, size, "")
+            t:SetTextColor(r, g, b)
+            t:SetWidth(490)
+            t:SetJustifyH(justify or "LEFT")
+            t:SetSpacing(2)
+            if pg.last then t:SetPoint("TOPLEFT", pg.last, "BOTTOMLEFT", 0, -(gap or 8)) else t:SetPoint("TOPLEFT", 25, -30) end
+            t:SetText(str)
+            pg.last = t
+            return t
+        end
+        pages[#pages + 1] = pg
+        return pg
     end
-    text("Vítej v WoWpoČesku", 24, 0.50, 0.12, 0.05, 0, "CENTER")
-    text("čeština pro WoW: Forever", 13, 0.42, 0.30, 0.18, 2, "CENTER")
-    text("Addon ukazuje české překlady questů, rozhovorů s NPC, knih a části rozhraní. "
-        .. "K tomu přidává Kroniku Azerothu: letopis oblastí, pečetě (jako achievementy), deník tvé postavy a zkoušku kronikáře. "
-        .. "Kniha se otevře klikem na ikonu u minimapy.", 13, INK[1], INK[2], INK[3], 16)
-    text("Nepřeložený text?", 15, 0.50, 0.12, 0.05, 16)
-    text("V balíčku jsou tisíce hotových překladů. Nový, zatím nepřeložený text zůstane anglicky a addon si ho zapamatuje. "
-        .. "Přeložit ho umí volitelný Pomocník (program pro Windows, zdarma). Najdeš ho na stránce projektu na GitHubu:",
-        13, INK[1], INK[2], INK[3], 6)
-    local url = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
-    url:SetSize(300, 22)
-    url:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 6, -8)
-    url:SetAutoFocus(false)
-    url:SetFont(FONT, 12, "")
-    local URL = "https://github.com/RankonRP/WoWpoCesku"
-    url:SetText(URL)
-    url:SetCursorPosition(0)
-    url:SetScript("OnTextChanged", function(self) if self:GetText() ~= URL then self:SetText(URL) end end)
-    url:SetScript("OnEscapePressed", url.ClearFocus)
-    local hint = f:CreateFontString(nil, "OVERLAY")
-    hint:SetFont(FONT, 11, "")
-    hint:SetTextColor(0.42, 0.30, 0.18)
-    hint:SetPoint("LEFT", url, "RIGHT", 10, 0)
-    hint:SetText("klik + Ctrl+C zkopíruje odkaz")
-    last = url
-    text("Chyba, nápad nebo otázka?", 15, 0.50, 0.12, 0.05, 14)
-    text("Napiš na náš Discord. Odkaz najdeš v okénku /czq discord. Nepřeložené texty bez Pomocníka pošleš podle návodu v /czq soubor (nebo tlačítko Discord v Dungeon Kronice).", 13, INK[1], INK[2], INK[3], 6)
-    local dbtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    local H = { 0.50, 0.12, 0.05 }
+    local function head(pg, str, gap) return pg.text(str, 15, H[1], H[2], H[3], gap or 14) end
+    local function body(pg, str, gap) return pg.text(str, 13, INK[1], INK[2], INK[3], gap or 6) end
+
+    -- 1/3: co addon umí
+    local p1 = newPage()
+    p1.text("Vítej v WoWpoČesku", 24, H[1], H[2], H[3], 0, "CENTER")
+    p1.text("čeština pro WoW: Forever", 13, 0.42, 0.30, 0.18, 2, "CENTER")
+    head(p1, "Co addon umí", 18)
+    body(p1, "• Překlad questů, rozhovorů s NPC, knih a části rozhraní do češtiny.")
+    body(p1, "• Kronika Azerothu: letopis oblastí, pečetě (jako achievementy), deník postavy a zkouška kronikáře.")
+    body(p1, "• Dungeon Kronika: 14 dungeonů s bossy, kořistí, questy a vstupy na mapě.")
+    body(p1, "• Bestiář a upozornění na vzácné moby.")
+    head(p1, "Nepřeložený text?")
+    body(p1, "Zůstane anglicky a addon si ho zapamatuje. Přeložit ho umí volitelný Pomocník (program pro Windows, zdarma): github.com/RankonRP/WoWpoCesku")
+
+    -- 2/3: ovládání
+    local p2 = newPage()
+    head(p2, "Jak se to ovládá", 0)
+    body(p2, "|cff7f1f0dIkona u minimapy|r (kniha s CZ):")
+    body(p2, "• levý klik: Kronika Azerothu\n• pravý klik: překlad zapnout / vypnout\n• Shift+klik: načíst nové překlady (/reload)\n• Ctrl+klik: nastavení\n• tažením ikonu posuneš", 2)
+    body(p2, "|cff7f1f0dKlávesové zkratky|r: Esc > Klávesové zkratky > AddOns > WoWpoČesku (Kronika, Dungeon Kronika, Discord).", 12)
+    body(p2, "|cff7f1f0dPříkazy|r: /czq lore, /czq dungeon, /czq vzacni, /czq nastaveni, /czq uvod (tento úvod znovu).", 12)
+
+    -- 3/3: Discord a předvolba
+    local p3 = newPage()
+    head(p3, "Chyba, nápad nebo otázka?", 0)
+    body(p3, "Napiš na náš Discord. Nepřeložené texty bez Pomocníka pošleš podle návodu v okénku Discord.")
+    local dbtn = CreateFrame("Button", nil, p3, "UIPanelButtonTemplate")
     dbtn:SetSize(220, 24)
-    dbtn:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -8)
+    dbtn:SetPoint("TOPLEFT", p3.last, "BOTTOMLEFT", 0, -8)
     czButton(dbtn)
     dbtn:SetText("Zobrazit odkaz na Discord")
     dbtn:SetScript("OnClick", function() WoWpoCesku_ShowDiscord() end)
-    last = dbtn
-    text("Chceš jen část češtiny?", 15, 0.50, 0.12, 0.05, 18)
-    text("Vyber předvolbu. Všechno si pak můžeš upravit v nastavení (Esc > Možnosti > AddOns, nebo Ctrl+klik na ikonu u minimapy). "
-        .. "Tento úvod otevřeš znovu příkazem /czq uvod.", 13, INK[1], INK[2], INK[3], 6)
-
+    p3.last = dbtn
+    head(p3, "Chceš jen část češtiny?", 18)
+    body(p3, "Vyber předvolbu, všechno si pak upravíš v nastavení.")
     local prev
     for _, p in ipairs({ { "vse", "Vše česky" }, { "preklad", "Jen překlad" }, { "questy", "Jen questy" } }) do
-        local b = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+        local b = CreateFrame("Button", nil, p3, "UIPanelButtonTemplate")
         b:SetSize(150, 26)
-        if prev then b:SetPoint("LEFT", prev, "RIGHT", 8, 0) else b:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -14) end
+        if prev then b:SetPoint("LEFT", prev, "RIGHT", 8, 0) else b:SetPoint("TOPLEFT", p3.last, "BOTTOMLEFT", 0, -12) end
         czButton(b)
         b:SetText(p[2])
         b:SetScript("OnClick", function() WoWpoCesku_ApplyPreset(p[1]); f:Hide() end)
         prev = b
     end
-    local cap = f:CreateFontString(nil, "OVERLAY")
+    local cap = p3:CreateFontString(nil, "OVERLAY")
     cap:SetFont(FONT, 11, "")
     cap:SetTextColor(0.42, 0.30, 0.18)
     cap:SetWidth(490)
@@ -1368,18 +1376,31 @@ local function showWelcome()
     cap:SetPoint("TOPLEFT", prev, "BOTTOMLEFT", -316, -8)
     cap:SetText("Vše česky: i rozhraní hry a Kronika. Jen překlad: questy, rozhovory, knihy a přehled úkolů. Jen questy: pouze texty questů.")
 
-    local opt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-    opt:SetSize(180, 26)
-    opt:SetPoint("BOTTOMLEFT", 25, 24)
-    czButton(opt)
-    opt:SetText("Otevřít nastavení")
-    opt:SetScript("OnClick", function() f:Hide(); openOptions() end)
-    local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
-    ok:SetSize(120, 26)
-    ok:SetPoint("BOTTOMRIGHT", -25, 24)
-    czButton(ok)
-    ok:SetText("Zavřít")
-    ok:SetScript("OnClick", function() f:Hide() end)
+    -- navigace
+    local back = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    back:SetSize(100, 26)
+    back:SetPoint("BOTTOMLEFT", 25, 24)
+    czButton(back)
+    back:SetText("Zpět")
+    local nxt = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    nxt:SetSize(100, 26)
+    nxt:SetPoint("BOTTOMRIGHT", -25, 24)
+    czButton(nxt)
+    local ind = f:CreateFontString(nil, "OVERLAY")
+    ind:SetFont(FONT, 12, "")
+    ind:SetTextColor(0.42, 0.30, 0.18)
+    ind:SetPoint("BOTTOM", 0, 30)
+    local function show(i)
+        cur = i
+        for k, pg in ipairs(pages) do pg:SetShown(k == i) end
+        back:SetShown(i > 1)
+        nxt:SetText(i < #pages and "Dál" or "Hotovo")
+        ind:SetText(("%d / %d"):format(i, #pages))
+    end
+    back:SetScript("OnClick", function() show(cur - 1) end)
+    nxt:SetScript("OnClick", function() if cur < #pages then show(cur + 1) else f:Hide() end end)
+    f:SetScript("OnShow", function() show(1) end)
+    show(1)
 end
 
 local setupFrame = CreateFrame("Frame")
@@ -1583,4 +1604,22 @@ SlashCmdList.CZQUESTS = function(msg)
         say("preklad " .. (WoWpoCeskuSettings.enabled and "ZAPNUT" or "VYPNUT")
             .. "   (nastaveni: /czq nastaveni nebo ikona u minimapy)")
     end
+end
+
+-------------------------------------------------------------------------------
+-- Klávesové zkratky (Esc > Klávesové zkratky > AddOns > WOWPOČESKU)
+-------------------------------------------------------------------------------
+BINDING_HEADER_WOWPOCESKU = "WoWpoČesku"
+BINDING_NAME_WPC_KRONIKA = "Kronika Azerothu (otevřít/zavřít)"
+BINDING_NAME_WPC_DUNGEON = "Dungeon Kronika (otevřít/zavřít)"
+BINDING_NAME_WPC_DISCORD = "Discord: chyby a překlady"
+
+function WoWpoCesku_ToggleKronika()
+    local f = _G.WoWpoCeskuLore
+    if f and f:IsShown() then f:Hide() else WoWpoCesku_ShowLore() end
+end
+
+function WoWpoCesku_ToggleDungeonKronika()
+    local f = _G.WoWpoCeskuDungeony
+    if f and f:IsShown() then f:Hide() elseif WoWpoCesku_DungeonJournal then WoWpoCesku_DungeonJournal() end
 end

@@ -190,13 +190,13 @@ local function sealCard(i)
     c.icon:SetSize(40, 40)
     c.icon:SetPoint("CENTER", c.rim)
     circle(c.icon)
-    c.name = fontString(c, 12.5, INK[1], INK[2], INK[3])
+    c.name = fontString(c, 13, INK[1], INK[2], INK[3])
     c.name:SetPoint("TOP", c.rim, "BOTTOM", 0, -1)
     c.name:SetJustifyH("CENTER")
-    c.desc = fontString(c, 10.5, INK[1], INK[2], INK[3])
+    c.desc = fontString(c, 11, INK[1], INK[2], INK[3])
     c.desc:SetPoint("TOP", c.name, "BOTTOM", 0, -2)
     c.desc:SetJustifyH("CENTER")
-    c.status = fontString(c, 10.5, SEPIA[1], SEPIA[2], SEPIA[3])
+    c.status = fontString(c, 11, SEPIA[1], SEPIA[2], SEPIA[3])
     c.status:SetPoint("TOP", c.desc, "BOTTOM", 0, -3)
     c.status:SetJustifyH("CENTER")
     c.barBg = c:CreateTexture(nil, "ARTWORK")
@@ -297,6 +297,7 @@ end
 local function renderPage(chapters)
     local y, nRows, nSeals = 0, 0, 0
     for _, fb in ipairs(book.filterBtns or {}) do fb:Hide() end
+    if book.searchBox then book.searchBox:Hide(); book.searchBox.label:Hide(); book.searchBox.hint:Hide() end
     for i, ch in ipairs(chapters) do
         local h, p, o = book.heads[i], book.paras[i], book.orns[i]
         if not h then
@@ -353,25 +354,58 @@ local function renderPage(chapters)
                 x = x + 124
             end
             y = y + 34
+            -- hledání podle názvu (potvrdí se Enterem; prázdné pole hledání zruší)
+            local sb = book.searchBox
+            if not sb then
+                sb = CreateFrame("EditBox", nil, book.content, "InputBoxTemplate")
+                sb:SetSize(240, 22)
+                sb:SetAutoFocus(false)
+                sb:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf", 12, "")
+                sb.label = fontString(book.content, 12, SEPIA[1], SEPIA[2], SEPIA[3])
+                sb.label:SetText("Hledat:")
+                sb.hint = fontString(book.content, 11, SEPIA[1], SEPIA[2], SEPIA[3])
+                sb.hint:SetText("Enter potvrdí")
+                sb:SetScript("OnEscapePressed", sb.ClearFocus)
+                sb:SetScript("OnEnterPressed", function(self)
+                    WoWpoCeskuSettings.sealSearch = strtrim(self:GetText())
+                    self:ClearFocus()
+                    WoWpoCesku_ShowLore("pecete")
+                end)
+                book.searchBox = sb
+            end
+            sb.label:ClearAllPoints()
+            sb.label:SetPoint("TOPLEFT", 4, -(y + 4))
+            sb:ClearAllPoints()
+            sb:SetPoint("TOPLEFT", 60, -y)
+            sb.hint:ClearAllPoints()
+            sb.hint:SetPoint("LEFT", sb, "RIGHT", 10, 0)
+            sb:SetText(WoWpoCeskuSettings.sealSearch or "")
+            sb:SetCursorPosition(0)
+            sb.label:Show(); sb.hint:Show(); sb:Show()
+            y = y + 32
         end
         if ch.seals and #ch.seals > 0 then
             local cols = 3
             local cw = math.floor((W - 20) / cols)
-            local maxH = 0
+            -- první průchod: vyplnit karty a zjistit nejvyšší, všechny pak mají stejnou výšku
+            local cards, maxH = {}, 0
             for k, s in ipairs(ch.seals) do
                 nSeals = nSeals + 1
                 local c = sealCard(nSeals)
                 fillSeal(c, s, cw)
-                local col = (k - 1) % cols
-                if col == 0 and k > 1 then y = y + maxH + 12; maxH = 0 end
                 local h = 78 + 1 + c.name:GetStringHeight() + 2 + c.desc:GetStringHeight() + 3 + c.status:GetStringHeight() + 12
                 maxH = math.max(maxH, h)
+                cards[k] = c
+            end
+            for k, c in ipairs(cards) do
+                local col = (k - 1) % cols
+                local row = math.floor((k - 1) / cols)
                 c:ClearAllPoints()
-                c:SetPoint("TOPLEFT", col * cw, -y)
-                c:SetSize(cw, h)
+                c:SetPoint("TOPLEFT", col * cw, -(y + row * (maxH + 12)))
+                c:SetSize(cw, maxH)
                 c:Show()
             end
-            y = y + maxH + 14
+            y = y + math.ceil(#cards / cols) * (maxH + 12) + 2
         end
         for _, row in ipairs(ch.rows or {}) do
             nRows = nRows + 1
