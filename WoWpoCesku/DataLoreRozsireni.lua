@@ -163,3 +163,62 @@ secrets("The Stockade", [[• Povstání vězňů vypuklo v roce 25 po Dark Port
 • Bazil Thredd byl poručíkem Edwina VanCleefa a jeho návštěvník Maelik byl ve skutečnosti defiaský agent.
 • Za quest The Stockade Riots potřebuješ hlavu Bazila Thredda.
 • SPOILER: V pozdějších příbězích tu byl uvězněn i Varok Saurfang.]])
+
+-------------------------------------------------------------------------------
+-- Gnomeregan
+-------------------------------------------------------------------------------
+chapters("Gnomeregan", {
+    { "Technické hlavní město gnómů", [[Gnomeregan býval proslulým technickým městem gnómů v severozápadním Dun Morogh. Gnómové z něj vládli vynálezům, výtahům, strojům a vůbec všemu, co funguje na páru a ozubená kola. Dnešní dungeon působí jako jedna velká komediální dílna: stroje tu bučí, blikají a občas vybuchují.]] },
+    { "Zrada zevnitř", [[Když město napadli troggové, přišel Sicco Thermaplugg, nejbližší přítel a hlavní rádce High Tinkera Gelbina Mekkatorquea, s návrhem: zaplavit město radioaktivním plynem. Thermaplugg ale tajně žárlil, že vládne jiný, a údaje o bezpečnosti zfalšoval. Chtěl, aby plyn zabil spoustu gnómů, a pak z toho mohl obvinit Gelbina a převzít moc.
+
+Plán se zhroutil. Záření zahubilo většinu obyvatel (příběh uvádí zhruba osm z deseti gnómů) a zbylé proměnilo v „leper gnomes“, i samotného Thermaplugga. Gnómové zůstali Gelbinovi věrní a šílený Thermaplugg se prohlásil králem gnómů.]] },
+    { "Operace Gnomeregan", [[Přeživší gnómové uprchli do Ironforge s přísahou, že se jednou vrátí. Thermaplugg vládl zničenému městu z Tinkers' Court a ovládal leper gnómy i troggy. Nakonec ho porazili hrdinové během takzvané Operation: Gnomeregan. Jeden román popisuje, jak mu Gelbin usekl nohy a nechal ho napospas toxické pustině, kterou sám vytvořil.]] },
+    { "Zajímavosti", [[• Jméno Thermaplugg je slovní hříčka na „sicko“ (cvok).
+• V instanci je bezpečná zóna s obchodníky a NPC přátelská k Alianci.
+• Hůl Hydrocane z Viscous Fallout dává trvalé dýchání pod vodou a hodí se na každé úrovni.
+• Pozdější doplněk: tajný boss Endgineer Omegaplugg pro hráče s maximální úrovní.
+• Pozor na Dark Iron agenty, kteří pokládají nášlapné miny, a na Arcane Nullifiers, které odráží kouzla zpět na čaroděje.]] },
+})
+
+boss("Gnomeregan", "Mekgineer Thermaplugg", [[Dřív se jmenoval Sicco a byl nejbližším přítelem a hlavním poradcem High Tinkera Gelbina Mekkatorquea. V tichosti ho ale žrala závist. Když troggové napadli město, navrhl záplavu radioaktivním plynem a zfalšoval, že je bezpečný. Plán se obrátil proti němu, zasáhl i jeho samotného a z Thermaplugga se stal zmutovaný šílenec, který se prohlásil králem gnómů. Jeho jméno hraje na „sicko“ a Hearthstone si z něj udělal postavu posedlou pletením.]])
+
+boss("Gnomeregan", "Grubbis", [[Troggský náčelník, který se usadil ve vyvrženém Gnomeregan poté, co gnómové město opustili.]])
+
+boss("Gnomeregan", "Viscous Fallout", [[Zmutovaná radioaktivní bytost z toxických zbytků v Gnomeregan. Padá z ní hůl Hydrocane, která dává trvalé dýchání pod vodou.]])
+
+secrets("Gnomeregan", [[• Jméno Thermaplugg je slovní hříčka na „sicko“.
+• Hůl Hydrocane z Viscous Fallout dává trvalé dýchání pod vodou.
+• Dark Iron agenti pokládají miny – ničí je hned, jak je vidíš.
+• SPOILER: Později se gnómové do města vracejí při Operation: Gnomeregan; Thermaplugg je v dalších příbězích mrtvý.]])
+
+-------------------------------------------------------------------------------
+-- Razorfen Kraul
+-------------------------------------------------------------------------------
+chapters("Razorfen Kraul", {
+    { "Trnitý domov quilboarů", [[Razorfen Kraul leží v jižních Barrens a je pradávným domovem quilboarů. Celý komplex prorůstají obrovské trnité liány, o kterých se věří, že vyrostly z těla polobožského Agamaggana. Před deseti tisíci lety tento prastarý polobůh bojoval proti Plamenné legii a padl; z jeho krve vyrašily trnité vinice, které quilboarové uctívají jako posvátné.]] },
+    { "Charlga Razorflank", [[Vládne tu Charlga Razorflank, stará šamanka zvaná „the Crone“. Ovládla osadu a vede quilboary šamanským způsobem; pod jejím vedením útočí na rivalské kmeny i na osady Hordy. Dungeon je plný quilboarů, bažinných tvorů a krystalových nestvůr.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Krátce před válkou o trny (War of the Thorns) se do dungeonu vkradla Sylvanas Windrunner s Nathaniem Blightcallerem a útočili na quilboary, aby poslali anima do Maw k Žalářníkovi. To už patří do pozdějších příběhů a ve WoW Forever (klasika) to nezažiješ.]] },
+})
+
+boss("Razorfen Kraul", "Charlga Razorflank", [[Stará šamanka, která ovládla Razorfen Kraul. Říká se jí „the Crone“ a quilboary vede šamanským způsobem. Pod jejím vedením quilboarové útočí na rivalské kmeny i na osady Hordy.]])
+
+boss("Razorfen Kraul", "Roogug", [[Quilboarský šaman, který dohlíží v dungeonu na rituály (v pozdějších verzích se mu říká Geomagus Overseer).]])
+
+secrets("Razorfen Kraul", [[• Trnité vinice vyrostly podle legendy z krve polobožského Agamaggana.
+• Quilboarové Agamaggana uctívají jako polobožského předka.
+• SPOILER: Před válkou o trny sem vtrhli Sylvanas a Nathanos.]])
+
+-------------------------------------------------------------------------------
+-- Ragefire Chasm
+-------------------------------------------------------------------------------
+chapters("Ragefire Chasm", {
+    { "Troggové a Magatha", [[Sopečné jeskyně pod Orgrimmarem původně obývali nepřátelští troggové zvaní Ragefire. Taurenská věštkyně Magatha se s nimi pokusila vyjednat mír, ale našla jen nepřátelství, které by mohlo Hordě v budoucnu hrozit.]] },
+    { "Searing Blade a Burning Blade", [[Do jeskyní se uchýlila frakce Shadow Council jménem Searing Blade. Vedli ji tři vůdci: Taragaman the Hungerer (felguard), Jergosh the Invoker (černokněžník) a Bazzalan (satyr). Podle příběhu plánovali rozvrátit a zničit všechno, co Horda v těchto zemích vybudovala.
+
+Neeru Fireblade, skrytý vůdce klanu Burning Blade, posílal do jeskyně Thrallovy věrné s dvojím záměrem: zbavit se přívrženců válečného náčelníka a otestovat, jak jsou kultisté Searing Blade schopní. Válečný náčelník nakonec nasadil dobrodruhy, aby vůdce kultu zlikvidovali.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu se Dark Shaman ujali jeskyní, vyčistili troggy i Searing Blade a podle zpráv shromáždili armádu nebezpečnou i pro samotný Orgrimmar – později se ukázalo, že stála na straně Garrosha Hellscreama. Mezi fanoušky se také mluví o tom, že přítomnost Ragefire troggů může znamenat titánský trezor pod Orgrimmarem, podobný Uldamanu.]] },
+})
+
+secrets("Ragefire Chasm", [[• Neeru Fireblade je skrytý vůdce Burning Blade a testoval Searing Blade, zatímco posílal do jeskyně Thrallovy věrné.
+• Přítomnost Ragefire troggů prý může naznačovat titánský trezor pod Orgrimmarem.
+• SPOILER: Po Cataclysmu se tu usadili Dark Shaman se spojenci Garrosha Hellscreama.]])
