@@ -241,3 +241,83 @@ boss("Scarlet Monastery", "Arcanist Doan", [[Lidský mág, rytíř Stříbrné r
 secrets("Scarlet Monastery", [[• Původní klášter byl katedrála a seminář Církve Svatého světla.
 • Arcanist Doan se prý podílel na očištění krystalu, z něhož vznikl Ashbringer.
 • SPOILER: Pozdější příběhy ukazují, jak Rytíři Ebon Bladeu klášter dobyli a vzkřísili Whitemane.]])
+
+-------------------------------------------------------------------------------
+-- DRUHÝ PRŮCHOD: hlubší příběhy lokací a bossů
+-------------------------------------------------------------------------------
+
+-- The Deadmines: příběh Defias od začátku do konce
+chapters("The Deadmines", {
+    { "Moonbrook: město nad zlatem", [[Moonbrook je městečko v jihozápadním Westfallu, které dlouho žilo z hornictví a zemědělství. Zlatý důl pod ním dával Stormwindu zhruba třetinu pokladů. Když cech kameníků rozpustili, moc ve městě převzali Defiasové a z opuštěných dolů si udělali velitelství. Po jejich porážce Moonbrook na čas osvobodili hrdinové Aliance, ale hospodářské potíže po válce s Lich Kingem do města přivedly bezdomovce a podmínky pro nový nepokoj byly zase na světě.]] },
+    { "Rudé šátky a hodnosti", [[Defiasové nosili rudé šátky a podle materiálu masky se poznávala hodnost. Působili v Elwynn Forest, Duskwoodu a dokonce i ve Dustwallow Marsh. Byli mezi nimi lidé, goblini a další rasy, zkušení zloději i nájemní vojáci. VanCleef je vedl heslem, že si zaplacení vezmou „po jednom poutníkovi“ – loupežemi, ne dobýváním.]] },
+    { "Intriky ve Stormwindu", [[Bratrstvo mělo spojence i ve Stormwindu. Podle příběhu vedla ke vzniku problému korupce šlechty a politické machinace kolem lady Katrany Prestor (ve skutečnosti draka Onyxie v lidské podobě), která šlechtu nutila odmítat výplatu. Spiklenci zůstali aktivní i po VanCleefově smrti – to je jeden z důvodů, proč dopis z jeho těla vede ve Stormwindu dál.]] },
+    { "Pirát, který chtěl pomstu", [[Jerias Bloodvein, nemrtvý kapitán lodi Garrote a člen pirátů Bloodsail Buccaneers, měl s VanCleefem nevyřízené účty: VanCleef ho podle příběhu podvedl, vzal mu zlato i ženu. Po ztrátách v bojích s Defiasy unesl mladého Jimmyho Blackridge a dva jeho společníky jako náhradní posádku. Při útoku na doly pak Bloodvein padl v souboji na život a na smrt s Jimmym Blackridgem – a tak se únosce stal obětí svého zajatce.]] },
+    { "Konec a dědictví", [[Po VanCleefově smrti převzala Defiasy jeho dcera Vanessa a snažila se organizaci obnovit s novým ideovým zaměřením. Jak ale spravedliví členové odcházeli kvůli královským milostem a reformám, Bratrstvo zdegenerovalo v obyčejné lupiče a rozpadlo se na skupiny jako Red Dawn. SPOILER: V pozdějších příbězích se zbylí Defiasové vzdali banditismu a vrátili se k rodinám.]] },
+})
+
+boss("The Deadmines", "Rhahk'Zor", [[Jeho pokřik „VanCleef pay big for your heads!“ je jedna z nejznámějších hlášek prvního dungeonu Aliance. V příběhu ho zabili piráti Jeriase Bloodveina při útoku na doly, takže z VanCleefova předáka zbyl jen duch hrozby, kterou vyřvával.]])
+
+boss("The Deadmines", "Miner Johnson", [[Vzácný (náhodný) člen Defias Brotherhood, který čeká v zákoutí před Shredderem mezi horníky. Jeho kořist – pokovený štít Gold-plated Buckler a hornický plášť – ukazuje, že hornictví a zlato v dolech pořád patřily k jádru celého příběhu. Pierce Armor mu umožňuje oslabit brnění nepřátel.]])
+
+boss("The Deadmines", "Edwin VanCleef", [[Podle příběhu byl původně volen předsedou cechu kameníků a stavěl i pevnost Nethergarde. Šlechta mu ale odmítla zaplatit a po rozpuštění cechu vyvolal nepokoje, při kterých zahynula královna Tiffin. Od té doby žije skryt ve Westfallu a vede bratrstvo, které chce Stormwindu „vyúčtovat“ všechno, co mu dluží. Jeho slova, že „celé království Stormwind zaplatí“, jsou důvodem, proč se jeho jméno stalo synonymem pomsty.]])
+
+secrets("The Deadmines", [[• Rudé šátky Defiasů označují příslušnost; materiál masky určuje hodnost.
+• Jerias Bloodvein je nemrtvý pirát (Forsaken), který unesl Jimmyho Blackridge – příběh je z komiksu Legends.
+• Rhahk'Zor křičí „VanCleef pay big for your heads!“.
+• Miner Johnson je náhodný vzácný spawn (nemusí se objevit).]])
+
+-- Wailing Caverns: další příběh
+chapters("Wailing Caverns", {
+    { "Muyoh, věrný žák", [[Na začátku dungeonu tě potká Muyoh, taurenský druid a Naralexův žák, který se v jeskyních zkažení vyhnul. Vysvětlí, že jeho mistr upadl do zkaženého spánku, kde se jeho myšlenky zamořily hadími vizemi. Požádá tě, abys porazil čtyři Fanglordy, než bude moci provést obřad probuzení. Na cestu ti dá požehnání Mark of the Wild.]] },
+    { "Obřad probuzení", [[Po poražení čtyř Fanglordů tě Muyoh provede jeskyní až do Naralexovy komnaty a tam musíš bránit jeho obřad. Přijdou tři vlny nepřátel a nakonec Mutanus the Devourer. Až je po všem, Muyoh se přesune do Overgrown Camp v jižním Barrens, kde dává úkoly na léčení zdejší krajiny. Zmiňuje, že je Naralex tak rozrušený, že už nechce riskovat.]] },
+    { "Deviate: stvoření z noční můry", [[Tvorům v jeskyních se říká „deviate“. Podle příběhu vznikli z obyčejných zvířat v době, kdy Naralex sestoupil do své noční můry, kolem roku 25 po Dark Portal (ADP). Za příčinu se považuje látka zvaná Wailing Essence, kterou objevil Mebok Mizzyrix. Deviate zvířata mají „nezemské vlastnosti“ a údajně působí zemi velkou bolest.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu (28 ADP) se zkažení zesílilo a vzniklo Overgrowth, divoká džungle. V době Legionu (32 ADP) deviate zvířata přibývala a množila se. A když jeskyněmi během čtvrté války proudil Azerite, začali se deviate tvorové chovat zvláštně.]] },
+})
+
+boss("Wailing Caverns", "Lady Anacondra", [[Před zkažením se jmenovala Scarletleaf. Byla mladou učednicí Naralexe, ale když její mistr upadl do nočních můr, zlomilo to její mysl a ona odhodila své jméno. Zbyl z ní had Lady Anacondra, jedna z Fanglordů a první boss Wailing Caverns. Používá léčení, blesky, Druid's Slumber (uspání) a Thorns Aura, která odráží zranění na ty, kdo ji bijí zblízka. Dabuje ji Kath Soucie. Její Belt of the Fang je proslulý nízkou šancí na zisk a tvoří součást pětidílné sady Embrace of the Viper.]])
+
+secrets("Wailing Caverns", [[• Lady Anacondra se dřív jmenovala Scarletleaf; po zlomení mysli „odhodila své jméno“.
+• Pásek Belt of the Fang z ní padá jen vzácně a patří do sady Embrace of the Viper.
+• Muyoh dává při vstupu požehnání Mark of the Wild.
+• SPOILER: Po Cataclysmu jeskyně zarůstají džunglí Overgrowth a Naralex řeší škody.]])
+
+-- Shadowfang Keep: další příběh
+chapters("Shadowfang Keep", {
+    { "Silverpine Forest: země pod hradem", [[Silverpine Forest se táhne podél západního pobřeží Lordaeronu. Na jihu sousedí s Gilneasem, na jihovýchodě s Hillsbrad Foothills, na severu s Tirisfal Glades a na východě s jezerem Lordamere. Krajina je plná vysokých borovic se stříbrnou kůrou, travnatých pahorků a opuštěných statků.]] },
+    { "Zeď Gilneasu", [[Země se stala sporným územím poté, co král Genn Greymane za třetí války otevřel Greymane Wall. Arugalovi worgeni se kletbou rozšířili po lidské populaci a Greymane musel Gilneas znovu zapečetit. Silverpine tak ztělesňuje kletbu, která z Gilneanů udělala worgeny: tvory rozpolcené mezi lidskou a zvířecí povahou, zvlášť za měsíčního světla.]] },
+    { "Obyvatelé hradu", [[Za barona Silverlainea hradu velel paladin Commander Springvale, který zahynul spolu s ostatními obyvateli, když worgeni zaútočili. Jeho duch dnes straší v hradní kapli; paladinové a kněží prý později bojovali s jeho přízrakem, aby získali jeho svatý symbol a vytvořili zvláštní zbraň na památku svých činů. Na zdech hlídkuje duch Deathsworn Captaina, který padl při Arugalově nájezdu.]] },
+    { "Věrné smečky", [[V hradě se pohybuje i Fenrus the Devourer, obrovský worg a mazlíček Arugala. Podle příběhu byl nepředstavitelně velký, možná posílený temnou magií. Když se přiblížíš, zařve, aby Arugala varoval, a ten ti na pomoc přivolá voidwalkery.]] },
+    { "Pyrewood, Sepulcher, Ambermill", [[V okolí dungeonu leží Pyrewood Village, lidská osada pod vlivem worgenů, Sepulcher, hlavní cestovní uzel Forsaken, a Ambermill, domov čarodějů z Dalaranu. Dohromady z krajiny vzniká obraz země, kde každý bojuje se vším, co ji ohrožuje.]] },
+})
+
+boss("Shadowfang Keep", "Commander Springvale", [[Paladin a velitel hradu za barona Silverlainea. Zahynul spolu s ostatními obyvateli hradu, když worgeni zaútočili. Jeho duch straší v hradní kapli. Paladinové a kněží prý později bojovali s jeho přízrakem, aby získali jeho svatý symbol.]])
+
+boss("Shadowfang Keep", "Fenrus the Devourer", [[Obří worg a mazlíček Archmage Arugala, o kterém se říká, že byl nepředstavitelně velký a možná i temnou magií posílený. Jeho Toxic Saliva ubírá zdraví i manu. Jméno odkazuje na Fenrira z nordické mytologie. SPOILER: Po smrti vstoupil spolu s Arugalem do Shadowlands.]])
+
+boss("Shadowfang Keep", "Deathsworn Captain", [[Vzácný duch kapitána, který padl při Arugalově nájezdu na hrad, a dodnes hlídá hradby. Používá Cleave a Hamstring. Padá z něj Phantom Armor a meč Haunting Blade.]])
+
+secrets("Shadowfang Keep", [[• Jméno Fenrus odkazuje na vlka Fenrira z nordické mytologie.
+• Deathsworn Captain je vzácný duch na hradbách; z něj padá Phantom Armor a Haunting Blade.
+• V Silverpine najdeš Pyrewood Village, Sepulcher a Ambermill.]])
+
+-- Blackfathom Deeps: další příběh
+chapters("Blackfathom Deeps", {
+    { "Příchod kultistů", [[Do chrámu přišli věřící Twilight's Hammer a zbylí poklidní obyvatelé Eluniny svatyně museli ustoupit. Kultisté uvěznili jednu z posledních mírumilovných bytostí chrámu, obří želvu, a týrali ji tak dlouho, až se zbláznila. Pak ji vycvičili, aby hlídala jejich svatyni. Je to dobrý příklad toho, jak kult nemění jen to, kdo chrám ovládá, ale i to, co z něj zůstane.]] },
+    { "Gelihast a Pool of Ask'ar", [[Murloc Gelihast z kmene Blindlight vtrhl do chrámu hnán voláním Starých bohů a pozabíjel téměř tucet překvapených kultistů. Jeho brutalita kult tak zaujala, že mu dovolil zřídit vlastní svatyni pro oběti. Bojuje se dvěma meči s vysokou rychlostí, a dokáže tak velmi rychle umlčet kouzelníky.]] },
+    { "Lady Sarevess a svatyně", [[Lady Sarevess byla nagská kouzelnice ve službách kultu a prováděla magický výzkum na ochranu uctívačů Aku'mai. Podle záznamů ji Domina obětovala Starým bohům, protože neposkytla dostatečnou magickou ochranu. Když ji vyprovokuješ, zavolá na své stoupence, že tu nemáš co dělat, a rozkáže vás zabít.]] },
+    { "Moonshrine a oltářní hádanka", [[V Moonshrine Sanctum sídlí Twilight Lord Kelris v meditativním transu; je posedlý Aku'mai a věří, že hydra představuje návrat Starých bohů do Azerothu. Po jeho porážce čeká klasická hádanka: svíce na oltáři se zapalují po jedné, protože každá vyvolá velkou skupinu elitních nepřátel. Zapálení víc svící naráz znamená jistou smrt skupiny.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Gelihasta později v pozdějších verzích zabil Subjugator Kor'ul, který převzal jeho murloky. Kelris přežil první střet a později řídil Flamebringery v Searing Gorge během Blackrock Eruption. Konec mu připravil Bathiel: jeho prvním činem po převzetí velení bylo hodit Kelrise do žravé tlamy Aku'mai.]] },
+})
+
+boss("Blackfathom Deeps", "Twilight Lord Kelris", [[Orčí vůdce kultu v Moonshrine Sanctum, posedlý hydrou Aku'mai, protože v ní vidí návrat Starých bohů do Azerothu. Do boje vstupuje v meditativním transu, používá Mind Blast a Sleep. Po jeho smrti následuje oltářní hádanka se svícemi. SPOILER: V pozdějších příbězích ho jeho nástupce hodí hydře.]])
+
+boss("Blackfathom Deeps", "Lady Sarevess", [[Nagská kouzelnice, která pro kult zkoumala magické ochrany uctívačů Aku'mai. Podle záznamů ji Domina obětovala Starým bohům za nedostatečnou ochranu; po smrti leží na oltáři. Používá Forked Lightning. Dabuje ji Kath Soucie.]])
+
+boss("Blackfathom Deeps", "Gelihast", [[Murloc z kmene Blindlight, který do chrámu vtrhl na zavolání Starých bohů a pozabíjel téměř tucet kultistů. Jeho brutalita zapůsobila tak, že mu dovolili zřídit vlastní svatyni pro oběti. Bojuje s dvěma meči a síť (Net) tě na dvě vteřiny znehybní. SPOILER: V pozdějších příbězích ho zabije Subjugator Kor'ul.]])
+
+boss("Blackfathom Deeps", "Ghamoo-ra", [[Jedna z posledních mírumilovných bytostí Eluniny svatyně, obří želva. Kultisté ji uvěznili a týrali, až se zbláznila, a pak ji vycvičili jako strážce své svatyně. Její Trample zraňuje všechny kolem. Jméno odkazuje na filmovou příšeru Gameru. Lovec ji může ochočit a naučit se Shell Shield.]])
+
+secrets("Blackfathom Deeps", [[• Jméno Ghamoo-ra odkazuje na filmovou příšeru Gameru.
+• V oltářní hádance po Kelrisovi zapaluj svíce VŽDY po jedné.
+• Ghamoo-ra může ochočit lovec (Shell Shield, Bite).
+• Gelihast je z kmene Blindlight.]])
