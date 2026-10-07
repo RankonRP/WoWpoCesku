@@ -1214,8 +1214,8 @@ makePage(pDungeony, "Dungeon Kronika a mapa", function(col)
     addCheck(col, "Obrázky dungeonů z klienta hry", "Bannery v Dungeonovém deníku. Vypnuto = naše malované (po /reload)",
         function() return WoWpoCeskuSettings.djArt ~= "own" end,
         function(on) WoWpoCeskuSettings.djArt = on and "client" or "own" end)
-    addCheck(col, "Dungeon Kronika otevře mapu", "Po kliknutí na Zobrazit na mapě se mapa otevře. Když hra hlásí chybu ADDON_ACTION_BLOCKED, vypni.",
-        function() return WoWpoCeskuSettings.djOpenMap ~= false end,
+    addCheck(col, "Dungeon Kronika otevře mapu", "Po kliknutí na Zobrazit vstup se mapa otevře sama. Ve výchozím stavu vypnuto: hra pak může v boji hlásit chybu ADDON_ACTION_BLOCKED. Směr ukazuje i kompas.",
+        function() return WoWpoCeskuSettings.djOpenMap == true end,
         function(on) WoWpoCeskuSettings.djOpenMap = on end)
     addCheck(col, "Dungeon Kronika nastaví i značku hry", "Kromě naší ikony na mapě nastaví i klasickou značku (waypoint) se šipkou",
         function() return WoWpoCeskuSettings.djWaypoint == true end,

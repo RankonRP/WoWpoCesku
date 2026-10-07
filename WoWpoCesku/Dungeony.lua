@@ -334,7 +334,7 @@ local function showOnMap(p, label)
         end)
     end
     local opened = false
-    if settings().djOpenMap ~= false and not (InCombatLockdown and InCombatLockdown()) then
+    if settings().djOpenMap == true and not (InCombatLockdown and InCombatLockdown()) then
         -- mapu otevíráme přes securecall a jen mimo boj; kdyby hra hlásila ADDON_ACTION_BLOCKED, jde vypnout v nastavení
         opened = pcall(function()
             if OpenWorldMap then securecall(OpenWorldMap, uiMap) end
@@ -509,7 +509,7 @@ local function showEntrance(key)
         end)
     end
     local opened = false
-    if settings().djOpenMap ~= false and not (InCombatLockdown and InCombatLockdown()) then
+    if settings().djOpenMap == true and not (InCombatLockdown and InCombatLockdown()) then
         opened = pcall(function()
             if OpenWorldMap then securecall(OpenWorldMap, e.uiMap) end
             if WorldMapFrame then
