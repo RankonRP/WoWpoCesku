@@ -502,31 +502,70 @@ function Show-Toast([string]$title, [string]$line2, [int]$seconds = 8) {
     if ($Settings.upozorneni -eq $false) { return }
     try {
         if ($script:Toast) { try { $script:Toast.Close() } catch { } }
+        $W = 660; $H = 132
         $t = New-Object WpcToastForm
         $t.FormBorderStyle = "None"
         $t.ShowInTaskbar = $false
         $t.TopMost = $true
         $t.StartPosition = "Manual"
-        $t.Size = New-Object Drawing.Size(560, 120)
+        $t.Size = New-Object Drawing.Size($W, $H)
         $area = [Windows.Forms.Screen]::PrimaryScreen.WorkingArea
-        $t.Location = New-Object Drawing.Point(($area.Left + [int](($area.Width - 560) / 2)), ($area.Top + [int]($area.Height * 0.22)))
-        $t.BackColor = [Drawing.Color]::FromArgb(36, 28, 18)
-        $t.Opacity = 0.96
+        $t.Location = New-Object Drawing.Point(($area.Left + [int](($area.Width - $W) / 2)), ($area.Top + [int]($area.Height * 0.20)))
+        $t.BackColor = [Drawing.Color]::FromArgb(30, 21, 12)
+        $t.Opacity = 0.97
+        $hasReload = ($title -match '/reload')
+        # vzhled ve stylu hry: zlatý dvojitý rámeček, červený pruh vlevo, zelený odznak se zaškrtnutím
+        $t.Add_Paint({
+            param($s, $e)
+            $g = $e.Graphics
+            $g.SmoothingMode = [Drawing.Drawing2D.SmoothingMode]::AntiAlias
+            $g.TextRenderingHint = [Drawing.Text.TextRenderingHint]::ClearTypeGridFit
+            $outer = New-Object Drawing.Pen([Drawing.Color]::FromArgb(214, 168, 60), 3)
+            $inner = New-Object Drawing.Pen([Drawing.Color]::FromArgb(110, 78, 30), 1)
+            $g.DrawRectangle($outer, 1, 1, $W - 3, $H - 3)
+            $g.DrawRectangle($inner, 7, 7, $W - 15, $H - 15)
+            $red = New-Object Drawing.SolidBrush([Drawing.Color]::FromArgb(150, 24, 12))
+            $g.FillRectangle($red, 9, 9, 8, $H - 18)
+            $ring = New-Object Drawing.SolidBrush([Drawing.Color]::FromArgb(40, 120, 48))
+            $g.FillEllipse($ring, 34, 32, 66, 66)
+            $ringPen = New-Object Drawing.Pen([Drawing.Color]::FromArgb(214, 168, 60), 3)
+            $g.DrawEllipse($ringPen, 34, 32, 66, 66)
+            $f = New-Object Drawing.Font("Segoe UI Symbol", 30, [Drawing.FontStyle]::Bold)
+            $sf = New-Object Drawing.StringFormat
+            $sf.Alignment = "Center"; $sf.LineAlignment = "Center"
+            $g.DrawString([string][char]0x2714, $f, [Drawing.Brushes]::White, (New-Object Drawing.RectangleF(34, 32, 66, 66)), $sf)
+            $outer.Dispose(); $inner.Dispose(); $red.Dispose(); $ring.Dispose(); $ringPen.Dispose(); $f.Dispose()
+        }.GetNewClosure())
         $l1 = New-Object Windows.Forms.Label
-        $l1.Text = $title
+        $l1.Text = ($title -replace '\s*[–-]\s*napiš ve hře /reload', '')
+        if ($l1.Text -eq 'HOTOVO') { $l1.Text = 'Hotovo' }
         $l1.ForeColor = [Drawing.Color]::FromArgb(255, 209, 0)
-        $l1.Font = New-Object Drawing.Font("Segoe UI", 22, [Drawing.FontStyle]::Bold)
-        $l1.TextAlign = "MiddleCenter"
-        $l1.Dock = "Top"
-        $l1.Height = 70
+        $l1.BackColor = [Drawing.Color]::Transparent
+        $l1.Font = New-Object Drawing.Font("Georgia", 22, [Drawing.FontStyle]::Bold)
+        $l1.Location = New-Object Drawing.Point(120, 22)
+        $l1.Size = New-Object Drawing.Size(($W - 140), 44)
         $l2 = New-Object Windows.Forms.Label
         $l2.Text = $line2
-        $l2.ForeColor = [Drawing.Color]::FromArgb(240, 235, 220)
+        $l2.ForeColor = [Drawing.Color]::FromArgb(240, 232, 210)
+        $l2.BackColor = [Drawing.Color]::Transparent
         $l2.Font = New-Object Drawing.Font("Segoe UI", 12)
-        $l2.TextAlign = "MiddleCenter"
-        $l2.Dock = "Fill"
+        $l2.Location = New-Object Drawing.Point(122, 72)
+        $l2.Size = New-Object Drawing.Size($(if ($hasReload) { 330 } else { $W - 150 }), 44)
         $t.Controls.Add($l2)
         $t.Controls.Add($l1)
+        if ($hasReload) {
+            # červené „herní“ tlačítko s příkazem
+            $b = New-Object Windows.Forms.Label
+            $b.Text = "/reload"
+            $b.ForeColor = [Drawing.Color]::FromArgb(255, 209, 0)
+            $b.BackColor = [Drawing.Color]::FromArgb(122, 16, 10)
+            $b.Font = New-Object Drawing.Font("Georgia", 17, [Drawing.FontStyle]::Bold)
+            $b.TextAlign = "MiddleCenter"
+            $b.BorderStyle = "FixedSingle"
+            $b.Location = New-Object Drawing.Point(($W - 190), 70)
+            $b.Size = New-Object Drawing.Size(160, 42)
+            $t.Controls.Add($b)
+        }
         $tm = New-Object Windows.Forms.Timer
         $tm.Interval = $seconds * 1000
         $tm.Add_Tick({ param($sender, $e) $sender.Stop(); try { $script:Toast.Close() } catch { } })
