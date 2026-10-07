@@ -135,6 +135,7 @@ local TABS = {
     { id = "pribeh", label = "Tvůj příběh" },
     { id = "zkouska", label = "Zkouška kronikáře" },
     { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
+    { id = "discord", label = "Discord – chyba?", action = true, discord = true },   -- okénko s odkazem na Discord
 }
 
 -- vykreslí kapitoly jedné záložky do rolovací stránky
@@ -456,7 +457,7 @@ layoutTabs = function()
         if t:IsShown() then
             t:ClearAllPoints()
             t:SetPoint("TOPLEFT", book.panel, "TOPLEFT", 12, y)
-            y = y - (t.action and 46 or 38) - (t.action and 0 or 0)
+            y = y - ((t.action and not t.discord) and 46 or 38)
             n = n + 1
         end
     end
@@ -502,13 +503,14 @@ local function createTabs()
         local t = CreateFrame("Button", nil, panel, "UIPanelButtonTemplate")
         t.id = def.id
         t.action = def.action
+        t.discord = def.discord
         t:SetSize(160, 30)
         if WoWpoCeskuButtonFont then
             t:SetNormalFontObject(WoWpoCeskuButtonFont)
             t:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
         end
         t:SetText(def.label)
-        if def.action then
+        if def.action and not def.discord then
             local sep = panel:CreateTexture(nil, "ARTWORK")
             sep:SetColorTexture(0.45, 0.30, 0.16, 0.7)
             sep:SetSize(150, 1)
@@ -516,6 +518,10 @@ local function createTabs()
         end
         t:SetScript("OnClick", function(self)
             PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
+            if def.discord then
+                if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end
+                return
+            end
             if def.action then
                 if WoWpoCesku_DungeonJournal then
                     local key = bookKey
