@@ -86,6 +86,72 @@ function WoWpoCesku_ShowDiscord()
     tinsert(UISpecialFrames, "WoWpoCeskuDiscord")
 end
 
+-- Jak poslat nepřeložené texty bez Pomocníka: okénko s návodem (soubor SavedVariables -> Discord)
+local sendWin
+function WoWpoCesku_ShowSend()
+    local n = 0
+    for _ in pairs(WoWpoCeskuQueue or {}) do n = n + 1 end
+    if sendWin then
+        sendWin.count:SetText(("V tvé frontě čeká na překlad |cffffd100%d|r textů."):format(n))
+        sendWin:Show() sendWin:Raise()
+        return
+    end
+    local f = CreateFrame("Frame", "WoWpoCeskuSend", UIParent, "BackdropTemplate")
+    sendWin = f
+    f:SetSize(520, 330)
+    f:SetPoint("CENTER")
+    f:SetFrameStrata("FULLSCREEN_DIALOG")
+    f:SetFrameLevel(500)
+    f:SetToplevel(true)
+    f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32,
+        insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+    f:SetBackdropColor(0.10, 0.10, 0.14, 0.97)
+    f:EnableMouse(true)
+    f:SetMovable(true)
+    f:RegisterForDrag("LeftButton")
+    f:SetScript("OnDragStart", f.StartMoving)
+    f:SetScript("OnDragStop", f.StopMovingOrSizing)
+    local t = f:CreateFontString(nil, "OVERLAY")
+    t:SetFont(FONT, 15, "")
+    t:SetTextColor(1, 0.82, 0)
+    t:SetPoint("TOP", 0, -20)
+    t:SetText("Pomoz s překlady – pošli nepřeložené texty")
+    f.count = f:CreateFontString(nil, "OVERLAY")
+    f.count:SetFont(FONT, 12, "")
+    f.count:SetPoint("TOP", t, "BOTTOM", 0, -10)
+    f.count:SetText(("V tvé frontě čeká na překlad |cffffd100%d|r textů."):format(n))
+    local d = f:CreateFontString(nil, "OVERLAY")
+    d:SetFont(FONT, 12, "")
+    d:SetTextColor(0.9, 0.9, 0.9)
+    d:SetPoint("TOP", f.count, "BOTTOM", 0, -12)
+    d:SetWidth(470)
+    d:SetJustifyH("LEFT")
+    d:SetText("Addon si nepřeložené texty zapamatoval do souboru na tvém disku (sám nic neodesílá – WoW to addonům nedovolí). Pomůžeš tak, když ten soubor pošleš na náš Discord:\n\n1. Napiš |cffffd100/reload|r nebo se odhlas (tím se soubor uloží).\n2. Otevři složku hry: |cffffd100World of Warcraft\\_classic_beta_\\WTF\\Account\\<NÁZEV ÚČTU>\\SavedVariables|r\n3. Soubor |cffffd100WoWpoCesku.lua|r pošli na Discord do kanálu #návrhy-překladů (odkaz je níže).\n\nSoubor obsahuje texty ze hry, nastavení addonu a postup v Kronice (jména tvých postav), žádná hesla.")
+    local lbl = f:CreateFontString(nil, "OVERLAY")
+    lbl:SetFont(FONT, 12, "")
+    lbl:SetTextColor(0.7, 0.7, 0.7)
+    lbl:SetPoint("BOTTOMLEFT", 22, 70)
+    lbl:SetText("Odkaz na Discord (klik + Ctrl+C):")
+    local box = CreateFrame("EditBox", nil, f, "InputBoxTemplate")
+    box:SetSize(300, 22)
+    box:SetPoint("BOTTOMLEFT", 26, 44)
+    box:SetAutoFocus(false)
+    box:SetFont(FONT, 12, "")
+    box:SetText(WoWpoCesku_DISCORD)
+    box:SetCursorPosition(0)
+    box:SetScript("OnTextChanged", function(self) if self:GetText() ~= WoWpoCesku_DISCORD then self:SetText(WoWpoCesku_DISCORD) end end)
+    box:SetScript("OnEscapePressed", function() f:Hide() end)
+    local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    ok:SetSize(110, 24)
+    ok:SetPoint("BOTTOMRIGHT", -26, 20)
+    ok:SetNormalFontObject(buttonFont)
+    ok:SetHighlightFontObject(buttonFontHighlight)
+    ok:SetText("Zavřít")
+    ok:SetScript("OnClick", function() f:Hide() end)
+    tinsert(UISpecialFrames, "WoWpoCeskuSend")
+end
+
+
 -- Která pole musí být přeložená pro danou část questu
 local PART_FIELDS = {
     detail   = { "text", "objectives" },
@@ -1276,7 +1342,7 @@ local function showWelcome()
     hint:SetText("klik + Ctrl+C zkopíruje odkaz")
     last = url
     text("Chyba, nápad nebo otázka?", 15, 0.50, 0.12, 0.05, 14)
-    text("Napiš na náš Discord. Odkaz najdeš v okénku /czq discord (nebo tlačítko Discord v Dungeon Kronice).", 13, INK[1], INK[2], INK[3], 6)
+    text("Napiš na náš Discord. Odkaz najdeš v okénku /czq discord. Nepřeložené texty bez Pomocníka pošleš podle návodu v /czq soubor (nebo tlačítko Discord v Dungeon Kronice).", 13, INK[1], INK[2], INK[3], 6)
     local dbtn = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
     dbtn:SetSize(220, 24)
     dbtn:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, -8)
@@ -1472,6 +1538,8 @@ SlashCmdList.CZQUESTS = function(msg)
         if WoWpoCesku_MapList then WoWpoCesku_MapList(arg) end
     elseif cmd == "mapa" then
         if WoWpoCesku_MapDebug then WoWpoCesku_MapDebug(arg ~= "" and arg or nil) end
+    elseif cmd == "soubor" or cmd == "odeslat" or cmd == "export" then
+        WoWpoCesku_ShowSend()
     elseif cmd == "discord" or cmd == "chyba" then
         WoWpoCesku_ShowDiscord()
     elseif cmd == "uvod" or cmd == "úvod" then
