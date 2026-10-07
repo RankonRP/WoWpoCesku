@@ -269,6 +269,65 @@ local active = false
 local function xFor(rel) return rel / HALF * (BAR_W / 2 - 14) end
 
 -- pomalá část: seznam značek, vzdálenosti, texty
+-- okno s náhledem všech ikon (/czq kompas ikony): klik na ikonu ji nastaví pro označený quest
+local picker
+function WoWpoCesku_CompassIconPicker()
+    if picker then picker:SetShown(not picker:IsShown()) if picker:IsShown() then picker:Raise() end return end
+    local COLS, CELL = 5, 92
+    local rows = math.ceil(#ICON_LIST / COLS)
+    local f = CreateFrame("Frame", "WoWpoCeskuIkony", UIParent, "BackdropTemplate")
+    picker = f
+    f:SetSize(COLS * CELL + 40, rows * CELL + 90)
+    f:SetPoint("CENTER")
+    f:SetFrameStrata("FULLSCREEN_DIALOG")
+    f:SetToplevel(true)
+    f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32,
+        insets = { left = 11, right = 11, top = 11, bottom = 11 } })
+    f:SetBackdropColor(0.10, 0.10, 0.14, 0.97)
+    f:EnableMouse(true)
+    f:SetMovable(true)
+    f:RegisterForDrag("LeftButton")
+    f:SetScript("OnDragStart", f.StartMoving)
+    f:SetScript("OnDragStop", f.StopMovingOrSizing)
+    local t = f:CreateFontString(nil, "OVERLAY")
+    t:SetFont(FONT, 15, "")
+    t:SetTextColor(1, 0.82, 0)
+    t:SetPoint("TOP", 0, -18)
+    t:SetText("Ikona oznaceneho questu - klikni na vybranou")
+    f.cells = {}
+    local function mark()
+        for i, c in ipairs(f.cells) do c.sel:SetShown((cfg().compassIcon or 1) == i) end
+    end
+    for i, def in ipairs(ICON_LIST) do
+        local c = CreateFrame("Button", nil, f)
+        c:SetSize(CELL - 6, CELL - 6)
+        c:SetPoint("TOPLEFT", 20 + ((i - 1) % COLS) * CELL, -50 - math.floor((i - 1) / COLS) * CELL)
+        c.sel = c:CreateTexture(nil, "BACKGROUND")
+        c.sel:SetAllPoints()
+        c.sel:SetColorTexture(1, 0.82, 0.2, 0.25)
+        c.icon = c:CreateTexture(nil, "ARTWORK")
+        c.icon:SetSize(44, 44)
+        c.icon:SetPoint("TOP", 0, -6)
+        c.icon:SetTexture(def[2])
+        c.name = c:CreateFontString(nil, "OVERLAY")
+        c.name:SetFont(FONT, 11, "")
+        c.name:SetPoint("TOP", c.icon, "BOTTOM", 0, -4)
+        c.name:SetWidth(CELL - 10)
+        c.name:SetText(i .. ". " .. def[1])
+        c:SetHighlightTexture("Interface\\Buttons\\WHITE8x8")
+        c:GetHighlightTexture():SetVertexColor(1, 1, 1, 0.12)
+        c:SetScript("OnClick", function() cfg().compassIcon = i; mark() end)
+        f.cells[i] = c
+    end
+    mark()
+    local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
+    ok:SetSize(110, 24)
+    ok:SetPoint("BOTTOM", 0, 18)
+    ok:SetText("Zavrit")
+    ok:SetScript("OnClick", function() f:Hide() end)
+    tinsert(UISpecialFrames, "WoWpoCeskuIkony")
+end
+
 local function slow()
     active = false
     if cfg().compass ~= false then
@@ -442,6 +501,8 @@ function WoWpoCesku_CompassCommand(arg)
     arg = (arg or ""):lower()
     if arg == "zrusit" or arg == "cancel" then
         WoWpoCesku_Untrack()
+    elseif arg == "ikony" then
+        WoWpoCesku_CompassIconPicker()
     elseif arg:match("^ikona") then
         local n = tonumber(arg:match("%d+"))
         local i = n or ((cfg().compassIcon or 1) % #ICON_LIST + 1)

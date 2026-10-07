@@ -1098,6 +1098,9 @@ local function buildOptions()
     addCheck(right, "Kompas nahoře na obrazovce", "Směr a vzdálenost ke sledovanému cíli, vstupům a vzácným mobům (/czq kompas)",
         function() return WoWpoCeskuSettings.compass ~= false end,
         function(on) WoWpoCeskuSettings.compass = on end)
+    addCheck(right, "Upozornit na novou verzi", "Když potkáš hráče s novějším WoWpoČesku, objeví se hláška v chatu",
+        function() return WoWpoCeskuSettings.updateCheck ~= false end,
+        function(on) WoWpoCeskuSettings.updateCheck = on end)
     addCheck(right, "Poznámky k postavám u NPC", "Kdo je Thrall, Hogger, lady Prestor…",
         function() return WoWpoCeskuSettings.npcNotes ~= false end,
         function(on) WoWpoCeskuSettings.npcNotes = on end)
