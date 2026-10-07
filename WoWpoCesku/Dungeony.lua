@@ -377,15 +377,18 @@ local function drawDJMarks()
                 -- kruh pod ikonou: je vidět i když se ikona nenakreslí (tyrkysový kruh se zlatým lemem)
                 p.rim = p:CreateTexture(nil, "BACKGROUND", nil, -2)
                 p.rim:SetPoint("CENTER")
-                p.rim:SetColorTexture(0.85, 0.66, 0.20, 1)
+                p.rim:SetTexture("Interface\\Buttons\\WHITE8x8")
+                p.rim:SetVertexColor(0.85, 0.66, 0.2, 1)
                 p.ring = p:CreateTexture(nil, "BACKGROUND", nil, -1)
                 p.ring:SetPoint("CENTER")
-                p.ring:SetColorTexture(0.10, 0.50, 0.58, 1)
+                p.ring:SetTexture("Interface\\Buttons\\WHITE8x8")
+                p.ring:SetVertexColor(0.1, 0.5, 0.58, 1)
                 pcall(p.rim.SetMask, p.rim, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
                 pcall(p.ring.SetMask, p.ring, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
                 p.dot = p:CreateTexture(nil, "BACKGROUND", nil, 0)
                 p.dot:SetPoint("CENTER")
-                p.dot:SetColorTexture(0.80, 0.95, 0.95, 1)
+                p.dot:SetTexture("Interface\\Buttons\\WHITE8x8")
+                p.dot:SetVertexColor(0.8, 0.95, 0.95, 1)
                 pcall(p.dot.SetMask, p.dot, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
                 p.icon = p:CreateTexture(nil, "ARTWORK")
                 p.icon:SetAllPoints()
@@ -515,11 +518,7 @@ local function showEntrance(key)
         end)
     end
     setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "ring", nil, 40)   -- ikona ověřená ve hře (atlas Dungeon se nekreslil)
-    C_Timer.After(1.5, function()
-        local shown = 0
-        for _, p in ipairs(djPins) do if p:IsShown() then shown = shown + 1 end end
-        say(("(diagnostika) mapa ve hre %s, mapa znacky %s, viditelnych znacek %d"):format(tostring(WorldMapFrame and WorldMapFrame:GetMapID()), tostring(e.uiMap), shown))
-    end)
+    C_Timer.After(1.5, function() if WoWpoCesku_MarkDebug then WoWpoCesku_MarkDebug() end end)   -- diagnostika značky (dočasně)
     say(("vstup %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
 
@@ -1902,7 +1901,9 @@ function WoWpoCesku_MarkDebug()
     say(("znacek: %d, mapa ve hre: %s, mapa znacky: %s, mapa otevrena: %s"):format(#djMarks, tostring(WorldMapFrame and WorldMapFrame:GetMapID()), tostring(m and m.uiMap), tostring(WorldMapFrame and WorldMapFrame:IsShown())))
     if canvas then say(("platno: %.0f x %.0f, pinu: %d"):format(canvas:GetWidth(), canvas:GetHeight(), #djPins)) end
     for i, p in ipairs(djPins) do
-        say(("pin %d: viditelny=%s velikost=%.0f alfa=%.2f uroven=%s"):format(i, tostring(p:IsShown()), p:GetWidth(), p:GetEffectiveAlpha(), tostring(p:GetFrameLevel())))
+        local cx, cy = p:GetCenter()
+        local px, py = canvas and canvas:GetCenter()
+        say(("pin %d: viditelny=%s velikost=%.0f alfa=%.2f uroven=%s stred=%s,%s platno-stred=%s,%s meritko=%s"):format(i, tostring(p:IsShown()), p:GetWidth(), p:GetEffectiveAlpha(), tostring(p:GetFrameLevel()), tostring(cx and math.floor(cx)), tostring(cy and math.floor(cy)), tostring(px and math.floor(px)), tostring(py and math.floor(py)), tostring(p:GetEffectiveScale())))
     end
     drawDJMarks()
 end
