@@ -39,12 +39,13 @@ WoWpoCesku_DISCORD = "https://discord.gg/2CnEbAMJK5"
 
 local discordWin
 function WoWpoCesku_ShowDiscord()
-    if discordWin then discordWin:Show() discordWin.box:SetFocus() discordWin.box:HighlightText() return end
+    if discordWin then discordWin:Show() discordWin:Raise() discordWin.box:SetFocus() discordWin.box:HighlightText() return end
     local f = CreateFrame("Frame", "WoWpoCeskuDiscord", UIParent, "BackdropTemplate")
     discordWin = f
     f:SetSize(430, 160)
     f:SetPoint("CENTER")
-    f:SetFrameStrata("DIALOG")
+    f:SetFrameStrata("FULLSCREEN_DIALOG")   -- nad ostatními okny addonu (Kronika, Dungeon Kronika)
+    f:SetFrameLevel(500)
     f:SetToplevel(true)
     f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border", edgeSize = 32,
         insets = { left = 11, right = 11, top = 11, bottom = 11 } })
