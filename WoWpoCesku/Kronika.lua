@@ -1498,6 +1498,10 @@ local function showStory()
         local ok = CreateFrame("Button", nil, f, "UIPanelButtonTemplate")
         ok:SetSize(110, 24)
         ok:SetPoint("BOTTOMRIGHT", -26, 20)
+        if WoWpoCeskuButtonFont then
+            ok:SetNormalFontObject(WoWpoCeskuButtonFont)
+            ok:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
+        end
         ok:SetText("Zavřít")
         ok:SetScript("OnClick", function() f:Hide() end)
         tinsert(UISpecialFrames, "WoWpoCeskuPribehExport")
