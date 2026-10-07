@@ -279,3 +279,85 @@ chapters("Duskwood", {
 secrets("Duskwood", [[• Darkshire stráží Night Watch; původní vládce byl Lord Ello Ebonlocke.
 • Artefakt Scythe of Elune se ztratil v dole Roland's Doom.
 • SPOILER: Po Cataclysmu se tu usadili gilneajští uprchlíci.]])
+
+-------------------------------------------------------------------------------
+-- Stranglethorn Vale
+-------------------------------------------------------------------------------
+chapters("Stranglethorn Vale", {
+    { "Srdce říše Gurubashi", [[Stranglethorn Vale bylo srdcem trollí říše Gurubashi, která kdysi ovládala jih Východních království. Zlomovým okamžikem byla občanská válka před 1 500 lety před otevřením Temné brány: skupina kněží přivolala Hakkara the Soulflayer, krvavého boha, který málem zničil celý trollí národ. Zandalarové nakonec Hakkara porazili u jeho svatyně v Zul'Gurub, ale fanatičtí stoupenci utekli a založili Temple of Atal'Hakkar v Swamp of Sorrows.]] },
+    { "Místa a jejich příběhy", [[Booty Bay byl původně lidský přístav, který přemohli trollové; goblini ze Steamwheedle Cartel si ho vzali zpět jako středisko pro Východní království. Dnes se o něj přou Blackwater Raiders (gobliní piráti) a konkurenční Bloodsail Buccaneers. Grom'gol Base Camp je hordská osada, kde Kin'weelay bojuje s kmeny Bloodscalp a Skullsplitter. Rebel Camp založili vojáci, kteří se vzbouřili proti plukovníku Kurzenovi, jehož ovládl ogří mág Mai'Zoth pomocí artefaktu na kontrolu mysli; odboj vede Lieutenant Doren. Nesingwary's Expedition vede lovec Hemet Nesingwary Jr. a posílá dobrodruhy po vzácné exotické zvěři. Gurubashi Arena je stadion, kde „největší trollové z celého Azerothu bojovali jednou za generaci“.]] },
+    { "Lidé a historky", [[Baron Revilgaz je současný goblí vládce Booty Bay. Jin'do, Bloodlord Mandokir a Var'gazul byli trollí vládcové; ti všichni jsou mrtví. Plukovník Kurzen je posedlý voják, který se později objeví jako protivník.]] },
+    { "Zajímavosti", [[• Oblast je proslulá Stranglethorn Fever, nebezpečnou nemocí tamní džungle, a jedovatou zvěří i rostlinami.
+• Vedle prastarých trollích ruin stojí moderní gobliní těžební a dřevařské podniky, takže se tu neustále bojuje o území.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Cataclysm (28 ADP) rozdělil Stranglethorn na dvě zóny „obrovskou propadlinou s vířivkou The Sundering“: Northern Stranglethorn a Cape of Stranglethorn. Zandalarové později znovu vystavěli Zul'Gurub a Venture Company rozšířila průmysl.]] },
+})
+
+secrets("Stranglethorn Vale", [[• Stranglethorn Fever je skutečná nemoc džungle.
+• Hakkar the Soulflayer byl poražen v Zul'Gurub, jeho stoupenci založili Temple of Atal'Hakkar.
+• Gurubashi Arena: bojuje se tu o truhlu každé tři hodiny.
+• SPOILER: Po Cataclysmu se zóna dělí na Northern Stranglethorn a Cape of Stranglethorn.]])
+
+-------------------------------------------------------------------------------
+-- The Hinterlands
+-------------------------------------------------------------------------------
+chapters("The Hinterlands", {
+    { "Z trollí říše k Aerie Peaku", [[Hinterlands původně ovládala říše lesních trollů Amani. Po porážce v trollích válkách (kolem 2 800 BDP) se trollové rozpadli na tři kmeny. V roce 230 BDP dorazili po Válce tří kladiv Wildhammer trpaslíci a založili Aerie Peak; spojení s gryfy se stalo základem jejich kultury.]] },
+    { "Druhá válka a po ní", [[Za druhé války (5 ADP) obtěžovali jezdci na gryfech pod thanem Kurdranem Wildhammerem z oblohy invazní Hordu a stali se klíčoví pro vítězství Aliance. Horda neměla proti letcům obranu a stáhla se. Po třetí válce se kmen Revantusk spojil s novou Hordou a postavil Revantusk Village. Quel'Danil Lodge býval komunikačním uzlem vysokých elfů; v roce 25 ADP se z portálu Seradane vynořil zkažený zelený drak Ysondre.]] },
+    { "Místa a jejich příběhy", [[Aerie Peak je gryfí pevnost a hlavní středisko Aliance. Revantusk Village je osada kmene Revantusk. Jintha'Alor je prastará pevnost Vilebranchů, „srdce“ bývalé říše Amani. Seradane je jeden ze čtyř Velkých stromů vedoucích do Smaragdového snu. Skulk Rock býval orčí základnou za druhé války. Shadra'Alor a Agol'watha jsou bývalé chrámy kmene Witherbark. Quel'Danil Lodge je lovecká chata vysokých elfů a diplomatické středisko.]] },
+    { "Postavy", [[Falstad Wildhammer vede Wildhammery v Hinterlands a patří do Rady tří kladiv. Primal a Elder Torntusk vedou kmen Revantusk. Vile Priestess Hexx byla vůdkyní Vilebranchů.]] },
+    { "Zajímavosti", [[• Zóna se při vývoji původně jmenovala „Aerie Peaks“.
+• Akil'darah, orlí duch, nese v některých pramenech titul „Guardian of the Hinterlands“.
+• Hinterlands zůstaly „klidné a mírumilovné“ i po Cataclysmu, na rozdíl od sousedních oblastí.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po Cataclysmu Wildhammerové postavili Stormfeather Outpost, Forsaken přeměnili Hiri'watha na výzkumnou stanici a obě strany, Wildhammerové i Revantusk, oblehly Jintha'Alor, který nakonec získal kmen Revantusk. Witherbark nakonec Forsaken z Hinterlands vyhnali.]] },
+})
+
+secrets("The Hinterlands", [[• Původní název zóny byl „Aerie Peaks“.
+• Seradane je jeden ze čtyř Velkých stromů vedoucích do Smaragdového snu.
+• SPOILER: Po Cataclysmu obléhají Jintha'Alor Wildhammerové i Revantusk.]])
+
+-------------------------------------------------------------------------------
+-- Western Plaguelands
+-------------------------------------------------------------------------------
+chapters("Western Plaguelands", {
+    { "Obilnice Lordaeronu", [[Western Plaguelands byly zemědělskou základnou Lordaeronu. Za Scourge invaze Lich King rozmístil „cauldrony moru“, kterými otrávil obilí exportované z Andorhalu, a úrodná pole se změnila v zkaženou pustinu. Region byl „jedním z prvních, který padl“ a zůstal zamořený dlouhé roky.]] },
+    { "Místa a jejich příběhy", [[Andorhal býval distribučním střediskem obilí, dnes je spornou zříceninou. Caer Darrow je ostrovní pevnost, kde sídlí Scholomance, nekromantská akademie Plagy. Hearthglen je pevnost Scarlet Crusade (později Argent Crusade) v Mardenholde Keep. Sorrow Hill s Uther's Tomb je „jediné místo zdravého rozumu v Western Plaguelands“, posvěcený památník. Felstone Field, Dalson's Farm a Gahrron's Withering jsou místa cauldronů s nemrtvými. Chillwind Camp je alianční tábor na jižní hranici. The Weeping Cave a Writhing Haunt jsou jeskyně plné nemrtvých.]] },
+    { "Lidé a historky", [[Tirion Fordring je neutrální vůdce, který hledá způsob, jak zachránit syna Taelana z vlivu Scarlet Crusade. Darkmaster Gandling ovládá Scholomance. Zóna proslula tím, že tu nechtěně umíral spousta zvědavých nováčků z Tirisfal Glades – v komunitě se tomu říká „Welcome Bear“ a ukazuje to, jak tvrdé jsou přechody mezi zónami.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Po válce s Lich Kingem založil Argent Crusade v Hearthglenu hlavní pevnost. Při Cataclysmu Cenarion Circle obnovil velkou část vitality země. Thassarian (Aliance) a Koltira Deathweaver (Horda) velili ve Battle for Andorhal. Caer Darrow a Scholomance dál ovládá Gandling.]] },
+})
+
+secrets("Western Plaguelands", [[• Plaga se šířila otráveným obilím z Andorhalu.
+• Sorrow Hill s Uther's Tomb je jediné klidné místo zóny.
+• Zóna je proslulá tím, že tu zahynuli nováčci z Tirisfalu („Welcome Bear“).]])
+
+-------------------------------------------------------------------------------
+-- Eastern Plaguelands
+-------------------------------------------------------------------------------
+chapters("Eastern Plaguelands", {
+    { "Eastweald a Očištění Stratholmu", [[Eastern Plaguelands se dřív jmenovaly Eastweald a byly úrodnou částí království Lordaeron. Za třetí války provedl princ Arthas „Očištění Stratholmu“ (Culling of Stratholme): pobil nakažené obyvatele a začal svůj pád do temnoty. Lich Kel'Thuzad poté vládl ze Stratholmu a jeho létající citadela Naxxramas se stala jižní baštou Scourge. Po válce založil Argent Dawn v Light's Hope Chapel odboj, který později splynul s dalšími frakcemi v Argent Crusade.]] },
+    { "Místa a jejich příběhy", [[Light's Hope Chapel je neutrální útočiště a hlavní cestovní uzel; velitelství protiscourgových sil. Stratholme je zřícené hlavní město regionu a dnes dungeon, o který bojují nemrtví a odboj. Tyr's Hand je bývalá pevnost Scarlet Crusade, dnes z velké části znovu v rukou Argent Crusade. Plaguewood je nejzkaženější část zóny, plná morových tvorů a magické poskvrny. Quel'Lithien Lodge je východní hraniční místo s hlídaným průsmykem do Quel'Thalas. Věže Crown Guard, Northpass, Eastwall a Light's Shield jsou „body světla“ proti temnotě nemrtvých.]] },
+    { "Lidé a historky", [[Lord Maxwell Tyrosus vede Argent v Light's Hope Chapel. Tirion Fordring působí od řeky Thondroril. SPOILER: Highlord Darion Mograine velí rytířům smrti z Acherusu.]] },
+    { "Zajímavosti", [[• Zóna zachycuje staletý boj mezi okupací Scourge a organizovaným odporem.
+• SPOILER: Po Cataclysmu zkáza pomalu slábne.]] },
+})
+
+secrets("Eastern Plaguelands", [[• Eastern Plaguelands se původně jmenovaly Eastweald.
+• Naxxramas se vznáší nad zemí jako jižní bašta Scourge.
+• Věže Crown Guard, Northpass, Eastwall a Light's Shield jsou „body světla“.]])
+
+-------------------------------------------------------------------------------
+-- Badlands
+-------------------------------------------------------------------------------
+chapters("Badlands", {
+    { "Zelené údolí, které vypálil Ragnaros", [[Badlands byly kdysi „zelené údolí plné přírodního bohatství“. Příchod Ragnarose před 300 lety z nich udělal pustinu. Ukrývá také Uldaman, prastarou pevnost vytvořenou Titány. Prospektoři ji objevili „teprve před pár lety“ a našli „značky s tajemstvím pravého původu trpaslíků“, ale probudili primitivní troggy Stonevault, kteří ji nyní brání.]] },
+    { "Druhá válka a classic", [[Za druhé války (5 ADP) vedli bojovníci klanu Black Tooth Grin Cho'galla Badlands, aby prohlédl rafinerie oleje u Grim Batolu. V době classic (25 ADP) vznikl Kargath jako jediná hordská základna v Khaz Modanu. Thrall tam poslal Kargath Expeditionary Force, aby zlikvidovala odpadlíka z klanu Blackrock Renda Blackhanda. Goblini založili Fuselight a Fuselight-by-the-Sea.]] },
+    { "Místa a jejich příběhy", [[Uldaman je titánská pevnost, o kterou se přou Explorers' League, Dark Iron a další. Angor Fortress je ogří pevnost. Lethlor Ravine je místo, kde se objevuje černý dračí rod, a The Dustbowl je jeho lovecké území. Hammertoe's Digsite je naleziště trpasličího prospektora. Camp Boff, Kosh, Wurg a Cagg jsou ogří tábory. Agmond's End, Apocryphan's Rest, Valley of Fangs a Dustwind Gulch jsou menší zajímavosti. V Badlands se nachází i pohřbený trollí chrám s hadími sochami severozápadně od Dustbowlu, podobný stavbám z Hinterlands.]] },
+    { "Zajímavosti", [[• Podle RPG je tu jediná trvalá osada: Kargath.
+• Písečné bouře prý dokážou zmást orientaci podle krajinných bodů.
+• Hearthstone si v non-kánonickém „Showdown in the Badlands“ vymyslel Bloodrock, kde Sheriff Barrelbrim těží Azerite.]] },
+    { "Co bylo dál (spoilery z pozdějšího příběhu)", [[SPOILER: Při Cataclysmu lavina zničila Kargath a nahradil ho New Kargath. Deathwingův průlet vytvořil roklinu Scar of the Worldbreaker.]] },
+})
+
+secrets("Badlands", [[• Ragnaros zpustošil zelené údolí před zhruba 300 lety.
+• Uldaman je titánská pevnost; Stonevault troggové ji brání.
+• Hearthstone: „Showdown in the Badlands“ (nekánon).
+• SPOILER: Po Cataclysmu leží v zóně Scar of the Worldbreaker.]])
