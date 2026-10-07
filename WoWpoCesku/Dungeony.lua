@@ -419,13 +419,13 @@ local function drawDJMarks()
             end
             do
                 local sz = p:GetWidth()
-                local ringed = (m.icon == "ring") and not usedAtlas
+                local ringed = (m.icon == "ring")
                 p.rim:SetShown(ringed); p.ring:SetShown(ringed); p.dot:SetShown(ringed)
                 p.rim:SetSize(sz, sz)
                 p.ring:SetSize(sz * 0.84, sz * 0.84)
                 p.dot:SetSize(sz * 0.40, sz * 0.40)
             end
-            p:SetFrameLevel(canvas:GetFrameLevel() + 1995)
+            p:SetFrameLevel(10000)
             p:ClearAllPoints()
             local placed = WorldMapFrame.SetPinPosition and pcall(WorldMapFrame.SetPinPosition, WorldMapFrame, p, m.u, m.v)
             if not placed then p:SetPoint("CENTER", canvas, "TOPLEFT", m.u * w, -m.v * h) end
@@ -518,7 +518,7 @@ local function showEntrance(key)
             end
         end)
     end
-    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "ring", isRaid(key) and "Raid" or "Dungeon", 40)   -- ikona ověřená ve hře (atlas Dungeon se nekreslil)
+    setDJMark(e.uiMap, e.u, e.v, key .. " - vstup", "ring", isRaid(key) and "Raid" or "Dungeon", 52)   -- ikona ověřená ve hře (atlas Dungeon se nekreslil)
     C_Timer.After(1.5, function() if WoWpoCesku_MarkDebug then WoWpoCesku_MarkDebug() end end)   -- diagnostika značky (dočasně)
     say(("vstup %s: %s %.1f, %.1f%s%s"):format(key, e.zone or "?", e.u * 100, e.v * 100, set and " - znacka je na mape" or "", opened and "." or " (otevri mapu klavesou M)."))
 end
