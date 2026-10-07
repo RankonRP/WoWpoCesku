@@ -361,3 +361,54 @@ secrets("Badlands", [[• Ragnaros zpustošil zelené údolí před zhruba 300 l
 • Uldaman je titánská pevnost; Stonevault troggové ji brání.
 • Hearthstone: „Showdown in the Badlands“ (nekánon).
 • SPOILER: Po Cataclysmu leží v zóně Scar of the Worldbreaker.]])
+
+-------------------------------------------------------------------------------
+-- Národy ve startovních oblastech
+-------------------------------------------------------------------------------
+chapters("Mulgore", {
+    { "Národ: taureni (shu'halo)", [[Taureni, ve své řeči shu'halo, pocházejí od yaungolů, býčí rasy, kterou kdysi zotročila moguská říše. Po osvobození putovaly skupiny na sever. Ty, které se usadily u Well of Eternity, se od Cenaria naučily druidskou a šamanskou magii a staly se tím, čím jsou dnes.
+
+Uctívají Matku Zemi. Podle mýtu si vyrvala oči a umístila je na oblohu: levé se stalo Mu'sha (měsíc) a pravé An'she (slunce). Ani jedno nepřevažuje; společně jsou symbolem vyváženého vidění. Srdcem jejich duchovní identity je Great Hunt, velký lov. Každý taurenský dospělý se chce lovem osvědčit a získat nauku Matky Země. Dospívající skládají Rites of the Earthmother (Síla, Odvaha, Čest, Větry, Vize, Moudrost), aby se stali bojovníky.
+
+Dlouhé generace je trápili kentauři, zrození z neobvyklého svazku Zaetara (syna Cenaria) a princezny Theradras; kvůli nim byli taureni nuceni k nomádskému životu po Barrens. Teprve Cairne Bloodhoof se spojil s Thrallem a novou Hordou a s orčí pomocí získali Mulgore zpět.
+
+Zajímavosti: mrtví se spalují obřadním způsobem a popel se vrací větrům a řekám. Taureni jedí hlavně pinie, kukuřičnou mouku a koření. Tauren je vysoký 9–10 stop, váží 400–800 liber, má kopyta, rohy, tříprsté ruce a ocas. Dobré vztahy mají s nočními elfy (sdílená druidská tradice v Cenarion Circle), horší s trpaslíky, kteří podle nich ryjí do Matky Země. SPOILER: Po Cataclysmu se objevili Sunwalkeři (paladinové) a Seers (kněží).]] },
+})
+
+chapters("Durotar", {
+    { "Národ: orkové", [[Orkové údajně pocházejí z kamenných obrů vytvořených titánem Aggramarem: colossali, magnaroni, gronni, ogroni, ogrové a nakonec orkové, kteří se postupně zmenšovali a získávali rozum. Před 800 lety před Temnou branou se rozšířili na povrch Draenoru a vytvořili klany (Blackrock, Frostwolf, Shadowmoon, Warsong…). Klan Shadowmoon objevil šamanismus u Throne of the Elements a sjednotil klany pokojnou duchovní správou.
+
+Pak přišel Kil'jaeden, který šamana Ner'zhula oklamal, že draenei kují spiknutí proti orkům. Následoval genocidní konflikt a démonická korupce: z kůže orků se stala zelená, šamany nahradili černokněžníci. Gul'dan vedl klany do Staré Hordy a po vypití krve Mannorothu se orkové dostali pod vůli Plamenné legie. Nezkažení potomci se jmenují Mag'har.
+
+Horda napadla Azeroth přes Temnou bránu a dobyla Stormwind, ale Aliance ji porazila. Po osvobození z internačních táborů Thrallem (synem Durotana) se orkové přesunuli do Kalimdoru, založili Durotar a Orgrimmar a po poražení Mannorothu Gromem Hellscreamem se zbavili démonické kontroly. Vysoký asi 7 stop (muži), cení si cti, bojové zdatnosti a klanu; exil je pro ně největší hanba. Vzácně mají modré oči – znamení osudu.]] },
+    { "Národ: Darkspear trollové", [[Darkspear jsou džunglovití trollové, kteří se připojili k Hordě po záchraně Thrallem před naga za třetí války. Původně je vedl náčelník Sen'jin, poté jeho syn Vol'jin, který se stal válečným náčelníkem. Heslem kmene je „Darkspear never die“ – Darkspear nikdy neumírají. Na rozdíl od jiných trollích kmenů nejsou tak divocí; po vstupu do Hordy opustili kanibalismus, ale ponechali si duchovní tradice.
+
+Tři hlavní loa jsou Bwonsamdi (Duše, loa smrti), Lukou (Srdce, regenerace) a Kevo ya Siti (Hlava, lstivost). Domovem je Echo Isles a Sen'jin Village v Durotaru. SPOILER: Vol'jin padl v bitvě o Broken Shore a kmen dnes vede Rokhan.]] },
+})
+
+chapters("Elwynn Forest", {
+    { "Národ: lidé", [[Lidé pocházejí z vrykulů, polobřích z Northrendu. Před 15 000 lety způsobila Curse of Flesh, že se vrykulské děti rodily malé a zdeformované. Místo vyhlazení je rodiče ukrývali v Tirisfal Glades, kde se za tisíciletí zvrhli v smrtelné lidi. Nomádské kmeny se pak sjednotily pod Thoradinem proti trollům Amani a vzniklo impérium Arathor kolem 2 800 BDP. Vysocí elfové z Quel'Thalas je naučili arkánní magii výměnou za vojenskou pomoc.
+
+Kolem 1 200 BDP se Arathor rozpadl na Sedm království: Lordaeron, Stormwind, Dalaran, Kul Tiras, Gilneas, Stromgarde a Alterac. Po první válce vznikla Aliance Lordaeronu s trpaslíky, gnómy a vysokými elfy. Lidé mluví Common (společnou řečí) a věří v Church of the Holy Light; magickou tradici zastupuje Kirin Tor a bojovou Knights of the Silver Hand. SPOILER: Stormwind je dnes nejsilnější bašta lidí pod králem Anduinem Wrynnem.]] },
+})
+
+chapters("Dun Morogh", {
+    { "Národ: trpaslíci", [[Trpaslíci pocházejí z Earthen, kamenných bytostí vytvořených titánskými Keepery. Po Curse of Flesh se z nich stali tělesní humanoidé, kteří se probudili a nazvali se trpaslíky. Khaz Modan se jmenuje podle titána Khaz'goroth. Klany jsou tři: Bronzebeardové vládnou Ironforge a Dun Morogh, Wildhammerové žijí v Hinterlands a proslavili je gryfové a Dark Iron, zotročení Ragnarosem po Válce tří kladiv, sídlili v Blackrock Mountain. Válka se rozhořela, když Sorcerer-Thane Thaurissan omylem vyvolal Ragnarose, který zničil hlavní město a vytvořil Burning Steppes. Trpaslíci vynikají v kovářství, kamenictví a těžbě; mají rádi pivo a dýmky a raději chodí po pevné zemi. SPOILER: Dnes jsou všechny tři klany zastoupeny v Radě tří kladiv.]] },
+    { "Národ: gnómové", [[Gnómové pocházejí z mechagnómů, kovových tvorů vytvořených Keeperem Mimironem. Postižení Curse of Flesh se postupně proměnili v tělesné gnómy asi 3 000 let před Temnou branou. Trpaslíci je objevili v zasněžených horách západně od Uldamanu kolem 2 500 BDP, poznali příbuznost a pomohli jim založit Gnomeregan. Před pádem města „neměli žádnou historii vnitřního násilí“.
+
+Pád Gnomereganu způsobila zrada Thermaplugga. Přeživší utekli do Tinker Town v Ironforge. Gelbin Mekkatorque nepřistoupil na okamžité dobývání, a raději se zaměřil na podporu Aliance a technologický pokrok. Gnómové jsou mistři techniky, malí (asi 3'4"–3'6"), mají čtyři prsty a velké zaoblené uši. Jsou optimističtí i přes všechna neštěstí a mají rivalitu s gobliny. SPOILER: Operation: Gnomeregan později město částečně získala zpět a gnómové objevili Mechagon.]] },
+})
+
+chapters("Teldrassil", {
+    { "Národ: noční elfové (kaldorei)", [[Noční elfové, kaldorei neboli „děti hvězd“, se vyvinuli z temných trollů u Well of Eternity před zhruba 15 000 lety. Magie je změnila na vysoké bytosti s fialovou kůží, které uctívají měsíční bohyni Elune a pod královnou Azsharou vytvořily pokročilou civilizaci. Říše ovládla Kalimdor.
+
+Azshařini Highborne ale zpyšněli a Sargeras je oklamal, aby otevřeli portál Plamenné legii. Spustila se Válka prastarých (War of the Ancients), kterou vedli Malfurion Stormrage (první druid) a velekněžka Tyrande Whisperwind. Well of Eternity při Velkém roztříštění implodoval a roztříštil Kalimdor. Přeživší se zřekli arkánní magie a vydali se cestou druidů a přírody. Malfurion a dračí Aspekty vytvořili Nordrassil, první Světový strom, který chránil nový Well a dal noční elfům nesmrtelnost.
+
+Následovala Long Vigil, tisíce let izolace, kdy druidové spali ve Smaragdovém snu. Třetí válka je vyvedla z izolace a připojili se k Alianci. SPOILER: Teldrassil shořel za války o trny a noční elfové dnes budují nové hlavní město Bel'ameth u nového Světového stromu Amirdrassil na Dragon Isles; vede je Shandris Feathermoon.]] },
+})
+
+chapters("Tirisfal Glades", {
+    { "Národ: Forsaken", [[Forsaken jsou inteligentní nemrtví, kteří se po třetí válce osvobodili z vůle Lich Kinga. Původně lidé a vysocí elfové z Lordaeronu; Undercity si postavili pod troskami hlavního města. Sylvanas Windrunner je sjednotila a vládla jim jako královna, dokud je nezradila za čtvrté války. Svobodná vůle je jejich nejdůležitější hodnota, díky níž se liší od zotročeného Scourge. Mluví Gutterspeak a často si berou nová jména jako symbol znovuzrození.
+
+Forsaken nemohou přirozeně spát a mají otupělé vjemy. Živí se alchymií, štěpováním částí těla a kanibalismem; „všechno chutná po popelu“. Do Hordy je prosadil taurenský Hamuul Runetotem proti Lich Kingovi, ale důvěra utrpěla po moru u Wrathgate, který zabil Hordu i Alianci. Nejblíž mají krvavé elfy. SPOILER: Dnes je vede Desolate Council: Lilian Voss, Calia Menethil, Master Apothecary Faranell, Deathstalker Commander Belmont a Dark Ranger Velonara.]] },
+})
