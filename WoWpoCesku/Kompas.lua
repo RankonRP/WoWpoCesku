@@ -451,7 +451,15 @@ local function slow()
                         local m = mark(n)
                         local big = it.kind == "target" or it.main == true or it.kind == "waypoint"
                         m.main = it.main == true
-                        m.icon:SetTexture(it.main and mainIcon() or kindIcon(it.kind))
+                        -- vstup do dungeonu: stejný portál (atlas "Dungeon") jako značka v Dungeon Kronice na mapě
+                        local atlasOk = false
+                        if it.kind == "dungeon" and not (cfg().compassDungeonIcon and ICON_LIST[cfg().compassDungeonIcon]) and m.icon.SetAtlas then
+                            atlasOk = pcall(m.icon.SetAtlas, m.icon, "Dungeon", false)
+                        end
+                        if not atlasOk then
+                            m.icon:SetTexture(it.main and mainIcon() or kindIcon(it.kind))
+                            m.icon:SetTexCoord(0, 1, 0, 1)
+                        end
                         m.icon:SetSize(big and 20 or 16, big and 20 or 16)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl, main = it.main }
                         m.dir, m.dtext, m.dim = dir, (cfg().compassDist ~= false) and dist(d) or " ", (it.kind == "rare" and it.seen)
