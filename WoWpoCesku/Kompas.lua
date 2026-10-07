@@ -6,7 +6,7 @@ local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
 
 local BAR_W, BAR_H = 520, 34
 local HALF = math.pi / 2   -- pruh ukazuje 180° před hráčem (±90°)
-local RARE_RANGE = 700     -- vzácní moby dál než tohle (yardy) se neukazují
+local RARE_RANGE = 300     -- vzácní moby dál než tohle (yardy) se neukazují
 
 local function cfg()
     WoWpoCeskuSettings = WoWpoCeskuSettings or {}
@@ -120,6 +120,30 @@ local function mark(i)
     m.text = bar:CreateFontString(nil, "OVERLAY")
     m.text:SetFont(FONT, 10, "OUTLINE")
     m.text:SetTextColor(1, 1, 1)
+    -- průhledné políčko nad ikonou kvůli tooltipu
+    m.hit = CreateFrame("Frame", nil, bar)
+    m.hit:SetSize(30, 30)
+    m.hit:EnableMouse(true)
+    m.hit:SetScript("OnEnter", function(self)
+        local it = m.info
+        if not it then return end
+        GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+        GameTooltip:AddLine(it.label or "?", 1, 1, 1)
+        if it.kind == "rare" then
+            GameTooltip:AddLine("Vzacny mob - mozne misto vyskytu", 1, 0.82, 0)
+            if it.lvl then GameTooltip:AddLine("Level " .. it.lvl, 0.8, 0.8, 0.8) end
+            GameTooltip:AddLine(it.seen and "Uz jsi ho videl" or "Zatim jsi ho nevidel", 0.8, 0.8, 0.8)
+            GameTooltip:AddLine("Podrobnosti: Kronika > Bestiar", 0.6, 0.6, 0.6)
+        elseif it.kind == "dungeon" then
+            GameTooltip:AddLine("Vstup do dungeonu", 1, 0.82, 0)
+        else
+            GameTooltip:AddLine("Sledovany cil", 1, 0.82, 0)
+            GameTooltip:AddLine("Zrusit: /czq kompas zrusit", 0.6, 0.6, 0.6)
+        end
+        if it.d then GameTooltip:AddLine("Vzdalenost: " .. dist(it.d), 0.8, 0.8, 0.8) end
+        GameTooltip:Show()
+    end)
+    m.hit:SetScript("OnLeave", GameTooltip_Hide)
     marks[i] = m
     return m
 end
@@ -179,7 +203,7 @@ local function update()
                         if d and (not bd or d < bd) then best, bd = p, d end
                     end
                     if best and bd <= RARE_RANGE then
-                        items[#items + 1] = { kind = "rare", map = pid, u = best[1], v = best[2], label = name, seen = seenR and seenR[name] ~= nil }
+                        items[#items + 1] = { kind = "rare", map = pid, u = best[1], v = best[2], label = name, lvl = info.lvl, seen = seenR and seenR[name] ~= nil }
                     end
                 end
             end
@@ -212,6 +236,10 @@ local function update()
                 m.icon:SetAlpha(inView and (it.kind == "rare" and it.seen and 0.6 or 1) or 0.6)
                 m.icon:SetSize(it.kind == "target" and 20 or 16, it.kind == "target" and 20 or 16)
                 m.icon:Show()
+                m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl }
+                m.hit:ClearAllPoints()
+                m.hit:SetPoint("CENTER", m.icon, "CENTER", 0, -4)
+                m.hit:Show()
                 m.text:ClearAllPoints()
                 m.text:SetPoint("TOP", m.icon, "BOTTOM", 0, 1)
                 m.text:SetText(inView and dist(d) or (rel < 0 and "<" or ">"))
@@ -219,7 +247,7 @@ local function update()
             end
         end
     end
-    for i = used + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide() end
+    for i = used + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].info = nil end
     bar.label:SetText(label or "")
 end
 
