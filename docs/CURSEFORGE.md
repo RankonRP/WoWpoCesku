@@ -24,7 +24,11 @@
 
 **Nepřeložený text?** Addon ho zapíše do fronty. Volitelný **Pomocník** (Windows, zdarma na GitHubu) ho přeloží a data pošle zpět do hry. Bez Pomocníka addon funguje s hotovými překlady.
 
+**Chyba, nápad nebo oprava překladu?** Napiš na náš Discord: https://discord.gg/2CnEbAMJK5
+
 Zdroj, Pomocník a návod: https://github.com/RankonRP/WoWpoCesku
+
+(Od 0.61.0 popis na CurseForge navíc zmiňuje: záložku Postavy, Dungeon Kroniku, kompas, nastavení po kategoriích, zkratky a upozornění na novou verzi. Platný text je na stránce projektu; tahle verze v souboru je zkrácená.)
 
 ## Description (English)
 **WoWpoCesku** adds a Czech translation of quests, NPC dialogues, books and parts of the UI for WoW: Forever, with the original English text kept at hand.
