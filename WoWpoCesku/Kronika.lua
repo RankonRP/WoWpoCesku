@@ -1453,17 +1453,89 @@ local function sentence(J, e)
 end
 
 -- celý příběh postavy jako souvislý text (nejstarší zápis nahoře) pro zkopírování
-local function storyText(J)
-    local out = { "Příběh postavy " .. (J.name or "?"), "" }
-    local day
-    for _, e in ipairs(J.list) do
-        local s = sentence(J, e)
+-- dokončení věty: rod postavy a odstranění zdvojené interpunkce (stejně jako ve sentence)
+local function finishSentence(J, s)
+    s = s:gsub("([%?!])%.", "%1")
+    if J.sex == 3 then s = s:gsub("%(a%)", "a") else s = s:gsub("%(a%)", "") end
+    return s
+end
+local function czList(t)
+    if #t == 1 then return t[1] end
+    return table.concat(t, ", ", 1, #t - 1) .. " a " .. t[#t]
+end
+-- události jednoho dne jako jeden souvislý odstavec: bossové ve stejném dungeonu, úrovně a pečetě se spojí do jedné věty
+local function dayNarrative(J, evs)
+    local bossBy, levels, seals, metL, rareL = {}, {}, {}, {}, {}
+    for _, e in ipairs(evs) do
+        if e.k == "met" then metL[#metL + 1] = tostring(e.a or "?")
+        elseif e.k == "rare" then rareL[#rareL + 1] = tostring(e.a or "?")
+        elseif e.k == "boss" then
+            local d = e.b or ""
+            bossBy[d] = bossBy[d] or {}
+            table.insert(bossBy[d], tostring(e.a or "?"))
+        elseif e.k == "level" and tonumber(e.a) ~= 60 then levels[#levels + 1] = tostring(e.a or "?")
+        elseif e.k == "seal" then seals[#seals + 1] = tostring(e.a or "?") end
+    end
+    local parts, doneB, doneL, doneS, doneM, doneR = {}, {}, false, false, false, false
+    -- jméno jen v první větě dne, dál se děj plynule navazuje (Poté…, Vzápětí…)
+    local CONNECT = { "Poté ", "Vzápětí ", "Pak ", "Později ", "Nedlouho nato ", "Následně " }
+    local name = J.name or ""
+    for _, e in ipairs(evs) do
+        local s
+        if e.k == "met" and #metL > 1 then
+            if not doneM then
+                doneM = true
+                s = finishSentence(J, ("%s potkal(a) postavy, o kterých se vyprávějí příběhy: %s."):format(name, czList(metL)))
+            end
+        elseif e.k == "rare" and #rareL > 1 then
+            if not doneR then
+                doneR = true
+                s = finishSentence(J, ("%s spatřil(a) vzácné tvory: %s."):format(name, czList(rareL)))
+            end
+        elseif e.k == "boss" and #(bossBy[e.b or ""] or {}) > 1 then
+            local d = e.b or ""
+            if not doneB[d] then
+                doneB[d] = true
+                s = finishSentence(J, ("Skupina, ve které byl(a) %s, srazila k zemi bosse %s (%s)."):format(J.name or "?", czList(bossBy[d]), d))
+            end
+        elseif e.k == "level" and tonumber(e.a) ~= 60 and #levels > 1 then
+            if not doneL then
+                doneL = true
+                s = finishSentence(J, ("%s dosáhl(a) úrovní %s."):format(J.name or "?", czList(levels)))
+            end
+        elseif e.k == "seal" and #seals > 1 then
+            if not doneS then
+                doneS = true
+                s = finishSentence(J, ("%s získal(a) pečetě %s."):format(J.name or "?", czList(seals)))
+            end
+        else
+            s = sentence(J, e)
+        end
         if s then
-            local d = date("%d.%m.%Y", e.t)
-            if d ~= day then day = d; out[#out + 1] = ""; out[#out + 1] = d end
-            out[#out + 1] = s
+            if #parts > 0 and name ~= "" and s:sub(1, #name + 1) == name .. " " then
+                s = CONNECT[(#parts - 1) % #CONNECT + 1] .. s:sub(#name + 2)
+            end
+            parts[#parts + 1] = s
         end
     end
+    return table.concat(parts, " ")
+end
+local function storyText(J)
+    local out = { "Příběh postavy " .. (J.name or "?"), "" }
+    local day, evs = nil, {}
+    local function flush()
+        if day and #evs > 0 then
+            local para = dayNarrative(J, evs)
+            if para ~= "" then out[#out + 1] = day; out[#out + 1] = para; out[#out + 1] = "" end
+        end
+        evs = {}
+    end
+    for _, e in ipairs(J.list) do
+        local d = date("%d.%m.%Y", e.t)
+        if d ~= day then flush(); day = d end
+        evs[#evs + 1] = e
+    end
+    flush()
     return table.concat(out, "\n")
 end
 
@@ -1536,18 +1608,24 @@ function WoWpoCesku_PribehPage()
             :format(n, first and (" · první z " .. date("%d.%m.%Y", first)) or "") }
     page[2] = { "Sdílet", "Celý příběh postavy jako souvislý text, který si zkopíruješ a pošleš kamarádům nebo na Discord.",
         rows = { { text = "|cff801f0d» Zobrazit příběh ke zkopírování|r", onClick = showStory } } }
-    local day, lines, shown = nil, {}, 0
+    local day, evs, shown = nil, {}, 0
     local function flush()
-        if day and #lines > 0 then page[#page + 1] = { day, table.concat(lines, "\n\n") } end
-        lines = {}
+        if day and #evs > 0 then
+            -- události jsou nejnovější první, odstavec se vypráví chronologicky
+            local chron = {}
+            for k = #evs, 1, -1 do chron[#chron + 1] = evs[k] end
+            local para = dayNarrative(J, chron)
+            if para ~= "" then page[#page + 1] = { day, para } end
+        end
+        evs = {}
     end
     for i = n, 1, -1 do
         local e = J.list[i]
         local d = date("%d.%m.%Y", e.t)
         if d ~= day then flush(); day = d end
-        local s = sentence(J, e)
-        if s then lines[#lines + 1] = s; shown = shown + 1 end
-        if shown >= 120 then break end
+        evs[#evs + 1] = e
+        shown = shown + 1
+        if shown >= 160 then break end
     end
     flush()
     return page

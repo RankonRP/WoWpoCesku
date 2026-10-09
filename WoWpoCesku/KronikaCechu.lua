@@ -10,7 +10,6 @@ local TEX = "Interface\\AddOns\\WoWpoCesku\\Textures\\"
 local PARCHMENT = TEX .. "pergamen.tga"
 local ATLAS2 = TEX .. "cech-ikony2.tga"     -- 2. sada (index 101+): vchod do dungeonu, raid, čistý průchod, náhrobek, stopky, skupina, boss, truhla
 local ATLAS = TEX .. "cech-ikony.tga"      -- 8 medailonů 64x64: přijetí, odchod, vyhození, povýšení, snížení, úroveň, boss, pečeť
-local RIBBON = TEX .. "cech-stuha.tga"
 local MEDALS = TEX .. "cech-medaile.tga"   -- 4 medaile: zlatá, stříbrná, bronzová, hnědá
 local MASK = "Interface\\CharacterFrame\\TempPortraitAlphaMask"
 local WHITE = "Interface\\Buttons\\WHITE8x8"
@@ -1454,9 +1453,42 @@ local function runCard(g, r)
     return c
 end
 
+-- filtr výprav: všechno / jen dungeony / jen raidy
+local runFilter = "all"
+local filterBar
+local function showFilterBar(y, counts)
+    if not filterBar then
+        filterBar = CreateFrame("Frame", nil, content)
+        filterBar:SetSize(CONTENT_W - 12, 36)
+        filterBar.btns = {}
+        for i, d in ipairs({ { "all", "Vše" }, { "dungeon", "Dungeony" }, { "raid", "Raidy" } }) do
+            local b = WoWpoCesku_CechButton(filterBar, d[2], 140, 36)
+            b:SetPoint("LEFT", (i - 1) * 146, 0)
+            b.mode, b.base = d[1], d[2]
+            b:SetScript("OnClick", function(self) runFilter = self.mode; if refresh then refresh() end end)
+            filterBar.btns[i] = b
+        end
+    end
+    filterBar:ClearAllPoints()
+    filterBar:SetPoint("TOPLEFT", content, "TOPLEFT", 6, -y)
+    filterBar:Show()
+    for _, b in ipairs(filterBar.btns) do
+        b.label:SetText(("%s (%d)"):format(b.base, counts[b.mode] or 0))
+        b:setActive(runFilter == b.mode)
+    end
+end
+
 local function renderVypravy(g)
     local y = 6
-    local runs = g.runs or {}
+    local all = g.runs or {}
+    local counts = { all = #all, dungeon = 0, raid = 0 }
+    for _, r in ipairs(all) do if r.raid then counts.raid = counts.raid + 1 else counts.dungeon = counts.dungeon + 1 end end
+    showFilterBar(y, counts)
+    y = y + 44
+    local runs = {}
+    for _, r in ipairs(all) do
+        if runFilter == "all" or (runFilter == "raid") == (r.raid == true) then runs[#runs + 1] = r end
+    end
     if #runs == 0 then
         local c = get("emptyR", function()
             local f = card(content)
@@ -1471,7 +1503,8 @@ local function renderVypravy(g)
             return f
         end)
         setIcon(c.icon, 101)
-        c.text:SetText("Zatím žádná cechovní výprava.\nZapíše se sama, když půjdeš do dungeonu nebo raidu se skupinou,\nkde jsou aspoň 3 členové cechu a většina skupiny (60 %).\nZměří se čas, úmrtí a poražení bossové a rozdají se ocenění.")
+        c.text:SetText(#all == 0 and "Zatím žádná cechovní výprava.\nZapíše se sama, když půjdeš do dungeonu nebo raidu se skupinou,\nkde jsou aspoň 3 členové cechu a většina skupiny (60 %).\nZměří se čas, úmrtí a poražení bossové a rozdají se ocenění."
+            or "Ve vybrané skupině (dungeony nebo raidy) zatím žádná výprava.")
         c:ClearAllPoints()
         c:SetPoint("TOPLEFT", content, "TOPLEFT", 6, -y)
         return y + 160
@@ -1504,7 +1537,11 @@ local function renderVypravy(g)
     dv:SetPoint("TOPLEFT", content, "TOPLEFT", 6, -(y + 72 + 2))
     y = y + 72 + 2 + 46 + 4
     local recRows = {}
-    for name, rec in pairs(g.records or {}) do recRows[#recRows + 1] = { name, shortDur(rec.dur), rec.dur } end
+    local seenNames = {}
+    for _, r in ipairs(runs) do seenNames[r.name or ""] = true end
+    for name, rec in pairs(g.records or {}) do
+        if seenNames[name] then recRows[#recRows + 1] = { name, shortDur(rec.dur), rec.dur } end
+    end
     table.sort(recRows, function(a, b) return a[3] < b[3] end)
     for i = #recRows, 6, -1 do recRows[i] = nil end
     local bw = math.floor((CONTENT_W - 12 - 2 * 12) / 3)
@@ -1605,6 +1642,7 @@ refresh = function()
     if not frame then return end
     local g = currentData()
     resetPools()
+    if filterBar then filterBar:Hide() end
     updateTabs()
     frame.demoNote:SetShown(demo == true)
     local y
@@ -1632,8 +1670,14 @@ refresh = function()
         -- zdobné herní písmo Morpheus umí jen základní latinku; s háčky (č, ř, ě…) se použije naše písmo
         local gn = g.name or ""
         local gfont = (gn:find("[\196\197]") and CINZELDEC) or "Fonts\\MORPHEUS.ttf"
-        frame.guildName:SetFont(gfont, 24, "OUTLINE")
+        -- dlouhý název se zmenšuje, dokud se nevejde mezi ozdoby praporu (název cechu může mít až 24 znaků)
+        frame.guildName:SetWidth(0)
         frame.guildName:SetText(gn)
+        for size = 24, 11, -1 do
+            frame.guildName:SetFont(gfont, size, "OUTLINE")
+            if (frame.guildName:GetStringWidth() or 0) <= 250 then break end
+        end
+        frame.guildName:SetWidth(260)
         local n = 0
         for _ in pairs(g.members or {}) do n = n + 1 end
         frame.sub:SetText(("Členů: %d   ·   v kronice od %s"):format(n, g.created and longDate(g.created) or "?"))
@@ -1650,7 +1694,8 @@ local function makeButton(parent, text, w, h)
     b.bg = b:CreateTexture(nil, "BACKGROUND")
     b.bg:SetAllPoints()
     b.bg:SetTexture(TEX .. "cech-zalozka.tga")
-    local function look(state)   -- stavy v atlasu: 0 klid, 1 stisknuto, 2 najetí myší
+    local function look(state)   -- stavy v atlasu: 0 klid, 1 stisknuto/aktivní, 2 najetí myší
+        if b.active then state = 1 end
         b.bg:SetTexCoord(0, 0.9, state * 0.25, (state + 1) * 0.25)
         b.label:SetPoint("CENTER", 0, state == 1 and 0 or 1)
         b.label:SetTextColor(1, state == 0 and 0.88 or 0.97, state == 0 and 0.62 or 0.80)
@@ -1664,8 +1709,13 @@ local function makeButton(parent, text, w, h)
     b:SetScript("OnLeave", function(self) self.over = false; look(0) end)
     b:SetScript("OnMouseDown", function() look(1) end)
     b:SetScript("OnMouseUp", function(self) look(self.over and 2 or 0) end)
+    b.setActive = function(self, on)
+        self.active = on and true or nil
+        look(self.over and 2 or 0)
+    end
     return b
 end
+WoWpoCesku_CechButton = makeButton   -- společné pro Dungeon Kroniku
 
 local copyWin
 local function showCopy()
@@ -1720,10 +1770,11 @@ end
 
 -- Okno z hotové grafiky: ozdobný rám (rohy + zrcadlené hrany), pergamen, ilustrace sálu, erby a stuha s názvem cechu
 local WIN_W, WIN_H = 820, 760
-local D = 0.75          -- zobrazená velikost = pixel textury * D
-local CORNER_PX, EDGE_PX, STRIP_PX = 120, 75, 1024
+local D = 0.55          -- zobrazená velikost = pixel textury * D
+local CORNER_PX, EDGE_PX, STRIP_PX = 106, 94, 1024
 
-local function buildChrome(f)
+local function buildChrome(f, W, H)
+    W, H = W or WIN_W, H or WIN_H
     local chrome = CreateFrame("Frame", nil, f)
     chrome:SetAllPoints()
     chrome:SetFrameLevel(f:GetFrameLevel() + 30)
@@ -1742,34 +1793,112 @@ local function buildChrome(f)
     corner("TOPRIGHT", cu, 0, 0, cu)
     corner("BOTTOMLEFT", 0, cu, cu, 0)
     corner("BOTTOMRIGHT", cu, 0, cu, 0)
-    local eh, ev = EDGE_PX / 128, 0
-    local uW = (WIN_W - 2 * c) / (STRIP_PX * D)
-    local uH = (WIN_H - 2 * c) / (STRIP_PX * D)
-    local top = chrome:CreateTexture(nil, "OVERLAY", nil, 1)
-    top:SetTexture(TEX .. "cech-ram-h.tga")
-    top:SetPoint("TOPLEFT", c, 0)
-    top:SetPoint("TOPRIGHT", -c, 0)
-    top:SetHeight(t)
-    top:SetTexCoord(0, uW, 0, eh)
-    local bottom = chrome:CreateTexture(nil, "OVERLAY", nil, 1)
-    bottom:SetTexture(TEX .. "cech-ram-h.tga")
-    bottom:SetPoint("BOTTOMLEFT", c, 0)
-    bottom:SetPoint("BOTTOMRIGHT", -c, 0)
-    bottom:SetHeight(t)
-    bottom:SetTexCoord(0, uW, eh, 0)
-    local left = chrome:CreateTexture(nil, "OVERLAY", nil, 1)
-    left:SetTexture(TEX .. "cech-ram-v.tga")
-    left:SetPoint("TOPLEFT", 0, -c)
-    left:SetPoint("BOTTOMLEFT", 0, c)
-    left:SetWidth(t)
-    left:SetTexCoord(0, eh, 0, uH)
-    local right = chrome:CreateTexture(nil, "OVERLAY", nil, 1)
-    right:SetTexture(TEX .. "cech-ram-v.tga")
-    right:SetPoint("TOPRIGHT", 0, -c)
-    right:SetPoint("BOTTOMRIGHT", 0, c)
-    right:SetWidth(t)
-    right:SetTexCoord(eh, 0, 0, uH)
+    local eh = EDGE_PX / 128
+    -- lišty jsou dvě poloviny zrcadlově kolem středu, takže u obou rohů začíná stejný vzor jako u textury (žádný useknutý konec)
+    local uW = ((W - 2 * c) / 2) / (STRIP_PX * D)
+    local uH = ((H - 2 * c) / 2) / (STRIP_PX * D)
+    local function hstrip(edge)   -- "TOP" nebo "BOTTOM"
+        local v1, v2 = 0, eh
+        if edge == "BOTTOM" then v1, v2 = eh, 0 end
+        for _, side in ipairs({ -1, 1 }) do
+            local x = chrome:CreateTexture(nil, "OVERLAY", nil, 1)
+            x:SetTexture(TEX .. "cech-ram-h.tga")
+            x:SetHeight(t)
+            if side < 0 then
+                x:SetPoint(edge .. "LEFT", c, 0)
+                x:SetPoint(edge .. "RIGHT", chrome, edge, 0, 0)
+                x:SetTexCoord(0, uW, v1, v2)
+            else
+                x:SetPoint(edge .. "LEFT", chrome, edge, 0, 0)
+                x:SetPoint(edge .. "RIGHT", -c, 0)
+                x:SetTexCoord(uW, 0, v1, v2)
+            end
+        end
+    end
+    local function vstrip(edge)   -- "LEFT" nebo "RIGHT"
+        local u1, u2 = 0, eh
+        if edge == "RIGHT" then u1, u2 = eh, 0 end
+        for _, half in ipairs({ -1, 1 }) do
+            local x = chrome:CreateTexture(nil, "OVERLAY", nil, 1)
+            x:SetTexture(TEX .. "cech-ram-v.tga")
+            x:SetWidth(t)
+            if half < 0 then
+                x:SetPoint("TOP" .. edge, 0, -c)
+                x:SetPoint("BOTTOM" .. edge, chrome, edge, 0, 0)
+                x:SetTexCoord(u1, u2, 0, uH)
+            else
+                x:SetPoint("TOP" .. edge, chrome, edge, 0, 0)
+                x:SetPoint("BOTTOM" .. edge, 0, c)
+                x:SetTexCoord(u1, u2, uH, 0)
+            end
+        end
+    end
+    hstrip("TOP")
+    hstrip("BOTTOM")
+    vstrip("LEFT")
+    vstrip("RIGHT")
     return chrome
+end
+
+-- pergamen, ozdobný rám a zavírací tlačítko pro okno W×H (používá i Dungeon Kronika)
+local function styleWindow(f, W, H)
+    -- pergamenové pozadí (uvnitř rámu, ořez textury podle poměru stran okna)
+    local bg = f:CreateTexture(nil, "BACKGROUND")
+    bg:SetPoint("TOPLEFT", 18, -18)
+    bg:SetPoint("BOTTOMRIGHT", -18, 18)
+    bg:SetTexture(TEX .. "cech-pozadi.tga")
+    local aspect = (W - 36) / (H - 36)
+    local vf = math.min(1, 1 / aspect)
+    bg:SetTexCoord(0, 1, (1 - vf) / 2, 1 - (1 - vf) / 2)
+    local function shade(point1, point2, w, h, a1, a2, orient)
+        local s = f:CreateTexture(nil, "BACKGROUND", nil, 2)
+        s:SetPoint(point1, f, point1, point1:find("LEFT") and 18 or -18, point1:find("TOP") and -18 or 18)
+        s:SetPoint(point2, f, point2, point2:find("LEFT") and 18 or -18, point2:find("TOP") and -18 or 18)
+        if w then s:SetWidth(w) end
+        if h then s:SetHeight(h) end
+        gradient(s, 0.25, 0.14, 0.06, a1, a2, orient)
+    end
+    shade("TOPLEFT", "BOTTOMLEFT", 60, nil, 0.38, 0, "HORIZONTAL")
+    shade("TOPRIGHT", "BOTTOMRIGHT", 60, nil, 0, 0.38, "HORIZONTAL")
+    shade("BOTTOMLEFT", "BOTTOMRIGHT", nil, 50, 0, 0.35, "VERTICAL")
+
+    buildChrome(f, W, H)
+
+    local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+    close:SetPoint("TOPRIGHT", -6, -6)
+    close:SetFrameLevel(f:GetFrameLevel() + 40)
+    f.closeBtn = close
+end
+WoWpoCesku_CechStyle = styleWindow
+
+-- prapor podle frakce hráče: textura, výška obsahu v textuře (0–1) a poměr výška/šířka; bez výsledku (neutrální) se použije hnědá varianta
+local BANNERS = {
+    Alliance = { "cech-prapor-aliance.tga", 199 / 256, 199 / 1024 },
+    Horde = { "cech-prapor-horda.tga", 225 / 256, 225 / 1024 },
+}
+function WoWpoCesku_FactionBanner()
+    local ok, group = pcall(UnitFactionGroup, "player")
+    local b = ok and BANNERS[group or ""]
+    if b then return TEX .. b[1], b[2], b[3] end
+end
+
+-- znaky Aliance a Hordy v horních rozích okna (Dungeon Kronika, Knihovna)
+function WoWpoCesku_CechCrests(win)
+    local cf = CreateFrame("Frame", nil, win)
+    cf:SetAllPoints()
+    cf:SetFrameLevel(win:GetFrameLevel() + 38)
+    for _, side in ipairs({ -1, 1 }) do
+        local t = cf:CreateTexture(nil, "ARTWORK")
+        t:SetTexture(TEX .. (side < 0 and "cech-aliance.tga" or "cech-horda.tga"))
+        t:SetSize(104, 104)
+        t:SetPoint(side < 0 and "TOPLEFT" or "TOPRIGHT", win, side < 0 and "TOPLEFT" or "TOPRIGHT", side < 0 and -8 or 8, 6)
+    end
+    -- zavírací tlačítko přesunout vlevo od znaku Hordy, ať ho znak nezakrývá
+    if win.closeBtn then
+        win.closeBtn:ClearAllPoints()
+        win.closeBtn:SetPoint("TOPRIGHT", win, "TOPRIGHT", -104, -12)
+    end
+    return cf
 end
 
 local function build()
@@ -1786,31 +1915,7 @@ local function build()
     f:SetScript("OnDragStart", f.StartMoving)
     f:SetScript("OnDragStop", f.StopMovingOrSizing)
 
-    -- pergamenové pozadí (uvnitř rámu, ořez textury podle poměru stran okna)
-    local bg = f:CreateTexture(nil, "BACKGROUND")
-    bg:SetPoint("TOPLEFT", 18, -18)
-    bg:SetPoint("BOTTOMRIGHT", -18, 18)
-    bg:SetTexture(TEX .. "cech-pozadi.tga")
-    local aspect = (WIN_W - 36) / (WIN_H - 36)
-    local vf = math.min(1, 1 / aspect)
-    bg:SetTexCoord(0, 1, (1 - vf) / 2, 1 - (1 - vf) / 2)
-    local function shade(point1, point2, w, h, a1, a2, orient)
-        local s = f:CreateTexture(nil, "BACKGROUND", nil, 2)
-        s:SetPoint(point1, f, point1, point1:find("LEFT") and 18 or -18, point1:find("TOP") and -18 or 18)
-        s:SetPoint(point2, f, point2, point2:find("LEFT") and 18 or -18, point2:find("TOP") and -18 or 18)
-        if w then s:SetWidth(w) end
-        if h then s:SetHeight(h) end
-        gradient(s, 0.25, 0.14, 0.06, a1, a2, orient)
-    end
-    shade("TOPLEFT", "BOTTOMLEFT", 60, nil, 0.38, 0, "HORIZONTAL")
-    shade("TOPRIGHT", "BOTTOMRIGHT", 60, nil, 0, 0.38, "HORIZONTAL")
-    shade("BOTTOMLEFT", "BOTTOMRIGHT", nil, 50, 0, 0.35, "VERTICAL")
-
-    buildChrome(f)
-
-    local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
-    close:SetPoint("TOPRIGHT", -6, -6)
-    close:SetFrameLevel(f:GetFrameLevel() + 40)
+    styleWindow(f, WIN_W, WIN_H)
 
     -- ilustrace sálu v ozdobném rámečku
     local pic = CreateFrame("Frame", nil, f, "BackdropTemplate")
@@ -1836,32 +1941,43 @@ local function build()
     title:SetPoint("TOP", 0, -9)
     title:SetText("C E C H O V N Í   K R O N I K A")
 
-    -- erby po stranách
+    -- erby a stuha leží na vlastním rámečku nad ilustrací (textury přímo na okně by ilustrace překryla)
+    local deco = CreateFrame("Frame", nil, f)
+    deco:SetAllPoints()
+    deco:SetFrameLevel(pic:GetFrameLevel() + 5)
+    -- znaky Aliance (vlevo) a Hordy (vpravo)
     for _, side in ipairs({ -1, 1 }) do
-        local erb = f:CreateTexture(nil, "ARTWORK", nil, 3)
-        erb:SetTexture(TEX .. "cech-erb.tga")
-        erb:SetSize(112, 112)
-        erb:SetPoint("CENTER", pic, side < 0 and "LEFT" or "RIGHT", -side * 72, -8)
-        if side > 0 then erb:SetTexCoord(1, 0, 0, 1) end
+        local crest = deco:CreateTexture(nil, "ARTWORK", nil, 3)
+        crest:SetTexture(TEX .. (side < 0 and "cech-aliance.tga" or "cech-horda.tga"))
+        crest:SetSize(104, 104)
+        crest:SetPoint(side < 0 and "TOPLEFT" or "TOPRIGHT", pic, side < 0 and "TOPLEFT" or "TOPRIGHT", side < 0 and 8 or -8, -12)
     end
 
-    -- stuha s názvem cechu
-    local ribbon = f:CreateTexture(nil, "ARTWORK", nil, 4)
-    ribbon:SetTexture(TEX .. "cech-stuha.tga")
-    ribbon:SetSize(440, 440 * 271 / 1024)
-    ribbon:SetPoint("BOTTOM", pic, "BOTTOM", 0, -24)
-    ribbon:SetTexCoord(0, 1, 0, 271 / 512)
-    f.guildName = f:CreateFontString(nil, "OVERLAY", nil, 7)
+    -- prapor s názvem cechu
+    local ribbon = deco:CreateTexture(nil, "ARTWORK", nil, 4)
+    local fbTex, fbV, fbRatio
+    if WoWpoCesku_FactionBanner then fbTex, fbV, fbRatio = WoWpoCesku_FactionBanner() end
+    if fbTex then
+        ribbon:SetTexture(fbTex)
+        ribbon:SetSize(430, 430 * fbRatio)
+        ribbon:SetTexCoord(0, 1, 0, fbV)
+    else
+        ribbon:SetTexture(TEX .. "cech-prapor.tga")
+        ribbon:SetSize(410, 410 * 200 / 1024)
+        ribbon:SetTexCoord(0, 1, 0, 200 / 256)
+    end
+    ribbon:SetPoint("CENTER", pic, "CENTER", 0, -8)   -- uprostřed ilustrace (pod nadpisem, mezi znaky)
+    f.guildName = deco:CreateFontString(nil, "OVERLAY", nil, 7)
     f.guildName:SetFont(FONT, 22, "OUTLINE")
     f.guildName:SetTextColor(1, 0.95, 0.78)
-    f.guildName:SetPoint("CENTER", ribbon, "CENTER", 0, 11)   -- střed pásu stuhy je výš než střed obrázku (dole visí střapce)
+    f.guildName:SetPoint("CENTER", ribbon, "CENTER", 0, 3)   -- červená plocha praporu je mírně nad středem (dole jsou rozeklané cípy)
     f.guildName:SetWidth(290)
     f.guildName:SetWordWrap(false)
     f.guildName:SetJustifyH("CENTER")
     f.sub = fs(f, 12, SEPIA[1], SEPIA[2], SEPIA[3])
     f.sub:SetJustifyH("CENTER")
-    f.sub:SetPoint("TOP", pic, "BOTTOM", 0, -30)
-    f.demoNote = fs(f, 11, 0.95, 0.35, 0.25, "OUTLINE")
+    f.sub:SetPoint("TOP", pic, "BOTTOM", 0, -16)
+    f.demoNote = fs(deco, 11, 0.95, 0.35, 0.25, "OUTLINE")
     f.demoNote:SetPoint("BOTTOMRIGHT", pic, "BOTTOMRIGHT", -10, 6)
     f.demoNote:SetText("UKÁZKA – vymyšlená data")
 
@@ -1872,7 +1988,7 @@ local function build()
         local b = CreateFrame("Button", nil, f)
         b.id = def[1]
         b:SetSize(bw, 44)
-        b:SetPoint("TOP", f, "TOP", (i - (#tabs + 1) / 2) * (bw + 6), -255)
+        b:SetPoint("TOP", f, "TOP", (i - (#tabs + 1) / 2) * (bw + 6), -240)
         b.bg = b:CreateTexture(nil, "BACKGROUND")
         b.bg:SetAllPoints()
         b.bg:SetTexture(TEX .. "cech-zalozka.tga")
@@ -1897,7 +2013,7 @@ local function build()
 
     -- obsah
     scroll = CreateFrame("ScrollFrame", "WoWpoCeskuCechKronikaScroll", f, "UIPanelScrollFrameTemplate")
-    scroll:SetPoint("TOPLEFT", 62, -312)
+    scroll:SetPoint("TOPLEFT", 62, -296)
     scroll:SetPoint("BOTTOMRIGHT", -84, 90)
     content = CreateFrame("Frame", nil, scroll)
     content:SetSize(CONTENT_W, 100)

@@ -5,6 +5,12 @@
     <Binding name="WPC_DUNGEON" category="ADDONS">
         WoWpoCesku_ToggleDungeonKronika()
     </Binding>
+    <Binding name="WPC_CECH" category="ADDONS">
+        if WoWpoCesku_GuildChronicle then WoWpoCesku_GuildChronicle() end
+    </Binding>
+    <Binding name="WPC_KNIHOVNA" category="ADDONS">
+        if WoWpoCesku_Library then WoWpoCesku_Library() end
+    </Binding>
     <Binding name="WPC_DISCORD" category="ADDONS">
         WoWpoCesku_ShowDiscord()
     </Binding>

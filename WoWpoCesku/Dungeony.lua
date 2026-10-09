@@ -7,8 +7,11 @@
 local FONT = "Interface\\AddOns\\WoWpoCesku\\Fonts\\cz.ttf"
 local TITLE_FONT = "Fonts\\FRIZQT__.TTF"   -- písmo hry pro anglické názvy (instance, bossové); české texty mají vlastní písmo
 local PARCHMENT = "Interface\\AddOns\\WoWpoCesku\\Textures\\pergamen.tga"
+local TEXDIR = "Interface\\AddOns\\WoWpoCesku\\Textures\\"
+local CINZEL = "Interface\\AddOns\\WoWpoCesku\\Fonts\\Cinzel.ttf"
+local CINZELDEC = "Interface\\AddOns\\WoWpoCesku\\Fonts\\CinzelDecorative.ttf"
 local ART = "Interface\\AddOns\\WoWpoCesku\\Textures\\Dungeony\\"
-local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.42, 0.30, 0.18 }
+local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.32, 0.22, 0.12 }
 local QUALITY = { [0] = "|cff6b6b6b", [1] = "|cff4a4a4a", [2] = "|cff1a7a1a", [3] = "|cff0b5cc4", [4] = "|cff8a2be2", [5] = "|cffc25a00" }
 local QCOLOR = { [0] = { 0.42, 0.42, 0.42 }, [1] = { 0.29, 0.29, 0.29 }, [2] = { 0.10, 0.48, 0.10 }, [3] = { 0.04, 0.36, 0.77 }, [4] = { 0.54, 0.17, 0.89 }, [5] = { 0.76, 0.35, 0.0 } }
 
@@ -58,11 +61,12 @@ local ACCENT = {
 }
 
 local TABS = {
-    { id = "pribeh", label = "Příběh", icon = "Interface\\Icons\\INV_Misc_Book_09" },
-    { id = "bossove", label = "Bossové a kořist", icon = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8" },
-    { id = "questy", label = "Questy", icon = "Interface\\GossipFrame\\AvailableQuestIcon" },
-    { id = "mapa", label = "Mapa", icon = "Interface\\Icons\\INV_Misc_Map_01" },
-    { id = "pruvodce", label = "Rady", icon = "Interface\\Icons\\INV_Misc_Book_09" },
+    { id = "pribeh", label = "Příběh", w = 128, icon = "Interface\\Icons\\INV_Misc_Book_09" },
+    { id = "bossove", label = "Bossové a kořist", w = 200, icon = "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8" },
+    { id = "questy", label = "Questy", w = 128, icon = "Interface\\GossipFrame\\AvailableQuestIcon" },
+    { id = "mapa", label = "Mapa", w = 110, icon = "Interface\\Icons\\INV_Misc_Map_01" },
+    { id = "pruvodce", label = "Rady", w = 110, icon = "Interface\\Icons\\INV_Misc_Book_09" },
+    { id = "vstup", label = "Zobrazit vstup", w = 170, icon = "Interface\\Icons\\INV_Misc_Map_01" },
 }
 
 local win
@@ -487,8 +491,7 @@ local function isRaid(key)
     return false
 end
 
-local function showEntrance(key)
-    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+local function entranceInfo(key)
     local e
     local m = WoWpoCesku_DungeonEntryMap and WoWpoCesku_DungeonEntryMap[key]
     if m then e = { uiMap = m[1], u = m[2], v = m[3], zone = m[4] } end
@@ -500,6 +503,12 @@ local function showEntrance(key)
             if uiMap then e = { uiMap = uiMap, u = u, v = v, zone = zname } end
         end
     end
+    return e
+end
+
+local function showEntrance(key)
+    local function say(t) print("|cffffd100WoWpoCesku:|r " .. t) end
+    local e = entranceInfo(key)
     if not e then say(key .. ": vstup se na mape nepodarilo najit (klient ho nenabizi). Viz Prvodce, tam je popis cesty.") return end
     local set = false
     if settings().djWaypoint and C_Map and C_Map.SetUserWaypoint and UiMapPoint and UiMapPoint.CreateFromCoordinates then
@@ -969,7 +978,9 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
         b.emblem:SetPoint("RIGHT", -28, 0)
         b.label = text(b, 13, INK[1], INK[2], INK[3])
         b.label:SetPoint("TOPLEFT", 12, -6)
+        b.label:SetWordWrap(false)
         b.sub = text(b, 11, SEPIA[1], SEPIA[2], SEPIA[3])
+        b.sub:SetWordWrap(false)
         b.sub:SetPoint("TOPLEFT", b.label, "BOTTOMLEFT", 0, -1)
         b:SetHighlightTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
         c.rows[c.nr] = b
@@ -1007,11 +1018,16 @@ local function addRow(c, title, sub, mark, selected, onClick, icon, badge, emble
     if badge then b.badge:SetText(badge) end
     b.emblem:SetShown(emblem and true or false)
     if emblem then setFactionIcon(b.emblem, emblem) end
-    b.label:SetFont(title:find("[\128-\255]") and FONT or TITLE_FONT, 13, "")
+    -- všechny rámečky stejně velké: dlouhý název se zmenší místo zalomení
+    local face = title:find("[\128-\255]") and FONT or TITLE_FONT
+    local avail = c.w - off - right
     b.label:SetText(title)
+    for _, size in ipairs({ 13, 12, 11, 10 }) do
+        b.label:SetFont(face, size, "")
+        if (b.label:GetStringWidth() or 0) <= avail then break end
+    end
     b.sub:SetText(sub or "")
-    local h = 8 + (b.label:GetStringHeight() or 14) + 2 + ((sub and sub ~= "") and (b.sub:GetStringHeight() or 12) or 0) + 8
-    if h < (hasModel and 54 or 46) then h = hasModel and 54 or 46 end
+    local h = 56
     b:SetHeight(h)
     b.check:SetShown(mark and true or false)
     b.chain:SetShown(chain and true or false)
@@ -1220,14 +1236,9 @@ local function renderQuests(key)
     addText(R, "Podle classic databáze. Ve WoW Forever se může něco lišit.", 11, SEPIA, 4)
 end
 
-local function renderMap(key)
-    local R = win.right
-    reset(win.left); reset(R)
-    local d = mapData(key)
-    if not d then addText(R, "Mapu téhle instance se nepodařilo načíst.", 13, INK) return end
-    local layer = d.layer
-    local textures = C_Map.GetMapArtLayerTextures(d.uiMap, 1)
-    local mw = R.w
+-- dlaždice mapy oblasti/instance do pravého panelu; vrací rámeček mapy a jeho rozměry
+local function drawMapTiles(R, uiMap, layer, mw)
+    local textures = C_Map.GetMapArtLayerTextures(uiMap, 1)
     local k = mw / layer.layerWidth
     local mh = layer.layerHeight * k
     if not R.map then
@@ -1239,7 +1250,7 @@ local function renderMap(key)
         m.clip:SetPoint("TOPLEFT", 2, -2)
         m.clip:SetPoint("BOTTOMRIGHT", -2, 2)
         m.clip:SetClipsChildren(true)
-        m.tiles, m.pins = {}, {}
+        m.tiles, m.pins, m.over = {}, {}, {}
         R.map = m
     end
     local m = R.map
@@ -1248,6 +1259,7 @@ local function renderMap(key)
     m:SetPoint("TOPLEFT", 0, 0)
     m:SetSize(mw, mh + 4)
     for _, t in ipairs(m.tiles) do t:Hide() end
+    for _, t in ipairs(m.over) do t:Hide() end
     for _, p in ipairs(m.pins) do p:Hide() end
     local cols = math.ceil(layer.layerWidth / layer.tileWidth)
     for i, fileID in ipairs(textures or {}) do
@@ -1260,47 +1272,132 @@ local function renderMap(key)
         t:SetPoint("TOPLEFT", m.clip, "TOPLEFT", col * layer.tileWidth * k, -row * layer.tileHeight * k)
         t:Show()
     end
-    local killed = killedBosses(key)
-    local function pin(i, u, v, label, icon, done, onClick)
-        local p = m.pins[i]
-        if not p then
-            p = CreateFrame("Button", nil, m)
-            p:SetSize(26, 26)
-            p.icon = p:CreateTexture(nil, "ARTWORK")
-            p.icon:SetAllPoints()
-            p.ring = p:CreateTexture(nil, "OVERLAY")
-            p.ring:SetPoint("BOTTOMRIGHT", 4, -4)
-            p.ring:SetSize(14, 14)
-            p.ring:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
-            p:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
-            m.pins[i] = p
+    -- prozkoumané oblasti (barevné překryvy) jako na herní mapě
+    local function pow2(n) local v = 16; while v < n do v = v * 2 end return v end
+    local okE, explored = pcall(function() return C_MapExplorationInfo and C_MapExplorationInfo.GetExploredMapTextures(uiMap) end)
+    if okE and type(explored) == "table" then
+        local no = 0
+        for _, ex in ipairs(explored) do
+            local tw, th = ex.textureWidth or 0, ex.textureHeight or 0
+            local ids = ex.fileDataIDs
+            if tw > 0 and th > 0 and type(ids) == "table" then
+                local wide, tall = math.ceil(tw / 256), math.ceil(th / 256)
+                for j = 1, tall do
+                    local ph = (j < tall) and 256 or (th % 256 == 0 and 256 or th % 256)
+                    for kx = 1, wide do
+                        local pw = (kx < wide) and 256 or (tw % 256 == 0 and 256 or tw % 256)
+                        local id = ids[(j - 1) * wide + kx]
+                        if id then
+                            no = no + 1
+                            local t = m.over[no]
+                            if not t then t = m.clip:CreateTexture(nil, "ARTWORK", nil, 1); m.over[no] = t end
+                            t:SetTexture(id)
+                            t:SetTexCoord(0, pw / pow2(pw), 0, ph / pow2(ph))
+                            t:SetSize(pw * k, ph * k)
+                            t:ClearAllPoints()
+                            t:SetPoint("TOPLEFT", m.clip, "TOPLEFT", ((ex.offsetX or 0) + 256 * (kx - 1)) * k, -((ex.offsetY or 0) + 256 * (j - 1)) * k)
+                            t:Show()
+                        end
+                    end
+                end
+            end
         end
-        p:ClearAllPoints()
-        p:SetPoint("CENTER", m, "TOPLEFT", 2 + u * (mw - 4), -(2 + v * (mh)))
-        p.icon:SetTexture(icon)
-        p.ring:SetShown(done and true or false)
-        p:SetScript("OnEnter", function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-            GameTooltip:AddLine(label)
-            if onClick then GameTooltip:AddLine("Klikni a zobrazí se kořist.", 0.8, 0.8, 0.8) end
-            GameTooltip:Show()
-        end)
-        p:SetScript("OnLeave", function() GameTooltip:Hide() end)
-        p:SetScript("OnClick", onClick)
-        p:Show()
     end
+    return m, mh
+end
+
+local function mapPin(m, mw, mh, i, u, v, label, icon, done, onClick, size)
+    local p = m.pins[i]
+    if not p then
+        p = CreateFrame("Button", nil, m)
+        p.rim = p:CreateTexture(nil, "BACKGROUND", nil, -2)
+        p.rim:SetPoint("CENTER")
+        p.rim:SetTexture("Interface\\Buttons\\WHITE8x8")
+        p.rim:SetVertexColor(0.85, 0.66, 0.2, 1)
+        p.disc = p:CreateTexture(nil, "BACKGROUND", nil, -1)
+        p.disc:SetPoint("CENTER")
+        p.disc:SetTexture("Interface\\Buttons\\WHITE8x8")
+        p.disc:SetVertexColor(0.1, 0.5, 0.58, 1)
+        p.dot = p:CreateTexture(nil, "BACKGROUND", nil, 0)
+        p.dot:SetPoint("CENTER")
+        p.dot:SetTexture("Interface\\Buttons\\WHITE8x8")
+        p.dot:SetVertexColor(0.8, 0.95, 0.95, 1)
+        for _, t in ipairs({ p.rim, p.disc, p.dot }) do pcall(t.SetMask, t, "Interface\\CharacterFrame\\TempPortraitAlphaMask") end
+        p.icon = p:CreateTexture(nil, "ARTWORK")
+        p.icon:SetAllPoints()
+        p.ring = p:CreateTexture(nil, "OVERLAY")
+        p.ring:SetPoint("BOTTOMRIGHT", 4, -4)
+        p.ring:SetSize(14, 14)
+        p.ring:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+        p:SetHighlightTexture("Interface\\Minimap\\UI-Minimap-ZoomButton-Highlight")
+        m.pins[i] = p
+    end
+    local sz = size or 26
+    p:SetSize(sz, sz)
+    p:ClearAllPoints()
+    p:SetPoint("CENTER", m, "TOPLEFT", 2 + u * (mw - 4), -(2 + v * (mh)))
+    local portal = (icon == "ring")
+    local atlasOk = false
+    if portal and p.icon.SetAtlas then atlasOk = pcall(p.icon.SetAtlas, p.icon, "Dungeon") end   -- modrý portál jako na herní mapě
+    local ringed = portal and not atlasOk   -- záloha: tyrkysový kruh
+    p.rim:SetShown(ringed); p.disc:SetShown(ringed); p.dot:SetShown(ringed)
+    p.rim:SetSize(sz, sz); p.disc:SetSize(sz * 0.84, sz * 0.84); p.dot:SetSize(sz * 0.40, sz * 0.40)
+    if not portal then p.icon:SetTexture(icon); p.icon:SetTexCoord(0, 1, 0, 1)
+    elseif not atlasOk then p.icon:SetTexture(nil) end
+    p.ring:SetShown(done and true or false)
+    p:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+        GameTooltip:AddLine(label)
+        if onClick then GameTooltip:AddLine("Klikni a zobrazí se kořist.", 0.8, 0.8, 0.8) end
+        GameTooltip:Show()
+    end)
+    p:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    p:SetScript("OnClick", onClick)
+    p:Show()
+end
+
+local function renderMap(key)
+    local R = win.right
+    reset(win.left); reset(R)
+    local d = mapData(key)
+    if not d then addText(R, "Mapu téhle instance se nepodařilo načíst.", 13, INK) return end
+    local mw = R.w
+    local m, mh = drawMapTiles(R, d.uiMap, d.layer, mw)
+    local killed = killedBosses(key)
     local n = 0
     if d.entry then
         n = n + 1
-        pin(n, d.entry.u, d.entry.v, "Vchod", "Interface\\TargetingFrame\\UI-RaidTargetingIcon_4", false, nil)
+        mapPin(m, mw, mh, n, d.entry.u, d.entry.v, "Vchod", "ring", false, nil, 30)
     end
     for _, pt in ipairs(d.pins) do
         n = n + 1
-        pin(n, pt.u, pt.v, pt.name, "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", killed[pt.name] ~= nil,
+        mapPin(m, mw, mh, n, pt.u, pt.v, pt.name, "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", killed[pt.name] ~= nil,
             function() state.boss[key] = pt.name; state.tab = "bossove"; showDetail() end)
     end
     R.y = mh + 12
-    addText(R, ("Značky: lebka = boss, zelená značka = poražen" .. (d.entry and ", trojúhelník = vchod" or "") .. ". Zobrazeno %d z %d bossů; polohy jsou z classic databáze a jsou přibližné."):format(#d.pins, d.total), 11, SEPIA, 4)
+    addText(R, ("Značky: lebka = boss, zelená značka = poražen" .. (d.entry and ", kruh = vchod" or "") .. ". Zobrazeno %d z %d bossů; polohy jsou z classic databáze a jsou přibližné."):format(#d.pins, d.total), 11, SEPIA, 4)
+end
+
+-- vstup do instance na mapě oblasti přímo v okně Kroniky (herní mapu addon neotvírá, aby nezpůsobil taint)
+local function renderEntrance(key)
+    local R = win.right
+    reset(win.left); reset(R)
+    local e = entranceInfo(key)
+    if not e then
+        addText(R, "Vstup se na mapě nepodařilo najít (klient ho nenabízí). Cestu najdeš v záložce Rady.", 13, INK)
+        return
+    end
+    local layers = C_Map and C_Map.GetMapArtLayers and C_Map.GetMapArtLayers(e.uiMap)
+    local layer = layers and layers[1]
+    if not layer or not layer.layerWidth or layer.layerWidth <= 0 or not C_Map.GetMapArtLayerTextures then
+        addText(R, ("Vstup: %s, %.1f, %.1f. Mapu oblasti se nepodařilo načíst, otevři mapu klávesou M."):format(e.zone or "?", e.u * 100, e.v * 100), 13, INK)
+        return
+    end
+    local mw = math.min(R.w, math.floor(300 / (layer.layerHeight / layer.layerWidth)))
+    local m, mh = drawMapTiles(R, e.uiMap, layer, mw)
+    mapPin(m, mw, mh, 1, e.u, e.v, key .. " - vstup", "ring", false, nil, 40)
+    R.y = mh + 12
+    addText(R, ("Vstup do %s: %s, souřadnice %.1f, %.1f. Značka je i na kompasu nahoře na obrazovce."):format(key, e.zone or "?", e.u * 100, e.v * 100), 12, SEPIA, 4)
 end
 
 local function renderStory(key)
@@ -1382,7 +1479,7 @@ local function renderList()
         b:Show()
     end
     local function section(label, list)
-        addText(c, label, 17, RED, 4)
+        addText(c, label, 17, RED, 4, nil, nil, CINZEL)
         addRule(c)
         local y = c.y
         for i, key in ipairs(list) do
@@ -1401,57 +1498,57 @@ local function setTabs()
     local prev
     for i = 1, #win.tabs do
         local t = win.tabs[i]
-        local avail = (t.id ~= "mapa") or (mapData(state.key) ~= nil)
+        local avail = ((t.id ~= "mapa") or (mapData(state.key) ~= nil)) and ((t.id ~= "vstup") or (entranceInfo(state.key) ~= nil))
         t:SetShown(avail)
         if avail then
             t:ClearAllPoints()
-            if prev then t:SetPoint("RIGHT", prev, "LEFT", -8, 0) else t:SetPoint("TOPRIGHT", -40, -158) end
+            if prev then t:SetPoint("RIGHT", prev, "LEFT", -5, 0) else t:SetPoint("TOPRIGHT", -64, -168) end
             prev = t
         end
     end
     if state.tab == "mapa" and mapData(state.key) == nil then state.tab = "bossove" end
+    if state.tab == "vstup" and entranceInfo(state.key) == nil then state.tab = "bossove" end
     for _, t in ipairs(win.tabs) do
         local active = (t.id == state.tab)
-        t:SetDisabledFontObject(win.fontBtnOff)
-        t:SetEnabled(not active)
-        t:SetNormalFontObject(win.fontBtn)
+        t:setActive(active)
     end
 end
 
 showDetail = function()
     if not win then return end
     if state.view == "list" or not state.key then
-        win.detail:Hide(); win.browseSf:Show()
+        win.detail:Hide(); win.browseSf:Show(); win.dc:Show(); win.rf:Show()
         renderList()
         win.browseSf:SetVerticalScroll(0)
         return
     end
-    win.browseSf:Hide(); win.detail:Show()
+    win.browseSf:Hide(); win.detail:Show(); win.dc:Hide(); win.rf:Hide()
     local key = state.key
-    setBanner(win.banner, key, 870, 88)
+    setBanner(win.banner, key, 876, 96)
     win.name:SetText(key)
     win.tag:SetText(levelText(key) or "")
     setTabs()
-    local twoPane = (state.tab ~= "pruvodce" and state.tab ~= "mapa" and state.tab ~= "pribeh")
+    local twoPane = (state.tab ~= "pruvodce" and state.tab ~= "mapa" and state.tab ~= "pribeh" and state.tab ~= "vstup")
     win.leftSf:SetShown(twoPane)
     win.boxL:SetShown(twoPane)
     win.boxR:ClearAllPoints()
-    win.boxR:SetPoint("TOPLEFT", twoPane and 392 or 24, -202)
-    win.boxR:SetSize(twoPane and 516 or 884, 368)
+    win.boxR:SetPoint("TOPLEFT", twoPane and 404 or 62, -218)
+    win.boxR:SetSize(twoPane and 534 or 876, 360)
     win.rightSf:ClearAllPoints()
     if twoPane then
-        win.rightSf:SetPoint("TOPLEFT", 408, -214)
-        win.rightSf:SetSize(468, 344)
-        win.right.w = 468 - 26
+        win.rightSf:SetPoint("TOPLEFT", 414, -228)
+        win.rightSf:SetSize(496, 340)
+        win.right.w = 496 - 6
     else
-        win.rightSf:SetPoint("TOPLEFT", 36, -214)
-        win.rightSf:SetSize(836, 344)
-        win.right.w = 836 - 26
+        win.rightSf:SetPoint("TOPLEFT", 72, -228)
+        win.rightSf:SetSize(834, 340)
+        win.right.w = 834 - 6
     end
     win.right:SetWidth(win.right.w)
     if state.tab == "bossove" then renderBosses(key)
     elseif state.tab == "questy" then renderQuests(key)
     elseif state.tab == "mapa" then renderMap(key)
+    elseif state.tab == "vstup" then renderEntrance(key)
     elseif state.tab == "pribeh" then renderStory(key)
     else renderGuide(key) end
     win.left:SetHeight(math.max(win.left.y + 10, 10))
@@ -1469,20 +1566,11 @@ end
 -------------------------------------------------------------------------------
 local function build()
     win = CreateFrame("Frame", "WoWpoCeskuDungeony", UIParent, "BackdropTemplate")
-    win:SetSize(940, 600)
+    win:SetSize(1000, 640)
     win:SetPoint("CENTER")
     win:SetFrameStrata("DIALOG")
     win:SetToplevel(true)
-    win:SetBackdrop({
-        bgFile = "Interface\\Buttons\\WHITE8x8",
-        edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-        edgeSize = 32, insets = { left = 11, right = 11, top = 11, bottom = 11 },
-    })
-    win:SetBackdropColor(0.23, 0.13, 0.07, 1)
-    local tex = win:CreateTexture(nil, "BACKGROUND", nil, 1)
-    tex:SetPoint("TOPLEFT", 11, -11)
-    tex:SetPoint("BOTTOMRIGHT", -11, 11)
-    tex:SetTexture(PARCHMENT)
+    WoWpoCesku_CechStyle(win, 1000, 640)   -- pergamen, ozdobný rám a zavírací tlačítko (KronikaCechu.lua)
     win:EnableMouse(true)
     win:SetMovable(true)
     win:SetClampedToScreen(true)
@@ -1499,68 +1587,64 @@ local function build()
     win.fontBtnOn = newFont("WoWpoCeskuDJBtnOn", 12, 1, 1, 1)
     win.fontBtnOff = newFont("WoWpoCeskuDJBtnOff", 12, 0.62, 0.62, 0.62)
 
-    local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
-    close:SetPoint("TOPRIGHT", -8, -8)
-
-    local dc = CreateFrame("Button", nil, win, "UIPanelButtonTemplate")
-    dc:SetSize(150, 22)
-    dc:SetPoint("TOPLEFT", 30, -22)
-    dc:SetFrameLevel(win:GetFrameLevel() + 200)   -- vždy nad ostatními prvky okna, ať ho hráč vidí
-    dc:SetNormalFontObject(win.fontBtn)
-    dc:SetHighlightFontObject(win.fontBtnOn)
-    dc:SetText("Chyba? Discord")
-    dc:SetScript("OnClick", function() if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end end)
-
-    -- nadpis ve stylu hry: zlatá ozdobná cedule nad oknem a zlatý nápis herním písmem
-    local plaque = win:CreateTexture(nil, "ARTWORK")
-    plaque:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
-    plaque:SetSize(340, 68)
-    plaque:SetPoint("TOP", win, "TOP", 0, 14)
-    win.plaque = plaque
-    local head = win:CreateFontString(nil, "OVERLAY")
-    head:SetFont(TITLE_FONT, 17, "OUTLINE")   -- písmo hry; to nemá českou diakritiku, proto bez diakritiky
-    head:SetTextColor(1, 0.82, 0)
-    head:SetShadowColor(0, 0, 0, 1)
-    head:SetShadowOffset(1, -1)
-    head:SetPoint("TOP", plaque, "TOP", 0, -14)
+    -- ozdobná stuha s nadpisem a tlačítko Discord ve stylu Cechovní kroniky
+    local rf = CreateFrame("Frame", nil, win)
+    rf:SetAllPoints()
+    rf:SetFrameLevel(win:GetFrameLevel() + 35)
+    local rib = rf:CreateTexture(nil, "ARTWORK")
+    local fbTex, fbV, fbRatio
+    if WoWpoCesku_FactionBanner then fbTex, fbV, fbRatio = WoWpoCesku_FactionBanner() end
+    if fbTex then
+        rib:SetTexture(fbTex)
+        rib:SetSize(480, 480 * fbRatio)
+        rib:SetTexCoord(0, 1, 0, fbV)
+        rib:SetPoint("TOP", win, "TOP", 0, -12)
+    else
+        rib:SetTexture(TEXDIR .. "cech-plaketa.tga")
+        rib:SetSize(460, 460 * 180 / 1024)
+        rib:SetTexCoord(0, 1, 0, 180 / 256)
+        rib:SetPoint("TOP", win, "TOP", 0, -14)
+    end
+    win.plaque = rib
+    win.rf = rf
+    local head = rf:CreateFontString(nil, "OVERLAY")
+    head:SetFont("Fonts\\MORPHEUS.ttf", 24, "OUTLINE")
+    head:SetTextColor(1, 0.95, 0.78)
+    head:SetPoint("CENTER", rib, "CENTER", 0, 0)
+    WoWpoCesku_CechCrests(win)
     head:SetText("Dungeon Kronika")
 
+    local dc = WoWpoCesku_CechButton(win, "Chyba? Discord", 150, 42)
+    dc:SetPoint("BOTTOMLEFT", 70, 60)
+    dc:SetFrameLevel(win:GetFrameLevel() + 200)   -- vždy nad ostatními prvky okna, ať ho hráč vidí
+    dc:SetScript("OnClick", function() if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end end)
+    win.dc = dc
+
     -- přehled (karty)
-    win.browseSf, win.browse = newScroll(win, 30, -70, 856, 500)
-    win.browse.w = 856 - 26
+    win.browseSf, win.browse = newScroll(win, 62, -142, 850, 380)
+    win.browse.w = 850 - 8
+    win.browse:SetWidth(win.browse.w)
 
     -- detail
     win.detail = CreateFrame("Frame", nil, win)
     win.detail:SetAllPoints()
 
     win.banner = makeBanner(win.detail)
-    win.banner:SetPoint("TOPLEFT", 30, -62)
-    win.banner:SetSize(870, 88)
+    win.banner:SetPoint("TOPLEFT", 62, -62)
+    win.banner:SetSize(876, 96)
 
-    local back = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
+    local back = WoWpoCesku_CechButton(win.detail, "Přehled", 128, 38)
     back:SetFrameLevel(win.detail:GetFrameLevel() + 7)
-    back:SetSize(110, 26)
-    back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 12, -8)
-    back:SetNormalFontObject(win.fontBtn)
-    back:SetHighlightFontObject(win.fontBtnOn)
-    back:SetText("‹ Přehled")
+    back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 52, -8)
     back:SetScript("OnClick", function() state.view = "list"; showDetail() end)
 
-    local entr = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
-    entr:SetFrameLevel(win.detail:GetFrameLevel() + 7)
-    entr:SetSize(150, 26)
-    entr:SetPoint("TOPRIGHT", win.banner, "TOPRIGHT", -12, -8)
-    entr:SetNormalFontObject(win.fontBtn)
-    entr:SetHighlightFontObject(win.fontBtnOn)
-    entr:SetText("Zobrazit vstup")
-    entr:SetScript("OnClick", function() if state.key then showEntrance(state.key) end end)
 
     win.top = CreateFrame("Frame", nil, win.detail)
     win.top:SetAllPoints()
     win.top:SetFrameLevel(win.detail:GetFrameLevel() + 6)
     win.name = text(win.top, 26, 1, 0.82, 0.25)
     win.name:SetFont(TITLE_FONT, 26, "OUTLINE")
-    win.name:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 16, -36)
+    win.name:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 22, -46)
     win.name:SetWidth(460)
     win.name:SetShadowOffset(1, -1)
     win.tag = text(win.top, 12, 0.92, 0.86, 0.72)
@@ -1572,35 +1656,30 @@ local function build()
     local prev
     for i = #TABS, 1, -1 do
         local t = TABS[i]
-        local b = CreateFrame("Button", nil, win.detail, "UIPanelButtonTemplate")
-        b:SetSize(138, 30)
-        if prev then b:SetPoint("RIGHT", prev, "LEFT", -8, 0) else b:SetPoint("TOPRIGHT", -40, -158) end
-        b.ico = b:CreateTexture(nil, "OVERLAY")
-        b.ico:SetSize(22, 22)
-        b.ico:SetPoint("LEFT", 8, 0)
-        b.ico:SetTexture(t.icon)
-        b.bg = b:CreateTexture(nil, "BACKGROUND")
-        b.bg:SetSize(1, 1)
-        b.under = b:CreateTexture(nil, "BACKGROUND")
-        b.under:SetSize(1, 1)
-        b:SetNormalFontObject(win.fontBtn)
-        b:SetHighlightFontObject(win.fontBtnOn)
-        b:SetText("     " .. t.label)
+        local b = WoWpoCesku_CechButton(win.detail, t.label, t.w or 130, 40)
+        b.label:SetFont(CINZEL, 14, "OUTLINE")   -- větší písmo, aby vyplnilo desku
+        if prev then b:SetPoint("RIGHT", prev, "LEFT", -5, 0) else b:SetPoint("TOPRIGHT", -64, -168) end
         b.id = t.id
-        b:SetScript("OnClick", function() state.tab = t.id; showDetail() end)
+        b:SetScript("OnClick", function()
+            state.tab = t.id
+            if t.id == "vstup" and state.key then showEntrance(state.key) end   -- kompas, značka a zpráva v chatu
+            showDetail()
+        end)
         win.tabs[#win.tabs + 1] = b
         prev = b
     end
 
     win.boxL = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxL:SetPoint("TOPLEFT", 24, -202)
-    win.boxL:SetSize(352, 368)
+    win.boxL:SetPoint("TOPLEFT", 62, -218)
+    win.boxL:SetSize(330, 360)
     win.boxR = boxFrame(win.detail, win.detail:GetFrameLevel() + 1)
-    win.boxR:SetPoint("TOPLEFT", 392, -202)
-    win.boxR:SetSize(516, 368)
-    win.leftSf, win.left = newScroll(win.detail, 36, -214, 304, 344)
-    win.rightSf, win.right = newScroll(win.detail, 408, -214, 468, 344)
-    win.right.w = 468 - 26
+    win.boxR:SetPoint("TOPLEFT", 404, -218)
+    win.boxR:SetSize(534, 360)
+    win.leftSf, win.left = newScroll(win.detail, 72, -228, 288, 340)
+    win.left.w = 288 - 6
+    win.left:SetWidth(win.left.w)
+    win.rightSf, win.right = newScroll(win.detail, 414, -228, 496, 340)
+    win.right.w = 496 - 6
 end
 
 -------------------------------------------------------------------------------

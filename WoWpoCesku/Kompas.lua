@@ -118,6 +118,22 @@ local function mark(i)
     m = {}
     m.icon = bar:CreateTexture(nil, "OVERLAY", nil, 2)
     m.icon:SetSize(16, 16)
+    m.rim = bar:CreateTexture(nil, "OVERLAY", nil, 0)
+    m.rim:SetPoint("CENTER", m.icon, "CENTER", 0, 0)
+    m.rim:SetTexture("Interface\\Buttons\\WHITE8x8")
+    m.rim:SetVertexColor(0.85, 0.66, 0.2, 1)
+    m.disc = bar:CreateTexture(nil, "OVERLAY", nil, 1)
+    m.disc:SetPoint("CENTER", m.icon, "CENTER", 0, 0)
+    m.disc:SetTexture("Interface\\Buttons\\WHITE8x8")
+    m.disc:SetVertexColor(0.1, 0.5, 0.58, 1)
+    m.dot = bar:CreateTexture(nil, "OVERLAY", nil, 2)
+    m.dot:SetPoint("CENTER", m.icon, "CENTER", 0, 0)
+    m.dot:SetTexture("Interface\\Buttons\\WHITE8x8")
+    m.dot:SetVertexColor(0.8, 0.95, 0.95, 1)
+    for _, t in ipairs({ m.rim, m.disc, m.dot }) do
+        pcall(t.SetMask, t, "Interface\\CharacterFrame\\TempPortraitAlphaMask")
+        t:Hide()
+    end
     -- zlatá záře za hlavním (označeným) questem
     m.glow = bar:CreateTexture(nil, "OVERLAY", nil, 1)
     m.glow:SetTexture("Interface\\Buttons\\UI-ActionButton-Border")
@@ -451,16 +467,18 @@ local function slow()
                         local m = mark(n)
                         local big = it.kind == "target" or it.main == true or it.kind == "waypoint"
                         m.main = it.main == true
-                        -- vstup do dungeonu: stejný portál (atlas "Dungeon") jako značka v Dungeon Kronice na mapě
+                        -- vstup do dungeonu (i označený cíl „… - vstup“): portál jako značka v Dungeon Kronice na mapě
+                        local portal = (it.kind == "dungeon" or (type(it.label) == "string" and it.label:find(" - vstup$") ~= nil))
                         local atlasOk = false
-                        if it.kind == "dungeon" and not (cfg().compassDungeonIcon and ICON_LIST[cfg().compassDungeonIcon]) and m.icon.SetAtlas then
-                            atlasOk = pcall(m.icon.SetAtlas, m.icon, "Dungeon", false)
-                        end
-                        if not atlasOk then
+                        if portal and m.icon.SetAtlas then atlasOk = pcall(m.icon.SetAtlas, m.icon, "Dungeon", false) end
+                        m.ring = portal and not atlasOk   -- záloha: kruh, když klient atlas nemá
+                        if portal then
+                            if not atlasOk then m.icon:SetTexture(nil) end
+                        else
                             m.icon:SetTexture(it.main and mainIcon() or kindIcon(it.kind))
                             m.icon:SetTexCoord(0, 1, 0, 1)
                         end
-                        m.icon:SetSize(big and 20 or 16, big and 20 or 16)
+                        m.icon:SetSize(big and 24 or 20, big and 24 or 20)
                         m.info = { kind = it.kind, label = it.label, d = d, seen = it.seen, lvl = it.lvl, main = it.main }
                         m.dir, m.dtext, m.dim = dir, (cfg().compassDist ~= false) and dist(d) or " ", (it.kind == "rare" and it.seen)
                         m.always, m.state = big, nil
@@ -469,7 +487,7 @@ local function slow()
                 end
             end
             for i = #entries, n + 1, -1 do entries[i] = nil end
-            for i = n + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].glow:Hide(); marks[i].info = nil end
+            for i = n + 1, #marks do marks[i].icon:Hide(); marks[i].text:Hide(); marks[i].hit:Hide(); marks[i].glow:Hide(); marks[i].rim:Hide(); marks[i].disc:Hide(); marks[i].dot:Hide(); marks[i].info = nil end
             bar.label:SetText((cfg().compassLabel ~= false) and label or "")
             bar:SetShown(not (cfg().compassAuto and n == 0))   -- volitelně: pruh jen když je co ukazovat
         end
@@ -504,6 +522,14 @@ local function fast()
                 m.text:SetText(st)
                 m.icon:SetAlpha(inView and (m.dim and 0.6 or 1) or 0.6)
             end
+            if m.ring then
+                local sz = m.main and 24 or m.icon:GetWidth()
+                m.rim:SetSize(sz, sz); m.disc:SetSize(sz * 0.84, sz * 0.84); m.dot:SetSize(sz * 0.40, sz * 0.40)
+                m.rim:SetAlpha(m.icon:GetAlpha()); m.disc:SetAlpha(m.icon:GetAlpha()); m.dot:SetAlpha(m.icon:GetAlpha())
+                m.rim:Show(); m.disc:Show(); m.dot:Show()
+            else
+                m.rim:Hide(); m.disc:Hide(); m.dot:Hide()
+            end
             if m.main then
                 m.icon:SetSize(24, 24)
                 m.glow:ClearAllPoints(); m.glow:SetPoint("CENTER", m.icon, "CENTER", 0, 0)
@@ -516,6 +542,7 @@ local function fast()
             m.hit:ClearAllPoints(); m.hit:SetPoint("CENTER", m.icon, "CENTER", 0, -4); m.hit:Show()
         else
             m.icon:Hide(); m.text:Hide(); m.hit:Hide(); m.glow:Hide(); m.state = nil
+            m.rim:Hide(); m.disc:Hide(); m.dot:Hide()
         end
     end
 end

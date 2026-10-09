@@ -134,7 +134,8 @@ local TABS = {
     { id = "bestiar", label = "Bestiář" },
     { id = "pecete", label = "Pečetě" },
     { id = "pribeh", label = "Tvůj příběh" },
-    { id = "zkouska", label = "Zkouška kronikáře" },
+    { id = "zkouska", label = "Zkouška kronikáře", gap = true },
+    { id = "knihovna", label = "Knihovna kronikáře", action = true, discord = true, library = true, sep = true },   -- samostatné okno
     { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
     { id = "cech", label = "Cechovní kronika", action = true, discord = true, guild = true },   -- samostatné okno (test)
     { id = "discord", label = "Discord: chyby a překlady", action = true, discord = true },   -- okénko s odkazem na Discord
@@ -568,7 +569,7 @@ layoutTabs = function()
         if t:IsShown() then
             t:ClearAllPoints()
             t:SetPoint("TOPLEFT", book.panel, "TOPLEFT", 12, y)
-            y = y - ((t.action and not t.discord) and 46 or 38)
+            y = y - (t.gap and 58 or 38)
             n = n + 1
         end
     end
@@ -615,22 +616,27 @@ local function createTabs()
         t.id = def.id
         t.action = def.action
         t.discord = def.discord
+        t.gap = def.gap
         t:SetSize(160, 30)
         if WoWpoCeskuButtonFont then
             t:SetNormalFontObject(WoWpoCeskuButtonFont)
             t:SetHighlightFontObject(WoWpoCeskuButtonFontHighlight)
         end
         t:SetText(def.label)
-        if def.action and not def.discord then
+        if def.sep then
             local sep = panel:CreateTexture(nil, "ARTWORK")
             sep:SetColorTexture(0.45, 0.30, 0.16, 0.7)
             sep:SetSize(150, 1)
-            sep:SetPoint("BOTTOM", t, "TOP", 0, 7)
+            sep:SetPoint("BOTTOM", t, "TOP", 0, 14)
         end
         t:SetScript("OnClick", function(self)
             PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
             if def.guild then
                 if WoWpoCesku_GuildChronicle then WoWpoCesku_GuildChronicle() end
+                return
+            end
+            if def.library then
+                if WoWpoCesku_Library then WoWpoCesku_Library() end
                 return
             end
             if def.discord then

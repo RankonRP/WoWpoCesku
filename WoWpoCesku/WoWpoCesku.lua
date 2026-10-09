@@ -526,6 +526,8 @@ local function gossipLookup(text)
     if cs then return (cs:gsub("\\r", "")) end
 end
 
+WoWpoCesku_GossipLookup = gossipLookup   -- Knihovna kronikáře
+
 local function gatherGossip()
     local text = (C_GossipInfo and C_GossipInfo.GetText and C_GossipInfo.GetText()) or (GetGossipText and GetGossipText())
     if not text or text == "" then return nil end
@@ -919,7 +921,10 @@ events:SetScript("OnEvent", function(_, event, arg1)
         return
     end
     if event == "ITEM_TEXT_READY" then
-        if WoWpoCeskuSettings.books ~= false then showQuest(gatherBook(), "book") end
+        local b = gatherBook()
+        -- Knihovna kronikáře: každá přečtená kniha se uloží (i když je překladový panel vypnutý)
+        if b and WoWpoCesku_LibraryAdd then pcall(WoWpoCesku_LibraryAdd, b.title, ItemTextGetPage and ItemTextGetPage() or 1, b.gossip) end
+        if WoWpoCeskuSettings.books ~= false then showQuest(b, "book") end
         return
     end
     if WoWpoCeskuSettings.quests ~= false then showQuest(gatherDialog(event), "dialog") end
@@ -1742,6 +1747,10 @@ SlashCmdList.CZQUESTS = function(msg)
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
+    elseif cmd == "ramy" then
+        if WoWpoCesku_FrameTest then WoWpoCesku_FrameTest() end
+    elseif cmd == "knihovna" or cmd == "knihy" then
+        if WoWpoCesku_Library then WoWpoCesku_Library() end
     elseif cmd == "cech" or cmd == "cechovni" then
         if WoWpoCesku_GuildChronicle then WoWpoCesku_GuildChronicle(arg) end
     elseif cmd == "kompas" then
@@ -1821,10 +1830,12 @@ end
 -------------------------------------------------------------------------------
 -- Klávesové zkratky (Esc > Klávesové zkratky > AddOns > WOWPOČESKU)
 -------------------------------------------------------------------------------
-BINDING_HEADER_WOWPOCESKU = "WoWpoČesku"
-BINDING_NAME_WPC_KRONIKA = "Kronika Azerothu (otevřít/zavřít)"
-BINDING_NAME_WPC_DUNGEON = "Dungeon Kronika (otevřít/zavřít)"
-BINDING_NAME_WPC_DISCORD = "Discord: chyby a překlady"
+BINDING_HEADER_WOWPOCESKU = "WoWpoCesku"
+BINDING_NAME_WPC_KRONIKA = "Kronika Azerothu (otevrit/zavrit)"
+BINDING_NAME_WPC_DUNGEON = "Dungeon Kronika (otevrit/zavrit)"
+BINDING_NAME_WPC_CECH = "Cechovni kronika (otevrit/zavrit)"
+BINDING_NAME_WPC_KNIHOVNA = "Knihovna kronikare (otevrit/zavrit)"
+BINDING_NAME_WPC_DISCORD = "Discord: chyby a preklady"
 
 function WoWpoCesku_ToggleKronika()
     local f = _G.WoWpoCeskuLore
