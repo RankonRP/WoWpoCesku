@@ -737,6 +737,7 @@ WoWpoCesku_Gossip = {
 ["Captain Galvangar is the trusted aid to Drek'Thar. He leads the Horde forces from the Iceblood Garrison, in the southern section of the the Field of Strife. Captain Galvangar is currently in the Iceblood Garrison."]="Kapitán Galvangar je důvěryhodná pomoc Drek'Tharovi. Vede síly Hordy z Iceblood Garrison, v jižní části Pole Svárů. Kapitán Galvangar je momentálně v Iceblood Garrison.",
 ["Captain Selana has instructed me to assist you with your efforts here on the Sunwell Plateau."]="Kapitán Selana mě nařídil, abych ti pomohl s tvým úsilím zde na plošině Sluneční studny.",
 ["Capturing the Sun's Reach Sanctum was the first step in our battle plan. Our orders are to take control of the armory next. We are $3233w percent done with our goal."]="Obsazení svatyně dosahu Slunce bylo prvním krokem v našem bitevním plánu. Naším rozkazem je převzít kontrolu nad zbrojnicí. Náš cíl je splněn o 3233 % t.",
+["Care to learn how to gather leather from slain beasts? Or do you need some new tools?"]="Chceš se naučit sbírat kůži ze zabitých zvířat? Nebo potřebuješ nějaké nové nástroje?",
 ["Care to learn how to turn the ore that you find into weapons and metal armor?"]="Chceš se naučit, jak přeměnit rudu, kterou najdeš, na zbraně a kovové brnění?",
 ["Care to purchase some piratey items?"]="Chceš si koupit nějaké pirátské předměty?",
 ["Careful, don't get burned!"]="Pozor, nespálit se!",
