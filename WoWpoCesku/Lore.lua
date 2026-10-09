@@ -136,15 +136,25 @@ local TABS = {
     { id = "pribeh", label = "Tvůj příběh" },
     { id = "zkouska", label = "Zkouška kronikáře" },
     { id = "dungeony", label = "Dungeon Kronika", action = true },   -- otevře samostatné okno
+    { id = "cech", label = "Cechovní kronika", action = true, discord = true, guild = true },   -- samostatné okno (test)
     { id = "discord", label = "Discord: chyby a překlady", action = true, discord = true },   -- okénko s odkazem na Discord
 }
 
 -- záložka Postavy: kdo je kdo, vztahy a zajímavosti (DataPostavy.lua)
-function WoWpoCesku_PostavyPage()
+-- jen postavy z dané oblasti: místní postavy z kapitol oblasti (localChars) + významné postavy, které se k ní váží
+function WoWpoCesku_PostavyPage(key, localChars)
     local list = WoWpoCesku_KdoJeKdo
-    if not list or #list == 0 then return nil end
-    local page = { { "Kdo je kdo v Azerothu", "Významné postavy, jejich vztahy a zajímavosti. Po názvu postavy je uvedena strana nebo skupina. Příběhy míst najdeš v ostatních záložkách." } }
-    for _, ch in ipairs(list) do page[#page + 1] = ch end
+    local where = WoWpoCesku_KdoJeKdoMista or {}
+    local page = {}
+    for _, ch in ipairs(localChars or {}) do page[#page + 1] = ch end
+    for _, ch in ipairs(list or {}) do
+        local who = ch[1]:match("^(.-) · ") or ch[1]
+        for _, zone in ipairs(where[who] or {}) do
+            if zone == key then page[#page + 1] = ch; break end
+        end
+    end
+    if #page == 0 then return nil end
+    table.insert(page, 1, { "Zajímavé postavy", "Kdo se v téhle oblasti pohybuje a proč stojí za povšimnutí. U významných postav je za jménem strana nebo skupina." })
     return page
 end
 
@@ -527,8 +537,11 @@ local function fillBook(key, mapID)
     book.sf:SetPoint("BOTTOMRIGHT", -46, 56)
 
     -- Letopis: kapitoly příběhu + „Z knih a legend“
-    local letopis = {}
-    for _, ch in ipairs(L.ch) do letopis[#letopis + 1] = ch end
+    local letopis, localChars = {}, {}
+    for _, ch in ipairs(L.ch) do
+        -- kapitoly o místních postavách patří do záložky Postavy
+        if type(ch[1]) == "string" and ch[1]:find("^Postav") then localChars[#localChars + 1] = ch else letopis[#letopis + 1] = ch end
+    end
     local books = WoWpoCesku_LoreKnihy and WoWpoCesku_LoreKnihy[key]
     local guide = WoWpoCesku_DungeonGuide and WoWpoCesku_DungeonGuide[key]
     if guide then letopis[#letopis + 1] = { "Rady: kde to je a jak na to", guide } end
@@ -538,7 +551,7 @@ local function fillBook(key, mapID)
     book.pages = {
         letopis = letopis,
         tajemstvi = secrets and { { "Tajemství a kam se podívat", secrets } } or nil,
-        postavy = WoWpoCesku_PostavyPage and WoWpoCesku_PostavyPage() or nil,
+        postavy = WoWpoCesku_PostavyPage and WoWpoCesku_PostavyPage(key, localChars) or nil,
         denik = WoWpoCesku_DenikPage and WoWpoCesku_DenikPage(key) or nil,
         bestiar = WoWpoCesku_BestiarPage and WoWpoCesku_BestiarPage(key) or nil,
         pecete = WoWpoCesku_PecetePage and WoWpoCesku_PecetePage(key) or nil,
@@ -616,6 +629,10 @@ local function createTabs()
         end
         t:SetScript("OnClick", function(self)
             PlaySound(SOUNDKIT and SOUNDKIT.IG_ABILITY_PAGE_TURN or 836)
+            if def.guild then
+                if WoWpoCesku_GuildChronicle then WoWpoCesku_GuildChronicle() end
+                return
+            end
             if def.discord then
                 if def.id == "soubor" then
                     if WoWpoCesku_ShowSend then WoWpoCesku_ShowSend() end

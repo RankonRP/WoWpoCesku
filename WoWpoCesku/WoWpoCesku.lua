@@ -1742,6 +1742,8 @@ SlashCmdList.CZQUESTS = function(msg)
         local n = WoWpoCesku_DumpStrings and WoWpoCesku_DumpStrings() or 0
         local t = WoWpoCesku_QueueAllTalents and WoWpoCesku_QueueAllTalents() or 0
         say(("ulozeno %d textu rozhrani, %d textu talentu k prekladu. Napis /reload (nebo se odhlas)."):format(n, t))
+    elseif cmd == "cech" or cmd == "cechovni" then
+        if WoWpoCesku_GuildChronicle then WoWpoCesku_GuildChronicle(arg) end
     elseif cmd == "kompas" then
         if WoWpoCesku_CompassCommand then WoWpoCesku_CompassCommand(arg) end
     elseif cmd == "dungeon" or cmd == "dungy" or cmd == "dj" then

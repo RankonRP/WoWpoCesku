@@ -1406,6 +1406,8 @@ journalAdd = function(kind, a, b)
     end
     J.list[#J.list + 1] = { t = time(), k = kind, a = a, b = b }
     while #J.list > 300 do table.remove(J.list, 1) end
+    -- Cechovní kronika (test): bossové a pečetě se zapíšou i do kroniky cechu
+    if WoWpoCesku_GuildFeed and (kind == "boss" or kind == "seal") then pcall(WoWpoCesku_GuildFeed, kind, a, b) end
 end
 
 -- pády v boji: zápis při 1., 10., 25., 50. a 100.
