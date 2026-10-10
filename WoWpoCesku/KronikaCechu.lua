@@ -1462,7 +1462,7 @@ local function showFilterBar(y, counts)
         filterBar:SetSize(CONTENT_W - 12, 36)
         filterBar.btns = {}
         for i, d in ipairs({ { "all", "Vše" }, { "dungeon", "Dungeony" }, { "raid", "Raidy" } }) do
-            local b = WoWpoCesku_CechButton(filterBar, d[2], 140, 36)
+            local b = (WoWpoCesku_GameButton or WoWpoCesku_CechButton)(filterBar, d[2], 140, 36)
             b:SetPoint("LEFT", (i - 1) * 146, 0)
             b.mode, b.base = d[1], d[2]
             b:SetScript("OnClick", function(self) runFilter = self.mode; if refresh then refresh() end end)
@@ -1627,11 +1627,8 @@ end
 
 -- stavy záložky v atlasu cech-zalozka.tga: 0 neaktivní, 1 aktivní, 2 najetí myší
 local function tabLook(b)
-    local on = b.id == tab
-    local state = on and 1 or (b.hover and 2 or 0)
-    b.bg:SetTexCoord(0, 0.9, state * 0.25, (state + 1) * 0.25)
-    if on then b.label:SetTextColor(1, 0.97, 0.80) else b.label:SetTextColor(0.96, 0.85, 0.60) end
-    b.label:SetPoint("CENTER", 0, on and 2 or 1)
+    -- herní tlačítko: aktivní záložka je zvýrazněná
+    if b.setActive then b:setActive(b.id == tab) end
 end
 
 local function updateTabs()
@@ -1757,7 +1754,7 @@ local function showCopy()
         eb:SetScript("OnEscapePressed", eb.ClearFocus)
         sf:SetScrollChild(eb)
         f.edit = eb
-        local ok = makeButton(f, "Zavřít", 130, 36)
+        local ok = (WoWpoCesku_GameButton or makeButton)(f, "Zavřít", 130, 36)
         ok:SetPoint("BOTTOMRIGHT", -20, 14)
         ok:SetScript("OnClick", function() f:Hide() end)
         tinsert(UISpecialFrames, "WoWpoCeskuCechKopie")
@@ -1871,6 +1868,138 @@ local function styleWindow(f, W, H)
 end
 WoWpoCesku_CechStyle = styleWindow
 
+-- Dřevěný rám Cechovní kroniky se železnými pásy a mosaznými štíty (textura cech-drevo.tga, kusy viz tools/cech-ram-textura.js).
+-- Čísla: { x, y, šířka, výška } v atlasu 1024×1024; rám je ve zdrojovém obrázku 1497 px široký. Pravá strana je zrcadlená.
+local GF = { tl = { 0, 0, 132, 129 }, bl = { 0, 140, 132, 140 }, top_l = { 140, 0, 540, 66 }, top_c = { 140, 80, 200, 117 },
+    bot_l = { 140, 210, 608, 68 }, bot_c = { 140, 290, 54, 86 }, left_t = { 350, 300, 62, 105 }, left_m = { 420, 300, 62, 170 },
+    left_b = { 490, 300, 62, 110 }, left_p = { 560, 300, 62, 52 } }
+function WoWpoCesku_GuildStyle(f, W, H)
+    local s = W / 1497
+    local bg = f:CreateTexture(nil, "BACKGROUND")
+    bg:SetPoint("TOPLEFT", 28, -28)
+    bg:SetPoint("BOTTOMRIGHT", -28, 28)
+    bg:SetTexture(TEX .. "cech-pozadi.tga")
+    local aspect = (W - 56) / (H - 56)
+    local vf = math.min(1, 1 / aspect)
+    bg:SetTexCoord(0, 1, (1 - vf) / 2, 1 - (1 - vf) / 2)
+
+    local function piece(name, flip, vflip)
+        local r = GF[name]
+        local t = f:CreateTexture(nil, "OVERLAY", nil, 3)
+        t:SetTexture(TEX .. "cech-drevo.tga")
+        local l, rr = r[1] / 1024, (r[1] + r[3]) / 1024
+        local tp, bt = r[2] / 1024, (r[2] + r[4]) / 1024
+        if flip then l, rr = rr, l end
+        if vflip then tp, bt = bt, tp end
+        t:SetTexCoord(l, rr, tp, bt)
+        return t
+    end
+    local function sz(t, name) t:SetSize(GF[name][3] * s, GF[name][4] * s) return t end
+    sz(piece("tl"), "tl"):SetPoint("TOPLEFT", f, "TOPLEFT", -12 * s, 12 * s)
+    sz(piece("tl", true), "tl"):SetPoint("TOPRIGHT", f, "TOPRIGHT", 12 * s, 12 * s)
+    sz(piece("bl"), "bl"):SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", -12 * s, -20 * s)
+    sz(piece("bl", true), "bl"):SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 12 * s, -20 * s)
+    sz(piece("top_c"), "top_c"):SetPoint("TOP", f, "TOP", 0, 20 * s)
+    sz(piece("bot_c"), "bot_c"):SetPoint("BOTTOM", f, "BOTTOM", 0, -6 * s)
+    local ch, bh, ew = 100 * s, 27 * s, 120 * s
+    local t1 = piece("top_l"); t1:SetHeight(GF.top_l[4] * s)
+    t1:SetPoint("TOPLEFT", f, "TOPLEFT", ew, 0); t1:SetPoint("TOPRIGHT", f, "TOP", -ch, 0)
+    local t2 = piece("top_l", true); t2:SetHeight(GF.top_l[4] * s)
+    t2:SetPoint("TOPRIGHT", f, "TOPRIGHT", -ew, 0); t2:SetPoint("TOPLEFT", f, "TOP", ch, 0)
+    local b1 = piece("bot_l"); b1:SetHeight(GF.bot_l[4] * s)
+    b1:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", ew, 0); b1:SetPoint("BOTTOMRIGHT", f, "BOTTOM", -bh, 0)
+    local b2 = piece("bot_l", true); b2:SetHeight(GF.bot_l[4] * s)
+    b2:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -ew, 0); b2:SetPoint("BOTTOMLEFT", f, "BOTTOM", bh, 0)
+    -- levý a pravý okraj: horní a dolní díl pevné; mezi nimi se střídají kousky dřeva (každý druhý převrácený, aby byl spoj neviditelný)
+    -- a uprostřed železný pás. Nic se nenatahuje víc než o pár procent.
+    local top0 = 222 * s                       -- konec horního dílu od horního okraje okna
+    local mid = H - 452 * s                    -- výška středu mezi horním a dolním dílem
+    local pH = GF.left_p[4] * s
+    local seg = (mid - pH) / 2
+    local k = math.max(1, math.floor(seg / (GF.left_m[4] * s) + 0.5))
+    local wh = seg / k
+    for _, mirror in ipairs({ false, true }) do
+        local pt, ox = mirror and "TOPRIGHT" or "TOPLEFT", 0
+        local a = piece("left_t", mirror); a:SetSize(GF.left_t[3] * s, GF.left_t[4] * s)
+        a:SetPoint(pt, f, pt, 0, -117 * s)
+        local z = piece("left_b", mirror); z:SetSize(GF.left_b[3] * s, GF.left_b[4] * s)
+        z:SetPoint(mirror and "BOTTOMRIGHT" or "BOTTOMLEFT", f, mirror and "BOTTOMRIGHT" or "BOTTOMLEFT", 0, 120 * s)
+        local y = top0
+        local function wood(i)
+            local m = piece("left_m", mirror, i % 2 == 0)
+            m:SetSize(GF.left_m[3] * s, wh)
+            m:SetPoint(pt, f, pt, 0, -y)
+            y = y + wh
+            return m
+        end
+        for i = 1, k do wood(i) end
+        local p = piece("left_p", mirror); p:SetSize(GF.left_p[3] * s, pH)
+        p:SetPoint(pt, f, pt, 0, -y); y = y + pH
+        for i = 1, k do wood(i + k) end
+    end
+    local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+    close:SetSize(26, 26)
+    close:SetPoint("TOPRIGHT", -8, -8)
+    close:SetFrameLevel(f:GetFrameLevel() + 40)
+    f.closeBtn = close
+end
+
+-- Kamenný rám Dungeon Kroniky: kusy z textury dungeon-ram.tga (rohy, okraje a ozdoby uprostřed; pravá strana je zrcadlená).
+-- Čísla odpovídají výstupu tools/dungeon-ram-textura.js: { x, y, šířka, výška } v atlasu 1024×1024.
+local DR = { tl = { 0, 0, 136, 120 }, bl = { 0, 130, 136, 145 }, left = { 150, 0, 45, 710 }, top_l = { 210, 0, 462, 46 },
+    top_c = { 210, 60, 328, 120 }, bot_l = { 210, 190, 585, 46 }, bot_c = { 210, 250, 70, 75 } }
+function WoWpoCesku_DungeonStyle(f, W, H)
+    local s = W / 1482   -- měřítko: rám je ve zdrojovém obrázku 1482 px široký
+    -- pergamen uvnitř rámu
+    local bg = f:CreateTexture(nil, "BACKGROUND")
+    bg:SetPoint("TOPLEFT", 22, -22)
+    bg:SetPoint("BOTTOMRIGHT", -22, 22)
+    bg:SetTexture(TEX .. "cech-pozadi.tga")
+    local aspect = (W - 44) / (H - 44)
+    local vf = math.min(1, 1 / aspect)
+    bg:SetTexCoord(0, 1, (1 - vf) / 2, 1 - (1 - vf) / 2)
+
+    local function piece(name, flip)
+        local r = DR[name]
+        local t = f:CreateTexture(nil, "OVERLAY", nil, 3)
+        t:SetTexture(TEX .. "dungeon-ram.tga")
+        local l, rr = r[1] / 1024, (r[1] + r[3]) / 1024
+        if flip then l, rr = rr, l end
+        t:SetTexCoord(l, rr, r[2] / 1024, (r[2] + r[4]) / 1024)
+        return t
+    end
+    local function sized(t, name) t:SetSize(DR[name][3] * s, DR[name][4] * s) return t end
+    -- rohy
+    sized(piece("tl"), "tl"):SetPoint("TOPLEFT", f, "TOPLEFT", -13 * s, 14 * s)
+    sized(piece("tl", true), "tl"):SetPoint("TOPRIGHT", f, "TOPRIGHT", 13 * s, 14 * s)
+    sized(piece("bl"), "bl"):SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", -13 * s, -20 * s)
+    sized(piece("bl", true), "bl"):SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 13 * s, -20 * s)
+    -- ozdoby uprostřed
+    sized(piece("top_c"), "top_c"):SetPoint("TOP", f, "TOP", 0, 34 * s)
+    sized(piece("bot_c"), "bot_c"):SetPoint("BOTTOM", f, "BOTTOM", 0, -20 * s)
+    -- horní a dolní okraj (natahují se mezi rohy a ozdobou)
+    local half, cw = (DR.top_c[3] * s) / 2, 123 * s
+    local t1 = piece("top_l"); t1:SetHeight(DR.top_l[4] * s)
+    t1:SetPoint("TOPLEFT", f, "TOPLEFT", cw, 0); t1:SetPoint("TOPRIGHT", f, "TOP", -half, 0)
+    local t2 = piece("top_l", true); t2:SetHeight(DR.top_l[4] * s)
+    t2:SetPoint("TOPRIGHT", f, "TOPRIGHT", -cw, 0); t2:SetPoint("TOPLEFT", f, "TOP", half, 0)
+    local bhalf = (DR.bot_c[3] * s) / 2
+    local b1 = piece("bot_l"); b1:SetHeight(DR.bot_l[4] * s)
+    b1:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", cw, 0); b1:SetPoint("BOTTOMRIGHT", f, "BOTTOM", -bhalf, 0)
+    local b2 = piece("bot_l", true); b2:SetHeight(DR.bot_l[4] * s)
+    b2:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -cw, 0); b2:SetPoint("BOTTOMLEFT", f, "BOTTOM", bhalf, 0)
+    -- levý a pravý okraj
+    local l1 = piece("left"); l1:SetWidth(DR.left[3] * s)
+    l1:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -106 * s); l1:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", 0, 120 * s)
+    local l2 = piece("left", true); l2:SetWidth(DR.left[3] * s)
+    l2:SetPoint("TOPRIGHT", f, "TOPRIGHT", 0, -106 * s); l2:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, 120 * s)
+
+    local close = CreateFrame("Button", nil, f, "UIPanelCloseButton")
+    close:SetPoint("TOPRIGHT", -26, -24)
+    close:SetFrameLevel(f:GetFrameLevel() + 40)
+    f.closeBtn = close
+end
+
 -- prapor podle frakce hráče: textura, výška obsahu v textuře (0–1) a poměr výška/šířka; bez výsledku (neutrální) se použije hnědá varianta
 local BANNERS = {
     Alliance = { "cech-prapor-aliance.tga", 199 / 256, 199 / 1024 },
@@ -1915,7 +2044,7 @@ local function build()
     f:SetScript("OnDragStart", f.StartMoving)
     f:SetScript("OnDragStop", f.StopMovingOrSizing)
 
-    styleWindow(f, WIN_W, WIN_H)
+    if WoWpoCesku_GuildStyle then WoWpoCesku_GuildStyle(f, WIN_W, WIN_H) else styleWindow(f, WIN_W, WIN_H) end   -- dřevěný rám
 
     -- ilustrace sálu v ozdobném rámečku
     local pic = CreateFrame("Frame", nil, f, "BackdropTemplate")
@@ -1985,20 +2114,9 @@ local function build()
     f.tabBtns = {}
     local bw = 160
     for i, def in ipairs(tabs) do
-        local b = CreateFrame("Button", nil, f)
+        local b = (WoWpoCesku_GameButton or WoWpoCesku_CechButton)(f, def[2], bw, 44)
         b.id = def[1]
-        b:SetSize(bw, 44)
         b:SetPoint("TOP", f, "TOP", (i - (#tabs + 1) / 2) * (bw + 6), -240)
-        b.bg = b:CreateTexture(nil, "BACKGROUND")
-        b.bg:SetAllPoints()
-        b.bg:SetTexture(TEX .. "cech-zalozka.tga")
-        b.label = b:CreateFontString(nil, "OVERLAY")
-        b.label:SetFont(CINZEL, 14, "OUTLINE")
-        b.label:SetJustifyH("CENTER")
-        b.label:SetPoint("CENTER", 0, 1)
-        b.label:SetText(def[2])
-        b:SetScript("OnEnter", function(self) self.hover = true; tabLook(self) end)
-        b:SetScript("OnLeave", function(self) self.hover = false; tabLook(self) end)
         b:SetScript("OnClick", function()
             if tab ~= def[1] then
                 tab = def[1]
@@ -2020,13 +2138,13 @@ local function build()
     scroll:SetScrollChild(content)
 
     -- spodní lišta
-    local refreshBtn = makeButton(f, "Obnovit seznam", 160, 40)
+    local refreshBtn = (WoWpoCesku_GameButton or makeButton)(f, "Obnovit seznam", 160, 40)
     refreshBtn:SetPoint("BOTTOMLEFT", 60, 55)
     refreshBtn:SetScript("OnClick", function()
         requestRoster()
         C_Timer.After(1.5, function() if not demo then pcall(snapshot) end refresh() end)
     end)
-    f.copyBtn = makeButton(f, "Kopírovat letopis", 170, 40)
+    f.copyBtn = (WoWpoCesku_GameButton or makeButton)(f, "Kopírovat letopis", 170, 40)
     f.copyBtn:SetPoint("LEFT", refreshBtn, "RIGHT", 6, 0)
     f.copyBtn:SetScript("OnClick", showCopy)
     local hint = fs(f, 11, SEPIA[1], SEPIA[2], SEPIA[3])

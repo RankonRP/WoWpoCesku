@@ -20,7 +20,7 @@
 - **Tvůj příběh**: deník pro každou postavu zvlášť
 - **Zkouška kronikáře**: kvíz z lore
 - upozornění na vzácné příšery, místa na mapě, příběhy předmětů
-- tlačítko „Nelíbí se mi“ pro označení špatného překladu
+- oprava špatného překladu tlačítkem „Opravit překlad“ (a nápady na Discordu)
 
 **Nepřeložený text?** Addon ho zapíše do fronty. Volitelný **Pomocník** (Windows, zdarma na GitHubu) ho přeloží a data pošle zpět do hry. Bez Pomocníka addon funguje s hotovými překlady.
 

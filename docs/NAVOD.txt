@@ -59,10 +59,9 @@ nepřeložili něco nového.
 
 PŘEKLAD SE TI NELÍBÍ
 --------------------
-V panelu s překladem klikni na "Nelíbí se mi – poslat Claudovi". Text se jen označí
-u tebe ve hře (nikam se neposílá). Až jich máš víc, napiš /reload (označení se uloží
-do souboru) a řekni Claudovi, ať přeloží označené. Příkaz /czq oznacene ukáže, kolik
-jich čeká.
+Napiš to na Discord (kanál #návrhy-překladů) nebo oprav text tlačítkem "Opravit překlad".
+Tlačítko "Nelíbí se mi" (označení pro správce překladů) je od verze 0.62.3 skryté a
+zapíná ho jen správce příkazem /czq oznacovat.
 
 
 PŘÍKAZY VE HŘE

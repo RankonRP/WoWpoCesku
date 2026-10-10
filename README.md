@@ -27,7 +27,7 @@
 - **Přeložený quest** → český text se ukáže v panelu vedle okna questu.
 - **Nepřeložený text** → nic dělat nemusíš: napiš `/reload` (nebo se odhlas), Pomocník texty ze hry sám přeloží a po zprávě **HOTOVO** napiš `/reload` znovu – a je to česky.
 - **Chceš to hned?** Zmáčkni **Ctrl+C** na označeném textu (addon ho označí sám) – překlad se ukáže hned v Pomocníkovi a po `/reload` ho uvidíš ve hře.
-- **Překlad se ti nelíbí?** V panelu klikni na **Nelíbí se mi – poslat Claudovi**: text se označí (jen v tvé hře, nikam se neposílá) a při příštím sezení ho Claude přeloží ručně. Po označení napiš `/reload`, ať se označení uloží.
+- **Překlad se ti nelíbí?** Napiš to na náš Discord (kanál #návrhy-překladů) nebo oprav text tlačítkem **Opravit překlad**. Tlačítko „Nelíbí se mi“ (označení pro správce překladů) je od 0.62.3 skryté; správce ho zapíná příkazem `/czq oznacovat`.
 - **Špatný překlad** → v panelu klikni na **Opravit překlad**, oprav text v Pomocníkovi a ulož.
 - **Ikona knihy u minimapy** → klik = Kronika Azerothu, **Ctrl+klik** = nastavení (nebo `/czq nastaveni`), pravý klik = zapnout/vypnout překlad, **Shift+klik** = načíst nové překlady.
 

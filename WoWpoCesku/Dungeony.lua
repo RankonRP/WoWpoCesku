@@ -1570,7 +1570,7 @@ local function build()
     win:SetPoint("CENTER")
     win:SetFrameStrata("DIALOG")
     win:SetToplevel(true)
-    WoWpoCesku_CechStyle(win, 1000, 640)   -- pergamen, ozdobný rám a zavírací tlačítko (KronikaCechu.lua)
+    if WoWpoCesku_DungeonStyle then WoWpoCesku_DungeonStyle(win, 1000, 640) else WoWpoCesku_CechStyle(win, 1000, 640) end   -- pergamen, kamenný rám a zavírací tlačítko (KronikaCechu.lua)
     win:EnableMouse(true)
     win:SetMovable(true)
     win:SetClampedToScreen(true)
@@ -1611,10 +1611,10 @@ local function build()
     head:SetFont("Fonts\\MORPHEUS.ttf", 24, "OUTLINE")
     head:SetTextColor(1, 0.95, 0.78)
     head:SetPoint("CENTER", rib, "CENTER", 0, 0)
-    WoWpoCesku_CechCrests(win)
+    if not WoWpoCesku_DungeonStyle then WoWpoCesku_CechCrests(win) end   -- znaky frakcí jen u starého rámu
     head:SetText("Dungeon Kronika")
 
-    local dc = WoWpoCesku_CechButton(win, "Chyba? Discord", 150, 42)
+    local dc = (WoWpoCesku_GameButton or WoWpoCesku_CechButton)(win, "Chyba? Discord", 150, 42)
     dc:SetPoint("BOTTOMLEFT", 70, 60)
     dc:SetFrameLevel(win:GetFrameLevel() + 200)   -- vždy nad ostatními prvky okna, ať ho hráč vidí
     dc:SetScript("OnClick", function() if WoWpoCesku_ShowDiscord then WoWpoCesku_ShowDiscord() end end)
@@ -1633,7 +1633,7 @@ local function build()
     win.banner:SetPoint("TOPLEFT", 62, -62)
     win.banner:SetSize(876, 96)
 
-    local back = WoWpoCesku_CechButton(win.detail, "Přehled", 128, 38)
+    local back = (WoWpoCesku_GameButton or WoWpoCesku_CechButton)(win.detail, "Přehled", 128, 38)
     back:SetFrameLevel(win.detail:GetFrameLevel() + 7)
     back:SetPoint("TOPLEFT", win.banner, "TOPLEFT", 52, -8)
     back:SetScript("OnClick", function() state.view = "list"; showDetail() end)
@@ -1656,8 +1656,8 @@ local function build()
     local prev
     for i = #TABS, 1, -1 do
         local t = TABS[i]
-        local b = WoWpoCesku_CechButton(win.detail, t.label, t.w or 130, 40)
-        b.label:SetFont(CINZEL, 14, "OUTLINE")   -- větší písmo, aby vyplnilo desku
+        local b = (WoWpoCesku_GameButton or WoWpoCesku_CechButton)(win.detail, t.label, t.w or 130, 40)
+        if b.label then b.label:SetFont(CINZEL, 14, "") end   -- větší písmo
         if prev then b:SetPoint("RIGHT", prev, "LEFT", -5, 0) else b:SetPoint("TOPRIGHT", -64, -168) end
         b.id = t.id
         b:SetScript("OnClick", function()

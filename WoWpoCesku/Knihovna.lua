@@ -9,6 +9,9 @@ local CINZEL = "Interface\\AddOns\\WoWpoCesku\\Fonts\\Cinzel.ttf"
 local INK, RED, SEPIA = { 0.20, 0.13, 0.07 }, { 0.50, 0.12, 0.05 }, { 0.32, 0.22, 0.12 }
 local WHITE = "Interface\\Buttons\\WHITE8x8"
 local WIN_W, WIN_H = 920, 640
+-- rám okna: šablona ze hry (zkouška /czq ramy, č. 6); nil = vlastní rám jako v Kronice (s prapory a znaky)
+local GAME_FRAME = nil
+local DY = GAME_FRAME and 55 or 0   -- o kolik je okno nižší než u vlastního rámu (menší horní část)
 local BOX = { bgFile = WHITE, edgeFile = WHITE, edgeSize = 1 }
 
 local win
@@ -48,6 +51,35 @@ local function hash(s)
 end
 
 local refresh
+
+-- tlačítka ze hry (červená šablona UIPanelButtonTemplate, jako „Enter World“); v případě potřeby se vrátí k našim
+local USE_GAME_BUTTONS = true
+local function makeButton(parent, text, w, h)
+    if USE_GAME_BUTTONS then
+        local ok, b = pcall(CreateFrame, "Button", nil, parent, "UIPanelButtonTemplate")
+        if ok and b then
+            b:SetSize(w, h)
+            b:SetText(text)
+            local label = b:GetFontString()
+            if label then label:SetFont(CINZEL, 14, ""); label:SetShadowColor(0, 0, 0, 0.9); label:SetShadowOffset(1, -1) end   -- písmo s diakritikou (jako ostatní tlačítka Kroniky)
+            b.label = label
+            if label then   -- text přesně doprostřed tlačítka (vodorovně i svisle)
+                label:ClearAllPoints()
+                label:SetPoint("CENTER", b, "CENTER", 0, -1)
+                label:SetWidth(w - 10)
+                label:SetJustifyH("CENTER")
+                label:SetJustifyV("MIDDLE")
+            end
+            -- „aktivní" volba (Překlad / Originál) = zvýrazněné tlačítko
+            function b:setActive(on)
+                if on then self:LockHighlight() else self:UnlockHighlight() end
+            end
+            return b
+        end
+    end
+    return WoWpoCesku_CechButton(parent, text, w, h)
+end
+WoWpoCesku_GameButton = makeButton   -- sdílené s Dungeon Kronikou
 
 -- volá se při otevření textu předmětu (WoWpoCesku.lua); page = číslo stránky, text = text stránky (se zástupnými značkami)
 function WoWpoCesku_LibraryAdd(title, page, text, material, hasNext)
@@ -115,22 +147,63 @@ local function pageText(e, page)
     return WoWpoCesku_FromToken(raw)
 end
 
+-- „Nelíbí se mi“: označení překladu stránky pro Clauda (WoWpoCeskuSeen.flag, uloží se po /reload; viz tools/claude-preklad.js)
+local FLAG_MAX = 200
+local function flagTable()
+    WoWpoCeskuSeen = WoWpoCeskuSeen or {}
+    WoWpoCeskuSeen.flag = WoWpoCeskuSeen.flag or {}
+    return WoWpoCeskuSeen.flag
+end
+local function flagKeyFor(e, page)
+    local raw = e and e.pages and e.pages[page]
+    if not raw then return nil end
+    return "g:" .. ((raw:gsub("%s+", " "):gsub("^ ", ""):gsub(" $", "")))
+end
+local function refreshFlag()
+    local e = state.key and lib()[state.key]
+    local k = flagKeyFor(e, state.page)
+    if not win.flagBtn then return end
+    -- tlačítko je jen pro správce překladů (zapíná se příkazem /czq oznacovat); ostatním hráčům se nezobrazuje
+    local on = WoWpoCeskuSettings and WoWpoCeskuSettings.flagButton
+    win.flagBtn:SetShown(on and k ~= nil or false)
+    if not k then return end
+    win.flagBtn:SetText(flagTable()[k] and "|cff55dd55Označeno|r – zrušit" or "Nelíbí se mi")
+end
+
 local rows = {}
+-- položka seznamu: pergamenový štítek s jemným hnědým lemem; vybraná má červený proužek jako záložka v knize
 local function rowFor(i)
     local b = rows[i]
     if b then return b end
     b = CreateFrame("Button", nil, win.listC, "BackdropTemplate")
-    b:SetHeight(46)
-    b:SetBackdrop(BOX)
-    b.title = fs(b, 13)
-    b.title:SetPoint("TOPLEFT", 10, -7)
+    b:SetHeight(44)
+    b:SetBackdrop({ bgFile = WHITE, edgeFile = WHITE, edgeSize = 1, insets = { left = 1, right = 1, top = 1, bottom = 1 } })
+    b.mark = b:CreateTexture(nil, "ARTWORK")
+    b.mark:SetColorTexture(0.62, 0.14, 0.08, 1)
+    b.mark:SetPoint("TOPLEFT", 1, -1)
+    b.mark:SetPoint("BOTTOMLEFT", 1, 1)
+    b.mark:SetWidth(5)
+    b.title = fs(b, 13, INK[1], INK[2], INK[3], CINZEL)
+    b.title:SetPoint("TOPLEFT", 16, -7)
     b.title:SetWordWrap(false)
-    b.sub = fs(b, 11, SEPIA[1], SEPIA[2], SEPIA[3])
+    b.sub = fs(b, 10.5, SEPIA[1], SEPIA[2], SEPIA[3])
     b.sub:SetPoint("TOPLEFT", b.title, "BOTTOMLEFT", 0, -3)
     b.sub:SetWordWrap(false)
     b.hl = b:CreateTexture(nil, "HIGHLIGHT")
     b.hl:SetAllPoints()
-    b.hl:SetColorTexture(1, 0.92, 0.7, 0.14)
+    b.hl:SetColorTexture(1, 0.92, 0.7, 0.18)
+    function b:setActive(on)
+        if on then
+            self:SetBackdropColor(0.62, 0.30, 0.14, 0.26)
+            self:SetBackdropBorderColor(0.58, 0.20, 0.10, 1)
+            self.title:SetTextColor(RED[1], RED[2], RED[3])
+        else
+            self:SetBackdropColor(0.40, 0.26, 0.12, 0.13)
+            self:SetBackdropBorderColor(0.46, 0.31, 0.15, 0.6)
+            self.title:SetTextColor(INK[1], INK[2], INK[3])
+        end
+        self.mark:SetShown(on)
+    end
     rows[i] = b
     return b
 end
@@ -145,21 +218,20 @@ refresh = function()
         local b = rowFor(i)
         local e = it[2]
         b:ClearAllPoints()
-        b:SetPoint("TOPLEFT", 0, -(i - 1) * 52)
+        b:SetPoint("TOPLEFT", 0, -(i - 1) * 48)
         b:SetWidth(w)
-        b.title:SetWidth(w - 20)
-        b.sub:SetWidth(w - 20)
+        b.title:SetWidth(w - 26)
+        b.sub:SetWidth(w - 26)
         b.title:SetText(e.title or "?")
         local where = (e.sub and e.sub ~= "") and (e.zone .. ", " .. e.sub) or (e.zone or "")
         b.sub:SetText(("%s  ·  %s"):format(date("%d.%m.%Y", e.t or 0), where))
         local on = (it[1] == state.key)
-        b:SetBackdropColor(0.40, 0.26, 0.12, on and 0.34 or 0.12)
-        b:SetBackdropBorderColor(on and 0.62 or 0.42, on and 0.20 or 0.27, on and 0.10 or 0.13, on and 1 or 0.6)
+        if b.setActive then b:setActive(on) end
         b:SetScript("OnClick", function() state.key = it[1]; state.page = 1; refresh() end)
         b:Show()
     end
     for i = #list + 1, #rows do rows[i]:Hide() end
-    win.listC:SetHeight(math.max(10, #list * 52))
+    win.listC:SetHeight(math.max(10, #list * 48))
     win.empty:SetShown(#list == 0)
     win.empty:SetText(countAll() == 0 and "Zatím jsi nic nepřečetl.\nKaždá kniha, dopis nebo svitek, který ve hře otevřeš,\nse sem sama uloží." or "Nic takového nenalezeno.")
     -- čtečka vpravo
@@ -180,16 +252,28 @@ refresh = function()
         win.rText:SetText(pageText(e, state.page))
         win.textC:SetHeight(math.max(10, win.rText:GetStringHeight() + 24))
         win.textSf:SetVerticalScroll(0)
+        refreshFlag()
     end
 end
 
+-- Okno jako otevřená kniha (obrázek knihovna-kniha.tga, 1024×512 roztažené na BW×BH): vlevo seznam knih, vpravo čtečka
+local BOOK_TEX = "Interface\\AddOns\\WoWpoCesku\\Textures\\knihovna-kniha.tga"
+local BW, BH = 860, 572
+local PL_X, PL_W = 44, 380     -- levá strana
+local PR_X, PR_W = 439, 382    -- pravá strana
+local P_Y, P_H = 23, 518
+
+-- tlačítka na stránkách: červená herní šablona (makeButton), aktivní je zvýrazněná
+local function bookButton(parent, text, w, h)
+    return makeButton(parent, text, w, h)
+end
+
 local function build()
-    win = CreateFrame("Frame", "WoWpoCeskuKnihovna", UIParent, "BackdropTemplate")
-    win:SetSize(WIN_W, WIN_H)
+    win = CreateFrame("Frame", "WoWpoCeskuKnihovna", UIParent)
+    win:SetSize(BW, BH)
     win:SetPoint("CENTER")
     win:SetFrameStrata("DIALOG")
     win:SetToplevel(true)
-    WoWpoCesku_CechStyle(win, WIN_W, WIN_H)
     win:EnableMouse(true)
     win:SetMovable(true)
     win:SetClampedToScreen(true)
@@ -199,110 +283,121 @@ local function build()
     win:Hide()
     if UISpecialFrames then table.insert(UISpecialFrames, "WoWpoCeskuKnihovna") end
 
-    -- stuha s nadpisem
-    local rf = CreateFrame("Frame", nil, win)
-    rf:SetAllPoints()
-    rf:SetFrameLevel(win:GetFrameLevel() + 35)
-    local rib = rf:CreateTexture(nil, "ARTWORK")
-    local fbTex, fbV, fbRatio
-    if WoWpoCesku_FactionBanner then fbTex, fbV, fbRatio = WoWpoCesku_FactionBanner() end
-    if fbTex then
-        rib:SetTexture(fbTex)
-        rib:SetSize(480, 480 * fbRatio)
-        rib:SetTexCoord(0, 1, 0, fbV)
-        rib:SetPoint("TOP", win, "TOP", 0, -12)
-    else
-        rib:SetTexture("Interface\\AddOns\\WoWpoCesku\\Textures\\cech-plaketa.tga")
-        rib:SetSize(460, 460 * 180 / 1024)
-        rib:SetTexCoord(0, 1, 0, 180 / 256)
-        rib:SetPoint("TOP", win, "TOP", 0, -14)
-    end
-    local head = rf:CreateFontString(nil, "OVERLAY")
-    head:SetFont("Fonts\\MORPHEUS.ttf", 24, "OUTLINE")
-    head:SetTextColor(1, 0.95, 0.78)
-    head:SetPoint("CENTER", rib, "CENTER", 0, 0)
-    head:SetText("Knihovna")
-    WoWpoCesku_CechCrests(win)
+    local bg = win:CreateTexture(nil, "BACKGROUND")
+    bg:SetAllPoints()
+    bg:SetTexture(BOOK_TEX)
 
-    -- hledání a počet
+    local close = CreateFrame("Button", nil, win, "UIPanelCloseButton")
+    close:SetPoint("TOPRIGHT", -22, -2)
+    close:SetFrameLevel(win:GetFrameLevel() + 20)
+    win.closeBtn = close
+
+    -- levá strana: nadpis, počet, hledání
+    local head = win:CreateFontString(nil, "OVERLAY")
+    head:SetFont("Interface\\AddOns\\WoWpoCesku\\Fonts\\CinzelDecorative.ttf", 30, "")
+    head:SetTextColor(RED[1], RED[2], RED[3])
+    head:SetPoint("TOP", win, "TOPLEFT", PL_X + PL_W / 2, -(P_Y + 18))
+    head:SetText("Knihovna")
+    win.count = fs(win, 12, RED[1], RED[2], RED[3])
+    win.count:SetPoint("TOP", win, "TOPLEFT", PL_X + PL_W / 2, -(P_Y + 56))
+    win.count:SetJustifyH("CENTER")
+
     local search = CreateFrame("EditBox", nil, win, "InputBoxTemplate")
-    search:SetSize(300, 24)
-    search:SetPoint("TOPLEFT", 78, -150)
+    search:SetSize(PL_W - 48, 24)
+    search:SetPoint("TOPLEFT", PL_X + 24, -(P_Y + 78))
     search:SetAutoFocus(false)
     search:SetFont(FONT, 12, "")
-    search:SetScript("OnTextChanged", function(self) state.filter = self:GetText() or ""; if refresh then refresh() end end)
-    search:SetScript("OnEscapePressed", search.ClearFocus)
-    local hint = fs(win, 11, SEPIA[1], SEPIA[2], SEPIA[3])
-    hint:SetPoint("LEFT", search, "RIGHT", 10, 0)
+    local hint = fs(search, 11, SEPIA[1], SEPIA[2], SEPIA[3])
+    hint:SetPoint("LEFT", 4, 0)
     hint:SetText("hledej podle názvu nebo oblasti")
-    win.count = fs(win, 12, RED[1], RED[2], RED[3])
-    win.count:SetPoint("TOPRIGHT", -70, -153)
-    win.count:SetJustifyH("RIGHT")
+    search:SetScript("OnTextChanged", function(self)
+        state.filter = self:GetText() or ""
+        hint:SetShown(state.filter == "")
+        if refresh then refresh() end
+    end)
+    search:SetScript("OnEscapePressed", search.ClearFocus)
 
     -- seznam knih
-    local boxL = CreateFrame("Frame", nil, win, "BackdropTemplate")
-    boxL:SetBackdrop(BOX)
-    boxL:SetBackdropColor(0.40, 0.26, 0.14, 0.10)
-    boxL:SetBackdropBorderColor(0.42, 0.27, 0.13, 0.9)
-    boxL:SetPoint("TOPLEFT", 62, -184)
-    boxL:SetSize(306, 394)
     local sf = CreateFrame("ScrollFrame", nil, win, "UIPanelScrollFrameTemplate")
-    sf:SetPoint("TOPLEFT", 70, -192)
-    sf:SetSize(268, 378)
+    sf:SetPoint("TOPLEFT", PL_X + 20, -(P_Y + 108))
+    sf:SetSize(PL_W - 62, P_H - 108 - 34)
     win.listC = CreateFrame("Frame", nil, sf)
-    win.listC:SetSize(262, 10)
+    win.listC:SetSize(PL_W - 68, 10)
     sf:SetScrollChild(win.listC)
     win.empty = fs(win, 13, SEPIA[1], SEPIA[2], SEPIA[3])
-    win.empty:SetPoint("TOP", boxL, "TOP", 0, -120)
-    win.empty:SetWidth(270)
+    win.empty:SetPoint("TOP", win, "TOPLEFT", PL_X + PL_W / 2, -(P_Y + 170))
+    win.empty:SetWidth(PL_W - 62)
     win.empty:SetJustifyH("CENTER")
 
-    -- čtečka
-    local boxR = CreateFrame("Frame", nil, win, "BackdropTemplate")
-    boxR:SetBackdrop(BOX)
-    boxR:SetBackdropColor(0.40, 0.26, 0.14, 0.10)
-    boxR:SetBackdropBorderColor(0.42, 0.27, 0.13, 0.9)
-    boxR:SetPoint("TOPLEFT", 380, -184)
-    boxR:SetSize(478, 394)
+    -- pravá strana: čtečka
     local rd = CreateFrame("Frame", nil, win)
     rd:SetAllPoints()
     win.reader = rd
-    win.rTitle = fs(rd, 17, RED[1], RED[2], RED[3], CINZEL)
-    win.rTitle:SetPoint("TOPLEFT", 396, -196)
-    win.rTitle:SetWidth(446)
+    win.rTitle = fs(rd, 18, RED[1], RED[2], RED[3], CINZEL)
+    win.rTitle:SetPoint("TOPLEFT", PR_X + 22, -(P_Y + 20))
+    win.rTitle:SetWidth(PR_W - 48)
     win.rTitle:SetWordWrap(false)
     win.rMeta = fs(rd, 11, SEPIA[1], SEPIA[2], SEPIA[3])
     win.rMeta:SetPoint("TOPLEFT", win.rTitle, "BOTTOMLEFT", 0, -4)
-    win.rMeta:SetWidth(446)
+    win.rMeta:SetWidth(PR_W - 48)
     win.rMeta:SetWordWrap(false)
 
-    win.btnCs = WoWpoCesku_CechButton(rd, "Překlad", 110, 34)
-    win.btnCs:SetPoint("TOPLEFT", 394, -246)
+    win.btnCs = bookButton(rd, "Překlad", 104, 30)
+    win.btnCs:SetPoint("TOPLEFT", PR_X + 20, -(P_Y + 66))
     win.btnCs:SetScript("OnClick", function() state.mode = "cs"; refresh() end)
-    win.btnEn = WoWpoCesku_CechButton(rd, "Originál", 110, 34)
+    win.btnEn = bookButton(rd, "Originál", 104, 30)
     win.btnEn:SetPoint("LEFT", win.btnCs, "RIGHT", 6, 0)
     win.btnEn:SetScript("OnClick", function() state.mode = "en"; refresh() end)
 
-    win.next = WoWpoCesku_CechButton(rd, ">", 44, 34)
-    win.next:SetPoint("TOPRIGHT", -78, -246)
-    win.next:SetScript("OnClick", function() state.page = state.page + 1; refresh() end)
-    win.prev = WoWpoCesku_CechButton(rd, "<", 44, 34)
-    win.prev:SetPoint("RIGHT", win.next, "LEFT", -94, 0)
-    win.prev:SetScript("OnClick", function() state.page = math.max(1, state.page - 1); refresh() end)
+    -- listování stránek dole uprostřed pravé strany
     win.pageText = fs(rd, 12, SEPIA[1], SEPIA[2], SEPIA[3])
-    win.pageText:SetPoint("LEFT", win.prev, "RIGHT", 4, 0)
-    win.pageText:SetWidth(86)
+    win.pageText:SetPoint("BOTTOM", win, "BOTTOMLEFT", PR_X + 272, BH - (P_Y + P_H) + 12)
+    win.pageText:SetWidth(90)
     win.pageText:SetJustifyH("CENTER")
+    win.prev = bookButton(rd, "<", 40, 28)
+    win.prev:SetPoint("RIGHT", win.pageText, "LEFT", -6, 0)
+    win.prev:SetScript("OnClick", function() state.page = math.max(1, state.page - 1); refresh() end)
+    win.next = bookButton(rd, ">", 40, 28)
+    win.next:SetPoint("LEFT", win.pageText, "RIGHT", 6, 0)
+    win.next:SetScript("OnClick", function() state.page = state.page + 1; refresh() end)
+
+    win.flagBtn = makeButton(rd, "Nelíbí se mi", 142, 28)
+    win.flagBtn:SetPoint("BOTTOMLEFT", win, "BOTTOMLEFT", PR_X + 20, BH - (P_Y + P_H) - 0)
+    win.flagBtn:SetScript("OnClick", function()
+        local e = state.key and lib()[state.key]
+        local k = flagKeyFor(e, state.page)
+        if not k then return end
+        local flags = flagTable()
+        if flags[k] then
+            flags[k] = nil
+            print("|cffffd100WoWpoCesku:|r oznaceni zruseno")
+        else
+            local n = 0
+            for _ in pairs(flags) do n = n + 1 end
+            if n >= FLAG_MAX then print("|cffffd100WoWpoCesku:|r uz je oznaceno " .. FLAG_MAX .. " textu - nejdriv je nech prelozit") return end
+            flags[k] = { t = time(), part = "", title = (e.title or ""):sub(1, 80) }
+            print("|cffffd100WoWpoCesku:|r oznaceno pro Clauda (" .. (n + 1) .. "). Po /reload mu rekni, ze ma prelozit oznacene.")
+        end
+        refreshFlag()
+    end)
+    win.flagBtn:SetScript("OnEnter", function(self)
+        GameTooltip:SetOwner(self, "ANCHOR_TOP")
+        GameTooltip:AddLine("Poslat Claudovi")
+        GameTooltip:AddLine("Označí překlad této stránky jako špatný.", 1, 1, 1)
+        GameTooltip:AddLine("Claude ho přeloží ručně (po /reload se označení uloží).", 1, 1, 1)
+        GameTooltip:Show()
+    end)
+    win.flagBtn:SetScript("OnLeave", GameTooltip_Hide)
 
     win.textSf = CreateFrame("ScrollFrame", nil, rd, "UIPanelScrollFrameTemplate")
-    win.textSf:SetPoint("TOPLEFT", 394, -290)
-    win.textSf:SetSize(432, 280)
+    win.textSf:SetPoint("TOPLEFT", PR_X + 20, -(P_Y + 108))
+    win.textSf:SetSize(PR_W - 58, P_H - 108 - 50)
     win.textC = CreateFrame("Frame", nil, win.textSf)
-    win.textC:SetSize(426, 10)
+    win.textC:SetSize(PR_W - 64, 10)
     win.textSf:SetScrollChild(win.textC)
     win.rText = fs(win.textC, 14)
     win.rText:SetPoint("TOPLEFT", 4, -4)
-    win.rText:SetWidth(414)
+    win.rText:SetWidth(PR_W - 80)
     win.rText:SetSpacing(3)
     win.rText:SetJustifyV("TOP")
 end

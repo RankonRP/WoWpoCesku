@@ -603,7 +603,8 @@ local function flagCount()
 end
 local function refreshClaude()
     local k = flagKey(panel.quest)
-    if not k then claudeBtn:Hide() return end
+    -- tlačítko je jen pro správce překladů (zapíná se příkazem /czq oznacovat); ostatním hráčům se nezobrazuje
+    if not k or not (WoWpoCeskuSettings and WoWpoCeskuSettings.flagButton) then claudeBtn:Hide() return end
     claudeBtn:SetText(flagTable()[k] and "|cff1d6b1dOznačeno pro Clauda|r – klikni pro zrušení" or "Nelíbí se mi – poslat Claudovi")
     claudeBtn:Show()
 end
@@ -1742,6 +1743,10 @@ SlashCmdList.CZQUESTS = function(msg)
         print("|cffffd100WoWpoCesku:|r oznaceno pro Clauda: " .. n .. (n > 0 and " - napis /reload a rekni Claudovi, ze ma prelozit oznacene" or ""))
     elseif cmd == "pecete" then
         if WoWpoCesku_SealDebug then WoWpoCesku_SealDebug() end
+    elseif cmd == "oznacovat" then
+        -- tlačítko „Nelíbí se mi“ v Knihovně kronikáře (jen pro správce překladů)
+        WoWpoCeskuSettings.flagButton = not WoWpoCeskuSettings.flagButton
+        print("|cffffd100WoWpoCesku:|r tlacitko Nelibi se mi v Knihovne: " .. (WoWpoCeskuSettings.flagButton and "ZAPNUTO" or "vypnuto"))
     elseif cmd == "vzacni" or cmd == "rare" then
         if WoWpoCesku_RareCommand then WoWpoCesku_RareCommand(arg) end
     elseif cmd == "vypis" then

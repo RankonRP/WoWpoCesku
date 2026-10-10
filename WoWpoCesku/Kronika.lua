@@ -15,8 +15,17 @@ local function seen()
     WoWpoCeskuSeen.z = WoWpoCeskuSeen.z or {}
     return WoWpoCeskuSeen
 end
+-- Navštívená místa pro mapu a Poutníkův deník se vedou zvlášť pro každou postavu (pečetě zůstávají společné pro celý účet)
+local function charPlaces()
+    local S = seen()
+    S.ch = S.ch or {}
+    local okN, name = pcall(UnitName, "player")
+    local key = (okN and name or "?") .. "-" .. (GetRealmName and GetRealmName() or "")
+    S.ch[key] = S.ch[key] or { z = {}, sub = {} }
+    return S.ch[key]
+end
 local function secret(v) return issecretvalue and issecretvalue(v) end
-local checkSeals   -- Pečetě kronikáře (definováno níž)
+local checkSeals  -- Pečetě kronikáře (definováno níž)
 local journalAdd   -- Tvůj příběh – deník postavy (definováno níž)
 
 -- malé okno z pergamenu (stejný vzhled jako kronika)
@@ -57,12 +66,19 @@ end
 
 -- české okénko pod popiskem (písmo popisku neumí č/ř/ů) – postavy, předměty, místa na mapě
 local notes = {}
+local function hideNote(tt)
+    local n = notes[tt]
+    if n then n:Hide() end
+end
+
 local function showNote(tt, title, text)
     local n = notes[tt]
     if not n then
         n = parchmentFrame(nil, tt, "TOOLTIP")
         n:SetClampedToScreen(true)
         tt:HookScript("OnHide", function() n:Hide() end)
+        -- popisek se při najetí na jiného tvora jen přepíše (neskryje se), proto i při vymazání obsahu
+        if tt.HasScript and tt:HasScript("OnTooltipCleared") then tt:HookScript("OnTooltipCleared", function() n:Hide() end) end
         notes[tt] = n
     end
     n.title:SetText(title)
@@ -149,6 +165,7 @@ local function hideTargetButton()
 end
 
 local PORTRAIT_W = 74
+local MODEL_W, MODEL_H = 260, 250   -- velký 3D model nad cedulí upozornění
 
 -- npcID z GUID (jen když není tajný)
 local function npcFromGUID(guid)
@@ -199,16 +216,12 @@ local function showAlert(name, info, rec, unit)
         alert.hint:SetFont(FONT, 11, "")
         alert.hint:SetTextColor(RED[1], RED[2], RED[3])
         alert.hint:SetPoint("TOPLEFT", alert.text, "BOTTOMLEFT", 0, -4)
-        -- portrét moba (3D model) v rámečku vlevo
-        alert.pframe = CreateFrame("Frame", nil, alert, "BackdropTemplate")
-        alert.pframe:SetSize(PORTRAIT_W, 86)
-        alert.pframe:SetPoint("TOPLEFT", 8, -8)
-        alert.pframe:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 2 })
-        alert.pframe:SetBackdropColor(0.10, 0.07, 0.04, 1)
-        alert.pframe:SetBackdropBorderColor(0.80, 0.60, 0.16, 1)
+        -- 3D model moba stojí celou postavou nad cedulí s názvem (bez rámečku, průhledné pozadí)
+        alert.pframe = CreateFrame("Frame", nil, alert)
+        alert.pframe:SetSize(MODEL_W, MODEL_H)
+        alert.pframe:SetPoint("BOTTOM", alert, "TOP", 0, -10)
         alert.model = CreateFrame("PlayerModel", nil, alert.pframe)
-        alert.model:SetPoint("TOPLEFT", 2, -2)
-        alert.model:SetPoint("BOTTOMRIGHT", -2, 2)
+        alert.model:SetAllPoints()
         local anim = alert:CreateAnimationGroup()
         local hold = anim:CreateAnimation("Alpha")
         hold:SetFromAlpha(1) hold:SetToAlpha(1) hold:SetDuration(12) hold:SetOrder(1)
@@ -233,16 +246,20 @@ local function showAlert(name, info, rec, unit)
     if not shown and unit and alert.model.SetUnit then
         shown = pcall(alert.model.SetUnit, alert.model, unit)
     end
-    if shown and alert.model.SetPortraitZoom then pcall(alert.model.SetPortraitZoom, alert.model, 1) end
+    -- celá postava (ne jen obličej), mírně natočená
+    if shown and alert.model.SetPortraitZoom then pcall(alert.model.SetPortraitZoom, alert.model, 0) end
+    if shown and alert.model.SetFacing then pcall(alert.model.SetFacing, alert.model, 0.45) end
     alert.pframe:SetShown(shown)
-    local left = shown and (PORTRAIT_W + 18) or 10
+    alert:ClearAllPoints()
+    alert:SetPoint("TOP", UIParent, "TOP", 0, shown and -(110 + MODEL_H) or -110)   -- model je nad cedulí, takže ceduli posuneme níž
+    local left = 10
     alert.title:ClearAllPoints()
     alert.title:SetPoint("TOPLEFT", left, -8)
     local textW = 340 - left - 10
     alert.title:SetWidth(textW)
     alert.text:SetWidth(textW)
     local h = alert.title:GetStringHeight() + alert.text:GetStringHeight() + 22 + 16
-    alert:SetSize(340, shown and math.max(h, 104) or h)
+    alert:SetSize(340, h)
     local canTarget = setupTargetButton(name, 340, alert:GetHeight())
     alert.hint:SetText(canTarget and "Klikni a zaměříš ho" or "V boji ho addon zaměřit nemůže")
     alert.anim:Stop()
@@ -334,6 +351,11 @@ function WoWpoCesku_RareCommand(arg)
     elseif arg == "zap" or arg == "on" then
         WoWpoCeskuSettings.rareAlert = true
         say("upozorneni na vzacne moby ZAPNUTO")
+    elseif arg == "mapa" then
+        if WoWpoCesku_MapDebug then WoWpoCesku_MapDebug() end
+    elseif arg == "test" then
+        -- ukázka cedulky s 3D modelem (Hogger, npcID 448) bez čekání na vzácného moba
+        showAlert("Hogger", RARE["Hogger"], { id = 448, n = 1 }, nil)
     else
         local list = {}
         for name, rec in pairs(seen().rares) do list[#list + 1] = { name, rec } end
@@ -364,6 +386,11 @@ local function recordPlace()
     if sub and sub ~= "" and not secret(sub) and not S.sub[key][sub] then S.sub[key][sub] = time(); new = true end
     local real = GetRealZoneText and GetRealZoneText()
     if real and real ~= "" and not secret(real) and not S.z[real] then S.z[real] = time(); new = true end
+    -- totéž zvlášť pro tuto postavu (mapa a Poutníkův deník)
+    local C = charPlaces()
+    C.sub[key] = C.sub[key] or {}
+    if sub and sub ~= "" and not secret(sub) and not C.sub[key][sub] then C.sub[key][sub] = time(); new = true end
+    if real and real ~= "" and not secret(real) and not C.z[real] then C.z[real] = time(); new = true end
     -- hlavní města: zvlášť za každou frakci (pečeť Velvyslanec, skrytá pečeť Špeh)
     local okF, fk = pcall(UnitFactionGroup, "player")
     local caps = WoWpoCesku_SealCapitals
@@ -389,6 +416,17 @@ local function recordPlace()
     if new and onNewPlace then onNewPlace() end
 end
 
+-- navštívil to místo TATO postava? (mapa a Poutníkův deník)
+local function placeVisitedHere(place)
+    local C = charPlaces()
+    if C.z[place] then return true end
+    for _, subs in pairs(C.sub) do
+        if subs[place] then return true end
+    end
+    return false
+end
+
+-- navštívil to místo někdo z účtu? (pečetě)
 local function placeVisited(place)
     local S = seen()
     if S.z[place] then return true end
@@ -523,19 +561,20 @@ local function secretTip(zone, place)
     end
 end
 
+local MAP_ICONS = "Interface\\AddOns\\WoWpoCesku\\Textures\\"
+
 local function placeMark(i, canvas)
     local p = placeMarks[i]
     if p then return p end
     p = CreateFrame("Frame", nil, canvas)
-    p:SetSize(18, 18)
+    p:SetSize(34, 34)
+    -- tmavý stín za ikonou, ať je značka vidět i na pestré mapě
+    p.shadow = p:CreateTexture(nil, "BACKGROUND")
+    p.shadow:SetPoint("TOPLEFT", 2, -2)
+    p.shadow:SetPoint("BOTTOMRIGHT", 2, -2)
+    p.shadow:SetVertexColor(0, 0, 0, 0.6)
     p.icon = p:CreateTexture(nil, "ARTWORK")
-    p.icon:SetAllPoints()
-    p.icon:SetTexture("Interface\\Icons\\INV_Misc_Map_01")
-    p.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
-    p.check = p:CreateTexture(nil, "OVERLAY")
-    p.check:SetSize(14, 14)
-    p.check:SetPoint("BOTTOMRIGHT", 5, -5)
-    p.check:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+    p.icon:SetAllPoints()   -- ikonu volí refreshPlaceMarks: lupa = neobjeveno, vlajka = navštíveno
     p:EnableMouse(true)
     p:SetScript("OnEnter", function(self)
         GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
@@ -543,7 +582,14 @@ local function placeMark(i, canvas)
         GameTooltip:AddLine(self.visited and "Poutnikuv denik: navstiveno" or "Poutnikuv denik: zatim neobjeveno", 1, 1, 1)
         GameTooltip:Show()
         local tip = secretTip(self.zone, self.place)
-        if tip then showNote(GameTooltip, "Tajemství", tip) end
+        if tip then
+            showNote(GameTooltip, "Tajemství", tip)
+        else
+            -- místo bez tipu v Tajemstvích: krátký popis, aby tu nebylo prázdno
+            local zd = WoWpoCesku_MistaPopis and WoWpoCesku_MistaPopis[self.zone]
+            local d = zd and zd[self.place]
+            if d then showNote(GameTooltip, "O místě", d) end
+        end
     end)
     p:SetScript("OnLeave", GameTooltip_Hide)
     placeMarks[i] = p
@@ -583,14 +629,48 @@ local function refreshPlaceMarks()
         if x then
             n = n + 1
             local p = placeMark(n, canvas)
-            p.zone, p.place, p.visited = zone, place, placeVisited(place)
-            p.icon:SetDesaturated(not p.visited)
-            p.icon:SetAlpha(p.visited and 1 or 0.8)
-            p.check:SetShown(p.visited)
-            p:SetFrameLevel(canvas:GetFrameLevel() + 1990)
+            p.zone, p.place, p.visited = zone, place, (placeVisitedHere(place) or explored[place] ~= nil)   -- objevená oblast na mapě je pro tuhle postavu ze hry
+            local iconPath = MAP_ICONS .. (p.visited and "mapa-objeveno.tga" or "mapa-neobjeveno.tga")
+            p.icon:SetTexture(iconPath)
+            p.shadow:SetTexture(iconPath)
+            p.shadow:SetVertexColor(0, 0, 0, 0.6)
+            p.icon:SetAlpha(1)
+            -- vrstva: o jednu úroveň nad plátnem mapy (bez velkého čísla úrovně, které může přetéct a značku schovat pod mapu)
+            local order = { BACKGROUND = 1, LOW = 2, MEDIUM = 3, HIGH = 4, DIALOG = 5, FULLSCREEN = 6, FULLSCREEN_DIALOG = 7, TOOLTIP = 8 }
+            local names = { "BACKGROUND", "LOW", "MEDIUM", "HIGH", "DIALOG", "FULLSCREEN", "FULLSCREEN_DIALOG", "TOOLTIP" }
+            local si = order[canvas:GetFrameStrata() or ""] or 5
+            p:SetFrameStrata(names[math.min(si + 1, 8)])
+            p:SetFrameLevel(100)
             p:ClearAllPoints()
             p:SetPoint("CENTER", canvas, "TOPLEFT", x * w, -y * h)
             p:Show()
+        end
+    end
+end
+
+-- /czq mapa: vypíše, která místa na otevřené mapě mají polohu a která jsou navštívená (pro hledání chyb)
+function WoWpoCesku_MapDebug()
+    local mapID = WorldMapFrame and WorldMapFrame:GetMapID()
+    local info = mapID and C_Map.GetMapInfo(mapID)
+    local zone = info and info.name
+    local places = zone and WoWpoCesku_Objevy and WoWpoCesku_Objevy[zone]
+    say("mapa: " .. tostring(zone) .. " (id " .. tostring(mapID) .. "), mist v databazi: " .. tostring(places and #places or 0))
+    if not places then return end
+    local static = (WoWpoCesku_ObjevyPts and WoWpoCesku_ObjevyPts[zone]) or {}
+    local explored = exploredPositions(mapID)
+    for _, place in ipairs(places) do
+        local src = explored[place] and "objevena oblast" or (static[place] and "pevny bod") or "BEZ POLOHY"
+        say(("  %s: %s, %s"):format(place, (placeVisitedHere(place) or explored[place] ~= nil) and "navstiveno" or "neobjeveno", src))
+    end
+    -- skutečné značky na plátně mapy
+    local canvas = WorldMapFrame and WorldMapFrame.ScrollContainer and WorldMapFrame.ScrollContainer.Child
+    say(("platno mapy: %s x %s, uroven %s, znacek vytvoreno %d"):format(tostring(canvas and canvas:GetWidth()), tostring(canvas and canvas:GetHeight()),
+        tostring(canvas and canvas:GetFrameLevel()), #placeMarks))
+    for i, p in ipairs(placeMarks) do
+        if p:IsShown() then
+            local cx, cy = p:GetCenter()
+            say(("  znacka %d %s: viditelna=%s alfa=%.2f stred=%s,%s ikona=%s"):format(i, tostring(p.place), tostring(p:IsVisible()), p:GetEffectiveAlpha(),
+                tostring(cx and math.floor(cx)), tostring(cy and math.floor(cy)), tostring(p.icon:GetTexture())))
         end
     end
 end
@@ -602,7 +682,11 @@ local function refreshPins()
     else
         hidePins()
     end
-    pcall(refreshPlaceMarks)
+    local okM, errM = pcall(refreshPlaceMarks)
+    if not okM and not WoWpoCesku_MapErrShown then
+        WoWpoCesku_MapErrShown = true   -- chyba se ukáže jednou za hru, ať se nenabaluje
+        say("chyba pri kresleni znacek na mape: " .. tostring(errM))
+    end
 end
 local function hookMap()
     if mapHooked or not WorldMapFrame then return end
@@ -712,7 +796,7 @@ function WoWpoCesku_DenikPage(key)
     end
     local rows, n = {}, 0
     for _, place in ipairs(places) do
-        local ok = placeVisited(place)
+        local ok = placeVisitedHere(place)
         if ok then n = n + 1 end
         rows[#rows + 1] = { mark = ok, text = place }
     end
@@ -843,10 +927,9 @@ local SERIES = {
     { id = "read", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "kapitol kroniky",
       desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
-    { id = "knihy", icon = IC .. "INV_Misc_Book_11", image = PIC .. "knihy-1", what = "knih",
+    { id = "knihy", icon = IC .. "INV_Misc_Book_11", image = PIC .. "ctenar", what = "knih",
       desc = function(n) return ("Přečti ve hře %d různých knih (uloží se do Knihovny kronikáře)."):format(n) end,
-      steps = { { 10, "Knihomol", 5, PIC .. "knihy-1" }, { 30, "Čtenář knihovny", 10, PIC .. "knihy-2" },
-                { 50, "Archivář", 25, PIC .. "knihy-3" }, { 100, "Strážce knihovny", 50, PIC .. "knihy-4" } } },
+      steps = { { 10, "Knihomol", 5 }, { 30, "Čtenář knihovny", 10 }, { 50, "Archivář", 25 }, { 100, "Strážce knihovny", 50 } } },
     -- postava (group = "postava")
     { id = "level", group = "postava", icon = IC .. "Spell_Holy_SealOfMight", image = PIC .. "uroven", what = "úrovní",
       desc = function(n) return ("Dosáhni s některou postavou úrovně %d."):format(n) end,
@@ -861,6 +944,10 @@ local SERIES = {
       desc = function(n) return ("Zemři %d×. Smrt je jen začátek."):format(n) end,
       steps = { { 10, "Ještě dýchám?", 5 }, { 50, "Duch Azerothu", 10 }, { 100, "Nesmrtelný", 10 } } },
 }
+
+-- řady, jejichž stupně se přebarvují na kov (bronz, stříbro, zlato, platina); obrázek je šedotónový základ "<jméno>-s"
+local METAL_SERIES = { rare = true, zone = true, mista = true, dung = true, boss = true, kviz = true, read = true, knihy = true,
+    level = true, gold = true }
 
 -- statistiky postavy pro pečetě (úroveň, peníze, profese, jízda, reputace) – čte se ze hry
 local PROF_SET, REP_SET = {}, {}
@@ -987,7 +1074,8 @@ local function sealList()
     for _, ser in ipairs(SERIES) do
         local c = counts[ser.id] or 0
         for i, st in ipairs(ser.steps) do
-            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = st[4] or ser.image, points = st[3],
+            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = METAL_SERIES[ser.id] and (ser.image .. "-s") or ser.image, points = st[3],
+                tier = METAL_SERIES[ser.id] and i or nil, tiers = #ser.steps,
                 have = math.min(c, st[1]), need = st[1], what = ser.what, group = ser.group or "obecne", series = ser.id,
                 gold = (i == #ser.steps) }
         end
@@ -1086,10 +1174,15 @@ end
 
 -- banner „Pečeť získána!“ (jako achievement ve hře); víc pečetí najednou jde postupně
 local banner, bannerQueue = nil, {}
+local TIER_COLORS = { { 0.90, 0.56, 0.30 }, { 0.88, 0.92, 1.00 }, { 1.00, 0.82, 0.36 }, { 0.58, 0.80, 1.00 } }  -- bronz, stříbro, zlato, platina
 local function tintSeal(tex, s, got)
-    -- obrázek pečeti: rudý vosk; vzácná = zlatý, skrytá = černý; nezískaná = vybledlá
-    tex:SetDesaturated((not got) or s.gold or s.hidden or false)
-    if not got then tex:SetVertexColor(0.80, 0.72, 0.57)
+    -- obrázek pečeti: rudý vosk; stupně řad = kov podle pořadí; vzácná = zlatý, skrytá = černý; nezískaná = vybledlá
+    tex:SetDesaturated((not got) or ((not s.tier) and (s.gold or s.hidden)) or false)
+    if s.tier and got then
+        -- dva stupně = stříbro a zlato, tři = bronz až zlato, čtyři = bronz až platina
+        local c = TIER_COLORS[(s.tiers == 2) and (s.tier + 1) or s.tier] or TIER_COLORS[3]
+        tex:SetVertexColor(c[1], c[2], c[3])
+    elseif not got then tex:SetVertexColor(0.80, 0.72, 0.57)
     elseif s.gold then tex:SetVertexColor(1.0, 0.80, 0.36)
     elseif s.hidden then tex:SetVertexColor(0.50, 0.50, 0.58)
     else tex:SetVertexColor(1, 1, 1) end
@@ -1798,6 +1891,7 @@ WoWpoCesku_PostavyNote = function(name) return npcNote(name) end
 
 local function onUnitTooltip(tt)
     if tt ~= GameTooltip then return end
+    hideNote(tt)   -- starý popisek pryč; nový se ukáže jen když tvor nějaký má
     if WoWpoCeskuSettings and (WoWpoCeskuSettings.enabled == false or WoWpoCeskuSettings.npcNotes == false) then return end
     local ok, _, unit = pcall(tt.GetUnit, tt)
     if not ok or not unit then return end
@@ -1831,6 +1925,7 @@ end
 
 local function onItemTooltip(tt)
     if tt ~= GameTooltip and tt ~= ItemRefTooltip then return end
+    hideNote(tt)
     if WoWpoCeskuSettings and (WoWpoCeskuSettings.enabled == false or WoWpoCeskuSettings.itemNotes == false) then return end
     local ok, name = pcall(tt.GetItem, tt)
     if not ok or not name or secret(name) then return end

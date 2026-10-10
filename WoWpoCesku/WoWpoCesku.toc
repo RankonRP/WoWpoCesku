@@ -5,7 +5,7 @@
 ## Author: salifox
 ## X-License: Code MIT; texts and translations: see docs/LICENSE-DATA.md
 ## X-Website: https://github.com/RankonRP/WoWpoCesku
-## Version: 0.62.2
+## Version: 0.62.3
 ## SavedVariables: WoWpoCeskuSettings, WoWpoCeskuQueue, WoWpoCeskuDump, WoWpoCeskuSeen
 
 Data.lua
@@ -16,6 +16,7 @@ Rozhrani.lua
 Lokalizace.lua
 DataLore.lua
 DataKronika.lua
+DataMistaPopis.lua
 DataKvizOblasti.lua
 DataKronikaPecete.lua
 DataBestiar.lua
