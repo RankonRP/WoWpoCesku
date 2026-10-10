@@ -1391,6 +1391,7 @@ WoWpoCesku_Gossip = {
 ["Greetings, {C}. I am the Flamekeeper. During the Midsummer Fire Festival, it is my duty to keep this fire beside me burning brightly. It is an honor to be selected for such a task; I fill it gladly. How can I help you?"]="Zdravím tě, {C}. Jsem Strážce plamenů. Během svátku letního slunovratu je mou povinností udržovat tento oheň vedle mě jasně hořící. Je ctí být vybrán pro takový úkol; Plním to rád. Jak ti mohu pomoci?",
 ["Greetings, {C}. I can assist you in recovering lost companions."]="Zdravím tě, {C}. Mohu ti pomoci při obnově ztracených společníků.",
 ["Greetings, {C}. I can help stable your pets or assist you in recovering lost companions."]="Zdravím tě, {C}. Pomohu ustájit tvoje mazlíčky nebo ti pomohu při obnově ztracených společníků.",
+["Greetings, {C}. I can teach you skills and techniques."]="Zdravím tě, {C}. Mohu tě naučit dovednosti a techniky.",
 ["Greetings, {C}. I get so few visitors up here. To what do I owe the pleasure?"]="Zdravím tě, {C}. Mám tady tak málo návštěvníků. Čemu vděčím za potěšení?",
 ["Greetings, {C}. I pity your kind, for the secrets of true magic are beyond you..."]="Zdravím tě, {C}. Lituji tvého druhu, protože tajemství skutečné magie je mimo tě...",
 ["Greetings, {C}. I'm in a bit of a pinch right now, running very low on hides."]="Zdravím tě, {C}. Právě teď jsem trochu v tísni, dochází mi velmi málo kůží.",
