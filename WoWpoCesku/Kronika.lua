@@ -843,6 +843,10 @@ local SERIES = {
     { id = "read", icon = IC .. "INV_Misc_Book_09", image = PIC .. "ctenar", what = "kapitol kroniky",
       desc = function(n) return ("Otevři v Kronice příběh %d různých oblastí nebo dungeonů."):format(n) end,
       steps = { { 5, "Čtenář kroniky", 5 }, { 20, "Učenec", 10 }, { 50, "Kronikář Azerothu", 25 } } },
+    { id = "knihy", icon = IC .. "INV_Misc_Book_11", image = PIC .. "knihy-1", what = "knih",
+      desc = function(n) return ("Přečti ve hře %d různých knih (uloží se do Knihovny kronikáře)."):format(n) end,
+      steps = { { 10, "Knihomol", 5, PIC .. "knihy-1" }, { 30, "Čtenář knihovny", 10, PIC .. "knihy-2" },
+                { 50, "Archivář", 25, PIC .. "knihy-3" }, { 100, "Strážce knihovny", 50, PIC .. "knihy-4" } } },
     -- postava (group = "postava")
     { id = "level", group = "postava", icon = IC .. "Spell_Holy_SealOfMight", image = PIC .. "uroven", what = "úrovní",
       desc = function(n) return ("Dosáhni s některou postavou úrovně %d."):format(n) end,
@@ -950,7 +954,7 @@ end
 local function sealList()
     local S = seen()
     local out, counts = {}, { rare = countKeys(S.rares), read = countKeys(S.read), zone = 0, mista = 0, dung = 0,
-        kviz = countKeys(S.quiz), level = S.maxLvl or 0, gold = math.floor((S.maxGold or 0) / 10000), riding = S.riding or 0, death = S.deaths or 0 }
+        kviz = countKeys(S.quiz), knihy = WoWpoCesku_LibraryCount and WoWpoCesku_LibraryCount() or 0, level = S.maxLvl or 0, gold = math.floor((S.maxGold or 0) / 10000), riding = S.riding or 0, death = S.deaths or 0 }
     counts.boss = 0
     for _, t in pairs(S.bosses or {}) do counts.boss = counts.boss + countKeys(t) end
     for z in pairs(S.z) do if WoWpoCesku_Objevy and WoWpoCesku_Objevy[z] then counts.zone = counts.zone + 1 end end
@@ -983,7 +987,7 @@ local function sealList()
     for _, ser in ipairs(SERIES) do
         local c = counts[ser.id] or 0
         for i, st in ipairs(ser.steps) do
-            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = ser.image, points = st[3],
+            out[#out + 1] = { id = ser.id .. st[1], name = st[2], desc = ser.desc(st[1]), icon = ser.icon, image = st[4] or ser.image, points = st[3],
                 have = math.min(c, st[1]), need = st[1], what = ser.what, group = ser.group or "obecne", series = ser.id,
                 gold = (i == #ser.steps) }
         end

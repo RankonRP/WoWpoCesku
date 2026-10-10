@@ -15,9 +15,29 @@ local win
 local state = { key = nil, page = 1, mode = "cs", filter = "" }
 local lastKey, lastTitle
 
+-- Do knihovny patří jen knihy: popisky exponátů, desky a krátké nápisy (např. vejce v Explorers' Hall) se neukládají.
+local MIN_BOOK_CHARS = 400
+local NOT_BOOK_MATERIAL = { Stone = true, Marble = true, Bronze = true, Silver = true, Metal = true }
+
+local function totalChars(e)
+    local n = 0
+    for _, p in pairs(e.pages or {}) do n = n + #p end
+    return n
+end
+
+local pruned
 local function lib()
     WoWpoCeskuSeen = WoWpoCeskuSeen or {}
     WoWpoCeskuSeen.library = WoWpoCeskuSeen.library or {}
+    if not pruned then
+        pruned = true
+        -- úklid starších záznamů, které nejsou knihy (jedna krátká stránka)
+        for k, e in pairs(WoWpoCeskuSeen.library) do
+            local count = 0
+            for _ in pairs(e.pages or {}) do count = count + 1 end
+            if count <= 1 and totalChars(e) < MIN_BOOK_CHARS then WoWpoCeskuSeen.library[k] = nil end
+        end
+    end
     return WoWpoCeskuSeen.library
 end
 
@@ -30,10 +50,13 @@ end
 local refresh
 
 -- volá se při otevření textu předmětu (WoWpoCesku.lua); page = číslo stránky, text = text stránky (se zástupnými značkami)
-function WoWpoCesku_LibraryAdd(title, page, text)
+function WoWpoCesku_LibraryAdd(title, page, text, material, hasNext)
     if type(title) ~= "string" or title == "" or type(text) ~= "string" or text == "" then return end
+    if material and NOT_BOOK_MATERIAL[material] then return end
     local L = lib()
     page = tonumber(page) or 1
+    -- jedna krátká stránka bez pokračování není kniha, ale popisek nebo nápis
+    if page == 1 and not hasNext and #text < MIN_BOOK_CHARS then return end
     local key
     if page > 1 and lastKey and lastTitle == title and L[lastKey] then
         key = lastKey
@@ -48,6 +71,7 @@ function WoWpoCesku_LibraryAdd(title, page, text)
     end
     L[key].pages[page] = text
     if win and win:IsShown() and refresh then refresh() end
+    if WoWpoCesku_CheckSeals then WoWpoCesku_CheckSeals() end  -- pečeť za počet přečtených knih
 end
 
 local function sortedList()
@@ -69,6 +93,7 @@ local function countAll()
     for _ in pairs(lib()) do n = n + 1 end
     return n
 end
+WoWpoCesku_LibraryCount = countAll
 
 local function fs(parent, size, r, g, b, font)
     local t = parent:CreateFontString(nil, "OVERLAY")

@@ -923,7 +923,8 @@ events:SetScript("OnEvent", function(_, event, arg1)
     if event == "ITEM_TEXT_READY" then
         local b = gatherBook()
         -- Knihovna kronikáře: každá přečtená kniha se uloží (i když je překladový panel vypnutý)
-        if b and WoWpoCesku_LibraryAdd then pcall(WoWpoCesku_LibraryAdd, b.title, ItemTextGetPage and ItemTextGetPage() or 1, b.gossip) end
+        if b and WoWpoCesku_LibraryAdd then pcall(WoWpoCesku_LibraryAdd, b.title, ItemTextGetPage and ItemTextGetPage() or 1, b.gossip,
+            ItemTextGetMaterial and ItemTextGetMaterial() or nil, ItemTextHasNextPage and ItemTextHasNextPage() or false) end
         if WoWpoCeskuSettings.books ~= false then showQuest(b, "book") end
         return
     end
