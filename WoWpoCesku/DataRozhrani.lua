@@ -200,6 +200,7 @@ WoWpoCesku_UI = {
 ["Stuns the target for {1} sec."]="Omráčí cíl na {1} s.",
 ["Stuns up to {1} enemies within {2} yds for {3} sec."]="Omráčí až {1} nepřátel do vzdálenosti {2} yd na {3} s.",
 ["Summons an Imp under the command of the Warlock."]="Přivolá Imp, který poslouchá Warlocka.",
+["Surrounds the target in a shield of fire. Every strike against the target causes {1} Fire damage to the attacker. Lasts {2} min. Your pet cannot cast Fire Shield on itself."]="Obklopuje cíl ohnivým štítem. Každý úder na cíl způsobí útočníkovi {1} požární poškození. Trvá {2} min. Tvůj mazlíček na sebe nemůže vrhnout Fire Shield.",
 ["Svatost"]="Svatost",
 ["Sword Specialization"]="Sword Specialization",
 ["Talented"]="Talentovaný",

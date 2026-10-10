@@ -198,6 +198,7 @@
   "Stuns the target for {1} sec.": {"cs":"Omráčí cíl na {1} s.","en":"Stuns the target for {1} sec.","src":"claude"},
   "Stuns up to {1} enemies within {2} yds for {3} sec.": {"cs":"Omráčí až {1} nepřátel do vzdálenosti {2} yd na {3} s.","en":"Stuns up to {1} enemies within {2} yds for {3} sec.","src":"claude"},
   "Summons an Imp under the command of the Warlock.": {"cs":"Přivolá Imp, který poslouchá Warlocka.","en":"Summons an Imp under the command of the Warlock.","src":"claude"},
+  "Surrounds the target in a shield of fire. Every strike against the target causes {1} Fire damage to the attacker. Lasts {2} min. Your pet cannot cast Fire Shield on itself.": {"cs":"Obklopuje cíl ohnivým štítem. Každý úder na cíl způsobí útočníkovi {1} požární poškození. Trvá {2} min. Tvůj mazlíček na sebe nemůže vrhnout Fire Shield.","en":"Surrounds the target in a shield of fire. Every strike against the target causes {1} Fire damage to the attacker. Lasts {2} min. Your pet cannot cast Fire Shield on itself.","src":"komunita"},
   "Svatost": {"cs":"Svatost","en":"Svatost","src":"lokalne"},
   "Sword Specialization": {"cs":"Sword Specialization","en":"Sword Specialization","src":"claude"},
   "Talented": {"cs":"Talentovaný","en":"Talented","src":"komunita"},
