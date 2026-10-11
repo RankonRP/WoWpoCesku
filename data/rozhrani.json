@@ -217,6 +217,7 @@
   "Underwater Breathing": {"cs":"Podvodní dýchání","en":"Underwater Breathing","src":"komunita"},
   "Underwater breath lasts {1}% longer than normal.": {"cs":"Dýchání pod vodou trvá o {1} % déle než obvykle.","en":"Underwater breath lasts {1}% longer than normal.","src":"claude"},
   "Unleash the energy of a Seal spell upon an enemy. Does not consume the Seal. Refer to individual Seals for Judgement effect.": {"cs":"Uvolní na nepřítele energii pečeti (Seal). Pečeť se nespotřebuje. Účinek Judgement najdeš u jednotlivých pečetí.","en":"Unleash the energy of a Seal spell upon an enemy. Does not consume the Seal. Refer to individual Seals for Judgement effect.","src":"claude"},
+  "Watching the Roads": {"cs":"Sledování silnic","en":"Watching the Roads","src":"komunita"},
   "When Seal of Fury's shield is fully absorbed, restore {1} Mana, increased by {2}% per level the attacker is above you, up to {3}%.": {"cs":"Když se štít Seal of Fury zcela vyčerpá, obnoví {1} Mana, a to o {2} % víc za každou úroveň, o kterou je útočník výš než ty, nejvýše o {3} %.","en":"When Seal of Fury's shield is fully absorbed, restore {1} Mana, increased by {2}% per level the attacker is above you, up to {3}%.","src":"claude"},
   "When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a {1}% critical effect chance.": {"cs":"Po aktivaci má tvé příští kouzlo Flash of Light, Holy Light nebo Holy Shock {1}% šanci na kritický účinek.","en":"When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a {1}% critical effect chance.","src":"claude"},
   "When activated, regenerates {1}% of total Health and {2}% of total Mana every {3} sec for {4} sec. Only works on Humanoid or Undead corpses within {5} yds. Any movement, action, or damage taken while Cannibalizing will cancel the effect.": {"cs":"Po aktivaci obnovuje {1} % celkového zdraví a {2} % celkové Mana každé {3} s po dobu {4} s. Funguje jen na mrtvoly humanoidů nebo nemrtvých do {5} yd. Jakýkoli pohyb, akce nebo utržené poškození při Cannibalize účinek zruší.","en":"When activated, regenerates {1}% of total Health and {2}% of total Mana every {3} sec for {4} sec. Only works on Humanoid or Undead corpses within {5} yds. Any movement, action, or damage taken while Cannibalizing will cancel the effect.","src":"claude"},
@@ -260,6 +261,7 @@
   "{1} yd range": {"cs":"Dosah {1} yd","en":"{1} yd range","src":"claude"},
   "{1}% Threat": {"cs":"{1} % ohrožení","en":"{1}% Threat","src":"komunita"},
   "{1}/{2} Dalaran Pendant": {"cs":"{1}/{2} Dalaranský přívěsek","en":"{1}/{2} Dalaran Pendant","src":"komunita"},
+  "{1}/{2} Dalaran Watcher slain": {"cs":"Zabit {1}/{2} Dalaran Watcher","en":"{1}/{2} Dalaran Watcher slain","src":"komunita"},
   "{1}/{2} Darksoul Shackle": {"cs":"{1}/{2} Darksoul Shackle","en":"{1}/{2} Darksoul Shackle","src":"komunita"},
   "{1}/{2} Discolored Worg Heart": {"cs":"{1}/{2} Odbarvené worg srdce","en":"{1}/{2} Discolored Worg Heart","src":"komunita"},
   "{1}/{2} Small Crag Boar slain": {"cs":"{1}/{2} Malý Crag Boar zabit","en":"{1}/{2} Small Crag Boar slain","src":"komunita"}
