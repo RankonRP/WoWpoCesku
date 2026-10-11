@@ -186,6 +186,7 @@
   "Reduces the mana cost of your Cleanse and Purify spells by {1}% and reduces the cooldown of your Exorcism and Holy Wrath spells by {2}%.": {"cs":"Snižuje cenu Mana kouzel Cleanse a Purify o {1} % a zkracuje obnovení kouzel Exorcism a Holy Wrath o {2} %.","en":"Reduces the mana cost of your Cleanse and Purify spells by {1}% and reduces the cooldown of your Exorcism and Holy Wrath spells by {2}%.","src":"claude"},
   "Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by {1}%.": {"cs":"Snižuje cenu Mana kouzel Consecration, Holy Wrath, Exorcism a Hammer of Wrath o {1} %.","en":"Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by {1}%.","src":"claude"},
   "Reduces the target's movement speed by {1}% for {2} sec. Only one Curse per Warlock can be active on any one target.": {"cs":"Snižuje rychlost pohybu cíle o {1} % na {2} s. Na jednom cíli může být aktivní jen jedna kletba od každého Warlocka.","en":"Reduces the target's movement speed by {1}% for {2} sec. Only one Curse per Warlock can be active on any one target.","src":"claude"},
+  "Rot Hide Ichor": {"cs":"Rot Hide Ichor","en":"Rot Hide Ichor","src":"komunita"},
   "Seal of Fury": {"cs":"Seal of Fury","en":"Seal of Fury","src":"claude"},
   "Seal of Righteousness": {"cs":"Seal of Righteousness","en":"Seal of Righteousness","src":"claude"},
   "Seal of the Crusader": {"cs":"Pečeť Crusader","en":"Seal of the Crusader","src":"komunita"},
@@ -200,6 +201,7 @@
   "Strikes fear in the enemy, causing it to run in fear for up to {1} sec. Damage caused may interrupt the effect. Only {2} target can be feared at a time.": {"cs":"Naplní nepřítele strachem, takže na {1} s v hrůze uteče. Utržené poškození může účinek přerušit. Najednou lze vystrašit jen {2} cíl.","en":"Strikes fear in the enemy, causing it to run in fear for up to {1} sec. Damage caused may interrupt the effect. Only {2} target can be feared at a time.","src":"claude"},
   "Stuns the target for {1} sec.": {"cs":"Omráčí cíl na {1} s.","en":"Stuns the target for {1} sec.","src":"claude"},
   "Stuns up to {1} enemies within {2} yds for {3} sec.": {"cs":"Omráčí až {1} nepřátel do vzdálenosti {2} yd na {3} s.","en":"Stuns up to {1} enemies within {2} yds for {3} sec.","src":"claude"},
+  "Summons a Voidwalker under the command of the Warlock.": {"cs":"Vyvolá Voidwalkera pod velením Warlocka.","en":"Summons a Voidwalker under the command of the Warlock.","src":"komunita"},
   "Summons an Imp under the command of the Warlock.": {"cs":"Přivolá Imp, který poslouchá Warlocka.","en":"Summons an Imp under the command of the Warlock.","src":"claude"},
   "Surrounds the target in a shield of fire. Every strike against the target causes {1} Fire damage to the attacker. Lasts {2} min. Your pet cannot cast Fire Shield on itself.": {"cs":"Obklopuje cíl ohnivým štítem. Každý úder na cíl způsobí útočníkovi {1} požární poškození. Trvá {2} min. Tvůj mazlíček na sebe nemůže vrhnout Fire Shield.","en":"Surrounds the target in a shield of fire. Every strike against the target causes {1} Fire damage to the attacker. Lasts {2} min. Your pet cannot cast Fire Shield on itself.","src":"komunita"},
   "Svatost": {"cs":"Svatost","en":"Svatost","src":"lokalne"},
@@ -214,6 +216,7 @@
   "Transfers {1} health every {2} second from the target to the caster. Lasts {3} sec.": {"cs":"Přenese {1} zdraví každých {2} sekund z cíle na sesilatele. Trvá {3} s.","en":"Transfers {1} health every {2} second from the target to the caster. Lasts {3} sec.","src":"komunita"},
   "Transfers {1} health from the target to the caster every {2} sec. Lasts {3} sec.": {"cs":"Přenese {1} zdraví z cíle na sesilatele každé {2} s. Trvá {3} s.","en":"Transfers {1} health from the target to the caster every {2} sec. Lasts {3} sec.","src":"claude"},
   "Transform into a wisp upon death, increasing movement speed by {1}%.": {"cs":"Po smrti se promění ve wispa a zvýší rychlost pohybu o {1} %.","en":"Transform into a wisp upon death, increasing movement speed by {1}%.","src":"claude"},
+  "Undead": {"cs":"Nemrtvý","en":"Undead","src":"komunita"},
   "Underwater Breathing": {"cs":"Podvodní dýchání","en":"Underwater Breathing","src":"komunita"},
   "Underwater breath lasts {1}% longer than normal.": {"cs":"Dýchání pod vodou trvá o {1} % déle než obvykle.","en":"Underwater breath lasts {1}% longer than normal.","src":"claude"},
   "Unleash the energy of a Seal spell upon an enemy. Does not consume the Seal. Refer to individual Seals for Judgement effect.": {"cs":"Uvolní na nepřítele energii pečeti (Seal). Pečeť se nespotřebuje. Účinek Judgement najdeš u jednotlivých pečetí.","en":"Unleash the energy of a Seal spell upon an enemy. Does not consume the Seal. Refer to individual Seals for Judgement effect.","src":"claude"},
@@ -264,5 +267,6 @@
   "{1}/{2} Dalaran Watcher slain": {"cs":"Zabit {1}/{2} Dalaran Watcher","en":"{1}/{2} Dalaran Watcher slain","src":"komunita"},
   "{1}/{2} Darksoul Shackle": {"cs":"{1}/{2} Darksoul Shackle","en":"{1}/{2} Darksoul Shackle","src":"komunita"},
   "{1}/{2} Discolored Worg Heart": {"cs":"{1}/{2} Odbarvené worg srdce","en":"{1}/{2} Discolored Worg Heart","src":"komunita"},
+  "{1}/{2} Rot Hide Ichor": {"cs":"{1}/{2} Rot Hide Ichor","en":"{1}/{2} Rot Hide Ichor","src":"komunita"},
   "{1}/{2} Small Crag Boar slain": {"cs":"{1}/{2} Malý Crag Boar zabit","en":"{1}/{2} Small Crag Boar slain","src":"komunita"}
 }
