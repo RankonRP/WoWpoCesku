@@ -247,11 +247,19 @@ local function lookup(dict, text)
     end
 end
 
+-- text z herního panelu; "tajné" hodnoty (secret) se přeskočí, protože s nimi addon nesmí porovnávat ani pracovat (jinak Lua chyba)
+local function safeText(region)
+    local ok, text = pcall(region.GetText, region)
+    if not ok then return nil end
+    if issecretvalue and issecretvalue(text) then return nil end
+    return text
+end
+
 local function translateFrame(frame, dict, depth, patterns)
     if not frame or depth > 12 or not frame:IsVisible() then return end
     for _, region in ipairs({ frame:GetRegions() }) do
         if region:GetObjectType() == "FontString" then
-            local text = region:GetText()
+            local text = safeText(region)
             if text and text ~= "" then
                 local cs = lookup(dict, text)
                 if not cs and patterns then
@@ -296,7 +304,7 @@ local function translateTooltip(tip)
         if part.tooltip and enabled(name) then
             for i = 1, math.min(tip:NumLines() or 0, 3) do
                 local fs = _G[tip:GetName() .. "TextLeft" .. i]
-                local text = fs and fs:GetText()
+                local text = fs and safeText(fs)
                 local cs = text and lookup(part.dict, text)
                 if cs then setCzech(fs, cs) end
             end
@@ -414,7 +422,7 @@ local function translateTalentTooltip(tip, force)
     for i = 1, tip:NumLines() or 0 do
         for _, side in ipairs({ "TextLeft", "TextRight" }) do
             local fs = _G[tip:GetName() .. side .. i]
-            local text = fs and fs:IsShown() and fs:GetText()
+            local text = fs and fs:IsShown() and safeText(fs)
             if text and text ~= "" then
                 -- 1. řádek = název talentu: zůstává anglicky, do fronty nepatří
                 local cs = translateTalentLine(text, not (i == 1 and side == "TextLeft"))
@@ -459,7 +467,7 @@ local function translateSpellTooltip(tip)
         for _, side in ipairs({ "TextLeft", "TextRight" }) do
             if not (i == 1 and side == "TextLeft") then   -- název kouzla nechat anglicky
                 local fs = _G[tip:GetName() .. side .. i]
-                local text = fs and fs:IsShown() and fs:GetText()
+                local text = fs and fs:IsShown() and safeText(fs)
                 if text and text ~= "" then
                     local cs = translateSpellLine(text, true)
                     if cs then setCzech(fs, cs) end
@@ -544,7 +552,7 @@ local function translateAnyTooltipUnsafe(tip)
             -- Název kouzla (1. řádek) v knize kouzel nechat anglicky
             if not (ctx == "spell" and i == 1 and side == "TextLeft") then
                 local fs = _G[name .. side .. i]
-                local text = fs and fs:IsShown() and fs:GetText()
+                local text = fs and fs:IsShown() and safeText(fs)
                 if text and text ~= "" then
                     local cs = (ctx == "spell") and translateSpellLine(text, true) or translateTalentLine(text, true)
                     if cs and cs ~= text then setCzech(fs, cs); changed = true end
@@ -669,7 +677,7 @@ function WoWpoCesku_QueueAllTalents()
             if ok then
                 for l = 1, tip:NumLines() or 0 do
                     local fs = _G["WoWpoCeskuScanTipTextLeft" .. l]
-                    local text = fs and fs:GetText()
+                    local text = fs and safeText(fs)
                     if text and text ~= "" and not translateTalentLine(text, false) then
                         local plain = plainText(text)
                         if plain:find("%a") then queueUi((toTemplate(plain))); count = count + 1 end
@@ -689,7 +697,7 @@ function WoWpoCesku_QueueAllTalents()
                     for l = 2, tip:NumLines() or 0 do
                         for _, side in ipairs({ "TextLeft", "TextRight" }) do
                             local fs = _G["WoWpoCeskuScanTip" .. side .. l]
-                            local text = fs and fs:GetText()
+                            local text = fs and safeText(fs)
                             if text and text ~= "" and not translateSpellLine(text, false) then
                                 local plain = plainText(text)
                                 if plain:find("%a") and not plain:find("^Press F%d+") then

@@ -322,6 +322,40 @@ local function checkRare(unit)
     reportRare(name, cls, (okL and not secret(lvl)) and lvl or nil, nil, nil, unit)
 end
 
+-- ID příšer bossů, která v datech nemáme (nové dungeony WoW Forever): zapamatují se, jakmile hráč bosse zacílí nebo na něj najede,
+-- a Dungeon Kronika z nich pak ukáže 3D portrét
+local bossNameSet
+local function isBossName(name)
+    if not bossNameSet then
+        bossNameSet = {}
+        for _, list in pairs(WoWpoCesku_DungeonBosses or {}) do
+            for _, b in ipairs(list) do if type(b) == "table" and b[1] then bossNameSet[b[1]] = true end end
+        end
+    end
+    return bossNameSet[name]
+end
+
+local function learnBossId(unit)
+    local okN, name = pcall(UnitName, unit)
+    if not okN or not name or secret(name) or not isBossName(name) then return end
+    local okP, isPlayer = pcall(UnitIsPlayer, unit)
+    if okP and isPlayer == true then return end
+    local okG, guid = pcall(UnitGUID, unit)
+    local id = okG and npcFromGUID(guid)
+    if id then
+        local S = seen()
+        S.bossNpc = S.bossNpc or {}
+        S.bossNpc[name] = id
+    end
+end
+
+function WoWpoCesku_BossNpcId(key, name)
+    local st = WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][name]
+    if st then return st end
+    local S = WoWpoCeskuSeen
+    return S and S.bossNpc and S.bossNpc[name]
+end
+
 -- ikony vzácných mobů na minimapě (vignettes) – dosah větší než jmenovky
 local function checkVignettes()
     if not WoWpoCeskuSettings or WoWpoCeskuSettings.rareAlert == false then return end
@@ -2005,12 +2039,15 @@ ev:SetScript("OnEvent", function(_, event, unit, ...)
     elseif event == "NAME_PLATE_UNIT_ADDED" then
         pcall(checkRare, unit)
         pcall(metUnit, unit)
+        pcall(learnBossId, unit)
     elseif event == "PLAYER_TARGET_CHANGED" then
         pcall(checkRare, "target")
         pcall(metUnit, "target")
+        pcall(learnBossId, "target")
     elseif event == "UPDATE_MOUSEOVER_UNIT" then
         pcall(checkRare, "mouseover")
         pcall(metUnit, "mouseover")
+        pcall(learnBossId, "mouseover")
     elseif event == "VIGNETTES_UPDATED" or event == "VIGNETTE_MINIMAP_UPDATED" then
         pcall(checkVignettes)
     elseif event == "PLAYER_DEAD" then

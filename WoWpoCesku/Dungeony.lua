@@ -1062,13 +1062,13 @@ local function renderBosses(key)
         addRow(L, b[1], (b[2] and b[2] ~= "") and b[2] or nil, killed[b[1]] ~= nil, b[1] == cur,
             function() state.boss[key] = b[1]; showDetail() end,
             "Interface\\TargetingFrame\\UI-RaidTargetingIcon_8", lv and (lv >= 63 and "??" or tostring(lv)) or nil, nil,
-            WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][b[1]])
+            WoWpoCesku_BossNpcId and WoWpoCesku_BossNpcId(key, b[1]))
     end
     local sel
     for _, b in ipairs(bosses) do if b[1] == cur then sel = b end end
 
     -- hlavička: portrét vpravo, jméno a popis vlevo
-    local npc = WoWpoCesku_BossNpc and WoWpoCesku_BossNpc[key] and WoWpoCesku_BossNpc[key][sel[1]]
+    local npc = WoWpoCesku_BossNpcId and WoWpoCesku_BossNpcId(key, sel[1])
     local hasModel = showPortrait(R, npc)
     local textW = hasModel and (R.w - 134) or nil
     addText(R, sel[1], 21, RED, 2, 0, textW, TITLE_FONT)

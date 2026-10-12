@@ -2139,7 +2139,7 @@ local function build()
 
     -- spodní lišta
     local refreshBtn = (WoWpoCesku_GameButton or makeButton)(f, "Obnovit seznam", 160, 40)
-    refreshBtn:SetPoint("BOTTOMLEFT", 60, 55)
+    refreshBtn:SetPoint("BOTTOMLEFT", 60, 44)
     refreshBtn:SetScript("OnClick", function()
         requestRoster()
         C_Timer.After(1.5, function() if not demo then pcall(snapshot) end refresh() end)
