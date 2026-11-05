@@ -5677,6 +5677,7 @@ WoWpoCesku_Gossip = {
 ["Word got back to me through channels concerning Lady Sylvanas's reaction to you and the recovery of her necklace. I still think you did the right thing; don't worry too much about how the lady reacted. Now, state your business."]="Prostřednictvím kanálů se ke mně doneslo informace o reakci lady Sylvanas na tebe a o znovuzískání jejího náhrdelníku. Stále si myslím, že jsi udělal správnou věc; moc se nestarej o to, jak paní reagovala. Nyní uveď svou firmu.",
 ["Word is that Vance Undergloom has taken a permanent room upstairs at the Gallows' End Tavern at the southeast end of town. I think he's just off the reading room."]="Říká se, že Vance Undergloom si vzal stálý pokoj nahoře v Gallows' End Tavern na jihovýchodním konci města. Myslím, že právě odešel z čítárny.",
 ["Word travels fast in this circle. Thanks for restocking the supplies!"]="Slovo se v tomto kruhu šíří rychle. Děkujeme za doplnění zásob!",
+["Words are like arrows. Once loosed, you cannot call them back."]="Slova jsou jako šípy. Jakmile se uvolní, nemůžeš je zavolat zpět.",
 ["Working with this technology is a huge headache. Everything is constructed in such an alien way."]="Práce s touto technologií je obrovská bolest hlavy. Všechno je postaveno takovým mimozemským způsobem.",
 ["Wot kin I do fer ye?"]="Co pro tebe můžu udělat?",
 ["Would a fly without wings be called a walk?"]="Dala by se moucha bez křídel říkat procházka?",
