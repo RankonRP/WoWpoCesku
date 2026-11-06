@@ -1919,6 +1919,7 @@ WoWpoCesku_Gossip = {
 ["I am patiently awaiting orders, {C}."]="Trpělivě čekám na objednávky, {C}.",
 ["I am pleased that you've decided to take up our cause. As a reward I will infuse a ring with the remnants of the Well of Eternity you brought me. I offer you four different paths in which to unlock their power. Choose wisely, {N}. The sands of time flow easily in one direction and not the other."]="Jsem rád, že jsi se rozhodl chopit se naší věci. Za odměnu napustím prsten se zbytky Studny věčnosti, kterou jsi mi přinesl. Nabízím ti čtyři různé cesty, jak odemknout jejich sílu. Vybírej moudře, {N}. Písky času snadno plynou jedním směrem a ne druhým.",
 ["I am pleased with your progress so far. Surely the Earth Mother has inspired your hands."]="Jsem spokojen s tvým dosavadním pokrokem. Matka Země jistě inspirovala tvoje ruce.",
+["I am ready."]="jsem připraven.",
 ["I am so glad that you asked. You will find Sir Malory Wheeler at the Royal Quarter in the presence of our Dark Lady."]="Jsem tak rád, že ses zeptal. Sira Malory Wheelera najdeš v Royal Quarter v přítomnosti naší Dark Lady.",
 ["I am so smart! S-M-R-T!"]="Jsem tak chytrý! S-M-R-T!",
 ["I am so very close to figuring this ore out. Any minute now and I will have the solution!"]="Jsem velmi blízko k tomu, abych tuto rudu odhalil. Každou chvíli a já budu mít řešení!",
